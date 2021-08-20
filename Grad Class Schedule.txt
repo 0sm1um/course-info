@@ -1,0 +1,42 @@
+PreReq Requirements
+335) None
+336) 
+337) 2(High Priority)
+
+444 1(Medium Priority)
+454 1(Medium Priority)
+455
+
+High Priority
+
+__Fall Semester 2021__
+EGRE 335 Lab
+EGRE 337 No Lab
+EGRE 454 Automatic Controls
+OPER 527 Optimization I
+
+
+__Spring Semester 2022__ 10 Credit Hours
+STAT 513 Mathematical Statistics I
+EGRE 555 Dynamics and Multivariable Control
+EGRE 535 Digital Signal Processing
+?EGRE 454 Automatic Controls
+OPERS 
+
+
+STAT 514 Mathematical Statistics II
+
+__Fall Semester 2022__
+
+
+__Spring Semester__
+EGRE 454 Lab
+EGRE 455 No Lab
+
+
+
+Medium Priority:
+
+EGRE 336 
+
+Long Term: 

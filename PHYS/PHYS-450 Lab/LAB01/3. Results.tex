@@ -1,0 +1,48 @@
+\section{Results}
+\subsection{Data Analysis}
+The raw measurement for each Hall Resistance is pictured here:
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.3\linewidth]{lab01Data.png}
+\caption{Raw Data}\label{fig:rawdata}
+\end{figure}
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.9\linewidth]{scatterplot.png}
+\caption{Scatterplot of raw data. Note that the linear regression has no meaning, but the plot just looked dumb without one.}\label{fig:scatterplot}
+\end{figure}
+
+	After taking all measurements, I found that the horizontal and vertical resistances were clustered extremely closely, indicating a high degree of reliability of measurements and a systemic difference between the horizontal and vertical resistances. As can be seen in the scatterplot. (generated in MATLAB), there are two clusters of voltage/current measurements which correspond to horizontal and vertical resistance. Note the linear regression is not particularly important, but it makes the plot look significantly better. The important part is how the points are so narrowly grouped together, as each point represents one resistance value, and each cluster corresponds to vertical and horizontal resistance.
+
+Subdividing the horizontal and vertical resistance measurements, we can make statistical inferences on our resistance estimates. Namely we can quantify the standard error of our measurement. Note, that it doesn’t truly matter which orientation/set of resistance measurements are chosen to be “vertical” or “horizontal, as the sheet resistance is nothing more than the average of the two values. Vertical resistance was found to be $1.44\Omega \pm 0.0053 \Omega$, while horizontal resistance was found to be $3.32\Omega \pm 0.21 \Omega$.
+Using these estimates, we could compute the sheet resistance $R_s$.
+
+\begin{align}
+	R_s = \pi\dfrac{R_{vert}+R_{horz}}{2 ln(2)}
+\end{align}
+
+ $R_s$ was found to be $10.8\Omega \pm 0.060 \Omega$. The sheet resistance can be related to resistivity and conductivity in via the following equation.
+
+\begin{align}
+	\rho = R_s \times t && 6.04 \times 10^5\pm 1.2 \times10^{-5} (10.8\pm0.060\Omega) \times 5.6\times 10^{-5} m
+\end{align}
+
+Where t represents the thickness of the sample. The conductivity is simply the inverse of the resistivity.
+
+\begin{align}
+	\sigma = \dfrac{1}{\rho} && 1.65 \times 10^{4} \pm 3.2 \Omega = (6.04 \times 10^5\pm 1.2)^{-1}
+\end{align}
+
+Finally, the conductivity can be related to the concentration of free electrons via the following relation.
+
+\begin{align}
+	n = \dfrac{\sigma}{e \mu} && \dfrac{1.65 \times 10^{4} \pm 3.2}{(e)(1.5 \pm 0.3)\times 10^2}
+\end{align}
+
+Where e represents the fundamental charge which is known to be 1.6×10-19, and µ represents the electron mobility of the sample, which is specified by the manufacturer to be $(1.5 \pm 0.3)\times 10^2 \dfrac{m^2 s}{V}$. Thus, our estimate for n is $n=6.9\times10^{18}\pm 6.2 \times 10^{14} \dfrac{cm^2 s}{V}$
+
+\begin{equation}
+	n=6.9\times 10^{18} \pm 6.2 \times 10^{14} \dfrac{cm^2 s}{V}
+\end{equation}

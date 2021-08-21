@@ -1,0 +1,20 @@
+\section{Experimental Setup}
+	Semiconductor samples must be sized such that a laser can hit it directly in order to excite electrons on the surface, the shape of the samples does not matter. The experimental setup utilized for this experiment involved securing the sample to a stage affixed to the point which the UV laser impacts. Then, a lens of known dimensions collects the photons emitted from the sample, focusing it into a condenser, where it is directed into a monochromator—a device which measures very narrow bands of light. These filters then enable the experimenter to control the amount of light which actually reaches the sample, allowing us to measure PL Emission. A diagram of the experimental setup can be seen in figure 1.
+
+	The two bands we are interested in measuring are the Exciton and Broad bands respectively. For GaN, the exciton band is usually found at 3.4 eV. Then, a second band is usually present which are related to defects in the semiconductor. It can be Blue(2.9 eV), Yellow(2.2 eV), or Red(1.8 eV). Due to the fact we don’t know where the broad band will lie, we must experimentally find the exciton and broad band in order to conduct our measurements.
+By setting the monochromator to cycle through many wavelengths measuring intensity at each step, we can find the center of the exciton and broad bands by finding the maximum intensity at a range of wavelengths. Then, once we have found the maximum wavelength, we set the monochromator to measure intensity at that wavelength and we can start comparing the PL intensity to excitation intensity.
+The plot of wavelength versus intensity reveals maxima at 364nm and 658nm. According to the de Broglie equation 
+
+\begin{equation}
+     E=\dfrac{hc}{\lambda}
+\end{equation}
+
+ the corresponding energy values are 3.40eV and 1.88eV respectively. This means our sample has the expected 3.4eV Exciton band, and the red broad band. The plot used to find the maxima is pictured here in fig. 2.
+
+	To quantify the error of the measurement at the maxima, we can take repeated measurements. The monochromator can measure intensity once every 0.4 seconds, thus gathering lots of data is a very simple process. Running the monochromator continuously for approximately 50 seconds yields 125 measurements for intensity. Standard error for these measurements can be computed by the following formula:
+
+\begin{equation}
+	\Delta = \dfrac{\sigma}{\sqrt{n}}
+\end{equation}
+
+Where $\sigma$ denotes the standard deviation of a dataset, and $n$ represents the number of elements of that dataset.

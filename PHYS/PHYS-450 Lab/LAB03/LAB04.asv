@@ -1,0 +1,90 @@
+clear all
+clc
+load IntensityDataC
+load wavelength
+load samples
+
+slitWidth = 0.15*10^-1; %in cm
+IntensityDataS1 = IC./(S1*slitWidth^2);
+IntensityDataS1ND = IC./(S1NoDiaphrag*slitWidth^2);
+
+IntensityDataS2 = IC./(S2*slitWidth^2);
+IntensityDataS2ND = IC./(S2ND*slitWidth^2);
+
+
+IS1 = Imeas1./(Ical1*slitWidth^2);
+IS2 = Imeas2./(Ical2*slitWidth^2);
+hc= 1239.5; %eVnm
+PhotonEnergy=[];
+for i=[1:length(lambdaC)]
+    PhotonEnergy(i,:)=hc/(wavelength(i)); %in eV
+end
+
+
+%% Part 2
+ 
+
+excitationPowerDensity = 0.2; %W/m
+excitationPower = excitationPowerDensity*filterTransparency;
+
+
+%% Plotting
+
+figure
+hold on
+plot(wavelength,IntensityDataS1,'r')
+plot(wavelength,IntensityDataS1ND,'g')
+plot(wavelength,IntensityDataS2,'g')
+plot(wavelength,IntensityDataS2ND,'y')
+
+
+title('Raw Intensity Measurements')
+ylabel('Intensity Ratio (Relative Units)')
+xlabel('Time (0.4 s Increments)')
+legend('Exciton Band','Broad Band')
+hold off
+
+figure
+hold on
+plot(lambdaS1,IS1)
+plot(lambdaS2,IS2)
+title('Wavelength vs PL Intensity')
+xlabel('Wavelength (nm)')
+ylabel('Intensity')
+legend('Scan1','Scan2')
+hold off
+
+
+%{
+figure
+hold on
+plot(PhotonEnergyS1,IS1)
+plot(PhotonEnergyS2,IS2)
+plot(PhotonEnergy,IC)
+title('Photon Energy vs PL Intensity')
+xlabel('Photon Energy (eV)')
+ylabel('Intensity')/
+legend('Scan1','Scan2','Calibration Scan')
+hold off
+
+figure
+loglog(excitationPower,ExcitonBand(:,1),'.-')
+hold on
+loglog(excitationPower,BroadBand(:,1),'.-')
+title('Excitation Intensity vs PL Intensity [Log Scale]')
+xlabel('Excitation Intensity (W/cm^2)')
+ylabel('Photoilluminescent Intensity')
+legend('Exciton Band','Broad Band')
+hold off
+
+figure
+scatter(excitationPower,EBError)
+set(gca,'xscale','log')
+hold on
+scatter(excitationPower,BBError)
+title('Excitation Intensity vs Measurement Error')
+xlabel('LOG SCALE: Excitation Intensity (W/cm^2)')
+ylabel('Percent Error')
+legend('Exciton Band Measurements','Broad Band Measurements')
+hold off 
+%}

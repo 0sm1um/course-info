@@ -1,0 +1,24 @@
+\section{Introduction}
+\subsection{The Physics}
+	Galium Nitride (GaN) is a commonly used semiconductor which boasts a wide band gap and mechanically strong properties. It has a lower resistivity and higher thermal conductivity, which makes it a prime candidate to one day replace Silicon based semiconductors for power conversion, RF, and analog electronics. As such, a strong fundamental understanding of how to measure the number of charge carriers on a GaN crystal is a crucial component for evaluating the quality of a manufactured GaN crystal. If GaN is to be one day considered for mass produced consumer electronics, a simple and scalable method of measuring quality is needed, and in this paper I outline one such method.
+	
+	The Van der Pauw method is a technique proposed in the late 1950s specifically to measure the resistivity of a semiconductor, determine the number of free charge carriers, and determine the type of semiconductor (p-type or n-type) it is. It is a multi part process, the second part involving measurement of the semiconductor in a magnetic field. However this paper is only concerned with the first part of the measurements with no magnetic field present. The measurements in the presence of a magnetic field will be covered at a later date. The focus of this paper will be on calculating the resistivity, conductivity, and free charge carriers of a semiconductor.
+	
+	The method involves placing four electrical contacts on a planar semiconductor. These contacts should be oriented in a square as close to the perimeter of the semiconductor as possible. The ideal shape of the semiconductor would be a perfect square of negligible thickness. However, the method has proven to be reasonably effective even with suboptimal samples. The four electrical contacts then should be labeled 1 to 4 as pictured in figure 1.
+
+%INSERT FIGURE
+
+With the following labels an external voltage will be applied across terminal 1 and 2, then current is measured from contact 1 to contact 2, then voltage drop is measured from contacts 3 to 4. Via Ohm’s Law, the following relationship can be established:
+
+\begin{equation}
+	R_{12,34}=\dfrac{V_{34}}{I_{12}} 
+\end{equation}
+
+	Note, that the reciprocal measurement can be repeated, and the result aggregated together for more certain measurements of resistance.
+
+\begin{equation}
+	R_{34,12}=\dfrac{V_{12}}{I_{34}} 
+\end{equation}
+
+	Furthermore, reversed polarity measurements can be taken to increase the measurement sample size by a factor of two once again. Meaning that there are a total of four measurements across the sample “vertically”, and four for resistance measurements across the sample “horizontally”. Totaling eight unique measurements for the maximum precision without repeat measurements.
+This combination of simplicity and relative precision makes the Van der Pauw method suitable for industrial automation, as I hope to demonstrate.

@@ -1,42 +1,20 @@
-PreReq Requirements
-335) None
-336) 
-337) 2(High Priority)
-
-444 1(Medium Priority)
-454 1(Medium Priority)
-455
-
-High Priority
-
 __Fall Semester 2021__
-EGRE 335 Lab
-EGRE 337 No Lab
-EGRE 454 Automatic Controls
+EGRE 335 Signals and Systems
+STAT 513 Mathematical Statistics I
 OPER 527 Optimization I
 
 
-__Spring Semester 2022__ 10 Credit Hours
-STAT 513 Mathematical Statistics I
-EGRE 555 Dynamics and Multivariable Control
-EGRE 535 Digital Signal Processing
-?EGRE 454 Automatic Controls
-OPERS 
-
-
+__Spring Semester 2022__ 9 Credit Hours
 STAT 514 Mathematical Statistics II
+EGRE 656 Estimation and Optimal Filtering
+OPER 628 Optimization II
+
 
 __Fall Semester 2022__
+?OPER 636 Machine Learning Algorithms
+EGRE 656
 
-
-__Spring Semester__
+__Spring Semester 2023__
 EGRE 454 Lab
 EGRE 455 No Lab
 
-
-
-Medium Priority:
-
-EGRE 336 
-
-Long Term: 

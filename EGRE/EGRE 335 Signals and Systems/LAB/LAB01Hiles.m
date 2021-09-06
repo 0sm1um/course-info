@@ -1,6 +1,6 @@
 clear all
 clc
-%% Question 2
+%% Question 2.
 %a)
 x = [5:1:29];
 disp=[length(x)];
@@ -28,3 +28,18 @@ figure
 hold on
 plot(c, 'r');
 plot(d,'g');
+
+%% Question 3.
+%a)
+x = linspace(-2.5,2.5,100);
+y = zeros(length(x));
+for i = [1:length(x)]
+    y(i) = myfun1(x(i));
+end
+%b)
+figure
+plot(x,y, 'b')
+%c)
+test1 = myfun2([2,-8,3,12]);
+test2 = myfun2([1:10]);
+%d)

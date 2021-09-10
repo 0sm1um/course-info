@@ -1,0 +1,19 @@
+function [xn,k,error] = GaussNewton(f,xi,tol)
+  %Note: Input must be in a function handle. "@(x) x^2..." format
+g=sym(f);
+fprime = diff(g,2); 
+g=diff(g);
+f=matlabFunction(g);
+fprime = matlabFunction(diff(g,2));               %Compute f'
+x=xi;                                    %Initialize x
+    error=abs(x)+1;               %Initialize error
+    k=0;                          %Initialize k
+    xn=[]
+    while error>tol
+        k=k+1;                    %Step
+        xn=x-f(x)/fprime(x);      %First Order Taylor Series&Current guess at root
+        error=abs(xn-x);
+        x=xn;
+end
+
+end

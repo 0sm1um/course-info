@@ -3,11 +3,11 @@ function [sum] = myfun2(x)
         disp(['Invalid input vector length'])
     else
         sum = 0;
-        negativeindicies = []
+        negativeindicies = [];
         for i=1:length(x)
             if sign(x(i)) == -1
-                sum = sum + x(i)
-                negativeindicies = [negativeindicies i]
+                sum = sum + x(i);
+                negativeindicies = [negativeindicies i];
             end
         end
         for i = negativeindicies; x(i) = []; end

@@ -13,9 +13,9 @@ plot(v);
 %e)
 c = x./y;
 d = v.^3;
-dotProd = dot(x,y)
+dotProd = dot(x,y);
 %f)
-plot(v(1:2:end))
+plot(v(1:2:end));
 %g)
 plot(v(14:1:23))
 %h) Plot what with what?
@@ -42,4 +42,11 @@ plot(x,y, 'b')
 %c)
 test1 = myfun2([2,-8,3,12]);
 test2 = myfun2([1:10]);
-%d)
+%d&e)
+x = [0:0.05:5]; m=2.5; s=0.8;
+myfun3(x,m,s)
+
+%% Question 4
+
+x = [0 1 2+8*j 3+7*j 4+6*j 5+5*j 6+4*j 7+3*j 2*j j];
+myfun4(x);

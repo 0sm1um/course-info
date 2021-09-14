@@ -1,0 +1,436 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+
+\title{STAT-513 Homework 1}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Section 1}
+
+\subsection*{Problem 1}
+    For any events $A,B,$ \textrm{and} $C$ defined on a sample space $S$, show that 
+    \begin{enumerate}
+  \item
+    $A\cup B = B\cup A$ and $A\cap B = B\cap A$ (Commutative Property)
+  \item
+    $A\cup (B\cup C) = (A\cup B) \cup C$ and $A\cap (B\cap C) = (A\cap B) \cap C$ (Associative Law)
+  \item
+    $(A\cup B)^C = A^C \cap B^C$ and $(A\cap B)^C = A^C \cap B^C$ (De Morgan's Laws)
+    \end{enumerate}
+\subsubsection*{Part 1}
+\begin{align*}
+A\cup B = x \in A \text{ or } x \in B
+\end{align*}
+Note here in set notation, that is is obvious that the following represents the same set:
+\begin{align*}
+ = x \in B \text{ or } x \in A
+\end{align*}
+\begin{align*}
+ = B \cup A
+\end{align*}
+This same logic also applies to $A\cap B = B\cap A$.
+	\begin{align*}
+A\cap B = x \in A \text{ and } x \in B
+\end{align*}
+\begin{align*}
+ = x \in B \text{ and } x \in A
+\end{align*}
+\begin{align*}
+\boxed{ = B \cap A}
+\end{align*}
+\subsubsection*{Part 2}
+\begin{align*}
+A\cup (B\cup C) = (A\cup B) \cup C
+\end{align*}
+\begin{align*}
+ = x \in A \text{ or } x \in B \cup C
+\end{align*}
+\begin{align*}
+ = x \in A \text{ or } x \in B \text{ or } x \in C
+\end{align*}
+As with before, it now can be easily seen that the following set is equivalent:
+\begin{align*}
+ = x \in A \cup B \text{ or } x \in C
+\end{align*}
+\begin{align*}
+= (A\cup B) \cup C
+\end{align*}
+As in part 1, the same logic of the above proof applies to the proof of $A\cap (B\cap C) = (A\cap B) \cap C$.
+\begin{align*}
+A\cap (B\cap C) = (A\cap B) \cap C
+\end{align*}
+\begin{align*}
+ = x \in A \text{ and } x \in B \cap C
+\end{align*}
+\begin{align*}
+ = x \in A \text{ and } x \in B \text{ and } x \in C
+\end{align*}
+\begin{align*}
+ = x \in A \cap B \text{ and } x \in C
+\end{align*}
+\begin{align*}
+\boxed{= (A\cap B) \cap C}
+\end{align*}
+\subsubsection*{Part 3}
+\begin{align*}
+\text{Suppose} x \in (A\cup B)^{C}
+\end{align*}
+\begin{align*}
+\text{Suppose} x \in (A\cup B)^{C}
+\end{align*}
+\begin{align*}
+x \in (A\cup B)^{C} \Leftrightarrow x \notin A \text{ or } x \notin B
+\end{align*}
+In addition, since the set includes all elements not in A or B:
+\begin{align*}
+x \in A^{C} \text{ and } B^{C} \Leftrightarrow x \notin A or x \notin B
+\end{align*}
+\begin{align*}
+x \in A^{C} \text{ and } B^{C} \Leftrightarrow A^{C}\cup B^{C}
+\end{align*}
+Therefore:
+\begin{align*}
+\boxed{(A\cup B)^C = A^C \cap B^C}
+\end{align*}
+Again, to prove De Morgan's laws for the other case is largely the same logic.
+\begin{align*}
+\text{Suppose} x \in (A\cap B)^{C}
+\end{align*}
+\begin{align*}
+x \in (A\cup B)^{C} \Leftrightarrow x \notin A \text{ and } x \notin B
+\end{align*}
+In addition, since the set includes all elements not common to A and B:
+\begin{align*}
+x \in A^{C} \text{ or } B^{C} \Leftrightarrow x \notin A and x \notin B
+\end{align*}
+\begin{align*}
+x \in A^{C} \text{ or } B^{C} \Leftrightarrow A^{C}\cup B^{C}
+\end{align*}
+Therefore:
+\begin{align*}
+\boxed{(A\cap B)^C = A^C \cup B^C}
+\end{align*}
+\clearpage
+\subsection*{Problem 2}
+\begin{enumerate}
+    \item
+      Show that the collection $\mathcal{A} = \{\emptyset,S\}$ is a sigma field.
+    \item
+      Let $\mathcal{B} = \{\textrm{all subsets of}\ S,\  \textrm{including}\ S\  \textrm{itself}\}$. Show that  $\mathcal{B}$\ is a sigma field.
+    \item
+      Show that the intersection of two sigma fields is also a sigma field.
+    \end{enumerate}
+
+\subsubsection*{Part 1}
+To prove $\mathcal{A}$ is a sigma field, we need to prove three properties. 
+\begin{enumerate}
+    \item
+      $\emptyset \in \mathcal{A}$ (The Empty set is an element of $\mathcal{A}$)
+    \item
+      If $A \in \mathcal{A}$, then $A^{C} \in \mathcal{A}$ (Closed under complementation)
+    \item
+    If $A_1,...,A_i \in \mathcal{A}$ then \[\bigcup_{i=1}^{\infty}A_i \in \mathcal{A}\] (Closed under countable union)
+\end{enumerate}
+	For $\mathcal{A}$, it automatically meets the first requirement by definition. The third property is also intrinsically satisfied by $\mathcal{A}$ containing sample space $S$, as all subsets or events are contained by $S$. All we need to prove is closure under complementation:
+\begin{align*}
+\emptyset \in \mathcal{A}
+\end{align*}
+\begin{align*}
+\emptyset^{C} = S
+\end{align*}
+\begin{align*}
+\emptyset \cup S = S
+\end{align*}
+As such, $S$ is the largest set which contains all possible events. $S^{C}=\emptyset$ and $\emptyset \in \mathcal{A}$. This means that $\mathcal{A}$ is closed under complementation.
+\subsubsection*{Part 2}
+$\mathcal{B} = \{\textrm{all subsets of}\ S,\  \textrm{including}\ S\  \textrm{itself}\}$
+By definition, the second and third properties of a sigma field are satisfied by $\mathcal{B}$. The only other property of note is the first, which requires the empty set $\emptyset$ to be part of the sigma field. A property of sets which I just discovered is that the empty set is a subset of every set, including $S$ in this case, meaning all properties are satisfied.
+
+\subsubsection*{Part 3}
+Let $\mathcal{A}_1$ and $\mathcal{A}_2$ be two sigma fields. Then the empty set is guaranteed to be included in the intersection of those two sigma fields.
+\begin{align*}
+\emptyset \in \mathcal{A}_1 \cap \mathcal{A}_2
+\end{align*}
+Suppose the existence of some event $B$ which is in the intersection of $\mathcal{A}_1 \cap \mathcal{A}_2$. Since $\mathcal{A}_1$ and $\mathcal{A}_2$ are both closed under complementation, then:
+\begin{align*}
+B^{C} \in \mathcal{A}_1 \text{ and } B^{C} \in \mathcal{A}_2
+\end{align*}
+Therefore:
+\begin{align*}
+B^{C} \in \mathcal{A}_1 \cap \mathcal{A}_2
+\end{align*}
+Any subsets of $B$ would also be contained in $\mathcal{A}_1 \cap \mathcal{A}_2$, meaning:
+\begin{align*}
+\Bigg(\bigcup_{i=1}^{\infty}A_i \Bigg) \in \mathcal{A}_1 \cap \mathcal{A}_2
+\end{align*}
+Therefore, all properties of sigma fields are satisfied for $\mathcal{A}_1 \cap \mathcal{A}_2$.
+\clearpage
+\subsection*{Problem 3}
+    \begin{enumerate}
+    \item
+      Show that\[
+      P(A\cup B \cup C) = P(A) + P(B) + P(C) - P(A\cap B) - P(A\cap C) - P(B\cap C) + P(A\cap B \cap C)
+      \]
+    \item
+      Express $P(A^C \cap B^C \cap C^C)$ in terms of probabilities of $A,B,C$ and their intersections.
+    \end{enumerate}
+\subsubsection*{Part 1}
+Let $B \cup C$ be equivalent to event $D$
+\begin{align*}
+P(A\cup D) = P(A) + P(D) - P(A\cap D)
+\end{align*}
+\begin{align*}
+ = P(A) + P(B \cup C) - P(A\cap (B \cup C))
+\end{align*}
+\begin{align*}
+ = P(A) + P(B) + P(C) - P(B\cap C) - P(A\cap (B \cup C))
+\end{align*}
+Via the distributive law:
+\begin{align*}
+ = P(A) + P(B) + P(C) - P(B\cap C) - P([A\cap B]\cup [A\cap C])
+\end{align*}
+\begin{align*}
+ = P(A) + P(B) + P(C) - P(B\cap C) - P(A\cap B) - P(A\cap C) + P((A\cap B) \cap (A\cap C))
+\end{align*}
+Note that the intersection of $A$ and $A$ is $A$, so we can rewrite the equation as:
+\begin{align*}
+\boxed{= P(A) + P(B) + P(C) - P(A\cap B) - P(A\cap C) - P(B\cap C) + P(A\cap B\cap C)}
+\end{align*}
+\subsubsection*{Part 2}
+Let $A^{C}\cap B^{C}$ be event $D$
+\begin{align*}
+P(D \cap C^C) = P(D) - P((C^{C})^{C} \cap D)
+\end{align*}
+\begin{align*}
+ = P(A^{C}\cap B^{C}) - P(C \cap A^{C}\cap B^{C})
+\end{align*}
+\begin{align*}
+ = P(B^{C}) - P(A\cap B^{C}) - P(C \cap A^{C}\cap B^{C})
+\end{align*}
+\begin{align*}
+ = P(B^{C}) - [P(A) - P(B\cap A)] - P(C \cap A^{C}\cap B^{C})
+\end{align*}
+\begin{align*}
+ = P(B^{C}) - [P(A) - P(B\cap A)] - P(C \cap A^{C}\cap B^{C})
+\end{align*}
+Via DeMorgan's Laws, we can simplify the rightmost term.
+\begin{align*}
+ = P(B^{C}) - [P(A) - P(B\cap A)] - P(C \cap (A\cup B)^{C})
+\end{align*}
+\begin{align*}
+ = P(B^{C}) - [P(A) - P(B\cap A)] - [P(C) - P((A\cup B) \cap C)]
+\end{align*}
+\begin{align*}
+ = P(B^{C}) - [P(A) - P(B\cap A)] - [P(C) - P((C\cap A)\cup (C\cap B))]
+\end{align*}
+\begin{align*}
+ = P(B^{C}) - [P(A) - P(B\cap A)] - [P(C) - [P(C\cap A) + P(C\cap B) - P(C \cap A \cap C \cap B)]]
+\end{align*}
+Now, distributing all the negative signs:
+\begin{align*}
+ = P(B^{C}) - P(A) + P(B\cap A)  - P(C) + P(C\cap A) + P(C\cap B) - P(C \cap A \cap C \cap B)
+\end{align*}
+Finally, after re ordering variables into alphabetical order:
+\begin{align*}
+ \boxed{= 1 - P(A) - P(B) - P(C) + P(A\cap B) + P(B\cap C) + P(A\cap C) - P(C \cap A \cap B \cap C)}
+\end{align*}
+This result is interesting as it closely resembles the result in Part A, but with opposite signs and an extra term of $1$.
+\clearpage
+\subsection*{Problem 4}
+  Using Boole's inequality:\[
+    P\Bigg( \bigcup_{i=1}^{n}A_i \Bigg) \leq \sum_{i=1}^{n}P(A_i),
+    \]
+    de Morgan's laws, and the fact that $P(A^C) = 1 - P(A)$, prove the general version of Bonferroni's inequality:
+    \[
+    P\Bigg( \bigcap_{i=1}^{n}A_i \Bigg) \geq \sum_{i=1}^{n}P(A_i) - (n-1),
+    \]
+\clearpage
+\subsubsection*{Part 1}
+\begin{align*}
+P\Bigg( \bigcup_{i=1}^{n}A_i^C \Bigg) \leq \sum_{i=1}^{n}P(A_i^C)
+\end{align*}
+
+\begin{align*}
+\leq (1-P(A_1^C) + 1 - P(A_2^C) + ... + 1-P(A_n^C))
+\end{align*}
+
+\begin{align*}
+\leq \sum_{i=1}^{n} P(A_i)(n-1)
+\end{align*}
+
+I can see how the right side of the inequality changes to the correct result, but I don't understand how the left side goes from being an Infinite Union to an infinite Intersection.
+\begin{align*}
+\boxed{\text{???}}
+\end{align*}
+\clearpage
+\subsection*{Problem 5}
+\begin{enumerate}
+    \item
+      If $A_1,A_2,\dots$ \ are sets s.t. $A_k\subset A_{k+1}, k = 1,2,\dots$, then define
+      \[
+      \lim_{k \to \infty}A_k = \bigcup_{k=1}^\infty A_k.
+      \]
+      \noindent Find $$\lim_{k \to \infty}A_k \textrm{ if }A_k = \{(x,y):1/k \leq x^2 + y^2 \leq 4-1/k\}, k=1,2,\dots$$
+    \item
+      Similarly, $A_1,A_2,\dots$ \ are sets s.t. $A_k\supset A_{k+1}, k = 1,2,\dots$, then define
+      \[
+      \lim_{k \to \infty}A_k = \bigcap_{k=1}^\infty A_k.
+      \]
+      \noindent Find $$\lim_{k \to \infty}A_k \textrm{ if }A_k = \{x:2<x\leq 2+1/k\}, k=1,2,\dots$$
+    \end{enumerate}
+\subsubsection*{Part 1}
+\begin{align*}
+\boxed{\text{???}}
+\end{align*}
+\subsubsection*{Part 2}
+\begin{align*}
+\boxed{\text{???}}
+\end{align*}
+
+\clearpage
+\subsection*{Problem 6}
+    Let the sample space be $S = \{s: 0<s<\infty\}$. For any $A \in \mathcal{A}$, a sigma field of $S$, define
+    \[
+    P(A) = \int_{A}e^{-x}dx.
+    \]
+    \begin{enumerate}
+    \item
+      Show that $P(\cdot)$ is a valid probability function. 
+    \item
+      Let $A_1=\{s:4<s<\infty\}$, Evaluate $P(A_1)$ and $P(A_{1}^{C})$ 
+    \end{enumerate}
+\subsection*{Part 1}
+For P(A) to be a valid probability function, it must satisfy the three axioms:
+\begin{enumerate}
+\item
+$P(A) \geq 0$ for all $A\in \mathcal{A}$ where $\mathcal{A}$ is the sigma field containing $S$
+\item
+$P(S) = 1$
+\item
+If $A_1,..., A_n \in \mathcal{A}$ are pairwise disjoint, then \[
+    P\Bigg( \bigcup_{i=1}^{\infty}A_i \Bigg) = \sum_{i=1}^{\infty} P(A_i)\]
+\end{enumerate}
+
+For all real numbers, the function $\int_{A}e^{-x}dx.$ is positive, guaranteeing that the first axiom is satisfied for all choices of $A\subset \mathbb{R}$.
+\subsection*{Part 2}
+\begin{align*}
+P(A_1) = \int_{A_1}e^{-x}dx = \int_{4}^{\infty} e^{-x}dx. = \boxed{e^{-4}}
+\end{align*}
+The probability of a complement of a known probability can be expressed:
+\begin{align*}
+\boxed{P(A_1^C) = 1-P(A_1) = 1 - e^{-4}}
+\end{align*}
+
+    
+\clearpage
+\subsection*{Problem 7}
+    \begin{enumerate}
+    \item
+      In a draft lottery containing the 366 days of a year (including February 29), what is the probability that the first 180 days drawn (without replacement) are evenly distributed among the 12 months?\\
+      Ans:
+      \[
+      \frac{\Pi_{k=0}^{11}\genfrac(){0pt}{2}{366-15k}{15}}{\genfrac(){0pt}{2}{366}{180}}
+        \]
+    \item
+      What is the probability that the first 30 days drawn contain none from September?\\
+      Ans.
+      \[
+      \frac{\genfrac(){0pt}{2}{366}{30}\genfrac(){0pt}{2}{366}{150}}{\genfrac(){0pt}{2}{366}{180}}
+      \]
+    \end{enumerate}
+\subsubsection*{Part 1}
+To answer this, lets first determine the total number of possible sequences of dates chosen for our problem. For this, the total number of choices is:
+\begin{align*}
+\begin{bmatrix}
+366 \\
+180
+\end{bmatrix} = \frac{366!}{180!(366-180)!}
+\end{align*}
+
+This is because once a date is selected, it may not be selected again (sampling without replacement). Now we need to quantify how many possible outcomes satisfy our condition: that our sample is evenly distributed.
+
+For even distribution, each month must contain 15 dates selected since $\frac{180\text{samples}}{12\text{months}} = 15\frac{samples}{month}$.
+
+There are 7 months with 31 days, 4 months with 30 days, and 1 month with 29 days. To count the number of ways we have evenly distributed months, we must count the number of samples of 15 from each month.
+
+\begin{align*}
+\begin{bmatrix}
+31 \\
+15
+\end{bmatrix}^7  
+\begin{bmatrix}
+30 \\
+15
+\end{bmatrix}^4  
+\begin{bmatrix}
+29 \\
+15
+\end{bmatrix}
+\end{align*}
+
+Thus, the probability of evenly distributed samples is given by:
+\begin{align*}
+\boxed{\dfrac{\begin{bmatrix}
+31 \\
+15
+\end{bmatrix}^7  
+\begin{bmatrix}
+30 \\
+15
+\end{bmatrix}^4 
+\begin{bmatrix}
+29 \\
+15
+\end{bmatrix}}{\begin{bmatrix}
+366 \\
+180
+\end{bmatrix}}}
+\end{align*}
+NOTE: I am fairly confident this is correct, but I am not sure how your solution was arrived at, so I am finding it difficult to equate my formulation with yours. I see that you handle the possibilities of days, but how does your solution account for months with varying days?
+\subsubsection*{Part 2}
+
+The total number of possible sequences is still the same as in the previous problem. However the condition we must satisfy has changed. In this case the first 30 samples, cannot be in September. September has 30 days in it, so the number of possible dates which CAN be sampled is $366-30 = 336$.
+
+Thus, the representation for the first 30 samples is:
+
+\begin{align*}
+\begin{bmatrix}
+336 \\
+30
+\end{bmatrix}
+\end{align*}
+
+The situation then changes after the first 30 samples, we can't just use our old formula, as now we are "missing" 30 samples to pick. Thus, the formula for the remaining samples is:
+
+\begin{align*}
+\begin{bmatrix}
+366 \\
+150
+\end{bmatrix}
+\end{align*}
+
+Thus, our expression for the probability of this event occurring is given by:
+\begin{align*}
+      \boxed{\frac{\begin{bmatrix}
+336 \\
+30
+\end{bmatrix}\begin{bmatrix}
+366 \\
+150
+\end{bmatrix}}{\begin{bmatrix}
+366 \\
+180
+\end{bmatrix}}}
+\end{align*}
+
+
+\end{document}

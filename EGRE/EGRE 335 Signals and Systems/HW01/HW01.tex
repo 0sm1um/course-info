@@ -1,0 +1,126 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[]{amsthm} %lets us use \begin{proof}
+\usepackage[]{amssymb} %gives us the character \varnothing
+\usepackage{amsmath}
+\usepackage{graphicx}
+\numberwithin{equation}{section}
+\usepackage{titlesec}
+%\usepackage{pgf-umlcd}
+\graphicspath{ {figures/} }
+
+\title{EGRE-335 Chapter 01 Review}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+
+\section{Problem 1}
+\subsection{Part 1,2}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=.7\linewidth]{Q1Plot}
+\caption{Plot of 1.1 and 1.2 from [-2T,2T]}
+\end{figure}
+
+\subsection{Part 3 and 4}
+Lets start with our original signals:
+\begin{align*}
+f_3(t) = f_1(t) + \mathbf{j} f_2(t) = cos(2\pi t) + \mathbf{j} sin(2\pi t)
+\end{align*}
+To compute the power, we must integrate the absolute value squared over the period and scale the output according to $\frac{1}{2T}$
+\begin{align*}
+P_3 = \frac{1}{2T} \int_{-T}^{T} |f_3(t)|^2 dt
+\end{align*}
+Before integration, we should note squaring the absolute value of our particular function yields interesting results. Applying the Euler formula allows us to see:
+\begin{align*}
+|f_3(t)|^2 =  |e^{j 2\pi t}|^2
+\end{align*}
+The absolute value of $e^{j 2\pi t}$ is $1$ for all values of $t$
+\begin{align*}
+|f_3(t)|^2 =  1
+\end{align*}
+Thus our integral simplifies to 
+\begin{align*}
+\boxed{P_3 = \frac{1}{2T} \int_{-T}^{T} 1 dt = 1}
+\end{align*}
+This result is verified in the attatched Matlab code.
+
+\subsection{Part 5}
+Lets compute the indefinite integral $f_1(t)$ and $f_2(t)$ and see what we get.
+\begin{align*}
+P_1 = \frac{1}{2T} \int_{-T}^{T} |cos(2\pi t)|^2 dt \\ P_2 = \frac{1}{2T} \int_{-T}^{T} |sin(2\pi t)|^2 dt
+\end{align*}
+Substituting in $1$ for $T$
+\begin{align*}
+P_1 = \frac{1}{2} (\pi t - \frac{sin(2\pi t)cos(2\pi t)}{2})|_{-1}^{1} \\ P_2 = \frac{1}{2} (\frac{sin(2\pi t)cos(2\pi t)}{2} - \pi t)|_{-1}^{1}
+\end{align*}
+The definite integral for each evaluates to 1
+\begin{align*}
+P_1 = \frac{1}{2} (1) \\ P_2 = \frac{1}{2} (1)
+\end{align*}
+Thus
+\begin{align*}
+\boxed{P_1 + P_2 = 1 = P_3}
+\end{align*}
+\clearpage
+\section{Problem 2}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=1.\linewidth]{Q2Plot}
+\caption{Plot of periodic Dirac Delta function.}
+\end{figure}
+
+\section{MATLAB CODE DUMP}
+\begin{verbatim}
+clear all
+clc
+%% CHAPTER 01 REVIEW
+
+T = 1;
+t1 = linspace(-2*T,2*T, 100);
+omega = 2*pi*T;
+F1 = cos(omega*t1);
+F2 = sin(omega*t1);
+F3 = F1 + i*F2;
+figure
+hold on
+plot(t1,F1)
+plot(t1,F2)
+title('Question 1 Plot')
+legend('F1', 'F2')
+
+Function3 = @(t) abs(cos(omega.*t)+sin(omega.*t)).^2;
+Function4 = @(t) abs(exp((i.*t))).^2;
+pwr1 = 1/(2*T) * integral(Function3,-T,T);
+pwr2 = 1/(2*T) * integral(Function4,-T,T);
+%e^ix = cos(x) + isin(x)
+%1 = abs(e^x)^2
+
+t2 = [-10:0.005:10];
+y2 = periodicddf(t2);
+figure
+plot(t2,y2)
+title('Question 2 Plot')
+legend('Periodic Dirac Delta')
+%Note, for plotting purposes it would be better to define 
+
+function [y] = periodicddf(x)
+%This function assumes a period of 1. An adjustable period function could
+%be made easily by asking for another argument.
+y = zeros(1,length(x));
+for i=1:length(x)    
+    if floor(x(i)) == ceil(x(i))
+        y(i) = 1*10^9; %Note, for plotting purposes this is defined as
+    end                %a billion, but for realism's sake it should be "Inf"
+end
+end
+\end{verbatim}
+
+
+\end{document}

@@ -1,0 +1,312 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+
+\title{STAT-513 Homework 3}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 1}
+%Probably in the slides/textbook
+
+Show that the induced probability function $P_X$ characterized by a random variable $X$ and a probability space $(S,\mathcal{A},P)$, is a valid probability function in the sense that it satisfies the Kolmogorov Axioms.
+
+\subsection*{Part 1}
+Kolmogorov's Axioms can be stated as:
+\begin{enumerate}
+\item
+$P_X(A)\geq 0$
+\item
+$P(S)=1$
+\item
+$P_X(\bigcup_{k=1}^{\infty}A_k)=\sum_{i=1}^{\infty}P(A_k)(A_k)$
+\end{enumerate}
+
+To prove the first component, we look at the definition of an event $A$.
+\begin{align*}
+A_i = \bigcup_{x_k\in A}\{S:X(s_k)=x_i\}
+\end{align*}
+This essentially states that A is a union of values which map to the random variable $X$.
+\begin{align*}
+A_i = \bigcup_{x_k\in A}\{S:X(s_k)=x_i\}
+\end{align*}
+By this definition, any event $A$ which contains elements of $S$ the following should be true:
+\begin{align*}
+\boxed{P_X(A_i) = P(\bigcup_{x_k\in A}\{S:X(s_k)=x_i\}) \geq 0}
+\end{align*}
+Given that $P()$ is a valid probability function, P of some nonempty set should be greater than zero.
+\subsection*{Part 2}
+The same rationale can be applied to the total probability space S.
+\begin{align*}
+S = \bigcup_{x_k\in S}\{S:X(s_k)=x_i\}
+\end{align*}
+In this case, $S$ contains every element in $S$, and the random variable which maps values from $S$ into $\mathcal{X}$ doesn't change the fact it describes the same set S. As such:
+\begin{align*}
+\boxed{P_X(\mathcal{X}) = P(\bigcup_{x_k\in S}\{S:X(s_k)=x_i\}) = 1}
+\end{align*}
+\subsection*{Part 3}
+Consider $A_n$ countably mutually disjoint events. Applying the result found in Part 1 to the union of all $A_n$:
+\begin{align*}
+P_X(\bigcup_{k=1}^{\infty}(A_n)) = P(\bigcup_{k=1}^{\infty}(\bigcup_{x_k\in A}\{S:X(s_k)=x_i\}))
+\end{align*}
+Since we have a union of disjoint events, we can describe the probability of their unions as a sum of each event:
+\begin{align*}
+P_X(\bigcup_{k=1}^{\infty}(A_n)) = \sum_{k=1}^{\infty}P(\bigcup_{x_k\in A}\{S:X(s_k)=x_i\})
+\end{align*}
+\begin{align*}
+\boxed{P_X(\bigcup_{k=1}^{\infty}(A_n)) = \sum_{k=1}^{\infty}P(A_n)}
+\end{align*}
+\clearpage
+
+\section*{Problem 2}
+%Definatly in the textbook, prob in the notes.
+Let $X$ be a random variable with the probability space $(S,\mathcal{A},P)$ and df/cdf $F(X)$. Show that
+    \[
+    F(x)-F(x-0) = P(X=x), \quad \forall x\in \mathbb{R}
+    \]
+    where $F(x-0) = \displaystyle \lim_{\epsilon \rightarrow 0} F(x-\epsilon)$.
+
+
+\subsection*{Part 1}
+\clearpage
+\section*{Problem 3}
+%Apply the definition
+Prove that the following functions are CDFs.
+    \begin{enumerate}
+      \item[a.]
+        $F_X(x) = 1 - e^{-x}, \quad x\in(0,\infty)$
+      \item[]
+      \item[b.]
+        $F_Y(y) = \begin{cases} \frac{1-\epsilon}{1+e^{-y}}, & y<0 \\ \epsilon +\frac{1-\epsilon}{1+e^{-y}}, & y\geq 0\end{cases} \qquad 0<\epsilon < 1$
+      \item[]
+      \item[c.]
+        $F_Z(z) = \frac{1}{2} +\frac{1}{\pi} \tan^{-1}(z), \quad z\in(-\infty,\infty)$
+      \item[]
+    \end{enumerate}
+\subsection*{Part 1}
+For a function to be a valid CDF, it must satisfy the following conditions:
+\begin{enumerate}
+\item
+$lim_{x\rightarrow -\infty} F(x) = 0$ and $lim_{x\rightarrow \infty} F(x) = 1$
+\item
+$F(x)$ is a non decreasing function of $x$.
+\item
+$F(x)$ is right continuous.
+\end{enumerate}
+For the first condition, lets evaluate our limits:
+
+The lower limit evaluates to:
+\begin{align*}
+lim_{x\rightarrow 0} 1 - e^{-x} = 0
+\end{align*}
+The upper limit evaluates to
+\begin{align*}
+lim_{x\rightarrow 1} 1 - e^{-x} = 1
+\end{align*}
+This means our function satisfies the first conditions for being a valid CDF.
+$F(x)=1-e^{-x}$ has a first derivative of:
+\begin{align*}
+\frac{d}{dx}(1-e^{-x})=e^-x
+\end{align*}
+This is positive for all $x$. So we know that the function never decreases. The function is also right continuous. $\boxed{\text{This means it is a valid CDF.}}$
+\subsection*{Part 2}
+Our next function is $F_Y(y) = \begin{cases} \frac{1-\epsilon}{1+e^{-y}}, & y<0 \\ \epsilon +\frac{1-\epsilon}{1+e^{-y}}, & y\geq 0\end{cases} \qquad 0<\epsilon < 1$.
+
+The lower limit evaluates to:
+\begin{align*}
+lim_{y\rightarrow -\infty} \frac{1-\epsilon}{1+e^{-y}} = 0
+\end{align*}
+The upper limit evaluates to
+\begin{align*}
+lim_{y\rightarrow 1} \epsilon + \frac{1-\epsilon}{1+e^{-y}} = 1
+\end{align*}
+This means our function satisfies the first conditions for being a valid CDF.
+\begin{align*}
+\frac{d}{dx}(1-e^{-x})=e^-x
+\end{align*}
+
+The first derivative of our piecewise function is:
+\begin{align*}
+\frac{d}{dx}\frac{1-\epsilon}{1+e^-y} = \frac{d}{dx} \epsilon + \frac{1-\epsilon}{1+e^-y} =\frac{1-\epsilon}{e^-y+1}^2
+\end{align*}
+This is positive for all values of $y$ and $\epsilon$
+
+Finally is the condition of continuity. The condition for a valid CDF is specifically right continuity. So despite the fact that our function is not generally continuous, the fact that for $y=0$, the righthand limit equals the value predicted by $\epsilon + \frac{1-\epsilon}{1+e^-y}$, right hand continuity is satisfied.
+
+$\boxed{\text{Thus, }F_Y\text{ is a valid CDF}}$
+
+\subsection*{Part 3}
+Our third function is $F_Z(z) = \frac{1}{2} +\frac{1}{\pi} \tan^{-1}(z), \quad z\in(-\infty,\infty)$.
+The lower limit evaluates to:
+\begin{align*}
+lim_{z\rightarrow -\infty} \frac{1}{2} +\frac{1}{\pi} \tan^{-1}(z) = 0
+\end{align*}
+The upper limit evaluates to
+\begin{align*}
+lim_{z\rightarrow \infty} \frac{1}{2} +\frac{1}{\pi} \tan^{-1}(z) = 1
+\end{align*}
+Thus the first condition of being a CDF is satisfied. To test the second condition, we will test the first derivative which is:
+\begin{align*}
+\frac{d}{dz}(F_Z(z)) = \frac{1}{\pi(z^2+1)}
+\end{align*}
+This derivative is positive for all $z\in(-\infty,\infty)$, thus $F_Z(z)$ is increasing for all values of $z$. The function is also right continuous, so $\boxed{F_Z(z)\text{ is a valid CDF.}}$.
+
+\clearpage
+\section*{Problem 4}
+%CDF = integral of PDF
+A certain river floods every year. Suppose that the low-water mark is set at 1 and the high-water mark $Y$ has a distribution function
+    \[
+    F_Y(y) =P(Y\le y) = 1 - \frac{1}{y^2},  \quad 1 \le y < \infty
+    \]
+    \begin{enumerate}
+    \item[a.]
+      Verify that $F_Y(y)$ is a cdf.
+    \item[]
+    \item[b.]
+      Find $f_Y(y)$, the pdf of $Y$.
+    \item[]
+    \item[c.]
+      If the low-water mark is reset at 0 and we use a unit of measurement that is 1/10 of that given previously, the high-water mark becomes $Z = 10(Y-1)$. Find $F_Z(z)$.
+    \item[]
+    \end{enumerate}
+
+\subsection*{Part 1}
+The lower limit evaluates to:
+\begin{align*}
+lim_{y\rightarrow 1} 1 - \frac{1}{y^2} = 0
+\end{align*}
+The upper limit evaluates to
+\begin{align*}
+lim_{y\rightarrow \infty} 1 - \frac{1}{y^2} = 1
+\end{align*}
+This satisfies the first conditions of CDFs. The first derivative $\frac{d}{dy}F_Y(y) = \frac{2}{y^3}$ is positive for $y\in [1,\infty)$. Finally, $F_Y(y)$ is right continuous for $y\in [1,\infty)$. $\boxed{F_Y(y)\text{ is a valid CDF.}}$
+\subsection*{Part 2}
+The PDF $f_y(y)$ of a CDF $F_y(y)$ can be expressed as:
+\begin{align*}
+\frac{d}{dy}F_Y(y) = f_y(y)
+\end{align*}
+We found this in part 1, the pdf is:
+\begin{align*}
+f_y(y) = \frac{2}{y^3} \text{ for } y\in [1,\infty)
+\end{align*}
+\subsection*{Part 3}
+
+I am unsure how to approach this. I believe that I am being asked to come up with a way to map the previous probability function on a new space.
+
+I know that the new interval the random variable will reflect the new water level: $z \in [0,\infty)$, and that I need a function which is greater than or equal to zero at zero, and who's integral from 0 to $\infty$ will equal 1. 
+
+\clearpage
+
+\section*{Problem 5}
+Let $X$ be a continuous random variable with pdf $f(x)$ and cdf $F(x)$. For a fixed number $x_0$, define the function
+    \[
+    g(x) = \begin{cases}\frac{f(x)}{1-F(x_0)} , & x \ge x_0 \\ 0 , & x < x_0 \end{cases} 
+    \]
+    Prove that $g(x)$ is a pdf. (assume $F(x_0) < 1$).
+    
+\subsection*{Part 1}
+\begin{enumerate}
+\item
+$g(x) \geq 0 \text{ for all }x \in \mathbb{R}$
+\item
+$\int_{0}^\infty g(x) = 1$
+\end{enumerate}
+
+g(x) must be positive, because a valid pdf $f(x)$ must be positive for all values, and the denominator $1-F(x_0)$ is guaranteed to both be positive and greater than the numerator $f(x)$ since $x\geq x_0$ and $F(x_0)\leq 1$ for all possible values of $x_0$.
+
+For the second condition, the upper and lower bounds of our integral are $\infty$ and $x_0$ respectively. Here we must note that:
+\begin{align*}
+1-F(x_0) = \int_{x_0}^\infty f(x) dx
+\end{align*}
+
+Thus our integral reduces to:
+\begin{align*}
+\boxed{\int_{x_0}^\infty f(x) dx = \frac{1-F(x_0)}{1-F(x_0)} = 1}
+\end{align*}
+
+\clearpage
+
+\section*{Problem 6}
+For what value of $k$ is the following function a density function?
+    \[
+    f(x) = \begin{cases} kx(1-x), & 0 \le x \le 1 \\ 0, &  \text{otherwise}.\end{cases} 
+    \]
+    Also, find $P(X >1/3)$.
+
+\subsection*{Part 1}
+For a Probability Density Function to valid, the integral across the domain must sum to 1 exactly. So it is a simple matter of finding the value of $k$ such that
+
+\begin{align*}
+1 = k \int_{0}^{1} x(1-x)dx
+\end{align*}
+\begin{align*}
+1 = -k(\dfrac{x^2(2x-3)}{6})|_{0}^{1}
+\end{align*}
+\begin{align*}
+1 = -k(\dfrac{1}{6})
+\end{align*}
+The value of $k$ which makes the integral equal to $1$, is $6$
+\begin{align*}
+\boxed{k=6}
+\end{align*}
+\subsection*{Part 2}
+Probability density functions have the property such that                                                                     
+\begin{align*}
+P(X\leq x) = \int_{-\inf}^{x} f(x)dx
+\end{align*}
+We can apply this property to our function:
+\begin{align*}
+P(X\leq \frac{1}{3}) = \int_{0}^{\frac{1}{3}} f(x)dx
+\end{align*}
+Knowledge of $P(X\leq \frac{1}{3})$ is useful in this case, because of the property of probability functions where $1-P(X)=P(X^c)$. For the pdf, $X^c$ represents the elements
+\begin{align*}
+\boxed{1-P(X\leq \frac{1}{3}) = P(X^c) = P(X > \frac{1}{3})}
+\end{align*}
+\clearpage
+\section*{Problem 7}
+Suppose
+    \[
+    p_k = \begin{cases} p(1-p)^k , & k = 0,1,2,\dots \\ 0 , &  \text{otherwise}.\end{cases} 
+    \]
+    Does $p_k$ define a probability mass function? If so, find the cdf and also obtain $P(n\le X \le N)$, where $N>n$.
+\subsection*{Part 1}
+A PMF is defined as $f(k)=P(X=k)\text{ for all }k$ for a random variable $X$. The conditions which determine if a function $f$ is a valid PMF are:
+\begin{enumerate}
+\item
+$f(x) \geq 0 \text{ for all }x \in \mathbb{R}$
+\item
+$\sum_{x\in \mathbb{R}} f(x) = 1$
+\end{enumerate}
+The first condition is met by definition of $p_k$, as $k\in [0,\infty)$, and $p_0$ is non negative for all $p\geq 0$.
+\begin{align*}
+p_0 = p
+\end{align*}
+
+\subsection{Part 2}
+To explicitly find the CDF, we must take the sum of the series:
+\begin{align*}
+P(X\leq x) = \sum_{k=1}^{\infty}p(1-p)^k
+\end{align*}
+\begin{align*}
+ = p\dfrac{1-(1-p)^k}{1-(1-p)}
+\end{align*}
+\begin{align*}
+\boxed{F_x = 1-(1-p)^x}
+\end{align*}
+
+
+
+\subsection{Part 3}
+$p_k$ essentially describes the size of the jump in the CDF as the discrete random variable $k$ increases. As such:
+\begin{align*}
+\boxed{P(n\geq X \geq N) = \sum_{k=n}^{N}p(1-p)^k}
+\end{align*}
+
+
+\end{document}

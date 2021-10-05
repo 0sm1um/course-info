@@ -1,0 +1,563 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+
+\title{STAT-513 Homework 4}
+\author{John Hiles}
+\date\today
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 1}
+In each of the following, find the pdf of Y and show that the pdf integrates to 1.
+\begin{enumerate}
+\item
+$f_X(x)=\frac{1}{2}e^{-|x|}$, $-\infty < x < \infty$; $Y = |X|^3$
+\item
+$f_X(x)=\frac{3}{8}(x+1)^2$, $-1 < x < 1$; $Y = 1-X^2$
+\item
+$f_X(x)=\frac{3}{8}(x+1)^2$, $-1 < x < 1$; $Y = 1-X^2$ if $X\leq 0$ and $1-X$ if $X>0$
+\end{enumerate}
+
+\subsection*{Part 1}
+Let $g(x) = |x|^3$. $g(x)$ is a decreasing function from $(-\infty,0)$ and it is increasing from $(0,\infty)$. As such our transformed function can be represented as:
+
+\begin{align*}
+f_Y(y) = \left\{
+        \begin{array}{ll}
+            \sum_{i=1}^{\infty} f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| & \quad y\in \mathcal{Y} \\
+            \\
+            0 & \quad \text{ Elsewhere} 
+        \end{array}
+    \right.
+\end{align*}
+
+Where $g_i(x)$ represents the $i$th function along the partition of sample space $\mathcal{Y}$, in which $g$ is monotone.
+
+Let $g_{1}^{-1}(x)$ be the inverse along the interval in which $g(x)$ is decreasing.
+\begin{align*}
+g_{1}^{-1}(x) =\sqrt[3]{|x|} && \frac{d}{dx} g(x)^{-1} = -\frac{1}{3\sqrt[3]{|x|^2}}
+\end{align*}
+Let $g_{2}^{-1}(x)$ be the inverse along the interval in which $g(x)$ is increasing.
+\begin{align*}
+g_{2}(x)^{-1} =  \sqrt[3]{x} && \frac{d}{dx} g(x)^{-1} = \frac{1}{3\sqrt[3]{x^2}}
+\end{align*}
+As such, our transformed pdf is:
+\begin{align*}
+f_Y(y) = f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| + f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| \\
+\end{align*}
+Substituting in what we know:
+\begin{align*}
+f_Y(y) = f_X(\sqrt[3]{|y|})|-\frac{1}{3\sqrt[3]{y^2}}| + f_X(\sqrt[3]{y})|\frac{1}{3\sqrt[3]{y^2}}| \\
+\end{align*}
+Now, evaluating our instances of $f_X$: $f_X(x)=\frac{1}{2}e^{-|x|}$
+\begin{align*}
+f_Y(y) = \frac{1}{2}e^{-|\sqrt[3]{|y|}|}|-\frac{1}{3\sqrt[3]{y^2}}| + \frac{1}{2}e^{-|\sqrt[3]{y}|}|\frac{1}{3\sqrt[3]{y^2}}| \\
+\end{align*}
+The absolute value bars can be simplified, and our fractions combined:
+\begin{align*}
+f_Y(y) = \frac{1}{6\sqrt[3]{y^2}}e^{-\sqrt[3]{|y|}} + \frac{1}{6\sqrt[3]{y^2}}e^{-\sqrt[3]{|y|}} \\
+\end{align*}
+Our two exponential terms can be combined:
+\begin{align*}
+\boxed{f_Y(y) = \frac{1}{3\sqrt[3]{y^2}}e^{-\sqrt[3]{|y|}}}
+\end{align*}
+
+We can prove this result is a valid pdf by integrating over the new probability space:
+
+\begin{align*}
+\int_{0}^{\infty} f_Y(y)dy = \int_{0}^{\infty} \frac{1}{3\sqrt[3]{y^2}}e^{-\sqrt[3]{|y|}} dy
+\end{align*}
+
+\begin{align*}
+ = \frac{1}{3} \int_{0}^{\infty} \frac{e^{-\sqrt[3]{|y|}}}{\sqrt[3]{y^2}} dy
+\end{align*}
+
+\begin{align*}
+ = \frac{1}{3} \int \frac{\sqrt[3]{y} e^{-\sqrt[3]{|y|}}}{|y|} dy
+\end{align*}
+
+\begin{align*}
+ = \frac{1}{3} \int \frac{\sqrt[3]{y} e^{-\sqrt[3]{|y|}}}{|y|} dy
+\end{align*}
+Let $u=\sqrt[3]{|y|}$. $dy = -\frac{3|y|}{\sqrt[3]{y}}du$
+\begin{align*}
+ = -3 \frac{1}{3} \int e^u du = -3e^u = -e^{-\sqrt[3]{|y|}}
+\end{align*}
+
+\begin{align*}
+ = -\frac{e^{-\sqrt[3]{|y|}}} |_{0}^{\infty}
+\end{align*}
+Evaluating the definite integral:
+\begin{align*}
+ = -e^{-{\infty}} - -e^{0}
+\end{align*}
+
+\begin{align*}
+\boxed{\int_{0}^{\infty} f_Y(y)dy = 1}
+\end{align*}
+
+\subsection*{Part 2}
+
+Let $g(x)=1-x^2$
+
+Let $g_{1}^{-1}(x)$ be the inverse along the interval in which $g(x)$ is increasing.
+\begin{align*}
+g_{1}^{-1}(x) =-\sqrt{1-x} && \frac{d}{dx} g_{1}(x)^{-1} = \frac{1}{2\sqrt{1-x}}
+\end{align*}
+Let $g_{2}^{-1}(x)$ be the inverse along the interval in which $g(x)$ is decreasing.
+\begin{align*}
+g_{2}(x)^{-1} = \sqrt{1-x} && \frac{d}{dx} g_{2}(x)^{-1} = -\frac{1}{2\sqrt{1-x}}
+\end{align*}
+As such, our transformed pdf is:
+\begin{align*}
+f_Y(y) = f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| + f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| \\
+\end{align*}
+Substituting in what we know:
+\begin{align*}
+f_Y(y) = f_X(-\sqrt{1-y})|\frac{1}{2\sqrt{1-y}}| + f_X(\sqrt{1-y}|-\frac{1}{2\sqrt{1-y}}| \\
+\end{align*}
+Now, evaluating our instances of $f_X$: $f_X(x)=\frac{3}{8}(x+1)^2$
+\begin{align*}
+f_Y(y) = \frac{3}{8}((-\sqrt{1-y})+1)^2|\frac{1}{2\sqrt{1-y}}| + \frac{3}{8}((\sqrt{1-y})+1)^2|-\frac{1}{2\sqrt{1-y}}| \\
+\end{align*}
+The absolute value bars can be simplified, and our fractions combined:
+\begin{align*}
+f_Y(y) = \frac{3}{8}(\sqrt{1-y}-1)^2 \frac{1}{2(y-1)} + \frac{3}{8}(\sqrt{1-y}+1)^2 \frac{1}{2(y-1)} \\
+\end{align*}
+Simplifying fractions yields:
+\begin{align*}
+\boxed{f_Y(y) = -\frac{3(y-2)}{8(y-1)} }
+\end{align*}
+
+Note that the absolute value bars essentially mean that our pdf is now along the sample space $\mathcal{Y}=[0,1]$
+
+So to validate our result we must integrate over this space:
+\begin{align*}
+ = -\int_{0}^{1} \frac{3(y-2)}{8(y-1)}
+\end{align*}
+\begin{align*}
+ = \frac{(y-4)\sqrt{1-y}}{4}|_{0}^{1} = 0 - (-1)
+\end{align*}
+\begin{align*}
+\boxed{-\int_{0}^{1} \frac{3(y-2)}{8(y-1)} = 1 }
+\end{align*}
+\subsection*{Part 3}
+For part 3 we can more or less recycle half of the result, as $g_1$ for our function has not changed.
+
+\begin{align*}
+g_{1}^{-1}(x) =-\sqrt{1-x} && \frac{d}{dx} g_{1}(x)^{-1} = \frac{1}{2\sqrt{1-x}}
+\end{align*}
+Our second function however has changed. Our second function is now $g_2(x)=1-x$
+\begin{align*}
+g_{2}^{-1}(x) =1-y && \frac{d}{dx} g_{2}(x)^{-1} = -1
+\end{align*}
+
+Same as last time, our transformed pdf is:
+\begin{align*}
+f_Y(y) = f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| + f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| \\
+\end{align*}
+Substituting in what we know:
+\begin{align*}
+f_Y(y) = f_X(-\sqrt{1-y})|\frac{1}{2\sqrt{1-y}}| + f_X(1-y)|-1| \\
+\end{align*}
+Evaluating the functions:
+\begin{align*}
+f_Y(y) = \frac{3}{8}(\sqrt{1-y}-1)^2 \frac{1}{2\sqrt{y-1}} + \frac{3(y-2)^2}{8} \\
+\end{align*}
+This absolute monstrosity evaluates to:
+\begin{align*}
+\boxed{f_Y(y) = \frac{3(2(y^2-4y+3)\sqrt{1-y}-y+2)}{16\sqrt{1-y}} }
+\end{align*}
+Believe it or not, this thing integrates to 1 across the new probability space.
+\begin{align*}
+\boxed{\int_{0}^{1} f_Y(y) dy = \int_{0}^{1} \frac{3(2(y^2-4y+3)\sqrt{1-y}-y+2)}{16\sqrt{1-y}}dy = 1}
+\end{align*}
+
+
+\clearpage
+
+\section*{Problem 2}
+Let $\lambda$ be a fixed positive constant, and define the function $f(x)$ as
+
+\begin{align*}
+f(x) = \left\{
+        \begin{array}{ll}
+            \tfrac{1}{2} \lambda e^{-\lambda x} & \quad x \geq 0 \\
+            \\
+            \tfrac{1}{2} \lambda e^{\lambda x} & \quad x < 0
+        \end{array}
+    \right.
+\end{align*}
+
+\begin{enumerate}
+\item
+Verify that $f(x)$ is a pdf
+\item
+If $X$ is a random variable with pdf given by $f(x)$, find $P(X<t)$ for all $t$. Evaluate all integrals.
+\item
+Find $P(|X|<t)$ for all $t$. Evaluate all integrals.
+\end{enumerate}
+
+\subsection*{Part 1}
+For $f(x)$ to be considered a valid pdf, it must satisfy the following conditions:
+\begin{enumerate}
+\item
+$f(x) \geq 0 \text{ for all }x \in \mathbb{R}$
+\item
+$\int_{0}^\infty g(x) = 1$
+\end{enumerate}
+For all values of $\lambda$, $f(x)\geq 0$, so the first condition is satisfied.
+\begin{align*}
+ = \int_{-\infty}^{\infty} f(x) dx = \int_{-\infty}^{0} \tfrac{1}{2} \lambda e^{\lambda x} dx + \int_{0}^{\infty} \tfrac{1}{2} \lambda e^{-\lambda x} dx
+\end{align*}
+\begin{align*}
+ = \frac{1}{2}e^{\lambda x}|_{-\infty}^{0} -\frac{1}{2}e^{-\lambda x}|_{0}^{\infty}
+\end{align*}
+\begin{align*}
+ 1 = (\frac{1}{2}-0)-(0-\frac{1}{2})
+\end{align*}
+As such, regardless of the value of $\lambda$, the integral across $\mathbb{R}$ results in 1, meaning $f(x)$ is a valid pdf.
+\subsection*{Part 2}
+If $X$ is a random variable with pdf given by $f(x)$, find $P(X<t)$ for all $t$. Evaluate all integrals.
+
+$P(X\leq t) = \int_{-\infty}^{t} f(x) dx$ is the general relation to find probability from a pdf. Note, that our pdf is defined piecewise, and as such our answer differs if $t\geq 0$ or not. First lets look at the case where $t>0$
+
+To find $P(X<t)$, we can integrate the pdf along:
+\begin{align*}
+P(X<t) = 1-\int_{t}^{\infty} \tfrac{1}{2} \lambda e^{\lambda x} dx
+\end{align*}
+This integral evaluates to:
+\begin{align*}
+ = 1- \frac{e^{\lambda x}}{2} |_{t}^{\infty}
+\end{align*}
+So for the case where $t<0$, our final answer is:
+\begin{align*}
+P(X<t) = 1- \frac{e^{-\lambda \infty}}{2} - \frac{e^{-\lambda t}}{2}
+\end{align*}
+\begin{align*}
+P(X<t) = 1-\frac{e^{-\lambda t}}{2}
+\end{align*}
+
+The second case concerns if $t\geq 0$. In this case, we must compute the integral of the negative piecewise function, and add the integral of the positive component of $f(x)$.
+
+\begin{align*}
+P(X<0) = 1-\frac{e^{0}}{2} = \frac{1}{2}
+\end{align*}
+
+\begin{align*}
+P(X<t) = 1- \int_{t}^{0} \tfrac{1}{2} \lambda e^{\lambda x}dx + \frac{1}{2}
+\end{align*}
+This integral evaluates to:
+\begin{align*}
+ = 1- \frac{e^{\lambda x}}{2} |_{-\infty}^{t} + \frac{1}{2}
+\end{align*}
+So for the case where $t<0$, our final answer is:
+\begin{align*}
+ = 1- \frac{e^{\lambda -\infty}}{2} - \frac{e^{\lambda t}}{2} + \frac{1}{2}
+\end{align*}
+\begin{align*}
+ = \boxed{1 - (\frac{1}{2} - \frac{e^{\lambda t}}{2})}
+\end{align*}
+\subsection*{Part 3}
+To find $P(|X|<t)$, we can simply note that $|X|$ simply restricts the probability space to the positive side of the pdf.
+
+\begin{align*}
+P(|X|<t) = \int_{0}^{t} f(x) dx = \frac{1}{2} \lambda e^{-\lambda x} dx
+\end{align*}
+\begin{align*}
+ = - \frac{e^{-\lambda x}}{2} |_{0}^{t}
+\end{align*}
+\begin{align*}
+ = - \frac{e^{-\lambda t}}{2} - (- \frac{e^{-\lambda 0}}{2})
+\end{align*}
+\begin{align*}
+\boxed{P(|X|<t) = \frac{1}{2} - \frac{e^{-\lambda t}}{2} }
+\end{align*}
+
+
+\clearpage
+
+\section*{Problem 3}
+Suppose $X$ has a pmf $f_X(x)=\frac{1}{3}(\frac{2}{3})^x$, $x=0,1,2,...$ Determine the probability distribution of $Y=\frac{X}{X+1}$. Note here that both $X$ and $Y$ are discrete random variables. To specify the probability distribution of $Y$, specify its pmf.
+
+\subsection*{Part 1}
+Let $g(x)=\frac{X}{X+1}$, then $g(y)^{-1}=-\frac{y}{y-1}$
+\begin{align*}
+f_Y(x) = f_X(g^{-1}(y))
+\end{align*}
+Substituting in our inverse to the original pmf yields the new pmf:
+\begin{align*}
+\boxed{f_Y(x) = \frac{1}{3}(\frac{2}{3})^{-\frac{y}{y-1}} } 2\leq y \leq \infty
+\end{align*}
+
+\clearpage
+
+
+\section*{Problem 4}
+Suppose X is a random variable with pdf
+
+\begin{align*}
+f(x) = \left\{
+        \begin{array}{ll}
+            \tfrac{x+2}{18} & \quad -2 \leq 4 \\
+            \\
+            0 & \text{Otherwise.}
+        \end{array}
+    \right.
+\end{align*}
+
+Find $E(X)$, $E[(X+2)^3]$ and $E[6X-2(X+2)^3]$.
+
+\subsection*{Part 1}
+The expected value of a random variable $\mathbb{E}(x)=\int_{-\infty}^{\infty} g(x)f_X(x) dx$ for continuous random variables. $g(x)=X$ for the first part.
+
+\begin{align*}
+\mathbb{E}(x)=\int_{-2}^{4} x f_X(x) dx = \int_{-2}^{4} x \tfrac{x+2}{18} dx
+\end{align*}
+Simplifying the expression being integrated:
+\begin{align*}
+=\int_{-2}^{4} \tfrac{x^2+2x}{18} dx = \int_{-2}^{4} \tfrac{x^2}{18}+\tfrac{2x}{18} dx
+\end{align*}
+The indefinite integral of the expected value is given by:
+\begin{align*}
+=\frac{x^3}{54}+\frac{x^2}{18}|_{-2}^{4}
+\end{align*}
+
+\begin{align*}
+=\frac{4^3}{54}+\frac{4^2}{18} - \frac{(-2)^3}{54}+\frac{(-2)^2}{18}
+\end{align*}
+\begin{align*}
+\boxed{\mathbb{E}(x)=2} 
+\end{align*}
+\subsection*{Part 2}
+To find $\mathbb{E}[(X+2)^3]$, we follow the same procedure as before, except our random variable $g(x)=(X+2)^3$
+
+\begin{align*}
+\mathbb{E}((X+2)^3)=\int_{-2}^{4} (x+2)^3 \tfrac{x+2}{18} dx
+\end{align*}
+
+\begin{align*}
+=\int_{-2}^{4} \tfrac{(x+2)^4}{18} dx
+\end{align*}
+The indefinite integral comes out to:
+\begin{align*}
+= \frac{(x+2)^5}{90} |_{-2}^{4}
+\end{align*}
+The definite integral is:
+\begin{align*}
+= \frac{(4+2)^5}{90} - \frac{((-2)+2)^5}{90}
+\end{align*}
+Our final expectation value is:
+\begin{align*}
+\boxed{\mathbb{E}(x)=\frac{432}{5} = 86.4} 
+\end{align*}
+
+\subsection*{Part 3}
+To find $\mathbb{E}[(6X-2)(X+2)^3]$, we could follow the same procedure as before, except our random variable $g(x)=(6x-2)(x+2)^3$. However this approach would be rather cumbersome to do by hand.
+
+Instead we can look at the properties of the Expectation value operator $\mathbb{E}$ to make this easier.
+
+The following formulations are all equivalent:
+\begin{align*}
+\mathbb{E}[(6X-2)(X+2)^3]= \mathbb{E}[(6X)] - \mathbb{E}[2(X+2)^3] = 6\mathbb{E}[X] - 2\mathbb{E}[(X+2)^3]
+\end{align*}
+We have already solved for expressions of $\mathbb{E}[X]$ and $\mathbb{E}[(X+2)^3]$ in part 1 and 2 of this problem. As such, substituting in the results previously found are:
+\begin{align*}
+\boxed{6\mathbb{E}[X] - 2\mathbb{E}[(X+2)^3] = 6(2) - 2(86.4) = -160.8}
+\end{align*}
+
+Just to validate these results, I went ahead and computed the integral directly via MATLAB:
+
+\begin{align*}
+\mathbb{E}[(6X-2(X+2)^3]=\int_{-2}^{4} (6x-(2(x+2)^3) \tfrac{x+2}{18} dx
+\end{align*}
+\begin{align*}
+=\int_{-2}^{4}  \tfrac{(x+2)^4(2x-1)}{6} dx
+\end{align*}
+\begin{align*}
+\boxed{\mathbb{E}(x)=-160.8}
+\end{align*}
+Our results agree in both cases.
+\clearpage
+
+\section*{Problem 5}
+If $X$ is a discrete random variable that assigns positive probabilities to only the positive integers, show that:
+
+\begin{align*}
+\mathbb{E}(X) = \sum_{k=1}^{\infty}P(X\leq k) 
+\end{align*}
+
+\subsection*{Part 1}
+The definition of expectation value for a discrete random variable is given by:
+\begin{align*}
+\mathbb{E}(X) = \sum_{x\in \mathcal{X}} g(x)f_X(x) 
+\end{align*}
+This definition essentially states that the sum of products of the random variable $g(x)$ and the output of $g(x)$ for all values of $x\in \mathcal{X}$. Since we know that $X$ is a positive integer valued function, meaning we know $\mathcal{X}$ is defined from $(1,\infty)$
+\begin{align*}
+\mathbb{E}(X) = \sum_{k=1}^{\infty} g(k)f_X(k) 
+\end{align*}
+Note that this relation is essentially a weighted average, in which the pmf is being used to weight $g(k)$.
+Lets look at another definition for the discrete pmf.
+\begin{align*}
+P(X\leq k) = \sum_{k=1}^{k} f_X(k)
+\end{align*}
+With this in mind, we can rewrite our weighted average in terms of our probabilities.
+\begin{align*}
+\boxed{\mathbb{E}(X) = \sum_{k=1}^{\infty} P(X\leq k) }
+\end{align*}
+
+\clearpage
+
+\section*{Problem 6}
+Let $X$ have the pdf:
+%2.9.1 in text
+\begin{align*}
+f_X(x) = \frac{1}{\sqrt{2\pi}}e^{-\tfrac{x^2}{2}}\text{, } -\infty < x < \infty
+\end{align*}
+
+\begin{enumerate}
+\item
+Find $\mathbb{E}(X^2)$ directly, and then by using the pdf of $Y=X^2$ and calculating $\mathbb{E}(Y)$.
+\item
+Find the pdf of $Y=|X|$ and find its mean.
+
+\end{enumerate}
+
+\subsection*{Part 1}
+The expected value of a random variable $\mathbb{E}(x)=\int_{-\infty}^{\infty} g(x)f_X(x) dx$ for continuous random variables. $g(x)=X^2$ in this case.
+
+\begin{align*}
+\mathbb{E}(X^2) = \int_{-\infty}^{\infty} g(x) f(x) dx = \int_{-\infty}^{\infty} x^2 \frac{1}{\sqrt{2\pi}}e^{-\tfrac{x^2}{2}} dx
+\end{align*}
+It is important to note here that this is a special integral. There is not an indefinite form for this particular Gaussian integral, however the definite integral is defined as:
+\begin{align*}
+\int_{-\infty}^{\infty} x^2 e^{-a x^2} dx = \frac{1}{2} \sqrt{\frac{\pi}{a^3}}
+\end{align*}
+In our case, $a=\frac{1}{2}$, so $a^3=\frac{1}{8}$. So, our integral is:
+\begin{align*}
+\boxed{\mathbb{E}(X^2) = \frac{\sqrt{{8 \pi}}}{2\sqrt{2\pi}} = 1}
+\end{align*}
+\subsection*{Part 2}
+We now need to verify that we get the same result if we take the expectation value of the transformed pdf $f_Y(x)$ where $Y=g(x)=X^2$
+
+For this problem, I will use the value of $f_Y(y)$ which we derived in class, example 4 in the week 3 lecture notes.
+\begin{align*}
+f_y(y) = \frac{1}{\sqrt{2\pi y}} e^{-\frac{y^2}{2}} \text{ from } 0<y<\infty
+\end{align*}
+$\mathbb{E}(X^2)$
+\begin{align*}
+\mathbb{E}(Y) = \int_{0}^{\infty} y \sqrt{\frac{2}{\pi}} e^{-\frac{y^2}{2}} dy
+\end{align*}
+\subsection*{Part 3}
+For this transformation, $g(x) = |X|$. G is monotone on the intervals $(\infty,0)$ and $(0,\infty)$.
+Let $g_{1}(x) = -x$
+\begin{align*}
+g_{1}(y)^{-1} = -y && \frac{d}{dx} g_{1}(y)^{-1} = -1
+\end{align*}
+
+\begin{align*}
+g_{2}(x)^{-1} = y && \frac{d}{dy} g_{2}(y)^{-1} = 1
+\end{align*}
+Our $f_Y(y)$ is given by:
+\begin{align*}
+f_Y(y) = f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| + f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| \\
+\end{align*}
+Substituting in what we know:
+\begin{align*}
+f_Y(y) = \frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}} + \frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}}
+\end{align*}
+
+\begin{align*}
+\boxed{f_Y(y) = \frac{2}{\sqrt{\pi}} e^{-\frac{y^2}{2}}}
+\end{align*}
+This result agrees with Example 4 in the week 3 notes.
+
+The mean of the distribution is simply
+$\mathbb{E}[{Y}]$
+
+\begin{align*}
+{\mathbb{E}[{Y}] = \int_0^{\infty} y \frac{2}{\sqrt{\pi}} e^{-\frac{y^2}{2}}} dy 
+\end{align*}
+The indefinite integral evaluates to:
+\begin{align*}
+\mathbb{E}[{Y}] = - \sqrt{\frac{2}{\pi}} e^{-\frac{y^2}{2}} |_0^{\infty}
+\end{align*}
+Evaluating this:
+\begin{align*}
+\mathbb{E}[{Y}] = - \sqrt{\frac{2}{\pi}} - 0 |_0^{\infty}
+\end{align*}
+\begin{align*}
+\boxed{\mathbb{E}[{Y}] = - \sqrt{\frac{2}{\pi}}}
+\end{align*}
+
+That certainly doesn't look right. I am not sure why these results don't agree.
+
+\clearpage
+\section*{Problem 7}
+The $median$ of a distribution is a value $m$ such that $P(X\geq m) = \frac{1}{2}$ and $P(X\leq m)=\frac{1}{2}$. Find the median of the following distributions.
+
+\begin{enumerate}
+\item
+$f(x)=3x^2$, $0<x<1$
+\item
+$f(x)=\frac{1}{\pi (1+x^2)}$, $-\infty<x<\infty$
+\item
+$f(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}$, $-\infty<x<\infty$
+\end{enumerate}
+
+
+\subsection*{Part 1}
+Probability density functions can be used to calculate $P(X\leq x)$ via the relationship:
+
+\begin{align*}
+P(X\leq x) = \int_{-\infty}^{x} f(x) dx
+\end{align*}
+
+As such, solving for the median simply requires solving for the value which ensures the integral of the pdf is equal to $\frac{1}{2}$
+
+The indefinite integral of this $pdf$ is the cumulative distribution function for the pdf.
+
+The cdf/indefinite integral is given by:
+\begin{align*}
+F(x) = \int \frac{1}{\pi (1+x^2)} dx = x^3
+\end{align*}
+Our median is the solution to the equation setting the cdf equal to $\frac{1}{2}$
+\begin{align*}
+\frac{1}{2} = x^3 && \boxed{x=\sqrt[3]{(\frac{1}{2})} = \frac{2^{\tfrac{2}{3}}}{2}}
+\end{align*}
+
+\subsection*{Part 2}
+Adhering to the same method as part 1, we integrate the pdf and solve for m: 
+
+\begin{align*}
+P(X\leq x) = \int_{-\infty}^{x} f(x) dx
+\end{align*}
+
+The cdf evaluated at point m is given by:
+\begin{align*}
+F(x) = \int_{-\infty}^{m} \frac{1}{\pi (1+x^2)} dx
+\end{align*}
+It is important to note that this expression within the integrand is special, as it is the derivative of the arctangent function.
+\begin{align*}
+F(m) = \frac{1}{\pi} \int_{-\infty}^{m} \frac{1}{(1+x^2)} dx = \frac{tan^{-1}(x)}{\pi} |_{-\infty}^{m}
+\end{align*}
+
+For this cdf, it is important to note that $F(-\infty)=-\frac{1}{2}$. This makes finding the median significantly easier, since we simply need to find the value of $F$ which equals zero.
+\begin{align*}
+\frac{1}{2} = \frac{tan^{-1}(m)}{\pi} - (-\frac{1}{2})
+\end{align*}
+$tan^{-1}(0) = 0$, as such $m=0$
+\begin{align*}
+\frac{1}{2} = \frac{tan^{-1}(0)}{\pi} - (-\frac{1}{2}) = 0+\frac{1}{2} && \boxed{m = 0}
+\end{align*}
+
+\subsection*{Part 3}
+This final integral is considerably more difficult than the previous two. However, this function is special for several reasons. First is that it is the normal distribution, but more importantly for this problem it is an even and symmetric function.
+
+$\boxed{\text{Due to the symmetry of the pdf, we know that its median must be zero.}}$
+
+\end{document}

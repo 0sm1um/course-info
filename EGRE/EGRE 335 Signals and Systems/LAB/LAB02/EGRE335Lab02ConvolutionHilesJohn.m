@@ -1,12 +1,12 @@
 %% Save this Matlab file as is, but add your last and first name to the end
-%% "EGRE335Lab02ConvolutionLastNameFirstName"
+%% "EGRE335Lab02ConvolutionHilesJohn"
 
 clear all;
 clc;
 close all;
 
 %% Read in data file:
-input = load('-mat', 'Go to the folder where you saved the file and copy the path; paste it here\data01.mat');
+input = load('-mat', 'C:\Users\echo4\Class\EGRE\EGRE 335 Signals and Systems\LAB\LAB02\data01.mat');
 data = input.S1_r;
 
 %% Set up time series
@@ -38,9 +38,15 @@ ylabel('Component 1 Voltage [V]');
 %% Change the limits of the plot to be between 0.3ms and 0.45ms
 % Useful commands: {xlim}
 %% Enter your code here:
-
-
-
+figure();
+plot(t,data,'- .');
+title('Observation 1')
+xlabel('Time [s]');
+ylabel('Component 1 Voltage [V]');
+xlim([.3*10^-3,.45*10^-3])
+freq = ([(0.000318-0.000313) (0.000346-0.000339) (0.000343-0.000334) (0.000406-0.000398) (0.000419-0.000412) (0.000438-0.000432)]).^-1;
+freqError = std(freq)/sqrt(length(freq));
+freqpctError = freqError/mean(freq);
 %% Observations 1: What do you observe?
 
 
@@ -50,10 +56,27 @@ ylabel('Component 1 Voltage [V]');
 % Hint: You shouldn't use "=" when
 % setting a condition because if your time series does not contain the
 % specific point, it will return a null. Use a combination of limits {> &
-% <}. 
+% <}.
 %% Enter your code here:
+obs2in = find(abs(t-0.2E-3) < 0.00000001)
+obs2fin = find(abs(t-0.6E-3) < 0.00000001)
+t2 = t(obs2in:obs2fin)
+x2 = data(obs2in:obs2fin)
+t2ds = downsample(t2,2)
+x2ds = downsample(x2,2)
+figure();
+hold on
+plot(t2,x2,'- .');
+plot(t2ds,x2ds,'- .');
+title('Observation 2')
+xlabel('Time [s]');
+ylabel('Component 1 Voltage [V]');
+legend('Original Signal','Downsampled n=2')
 
 
+freq = ([(0.000318-0.000313) (0.000346-0.000339) (0.000343-0.000334) (0.000406-0.000398) (0.000419-0.000412) (0.000438-0.000432)]).^-1;
+freqError = std(freq)/sqrt(length(freq));
+freqpctError = freqError/mean(freq);
 
 %% Plot the original and downsampled data on the same graph:
 % {figure, plot, xlabel, ylabel, hold}
@@ -65,12 +88,32 @@ ylabel('Component 1 Voltage [V]');
 %% Create a data set from the original data of every Nth element; use 
 %% N = 5, 10, 20, 200, 500
 %% Enter your code here:
+t3ds5  = downsample(t,5);
+t3ds10  = downsample(t,10);
+t3ds20  = downsample(t,20);
+t3ds200  = downsample(t,200);
+t3ds500  = downsample(t,500);
 
-
+x3ds5  = downsample(data,5);
+x3ds10  = downsample(data,10);
+x3ds20  = downsample(data,20);
+x3ds200  = downsample(data,200);
+x3ds500  = downsample(data,500);
 
 %% Plot each case on same plot as the reduced data set; set the limits to 
 %% be in a range where tmax-tmin=0.5E-3sec
-% {figure('Name',''), plot, hold, xlabel, ylabel
+figure();
+hold on
+plot(t3ds5,x3ds5,'- .');
+plot(t3ds10,x3ds10,'- .');
+plot(t3ds20,x3ds20,'- .');
+plot(t3ds200,x3ds200,'- .');
+plot(t3ds500,x3ds500,'- .');
+
+title('Observation 3')
+xlabel('Time [s]');
+ylabel('Component 1 Voltage [V]');
+legend('Downsample n=5','Downsample n=10','Downsample n=20','Downsample n=200','Downsample n=500')
 
 %% Observations 3: What do you observe vis-a-vis the original data and 
 %% the new data?
@@ -78,12 +121,28 @@ ylabel('Component 1 Voltage [V]');
 %% Calculate the "moving mean" over 5 points; 
 %% this takes the first n points, averages them, slides over by 1, 
 %% averages, etc. In this way, we create a "filter" operation:
-% {movemean}
+% {movmean}
+x45 = movmean(data,5)
+x410 = movmean(data,10)
+x420 = movmean(data,20)
+x450 = movmean(data,50)
+x4200 = movmean(data,200)
 
 %% Plot the original data set and its moving mean on the same graph:
 %% Try 5, 10, 20, 50, 200 point moving mean:
 % {figure, plot, xlabel, ylabel, hold on} 
 %% Enter your code here:
+figure();
+hold on
+plot(t,x45,'- .');
+plot(t,x410,'- .');
+plot(t,x420,'- .');
+plot(t,x450,'- .');
+plot(t,x4200,'- .');
+title('Observation 4')
+xlabel('Time [s]');
+ylabel('Component 1 Voltage [V]');
+legend('Moving mean, k=5','Moving mean, k=10','Moving mean, k=20','Moving mean, k=50','Moving mean, k=200')
 
 
 %% Observations 4: What do you observe?
@@ -94,6 +153,18 @@ ylabel('Component 1 Voltage [V]');
 %% Plot the original and the new function.
 % {reshape, mean}
 %% Enter your code here:
+x5 = downsample(x410,10);
+t5=t3ds10
+
+figure();
+hold on
+plot(t3ds10,x3ds10);
+plot(t5,x5,'- .');
+
+title('Observation 5')
+xlabel('Time [s]');
+ylabel('Component 1 Voltage [V]');
+legend('Downsampled Raw Data','Mean Every 10 Points')
 
 
 %% Observations 5: What do you observe?
@@ -124,6 +195,7 @@ waxis2 = -((Npoints-1)/2)*deltaf:deltaf:(Npoints/2)*deltaf;
 %% it from the data. 
 %% The time-domain equivalent of a "high-pass" filter is the sinc function.
 %% The time-domain filtered signal has fewer points (due to the convolution)
+%{
 Nfilt = size(filtered,2);
 waxisf = -((Nfilt-1)/2)*deltaf:deltaf:(Nfilt/2)*deltaf;
 filtert = fftshift(abs(fft(filtered)));
@@ -173,7 +245,7 @@ ylabel('Data');
 
 
 %% Observations 8: What do you observe?
-
+%}
 
 
 

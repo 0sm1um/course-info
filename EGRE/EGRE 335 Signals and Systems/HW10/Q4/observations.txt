@@ -1,0 +1,5 @@
+Your version funcsolve is actually the same as my own y1 named in my MATLAB code.
+It is identical to my y2 except reflected over the x axis.
+
+The two solutions adjacent to the X axis are completley invisible compared to the diverging 
+numerical result in all these cases.

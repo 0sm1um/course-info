@@ -1,0 +1,7 @@
+For negative lambda, the response function h is a completley different shape. As t approaches infinity h 
+appears to approache zero, while the opposite is true for the previous problem.
+
+The numerical convolution also has a compleley different shape, it looks like a damped oscillator but biased
+towards zero.
+
+The analytical convolution for some reason looks like the previously calculated numerical convolution.

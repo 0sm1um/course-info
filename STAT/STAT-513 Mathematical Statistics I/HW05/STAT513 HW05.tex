@@ -1,0 +1,127 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+
+\title{STAT-513 Homework 5}
+\author{John Hiles}
+\date\today
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 1}
+Consider the two pdfs given by
+  \[
+	\begin{aligned}
+    f_1(x)&=\frac{1}{x\sqrt{2\pi}}e^{-\log(x)^2/2}, 0\le x <\infty\\
+    f_2(x)&=f_x(x)[1 + \sin(2\pi\log(x))], 0\le x <\infty\\
+	\end{aligned}
+  \]
+    \begin{enumerate}
+    \item[a.]
+      Show that if $X_1 \sim f_1(x0$, then
+      \[
+      E(X_{1}^{r}) = e^{r^2/2}, \, r = 0,1,2,\dots
+      \]
+      So, $f_1(x)$ has all the moments and all the moments are finite.
+    \item[]
+      text
+    \item[b.]
+      Now show that
+      \[
+      \int_{0}^{\infty}x^rf_1(x)\sin(2\pi\log x)dx=0
+      \]
+      for all positive integers $r$. This proves $E(X_{1}^{r}) = E(X_{2}^{r})$ for all $r$.\\
+      \textit{Hint:} To solve the integration, use the change of variables $y = \log x$.
+    \item[]
+      text
+    \end{enumerate}
+    \clearpage
+
+\section*{Problem 2}
+  Let $M_X(t)$ be the moment generating function of $X$, and define $S(t) = \log(M_X(t))$.\\
+  Show that
+    \[
+    \frac{d}{dt}S(t)\biggr\rvert_{t=0} = E(X) \qquad \textrm{and} \qquad \frac{d^2}{dt^2}S(t)\biggr\rvert_{t=0} = \textrm{Var}(X).
+    \]
+
+      \clearpage
+
+\section*{Problem 3}
+    Suppose you know that the random variable $Y$ has pmf
+    \[
+    f_Y(y) = p(1-p)^{y-1} \quad y=1,2,3,\dots
+    \]
+    Define $X = e^Y$.
+
+    \begin{enumerate}
+    \item[a.]
+      Calculate the pdf of $X$. Recall that the change of variables formula for discrete distributions does \textbf{not} require the term $\left|\frac{dg^{-1}}{dx}\right|$.
+    \item[]
+      text
+      \[
+      \begin{aligned}
+      \end{aligned}
+      \]
+    \item[b.]
+      Note that the MGF of $Y$ is given by
+      \[
+      M_Y(t)= \frac{pe^t}{1-(1-p)e^t} \quad \textrm{for} \quad t<-\log(1-p).
+      \]
+      Can you use the mgf of $Y$ to calculate the mean of $X$, $E(X)$ when $p = 1/2$? Do this calculation: $E(X) = E(e^Y) = M_Y(t=?)$.
+    \item[]
+      text
+    \item[c.]
+      In part (b), is your answer correct? Justify why or why not.
+    \item[]
+      text
+    \item[d.]
+      For what $p$ values can you use the method in part (b)?
+    \item[]
+      text
+    \end{enumerate}
+    \clearpage
+
+\subsection*{Part 1}
+
+
+
+\section*{Problem 4}
+
+    The moment generating function for a particular random variable is 
+    \[
+    M_X(t) = e^{-\pi t + 4t^2}.
+    \]
+    Use this fact to calculate the mean $E(X)$ and the second moment $E(X^2)$. Note that you have to differentiate $M_X(t)$ and set $t$ to particular values to get the moments required to receive full credit.
+
+      \clearpage
+
+\subsection*{Part 1}
+
+
+\section*{Problem 5}
+
+  In each of the following cases, verify the expression given for the moments generating function, and in each case use the mgf to calculate $E(X)  \textrm{and} \textrm{Var}(X).$
+    \begin{enumerate}
+    \item[a.]
+      $P(X = x) = e^{-\lambda}\lambda^x;x=0,1,2,\dots,\lambda > 0, \quad M_X(t) = e^{\lambda(e^t-1)}$
+    \item[]
+      text
+    \item[b.]
+      $P(X = x) = p(1-p)^x;x=0,1,2,\dots,0 < p < 1, \quad M_X(t) = p/[1-(1-p)e^t]$
+    \item[]
+      text
+    \item[c.]
+      $f(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/(2\sigma^2)};-\infty < x< \infty,  -\infty < \mu < \infty, \sigma > 0 \quad M_X(t) = e^{\mu t + \sigma^2t^2/2}$
+    \item[]
+      text
+    \end{enumerate}
+    \clearpage
+
+
+\subsection*{Part 1}
+
+
+\end{document}

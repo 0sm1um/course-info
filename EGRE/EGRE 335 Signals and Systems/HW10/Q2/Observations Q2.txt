@@ -1,0 +1,3 @@
+The numerical and analytical solutions vary drastically. The numerical version seems to diverge completley. 
+I solved for the analytical solution using both possible forms for the solution, and both
+of the analytical solutions produce the exact same vector, except reflected across the X axis.

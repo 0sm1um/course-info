@@ -21,13 +21,11 @@ Consider the two pdfs given by
   \]
     \begin{enumerate}
     \item[a.]
-      Show that if $X_1 \sim f_1(x0$, then
+      Show that if $X_1 \sim f_1(x)$, then
       \[
       E(X_{1}^{r}) = e^{r^2/2}, \, r = 0,1,2,\dots
       \]
       So, $f_1(x)$ has all the moments and all the moments are finite.
-    \item[]
-      text
     \item[b.]
       Now show that
       \[
@@ -35,10 +33,73 @@ Consider the two pdfs given by
       \]
       for all positive integers $r$. This proves $E(X_{1}^{r}) = E(X_{2}^{r})$ for all $r$.\\
       \textit{Hint:} To solve the integration, use the change of variables $y = \log x$.
-    \item[]
-      text
     \end{enumerate}
-    \clearpage
+    
+\subsection*{Part A}
+First lets find the expectation value via of integrating a pdf multiplied by the value we wish to find $\mathbb{E}$ of.
+\begin{align*}
+\mathbb{E}(X^r) = \int_{-\infty}^{\infty} x^r \frac{1}{x\sqrt{2\pi}}e^{-\log(x)^2/2} dx
+\end{align*}
+Taking out constant factors:
+\begin{align*}
+\mathbb{E}(X^r) = \frac{1}{x\sqrt{2\pi}} \int_{-\infty}^{\infty} x^r e^{-\log(x)^2/2} dx
+\end{align*}
+Let $u=log(x)$ and $du = dx/x$
+\begin{align*}
+\mathbb{E}(X^r) = \frac{1}{x\sqrt{2\pi}} \int_{-\infty}^{\infty} \frac{e^{u r}}{e^{u}} e^{-\frac{u^2}{2}} du
+\end{align*}
+Combining exponential terms:
+\begin{align*}
+\mathbb{E}(X^r) = \frac{1}{x\sqrt{2\pi}} \int_{-\infty}^{\infty}  e^{-r u \frac{u^2}{2}} du
+\end{align*}
+\begin{align*}
+\mathbb{E}(X^r) = \frac{1}{x\sqrt{2\pi}} \int_{-\infty}^{\infty}  e^{-r u \frac{u^2}{2}} du
+\end{align*}
+\begin{align*}
+\mathbb{E}(X^r) = \frac{1}{x\sqrt{2\pi}} \int_{-\infty}^{\infty}  e^{-\frac{u^2-2ru+4^2-r^2}{2}} du
+\end{align*}
+This reduces to:
+\begin{align*}
+\mathbb{E}(X^r) = \frac{1}{x\sqrt{2\pi}} e^{\frac{r^2}{2}}\int_{-\infty}^{\infty}  e^{-\frac{(y-r)^2}{2}} du
+\end{align*}
+This integral is in the form $\int_{-\infty}^{\infty}e^{-a (x-b)^2}dx$, where the solution can be found via an integral table.
+\begin{align*}
+\mathbb{E}(X^r) = \frac{1}{x\sqrt{2\pi}} e^{\frac{r^2}{2}} \sqrt{2 \pi}
+\end{align*}
+Thus our final result is:
+\begin{align*}
+\boxed{ \mathbb{E}(X^r) =  e^{\frac{r^2}{2}} }
+\end{align*}
+As such, the relation is proven.
+\subsection*{Part B}
+\begin{align*}
+\int_{0}^{\infty}x^rf_1(x)\sin(2\pi\log x)dx=0
+\end{align*}
+Now, lets substitute in $f_1(x)$ and $x^r$
+\begin{align*}
+=\int_{0}^{\infty} \frac{x^r}{x\sqrt{2\pi}} e^{-\log(x)^2/2}\sin(2\pi\log x)dx
+\end{align*}
+Let $u=log(x)$, $du \frac{dx}{x}$
+\begin{align*}
+= \int_{-\infty}^{\infty} \frac{e^{u r}}{\sqrt{2\pi}} e^{-u^2/2}\sin(2\pi u)du
+\end{align*}
+\begin{align*}
+= \int_{-\infty}^{\infty} \frac{e^{(y+r)r}}{\sqrt{2\pi}} e^{-(u+r)^2/2}\sin(2\pi u+2 \pi r)du
+\end{align*}
+Note here that $r$ is an integer. For all intergers, $sin(2\pi u+2 \pi r)=sin(2\pi u)$. As such, we can simplify our integral by substituting this for the sin function's angle.
+\begin{align*}
+= \int_{-\infty}^{\infty} \frac{e^{(y+r)r}}{\sqrt{2\pi}} e^{-(u+r)^2/2}\sin(2\pi u+2 \pi r)du
+\end{align*}
+These exponential terms can be combined.
+\begin{align*}
+= \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} e^{\frac{r^2-y^2}{2}}\sin(2\pi u+2 \pi r)du
+\end{align*}
+At this point, we can note that $sin(x)$ is an odd function. And $e^{x^2}$ is an even function. Thus, their product must necessarily be an odd function.
+Through this, we know that 
+\begin{align*}
+\boxed{ 0 = \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} e^{\frac{r^2-y^2}{2}}\sin(2\pi u+2 \pi r)du }
+\end{align*}
+\clearpage
 
 \section*{Problem 2}
   Let $M_X(t)$ be the moment generating function of $X$, and define $S(t) = \log(M_X(t))$.\\
@@ -46,8 +107,45 @@ Consider the two pdfs given by
     \[
     \frac{d}{dt}S(t)\biggr\rvert_{t=0} = E(X) \qquad \textrm{and} \qquad \frac{d^2}{dt^2}S(t)\biggr\rvert_{t=0} = \textrm{Var}(X).
     \]
+\subsection*{Part A}
+This question is practically just a raw computation. So lets compute the derivative and evaluate it at $t=0$.
+\begin{align*}
+\frac{d}{dt}S(t) = \frac{d}{dt}log(M_X(t)) = \frac{1}{M_X(t)} \frac{d}{dt}M_X(t) |_{0}
+\end{align*}
+Note here that $\frac{d}{dt}M_X(t)=\mathbb{E}(X)$
 
-      \clearpage
+Evaluating at t=0
+\begin{align*}
+ = \frac{d}{dt}log(M_X(t)) = \frac{\mathbb{E}(X)}{M_X(0)} = \mathbb{E}(X)
+\end{align*}
+Thus our final result:
+\begin{align*}
+ \boxed{\frac{d}{dt}S(t) = \mathbb{E}(X)}
+\end{align*}
+\subsection*{Part B}
+This problem we will take largely the same approach.
+\begin{align*}
+\frac{d^2}{dt^2}S(t) = \frac{d^2}{dt^2}log(M_X(t)) |_{0} 
+\end{align*}
+Note that we can use our differentiation in the first part, though instead of using $\mathbb{E}(X)$, I am using the slightly more informative but equivalent representation $\mathbb{E}(X)=M_X^{1}(t)$
+\begin{align*}
+\frac{d^2}{dt^2}S(t) = \frac{d}{dt}\frac{M_X^{1}(t)}{M_X(t)} |_{0}
+\end{align*}
+Via quotient rule:
+\begin{align*}
+ = \frac{M_X(t)M_X^1(t)-M_X^1(t)^2}{M_X(t)^2} |_{0}
+\end{align*}
+Evaluating at t=0:
+\begin{align*}
+ = \frac{M_X(0)M_X^1(0)-M_X^1(0)^2}{M_X(0)^2} 
+\end{align*}
+\begin{align*}
+ = \frac{\mathbb{E}(X^2)-\mathbb{E}(X)^2}{M_X(0)^2} = \frac{\mathbb{E}(X^2)-\mathbb{E}(X)^2}{1}
+\end{align*}
+\begin{align*}
+\boxed{\frac{d^2}{dt^2}S(t) = \mathbb{E}(X^2)-\mathbb{E}(X)^2 = Var(X) }
+\end{align*}
+\clearpage
 
 \section*{Problem 3}
     Suppose you know that the random variable $Y$ has pmf
@@ -59,33 +157,63 @@ Consider the two pdfs given by
     \begin{enumerate}
     \item[a.]
       Calculate the pdf of $X$. Recall that the change of variables formula for discrete distributions does \textbf{not} require the term $\left|\frac{dg^{-1}}{dx}\right|$.
-    \item[]
-      text
-      \[
-      \begin{aligned}
-      \end{aligned}
-      \]
     \item[b.]
       Note that the MGF of $Y$ is given by
       \[
       M_Y(t)= \frac{pe^t}{1-(1-p)e^t} \quad \textrm{for} \quad t<-\log(1-p).
       \]
       Can you use the mgf of $Y$ to calculate the mean of $X$, $E(X)$ when $p = 1/2$? Do this calculation: $E(X) = E(e^Y) = M_Y(t=?)$.
-    \item[]
-      text
     \item[c.]
       In part (b), is your answer correct? Justify why or why not.
-    \item[]
-      text
     \item[d.]
       For what $p$ values can you use the method in part (b)?
-    \item[]
-      text
     \end{enumerate}
     \clearpage
 
-\subsection*{Part 1}
+\subsection*{Part A}
+The pmf of $Y$ is given by:
+\begin{align*}
+f_x(x) = f_y(g_{-1}) x\in \mathcal{x}
+\end{align*}
+$g(x)$ in this case is $g(x)=e^y$Our expression for $f_x$ is then:
+\begin{align*}
+f_x(x) = f_Y(g^{-1}(x)) = ln(x) x\in (0<x<\infty)
+\end{align*}
 
+\begin{align*}
+\boxed{ f_x(x) = p(1-p)^{(ln(x))-1} }
+\end{align*}
+\subsection*{Part B}
+According to theorem 2.3.2,
+\begin{align*}
+\mathbb{E}(X^n)M_X^{n}(0) = \frac{d^n}{dt^n}M_Y(t)|_{t=0}
+\end{align*}
+To find $\mathbb{E}(Y)$:
+\begin{align*}
+\mathbb{E}(X) = \frac{d}{dt}\frac{pe^t}{1-(1-p)e^t}|_{t=0}
+\end{align*}
+The first derivative evaluates to:
+\begin{align*}
+\mathbb{E}(X) = \frac{p e^t}{((p-1)e^t+1)^2}|_{t=0}
+\end{align*}
+Substituting in t=0
+\begin{align*}
+\mathbb{E}(X) = 1/p
+\end{align*}
+If $p=\frac{1}{2}$
+\begin{align*}
+\boxed{\mathbb{E}(X) = 2}
+\end{align*}
+\subsection*{Part C}
+This result is valid. In the definition of of the MGF, it is only valid for $t < -log(1-p)$. If $p=\frac{1}{2}$
+Our inequality becomes $t<-log(-\frac{1}{2})$. This becomes $t<log(2)$ which is true.
+\subsection*{Part D}
+The only value of t, we really care for our MGF to be valid for is t=0. So we need to find the values of p for which $0<-log(1-p)$
+
+Let $f(p)=-log(1-p)$. $f(p)=0$ at $p=0$. So the non inclusive lower bound of our domain is at p=0. Our non inclusive upper bound will then be at $p=1$, since $log(0)$ is undefined. If $p>1$, $f(p)$ becomes complex valued, and our inequality loses meaning.
+\begin{align*}
+\boxed{p \in (p: 0<p<1)}
+\end{align*}
 
 
 \section*{Problem 4}
@@ -96,32 +224,280 @@ Consider the two pdfs given by
     \]
     Use this fact to calculate the mean $E(X)$ and the second moment $E(X^2)$. Note that you have to differentiate $M_X(t)$ and set $t$ to particular values to get the moments required to receive full credit.
 
-      \clearpage
-
 \subsection*{Part 1}
-
-
+According to theorem 2.3.2,
+\begin{align*}
+\mathbb{E}(X^n)M_X^{n}(0) = \frac{d^n}{dt^n}M_X(t)|_{t=0}
+\end{align*}
+As such, this will involve some differentiation.
+\begin{align*}
+\mathbb{E}(X) = \frac{d}{dt}M_X(t)|_{t=0} = \frac{d}{dt}e^{-\pi t + 4t^2} |_{t=0}
+\end{align*}
+\begin{align*}
+ = e^{-\pi t + 4t^2} \frac{d}{dt} (-\pi t + 4t^2) = (8t-\pi) e^{-\pi t + 4t^2}|_{t=0}
+\end{align*}
+Finally, with our derivative in hand, we can evaluate at t=0
+\begin{align*}
+\mathbb{E}(X) =(8(0)-\pi) e^{-\pi (0) + 4(0)^2} = -\pi e^{0}
+\end{align*}
+\begin{align*}
+\boxed{\mathbb{E}(X) =-\pi}
+\end{align*}
+\subsection*{Part 2}
+To find the variance, we need the second derivative of our mgf. Luckily we already have the first derivative, so we can simply take the derivative of that.
+\begin{align*}
+\mathbb{E}(X^2) = \frac{d^2}{dt^2}M_X(t)|_{t=0} = \frac{d}{dt}(8t-\pi) e^{-\pi t + 4t^2}|_{t=0}
+\end{align*}
+Applying product rule:
+\begin{align*}
+ = \frac{d}{dt}((8t-\pi))e^{-\pi t + 4t^2}+(8t-\pi)\frac{d}{dt}(e^{-\pi t + 4t^2})|_{t=0}
+\end{align*}
+Note the derivative in the second term has already been found in part one.
+\begin{align*}
+ = 8e^{-\pi t + 4t^2}+(8t-\pi)(8t-\pi) e^{-\pi t + 4t^2}|_{t=0}
+\end{align*}
+\begin{align*}
+ = 8e^{-\pi t + 4t^2}+(8t-\pi)^2 e^{-\pi t + 4t^2}|_{t=0}
+\end{align*}
+Now, evaluating at $t=0$
+\begin{align*}
+ = 8e^{-\pi (0) + 4(0)^2}+(8(0)-\pi)^2 e^{-\pi (0) + 4(0)^2}
+\end{align*}
+\begin{align*}
+\boxed{\mathbb{E}(X^2) = 8+\pi^2}
+\end{align*}
+\clearpage
 \section*{Problem 5}
 
   In each of the following cases, verify the expression given for the moments generating function, and in each case use the mgf to calculate $E(X)  \textrm{and} \textrm{Var}(X).$
     \begin{enumerate}
     \item[a.]
       $P(X = x) = e^{-\lambda}\lambda^x;x=0,1,2,\dots,\lambda > 0, \quad M_X(t) = e^{\lambda(e^t-1)}$
-    \item[]
-      text
     \item[b.]
       $P(X = x) = p(1-p)^x;x=0,1,2,\dots,0 < p < 1, \quad M_X(t) = p/[1-(1-p)e^t]$
-    \item[]
-      text
     \item[c.]
       $f(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/(2\sigma^2)};-\infty < x< \infty,  -\infty < \mu < \infty, \sigma > 0 \quad M_X(t) = e^{\mu t + \sigma^2t^2/2}$
-    \item[]
-      text
     \end{enumerate}
     \clearpage
 
 
 \subsection*{Part 1}
+To calculate the MGF, we take the discrete laplace transform of the probability function.
+
+\begin{align*}
+M_X(t) = \sum_{x=0}^{\infty} e^{t x}\frac{e^{-\lambda} \lambda^x}{x!}
+\end{align*}
+\begin{align*}
+ = \sum_{0}^{\infty} \frac{e^{-\lambda} \lambda^x}{x!} = e^{-\lambda}\sum_{x=1}^{\infty} \frac{(e^t \lambda)^x}{x!}
+\end{align*}
+\begin{align*}
+M_X(t) = e^{\lambda(e^t-1)}
+\end{align*}
+
+\begin{align*}
+\mathbb{E}(X)=\frac{d}{dt}M_X(t) |_{t=0}
+\end{align*}
+Plugging in the pmf:
+\begin{align*}
+\mathbb{E}(X)=\frac{d}{dt}e^{\lambda(e^t-1)} |_{t=0}
+\end{align*}
+Differentiating via the chain rule:
+\begin{align*}
+\mathbb{E}(X)=\lambda e^t e^{\lambda(e^t-1)} |_{t=0}
+\end{align*}
+Evaluating at t=0
+\begin{align*}
+\mathbb{E}(X)=\lambda e^0 e^{\lambda(e^0-1)} = \lambda
+\end{align*}
+Now, to calculate $\mathbb{E}(X^2)$
+\begin{align*}
+\mathbb{E}(X^2)=\frac{d^2}{dt^2}M_X(t) |_{t=0}
+\end{align*}
+Here we can simply take the first derivative of the first derivative we found previously.
+\begin{align*}
+=\frac{d}{dt}\lambda e^t e^{\lambda(e^t-1)} |_{t=0}
+\end{align*}
+Via the product rule we have:
+\begin{align*}
+= \frac{d}{dt}(\lambda e^t) e^{\lambda(e^t-1)} + \lambda e^t \frac{d}{dt}(e^{\lambda(e^t-1)}) |_{t=0}
+\end{align*}
+Note here again, that we have already computed one of these derivatives already for $\mathbb{E}(X)$
+\begin{align*}
+= \lambda e^t (e^{\lambda(e^t-1)} \lambda e^t) + e^{\lambda(e^t-1)} (\lambda e^t e^t) |_{t=0}
+\end{align*}
+Instead of simplifying, I'm just going to evaluate at $t=0$ for the above expression.
+\begin{align*}
+= \lambda e^0 (e^{\lambda(e^0-1)} \lambda e^0) + e^{\lambda(e^0-1)} (\lambda e^0 e^0)
+\end{align*}
+\begin{align*}
+\boxed{\mathbb{E}(X^2)= \lambda \lambda + \lambda }
+\end{align*}
+Now we have enough to solve for the variance of the distribution.
+\begin{align*}
+\text{Variance}(X) = \mathbb{E}(X^2)-\mathbb{E}(X)^2 = \lambda^2 + \lambda - \lambda^2
+\end{align*}
+Thus, our variance is:
+\begin{align*}
+\text{Variance}(X) = \lambda
+\end{align*}
+
+Thus our final result is:
+\begin{align*}
+\boxed{ \mathbb{E}(X)= \lambda, var(X) = \lambda }
+\end{align*}
+\subsection*{Part 2}
+To calculate the MGF, we take the discrete laplace transform of the probability function.
+\begin{align*}
+M_X(t) = \sum_{x=0}^{\infty} e^{t x} p(1-p)^x
+\end{align*}
+\begin{align*}
+ = p \sum_{0}^{\infty} \sum_{x=0}^{\infty} e^{t x} (1-p)^x
+\end{align*}
+\begin{align*}
+M_X(t) = \frac{p}{1-(1-p)e^t)}
+\end{align*}
+
+To calculate Expected Value:
+\begin{align*}
+\mathbb{E}(X)=\frac{d}{dt}M_X(t) |_{t=0}
+\end{align*}
+Substituting in our particular $M_X(t)$
+\begin{align*}
+=\frac{d}{dt}\frac{p}{1-(1-p)e^t)} |_{t=0}
+\end{align*}
+re-arranging our expression yields:
+\begin{align*}
+= p \frac{d}{dt} (1-(1-p)e^t))^-1 |_{t=0}
+\end{align*}
+Applying chain rule:
+\begin{align*}
+= p -\frac{1}{(1-(1-p)e^t)^2} (-e^t(-p+1))  |_{t=0}
+\end{align*}
+\begin{align*}
+=\frac{p e^t (-p+1)}{(1-e^t(1-p))^2}  |_{t=0}
+\end{align*}
+Evaluating this at $t=0$:
+\begin{align*}
+=\frac{p e^0 (-p+1)}{(1-e^0(1-p))^2} = \frac{p(-p+1)}{(1-(1-p))^2}
+\end{align*}
+\begin{align*}
+=\frac{p(1-p)}{(1-(1-p))^2}
+\end{align*}
+\begin{align*}
+\mathbb{E}(X)=\frac{1-p}{p}
+\end{align*}
+Now to find $\mathbb{E}(X^2)$
+\begin{align*}
+\mathbb{E}(X^2)=\frac{d^2}{dt^2}M_X(t) |_{t=0}
+\end{align*}
+Substituting in our particular $M_X(t)$
+\begin{align*}
+=\frac{d^2}{dt^2}\frac{p}{1-(1-p)e^t)} |_{t=0} = \frac{d}{dt} \frac{p e^t (-p+1)}{(1-e^t(1-p))^2} |_{t=0}
+\end{align*}
+Via Quotient Rule
+\begin{align*}
+=\frac{(1-(1-p)e^t)^2(p(1-p)e^t)+p(1-p)e^t(2(1-(1-p)e^t))(1-p)e^t}{(1-(1-p)e^t)^4} |_{t=0}
+\end{align*}
+Like before, I won't bother simplifying this until after we evaluate at $t=0$
+\begin{align*}
+=\frac{(1-(1-p)e^0)^2(p(1-p)e^0)+p(1-p)e^0(2(1-(1-p)e^0))(1-p)e^0}{(1-(1-p)e^0)^4}
+\end{align*}
+\begin{align*}
+=\frac{(1-(1-p))^2(p(1-p))+p(1-p)(2(1-(1-p)))(1-p)}{(1-(1-p))^4} 
+\end{align*}
+\begin{align*}
+\mathbb{E}(X^2)=\frac{p^3(1-p)+2p^2(1-p)^2}{p^4}
+\end{align*}
+Now to compute the Variance:
+
+\begin{align*}
+\text{Variance}(X) = \mathbb{E}(X^2)-\mathbb{E}(X)^2 = \frac{p^3(1-p)+2p^2(1-p)^2}{p^4} - (\frac{1-p}{p})^2
+\end{align*}
+Simplifying further:
+\begin{align*}
+ = \frac{p^3(1-p)+2p^2(1-p)^2}{p^4} - (\frac{1-p}{p})^2
+\end{align*}
+\begin{align*}
+ = \frac{p(1-p)}{p^2}+\frac{2(1-p)^2}{p^2} - (\frac{(1-p)^2}{p^2}) = \frac{p(1-p)}{p^2}+\frac{2(1-p)^2-(1-p)^2}{p^2}
+\end{align*}
+\begin{align*}
+ = \frac{p(1-p)+(1-p)^2}{p^2}
+\end{align*}
+Expanding our binomial:
+\begin{align*}
+ = \frac{p-p^2 + p^2 -2p +1}{p^2}
+\end{align*}
+\begin{align*}
+\boxed{\text{Variance}(X) = \frac{1-p}{p^2}}
+\end{align*}
+Thus our final result is:
+\begin{align*}
+\boxed{ \mathbb{E}(X)= \frac{1-p}{p}, var(X) = \frac{1-p}{p^2} }
+\end{align*}
+\subsection*{Part 3}
+Unlike before, we are now dealing with a continuous probability function, and as such our laplace transform is an integral instead of an infinite sum.
+\begin{align*}
+M_X(t) = \int_{-\infty}^{\infty} e^{t x} \frac{1}{\sigma \sqrt(2 \pi)} e^{\frac{-(x-\mu)^2}{2 \sigma^2}} dt
+\end{align*}
+Moving constants outside of the integral:
+\begin{align*}
+ = \frac{1}{\sigma \sqrt(2 \pi)} \int_{-\infty}^{\infty} e^{t x} e^{\frac{-(x-\mu)^2}{2 \sigma^2}} dt
+\end{align*}
+\begin{align*}
+ = \frac{1}{\sigma \sqrt(2 \pi)} \int_{-\infty}^{\infty} e^{t x} (e^{\frac{-(x-\mu)^2}{2 \sigma^2}}) dt
+\end{align*}
+\begin{align*}
+\boxed{M_X(t) = e^{\mu t + \sigma^2t^2/2}) }
+\end{align*}
+
+
+
+
+\begin{align*}
+\mathbb{E}(X)=\frac{d}{dt}M_X(t) |_{t=0}
+\end{align*}
+Substituting in the MGF:
+\begin{align*}
+\mathbb{E}(X)=\frac{d}{dt}e^{\mu t + \sigma^2t^2/2}) |_{t=0}
+\end{align*}
+
+\begin{align*}
+=\frac{d}{dt}e^{\mu t + \sigma^2t^2/2}) |_{t=0}
+\end{align*}
+Via chain rule:
+\begin{align*}
+=(\mu+\sigma^2 t) e^{\mu t + \frac{\sigma^2 t^2}{2}} |_{t=0}
+\end{align*}
+Evaluating at $t=0$
+\begin{align*}
+=(\mu+0) e^{0 + \frac{\sigma^2 0}{2}}
+\end{align*}
+\begin{align*}
+\mathbb{E}(X) = \mu
+\end{align*}
+Now we calculate $\mathbb{E}(X^2)$ for the variance calculation.
+\begin{align*}
+\mathbb{E}(X^2) = \frac{d^2}{dt^2}e^{\mu t + \sigma^2t^2/2}) |_{t=0} = \frac{d}{dt}(\mu+\sigma^2 t) e^{\mu t + \frac{\sigma^2 t^2}{2}} |_{t=0}
+\end{align*}
+Via product rule:
+\begin{align*}
+ = e^{\mu t + \frac{\sigma^2 t^2}{2}} \sigma^2 + (\mu+\sigma^2 t)^2  |_{t=0}
+\end{align*}
+Evaluating at t=0
+\begin{align*}
+ = e^{\mu 0 + \frac{\sigma^2 0^2}{2}} \sigma^2 + (\mu+\sigma^2 0)^2
+\end{align*}
+\begin{align*}
+ = \sigma^2+\mu^2
+\end{align*}
+Thus, our variance is:
+\begin{align*}
+var(X) = \mathbb{E}(X^2) - \mathbb{E}(X)^2 = \mu^2+\sigma^2-\mu^2=\sigma^2
+\end{align*}
+Thus our final result is:
+\begin{align*}
+\boxed{ \mathbb{E}(X)= \mu, var(X) = \sigma^2 }
+\end{align*}
 
 
 \end{document}

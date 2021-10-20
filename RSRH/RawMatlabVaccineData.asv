@@ -1,0 +1,15 @@
+%clear all; clc
+load('RawVaccineData')
+load('PrunedVaccineData')
+PrunedData = [Vaccinated20211014(:,2),Vaccinated20211014(:,3),Vaccinated20211014(:,4),Vaccinated20211014(:,5),Vaccinated20211014(:,6),Vaccinated20211014(:,7),Vaccinated20211014(:,8)];
+save('PrunedVaccineData')
+
+i = strfind(Vaccinated20211014(:,2), 'AFG');
+iLen = i(~cellfun(@isempty, i));
+
+function [FilteredData] = FilterByCountry(data,country)
+%Accepts pruned data as one argument. Accepts country code.
+%Returns only data with that country code.
+indicies = strfind(Vaccinated20211014(:,2), country);
+indicies = indicies(~cellfun(@isempty, R));
+end

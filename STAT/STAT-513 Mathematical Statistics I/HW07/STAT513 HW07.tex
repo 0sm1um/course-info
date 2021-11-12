@@ -1,0 +1,276 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+
+\title{STAT-513 Homework 5}
+\author{John Hiles}
+\date\today
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 1}
+Show that, for a normal distribution with mean $\mu$ and variance $\sigma^2$, the mean deviation about mean is given by $\sigma\sqrt{\frac{2}{\pi}}$. That is, if $X~\mathcal{N}(\mu,\sigma^2)$.
+\begin{align*}
+\mathbb{E}|X-\mu|=\sigma\sqrt{\frac{2}{\pi}}
+\end{align*}
+\subsection*{Part 1}
+The definition of Expectation value for a continuous pdf is given by:
+\begin{align*}
+\mathbb{E}|X-\mu|=\int_{-\infty}^{\infty} |x-\mu| f(x) dx
+\end{align*}
+Substituting in the Gaussian distribution:
+\begin{align*}
+= \frac{1}{\sigma\sqrt{2\pi}} \int_{-\infty}^{\infty} |x-\mu| e^{-\frac{(x-\mu)^2}{2\sigma^2}} dx
+\end{align*}
+To deal with our absolute value, lets divide up our integral into two seperate integrals, divided at $\mu$.
+\begin{align*}
+= \frac{1}{\sigma\sqrt{2\pi}} \int_{-\infty}^{\mu} (\mu-x) e^{-\frac{(x-\mu)^2}{2\sigma^2}} dx + \frac{1}{\sigma\sqrt{2\pi}} \int_{\mu}^{\infty} (x-\mu) e^{-\frac{(x-\mu)^2}{2\sigma^2}} dx
+\end{align*}
+Since both the absolute value function, and the gaussian distribution are both even functions, we can actually consider just one of these terms and double it(this also relies on our knowledge that the distribution is symmetric about the mean):
+\begin{align*}
+= \frac{2}{\sigma\sqrt{2\pi}} \int_{\mu}^{\infty} (x-\mu) e^{-\frac{(x-\mu)^2}{2\sigma^2}} dx
+\end{align*}
+To help with this integration, let $z=\frac{x-\mu}{2\sqrt{2}}$
+\begin{align*}
+= 2 \sigma \sqrt{\frac{2}{\pi}} \int_{0}^{\infty} z e^{-z^2} dx = 2 \sigma \sqrt{\frac{2}{\pi}} (\frac{e^{-b^2}}{-2}) |_{0}^{\infty}
+\end{align*}
+Thus:
+\begin{align*}
+\boxed{ = 2 \sigma \sqrt{\frac{2}{\pi}} (e^0-e^{-\infty}) = 2 \sigma \sqrt{\frac{2}{\pi}} }
+\end{align*}
+
+
+
+
+\clearpage
+\section*{Problem 2}
+Recall that an inflection point is a point where the curve changes concavity, and occurs when the second derivative changes sign. Such a change in sign may occur when  they second derivative equals zero.
+
+Show that the normal density with parameters $\mu$ and $\sigma$ has inflection points at $\mu\pm\sigma$.
+\subsection*{Part 1}
+The pdf of the normal distribution is given by:
+\begin{align*}
+f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}
+\end{align*}
+To find the inflection points, we want to differentiate this with respect to x. Let $z=\frac{x-\mu}{\sigma}$
+\begin{align*}
+f'(x) = \frac{d}{dx}\frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} = \frac{1}{\sigma \sqrt{2\pi}} \frac{d}{dx} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}
+\end{align*}
+\begin{align*}
+ = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} \frac{d}{dx} (-\frac{1}{2}(\frac{x-\mu}{\sigma})^2) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} (-\mu^2(x-\mu))
+\end{align*}
+Simplified slightly, our first derivative ends up being:
+\begin{align*}
+f'(x) = -\frac{(\mu^2(x-\mu))}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}
+\end{align*}
+Our second derivative then is:
+\begin{align*}
+f''(x) = -\frac{d}{dx}\frac{(\mu^2(x-\mu))}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} = -\frac{1}{\sigma \sqrt{2\pi}}\frac{d}{dx} (\mu^2(x-\mu)) e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}
+\end{align*}
+Via product rule, this expression becomes:
+\begin{align*}
+f''(x) = -\frac{1}{\sigma \sqrt{2\pi}} \frac{d}{dx} (\mu^2(x-\mu)) e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} + (\mu^2(x-\mu)) \frac{d}{dx} (e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2})
+\end{align*}
+\begin{align*}
+f''(x) = -\frac{1}{\sigma \sqrt{2\pi}} (\mu^2 e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} + (\mu^2(x-\mu)) \frac{d}{dx} (e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}) )
+\end{align*}
+We know that thing in the second term is the derivative we computed in step one(without the constant factors).
+\begin{align*}
+f''(x) = -\frac{1}{\sigma \sqrt{2\pi}} (\mu^2 e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} + (\mu^2(x-\mu)) e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} \frac{d}{dx} (-\frac{1}{2}(\frac{x-\mu}{\sigma})^2) )
+\end{align*}
+\begin{align*}
+f''(x) = -\frac{1}{\sigma \sqrt{2\pi}} (\mu^2 e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} + (\mu^2(x-\mu)) e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} (-\mu^2(x-\mu))
+\end{align*}
+Attempting to simplify:
+\begin{align*}
+f''(x) = -\frac{1}{\sigma \sqrt{2\pi}} (\mu^2 e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} - \mu^4(x-\mu)^2 e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} )
+\end{align*}
+Combining those additive terms yields:
+\begin{align*}
+f''(x) = -\frac{1}{\sigma \sqrt{2\pi}} (\frac{1}{\sigma^2} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} - \frac{(x-\mu)^2}{\sigma^4} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2})
+\end{align*}
+That was fairly painful, but we have a useful expression for the second derivative. Recall we are trying to demonstrate that $f''(\pm \mu)=0$. Here we can set $f''(x)=0$, and solve for $x$.
+\begin{align*}
+0 = -\frac{1}{\sigma \sqrt{2\pi}} (\frac{1}{\sigma^2} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} - \frac{(x-\mu)^2}{\sigma^4} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}) = -\frac{1}{\sigma^2} +\frac{(x-\mu)^2}{\sigma^4}
+\end{align*}
+\begin{align*}
+0 = -\sigma^2 +(x-\mu)^2
+\end{align*}
+Adding $\sigma^2$ to both sides:
+\begin{align*}
+\sigma^2 = (x-\mu)^2
+\end{align*}
+Finally:
+\begin{align*}
+\boxed{x=\pm \sigma}
+\end{align*}
+\clearpage
+\section*{Problem 3}
+A random variable $X$ is said to have an $Exponential$ distribution with parameter $\beta>0$ if the density function of $X$ is
+\begin{align*}
+f(x) = \begin{cases} \frac{1}{\beta} e^{\frac{-x}{\beta}} & x>0 \\
+                     0 \text{ otherwise.}
+                     \end{cases}
+\end{align*}
+\begin{enumerate}
+\item[1] Calculate $\mathbb{E}(X)$, $Var(X)$
+\item[2] Show that the distribution function of $X$ is 
+\begin{align*}
+F(X) = P(X\leq x) = 1-e^{-\frac{x}{\beta}}
+\end{align*}
+\item[3] Also show that, if $a>0$ and $b>0$, are constants,
+\begin{align*}
+ P(X>a+b|X>a) = P(X>b)
+\end{align*}
+\end{enumerate}
+\subsection*{Part 1}
+$\mathbb{E}(X)$ is given by:
+\begin{align*}
+\mathbb{E}(X) = \frac{1}{\beta} \int_{0}^{\infty} x e^{\frac{-x}{\beta}} dx
+\end{align*}
+This integral is of the form $\int x e^{cx} dx$ which is a known integral. Its solution takes the form:
+\begin{align*}
+ = e^{cx} \frac{cx-1}{c^2} = \frac{1}{\beta} e_{\frac{-x}{\beta}} -\frac{\beta^{-1} x - 1}{\beta^{-2}} |_{0}^{\infty}
+\end{align*}
+\begin{align*}
+\mathbb{E}(X) = \beta
+\end{align*}
+To find the Var, we must find $\mathbb{E}(X^2)$
+\begin{align*}
+\mathbb{E}(X^2) = \frac{1}{\beta} \int_{0}^{\infty} x^2 e^{\frac{-x}{\beta}} dx
+\end{align*}
+This integral takes the form $\int x^2 e^{cx} dx$, the solution is in the form:
+\begin{align*}
+ = e^{cx} )\frac{x^2}{c} - \frac{2x}{c^2} + \frac{2}{c^3}) |_{0}^{\infty} = e^{-\beta^{-1} x} (\frac{-x^2}{\beta^{-1}} + \frac{2x}{\beta^{-2}} - \frac{2}{\beta^{-3}}) |_{0}^{\infty}
+\end{align*}
+\begin{align*}
+ = 0 - e^{0} ((0 + 0 - \frac{2}{\beta^{-2}})) = 2\beta^{2}
+\end{align*}
+Thus, our Var is:
+\begin{align*}
+\boxed{ Var(X) = \mathbb{E}(X^2) - \mathbb{E}(X)^2 = 2\beta^{2} - \beta^2 = \beta^2}
+\end{align*}
+\subsection*{Part 2}
+The cdf of a continuous distribution can be found by integrating the pdf:
+\begin{align*}
+F(x) = \int_{0}^{x} f(x) dx = \frac{1}{\beta} \int_{0}^{x} e^{\frac{-x}{\beta}} dx
+\end{align*}
+
+\begin{align*}
+F(x) = - \frac{\beta}{\beta}(e^{\frac{-x}{\beta}})|_{0}^{x} 
+\end{align*}
+Our final expression becomes
+\begin{align*}
+\boxed{F(x) = 1-e^{\frac{-x}{\beta}} }
+\end{align*}
+\subsection*{Part 3}
+A cdf follows the following relationship:
+\begin{align*}
+F(x) = P(X\leq x)
+\end{align*}
+So in order to find, $P(X>a)$ we can simply subtract 1 by $F_X(a)$
+\begin{align*}
+P(X>a) = 1-P(X\leq x) = 1-F(a)
+\end{align*}
+To prove our relationship, we need to show that the conditional probability expression for $P(X>a+b|X>a)$ is equivalent to $1-F_X(b)$. Via conditional probability:
+\begin{align*}
+P(X>a+b|X>a) = P(X>a|X>a+b)\frac{P(X>a+b)}{P(X>a)}
+\end{align*}
+Lets write this in terms of the CDF:
+\begin{align*}
+P(X>a+b|X>a) = P(X>a|X>a+b)\frac{1-F(a+b)}{1-F(a)}
+\end{align*}
+If $X>a+b$, it by definition must be greater than $a$ for all non negative values of $b$. So its probability is simply $1$.
+\begin{align*}
+P(X>a+b|X>a) = \frac{1-F(a+b)}{1-F(a)}
+\end{align*}
+Substituting in the cdf:
+\begin{align*}
+P(X>a+b|X>a) = \frac{e^{\frac{-(a+b)}{\beta}})}{e^{\frac{-a}{\beta}}} = e^{-\frac{b}{\beta}}
+\end{align*}
+Now lets see what $1-F(b)$ equals:
+\begin{align*}
+P(X>b) = 1-P(X\leq b) = 1-F(b) = 1-(1-e^{\frac{-b}{\beta}}) = e^{-\frac{b}{\beta}})
+\end{align*}
+Thus we have proven
+\begin{align*}
+\boxed { P(X>a+b|X>a) = P(X>b) }
+\end{align*}
+
+\clearpage
+\section*{Problem 4}
+Let Y be a gamma distributed random variable where $\alpha$ is a positive integer and $\beta=1$. If $y>0$ then:
+\begin{align*}
+\sum_{i=0}^{\alpha-1} \frac{e^-y y^i}{i!} = P(Y>y)
+\end{align*}
+
+Suppose that $X_1$ is a Poisson random variable with mean $\lambda_1$ and $X_2$ is a Poisson random variable with mean $\lambda_2$, where $\lambda_2>\lambda_1$.
+
+\begin{enumerate}
+\item[1] Show that $P(X_1=0) > P(X_2=0)$
+\item[2]  Let $k$ be any fixed positive integer. Show that $P(X_1 \leq k) = P(Y > \lambda_1)$ and $P(X_2 \leq k) = P(Y>\lambda_2)$, where $Y$ has a gamma distribution with $\alpha=k+1$ and $\beta= 1$.
+\item[3] Let $k$ be any fixed positive integer. Use the result in part 2 and the fact $\lambda_2 > \lambda_3$ to show that $P(X_1 \leq k) > P(X_2 \leq k)$.
+\item[4] Interpret $P(X_1 \leq k) > P(X_2 \leq k)$.
+\end{enumerate}
+\subsection*{Part 1}
+\begin{align*}
+P(X_1 = 0) = e^{-\lambda_1 \frac{\lambda_1^{0}}{0!}} = e^{-\lambda_1} && P(X_2 = 0) = e^{-\lambda_2}
+\end{align*}
+Here, if $\lambda_2>\lambda_1$, then $-\lambda_1$ results is a less negative exponent for the Poisson distribution.
+\begin{align*}
+P(X_1 = 0) > P(X_2=0)
+\end{align*}
+\subsection*{Part 2}
+\begin{align*}
+P(Y > \lambda_1) = \sum_{i=0}^{\alpha-1} \frac{e^-{\lambda_1} {\lambda_1}^i}{i!} && P(X_1 \leq k) = e^{-\lambda_1 \frac{\lambda_1^{k}}{k!}}
+\end{align*}
+Note $k = \alpha-1$
+\begin{align*}
+P(Y > \lambda_1) = \sum_{i=0}^{k} \frac{{\lambda_1}^i}{i!} && P(X_1 \leq k) = e^{-\lambda_1 \frac{\lambda_1^{k}}{k!}}
+\end{align*}
+The series from $0 \rightarrow \infty$ evaluates to $e^{\lambda}$, so the series from 0 to k evaluates to:
+\begin{align*}
+\boxed{ P(Y > \lambda_1) = e^{\lambda_1^{k}}{k!} = P(X_1 \leq k) }
+\end{align*}
+\subsection*{Part 3}
+Here lets take the ratio of $P(X_1 \leq k)$ and $P(X_2 \leq k)$. We can equivilantly represent these as$P(Y>\lambda_1)$ and $P(Y> \lambda_2)$ respectively:
+\begin{align*}
+\frac{P(Y> \lambda_2)}{P(Y> \lambda_1)} = \frac{e^{\lambda_2^{k}}{k!}}{e^{\lambda_1^{k}}{k!}}
+\end{align*}
+This reduces to:
+\begin{align*}
+\frac{P(Y> \lambda_2)}{P(Y> \lambda_1)} = \frac{e^{\lambda_2^{k}}}{e^{\lambda_1^{k}}} 
+\end{align*}
+Here we see that if $\lambda_2 > \lambda_1$, this ratio is always greater than 1. As such, the original stated equality must then be true.
+
+\subsection*{Part 4}
+
+This result essentially states that for two Poisson Random variables, if one mean is bigger than another, than for all values of k, the cumulative sum of the terms of the probability function for the one with the smaller mean will approach 1 faster. In other words, at each step of k, the series $\sum_{0}^{k}f_1(x)>\sum_{0}^{k}f_2(x)$ will be true. Intuitivley I take this to mean that the the larger $\lambda$ is for a Poisson distribution, longer it will take to converge to $1$.
+
+\clearpage
+\section*{Problem 5}
+Recall that $Y$ is said to follow a Standard Uniform distribution if it has the pdf $f(y)=1, 0<y<1$. Verify that if X has a Beta distribution with paramaters $\alpha = \beta = 1$, then X essentially has a standard uniform distribution. Use the formula for the expectation and variance of a Beta distribution to calculate the expectation and variance of a standard uniform distribution.
+\subsection*{Part 1}
+The beta distribution is given by:
+\begin{align*}
+f(x) = \frac{1}{Beta(\alpha, \beta)} x^{\alpha-1}(1-x)^{\beta-1}
+\end{align*}
+Let $\alpha=\beta=1$, our pdf reduces to:
+\begin{align*}
+f(x) = \frac{1}{Beta(1,1)} x^{0}(1-x)^{0} = \frac{1}{Beta(1,1)}
+\end{align*}
+The beta function is given by
+\begin{align*}
+Beta(1,1) = \frac{\Gamma(1)\Gamma(1)}{\Gamma(2)}
+\end{align*}
+Here, from the notes we know $\Gamma(1)=\Gamma(2)=1$, so Beta(1,1) reduces to $1$:
+
+Thus, we have our uniform distribution.
+\begin{align*}
+\boxed{ f(x) = 1 }
+\end{align*}
+
+\end{document} 

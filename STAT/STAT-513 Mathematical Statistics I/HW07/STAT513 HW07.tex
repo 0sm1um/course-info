@@ -12,449 +12,265 @@
 
 
 \section*{Problem 1}
-A Binomial distribution with parameters $n$ and $p$ is said to be symmetric if:
+Show that, for a normal distribution with mean $\mu$ and variance $\sigma^2$, the mean deviation about mean is given by $\sigma\sqrt{\frac{2}{\pi}}$. That is, if $X~\mathcal{N}(\mu,\sigma^2)$.
 \begin{align*}
-f(x)=f(n-x) \text{ for all } x=0,...,n
+\mathbb{E}|X-\mu|=\sigma\sqrt{\frac{2}{\pi}}
 \end{align*}
-Show that a $Bin(n,p)$ distribution is symmetric if and only if $p=\frac{1}{2}$.
-
-Also, if $X~Bin(n,p)$, show that Var(X) is maximum when the distribution of X is symmetric, that is, when $p=\frac{1}{2}$.
 \subsection*{Part 1}
-If $Bin(n,p)$ is symmetrical, then the mean will lie at $\mu = \frac{n}{2}$. It also means $P(X=\frac{n}{2}+m)=P(X=\frac{n}{2}+m)$ for all $m\leq \frac{n}{2}$.
+The definition of Expectation value for a continuous pdf is given by:
 \begin{align*}
-f(x)=f(n-x)
+\mathbb{E}|X-\mu|=\int_{-\infty}^{\infty} |x-\mu| f(x) dx
 \end{align*}
-Lets expand the binomial distribution and verify this:
+Substituting in the Gaussian distribution:
 \begin{align*}
-\binom{n}{x}p^x (1-p)^{n-x} = \binom{n}{n-x}p^{n-x} (1-p)^{n-(n-x)}
+= \frac{1}{\sigma\sqrt{2\pi}} \int_{-\infty}^{\infty} |x-\mu| e^{-\frac{(x-\mu)^2}{2\sigma^2}} dx
 \end{align*}
-Note here at this step, that $\binom{n}{x}=\binom{n}{n-x}=$
+To deal with our absolute value, lets divide up our integral into two seperate integrals, divided at $\mu$.
 \begin{align*}
-\frac{n!}{x!(n-x)!} p^x (1-p)^{n-x} = \frac{n!}{x!(n-x)!} p^{n-x} (1-p)^{n-(n-x)}
+= \frac{1}{\sigma\sqrt{2\pi}} \int_{-\infty}^{\mu} (\mu-x) e^{-\frac{(x-\mu)^2}{2\sigma^2}} dx + \frac{1}{\sigma\sqrt{2\pi}} \int_{\mu}^{\infty} (x-\mu) e^{-\frac{(x-\mu)^2}{2\sigma^2}} dx
 \end{align*}
-This at the very least indicates that the symmetry of the distribution's symmetry depends on the factors with p. In fact we can cancel these common factors out:
+Since both the absolute value function, and the gaussian distribution are both even functions, we can actually consider just one of these terms and double it(this also relies on our knowledge that the distribution is symmetric about the mean):
 \begin{align*}
-p^x (1-p)^{n-x} = p^{n-x} (1-p)^{n-(n-x)}
+= \frac{2}{\sigma\sqrt{2\pi}} \int_{\mu}^{\infty} (x-\mu) e^{-\frac{(x-\mu)^2}{2\sigma^2}} dx
 \end{align*}
-Simplifying rightmost exponential factor:
+To help with this integration, let $z=\frac{x-\mu}{2\sqrt{2}}$
 \begin{align*}
-p^x (1-p)^{n-x} = p^{n-x} (1-p)^{x} \frac{(1-p)^{n}}{(1-p)^{n}}
+= 2 \sigma \sqrt{\frac{2}{\pi}} \int_{0}^{\infty} z e^{-z^2} dx = 2 \sigma \sqrt{\frac{2}{\pi}} (\frac{e^{-b^2}}{-2}) |_{0}^{\infty}
 \end{align*}
+Thus:
 \begin{align*}
-p^x (1-p)^{n-x} = p^{n-x} (1-p)^{x}
+\boxed{ = 2 \sigma \sqrt{\frac{2}{\pi}} (e^0-e^{-\infty}) = 2 \sigma \sqrt{\frac{2}{\pi}} }
 \end{align*}
-Here we now have the equality which illustrates the importance of $p$. In order to force equality, we must equate $p=(1-p)$. If $p=(1-p)$ then our factors with different exponents cancel. The only allowable value for $p$ here is $p=\frac{1}{2}$.
-\subsection*{Part 2}
-First lets start with the definition of Variance:
-\begin{align*}
-Var(X)=\mathbb{E}(X^2)-\mathbb{E}(X)^2
-\end{align*}
-In class it was proven that $Var(X)$ for the binomial distribution was:
-\begin{align*}
-Var(X) = np(1-p) = np-np^2
-\end{align*}
-Here lets again reason through this expression for Variance. To maximize this expression, we can simply differentiate the Variance with respect to $p$ to find the critical points.
-\begin{align*}
-0 =\frac{d}{dp} np-np^2 = n - 2np
-\end{align*}
-The zero, or rather the critical point for this expression is at $p=\frac{1}{2}$. A simple sign test shows the derivative goes from decreasing to increasing across that point. Therefore we know Var($X$) is minimized at $p=\frac{1}{2}$.
+
+
+
+
 \clearpage
 \section*{Problem 2}
-Consider the discrete uniform $(N_0,N_1)$ distribution that assigns equal probability to all the values in its support $\{N_0, N_0+1,...,N_1\}$, where $N_0\leq N_1$ are both integers. There are a total of $N_1-N_0+1$ possible values, and the pmf on the support set is:
-\begin{align*}
-f(x) = \frac{1}{N_1-N_0+1}
-\end{align*}
-Show that the mean of the distribution is 
-\begin{align*}
-E(X) = \frac{N_1+N_0}{2}
-\end{align*}
-And the Variance is:
-\begin{align*}
-Var(X) = \frac{(N_1+N_0)(N_1-N_0+2)}{12}
-\end{align*}
-\subsection*{Part 1}
-Expectation value is given by:
-\begin{align*}
-\mathbb{E}(X) = \sum_{N_0}^{N_1} x f(x)
-\end{align*}
-Substituting in our pmf:
-\begin{align*}
- = \sum_{N_0}^{N_1} \frac{x}{N_1-N_0+1} = \frac{1}{N_1-N_0+1} \sum_{N_0}^{N_1} x
-\end{align*}
-The $\frac{1}{2}$ in the intended result implies that we must use a summation identity to reformat this, so lets use:
-\begin{align*}
- = \frac{1}{N_1-N_0+1} \sum_{N_0}^{N_1} x = \frac{1}{N_1-N_0+1} \frac{N_1(N_1+1)}{2}
-\end{align*}
-This still doesn't eliminate the denominator like we would like, so lets rewrite the sum as a sum of two factors:
-\begin{align*}
- = \frac{1}{N_1-N_0+1} \sum_{N_0}^{N_1} x = \frac{1}{N_1-N_0+1} \sum_{x=1}^{N_1} x - \sum_{x=1}^{N_0-1} x
-\end{align*}
-Applying the previous identity to these two new sums:
-\begin{align*}
- =  \frac{1}{N_1-N_0+1} \frac{N_1(N_1+1)}{2} - \frac{(N_0)(N_0-1)}{2} = \frac{1}{N_1-N_0+1} \frac{(N_1+N_0)(N_1-N_0+1)}{2}
-\end{align*}
-Here we can now eliminate that pesky term in the denominator, and we are left with
-\begin{align*}
-\boxed {\mathbb{E}(X) = \frac{N_1+N_0}{2}}
-\end{align*}
-\clearpage
-\subsection*{Part 2}
-Now, to find the Variance. $Var(X)=\mathbb{E}(X^2)-\mathbb{E}(X)^2$. We already have $\mathbb{E}(X)$ so we need $\mathbb{E}(X^2)$. To compute this we have:
-\begin{align*}
-\mathbb{E}(X) = \sum_{N_0}^{N_1} x^2 f(x)
-\end{align*}
-Judging by the given Variance value, I believe we will need to use the previous identities, multiple times in order to end up with 12 in the denominator.
-\begin{align*}
-Var(X) = \frac{(N_1+N_0)(N_1-N_0+2)}{12}
-\end{align*}
-As with before we have:
-\begin{align*}
-\mathbb{E}(X^2) = \frac{1}{N_1-N_0+1} \sum_{N_0}^{N_1} x^2 = \frac{1}{N_1-N_0+1}(\sum_{x=1}^{N_1} x^2 - \sum_{x=1}^{N_0-1} x^2)
-\end{align*}
-Applying a summation identity $\sum_{x=1}^{N}\frac{N(N+1)(2N+1)}{6}$:
-\begin{align*}
-\sum_{x=1}^{N_1} x^2 = \frac{N_1(N_1+1)(2N_1+1)}{6} && \sum_{x=1}^{N_0-1} x^2 = \frac{N_0(N_0-1)(2N_0-1)}{6}
-\end{align*}
-Substituting in these sums:
-\begin{align*}
-\mathbb{E}(X^2) = \frac{1}{N_1-N_0+1}(\frac{N_1(N_1+1)(2N_1+1)}{6} - \frac{N_0(N_0-1)(2N_0-1)}{6})
-\end{align*}
-Factoring out constants:
-\begin{align*}
- = \frac{1}{6(N_1-N_0+1)}(N_1(N_1+1)(2N_1+1) - N_0(N_0-1)(2N_0-1))
-\end{align*}
-Expanding binomials:
-\begin{align*}
- = \frac{1}{6(N_1-N_0+1)}(N_1(2N_1^2+3N_1+1) - N_0(2N_0^2-3N_0+1))
-\end{align*}
-Distributing $N_0$ and $N_1$, gives us our final expression for $\mathbb{E}(X^2)$
-\begin{align*}
-\boxed{ \mathbb{E}(X^2) = \frac{1}{6(N_1-N_0+1)}(2N_1^3+3N_1^2+N_1 - 2N_0^3-3N_0^2+N_0) }
-\end{align*}
-So, our Variance is then:
-\begin{align*}
-Var(X)=\mathbb{E}(X^2)-\mathbb{E}(X)^2 = \frac{2N_1^3+3N_1^2+N_1 - 2N_0^3-3N_0^2+N_0}{6(N_1-N_0+1)} - (\frac{N_1+N_0}{2})^2
-\end{align*}
-Squaring the $\mathbb{E}(X)$ term:
-\begin{align*}
-=\frac{2N_1^3+3N_1^2+N_1 - 2N_0^3-3N_0^2+N_0}{6(N_1-N_0+1)} - \frac{N_1^2+ N_1 N_0 + N_0^2}{4}
-\end{align*}
-Finding common denominator:
-\begin{align*}
-=\frac{4 (2N_1^3+3N_1^2+N_1 - 2N_0^3-3N_0^2+N_0)}{24(N_1-N_0+1)} - \frac{(N_1^2+ N_1 N_0 + N_0^2) (N_1-N_0+1)}{24(N_1-N_0+1)}
-\end{align*}
-These fractions combine to:
-\begin{align*}
-=\frac{2(N_1-N_0)(N_1-N_0+2)(N_1=N_0+1)}{24(N_1-N_0+1)}
-\end{align*}
-This then simplifies to:
-\begin{align*}
-\boxed{ Var(X)=\frac{(N_1-N_0)(N_1-N_0+2)}{12} }
-\end{align*}
-\clearpage
+Recall that an inflection point is a point where the curve changes concavity, and occurs when the second derivative changes sign. Such a change in sign may occur when  they second derivative equals zero.
 
+Show that the normal density with parameters $\mu$ and $\sigma$ has inflection points at $\mu\pm\sigma$.
+\subsection*{Part 1}
+The pdf of the normal distribution is given by:
+\begin{align*}
+f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}
+\end{align*}
+To find the inflection points, we want to differentiate this with respect to x. Let $z=\frac{x-\mu}{\sigma}$
+\begin{align*}
+f'(x) = \frac{d}{dx}\frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} = \frac{1}{\sigma \sqrt{2\pi}} \frac{d}{dx} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}
+\end{align*}
+\begin{align*}
+ = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} \frac{d}{dx} (-\frac{1}{2}(\frac{x-\mu}{\sigma})^2) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} (-\mu^2(x-\mu))
+\end{align*}
+Simplified slightly, our first derivative ends up being:
+\begin{align*}
+f'(x) = -\frac{(\mu^2(x-\mu))}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}
+\end{align*}
+Our second derivative then is:
+\begin{align*}
+f''(x) = -\frac{d}{dx}\frac{(\mu^2(x-\mu))}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} = -\frac{1}{\sigma \sqrt{2\pi}}\frac{d}{dx} (\mu^2(x-\mu)) e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}
+\end{align*}
+Via product rule, this expression becomes:
+\begin{align*}
+f''(x) = -\frac{1}{\sigma \sqrt{2\pi}} \frac{d}{dx} (\mu^2(x-\mu)) e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} + (\mu^2(x-\mu)) \frac{d}{dx} (e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2})
+\end{align*}
+\begin{align*}
+f''(x) = -\frac{1}{\sigma \sqrt{2\pi}} (\mu^2 e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} + (\mu^2(x-\mu)) \frac{d}{dx} (e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}) )
+\end{align*}
+We know that thing in the second term is the derivative we computed in step one(without the constant factors).
+\begin{align*}
+f''(x) = -\frac{1}{\sigma \sqrt{2\pi}} (\mu^2 e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} + (\mu^2(x-\mu)) e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} \frac{d}{dx} (-\frac{1}{2}(\frac{x-\mu}{\sigma})^2) )
+\end{align*}
+\begin{align*}
+f''(x) = -\frac{1}{\sigma \sqrt{2\pi}} (\mu^2 e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} + (\mu^2(x-\mu)) e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} (-\mu^2(x-\mu))
+\end{align*}
+Attempting to simplify:
+\begin{align*}
+f''(x) = -\frac{1}{\sigma \sqrt{2\pi}} (\mu^2 e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} - \mu^4(x-\mu)^2 e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} )
+\end{align*}
+Combining those additive terms yields:
+\begin{align*}
+f''(x) = -\frac{1}{\sigma \sqrt{2\pi}} (\frac{1}{\sigma^2} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} - \frac{(x-\mu)^2}{\sigma^4} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2})
+\end{align*}
+That was fairly painful, but we have a useful expression for the second derivative. Recall we are trying to demonstrate that $f''(\pm \mu)=0$. Here we can set $f''(x)=0$, and solve for $x$.
+\begin{align*}
+0 = -\frac{1}{\sigma \sqrt{2\pi}} (\frac{1}{\sigma^2} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} - \frac{(x-\mu)^2}{\sigma^4} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}) = -\frac{1}{\sigma^2} +\frac{(x-\mu)^2}{\sigma^4}
+\end{align*}
+\begin{align*}
+0 = -\sigma^2 +(x-\mu)^2
+\end{align*}
+Adding $\sigma^2$ to both sides:
+\begin{align*}
+\sigma^2 = (x-\mu)^2
+\end{align*}
+Finally:
+\begin{align*}
+\boxed{x=\pm \sigma}
+\end{align*}
+\clearpage
 \section*{Problem 3}
-If $X~Bin(n,p)$ find the distribution of $Y=n-X$
-\subsection*{Part 1}
-The pmf of $Y$ is given by:
+A random variable $X$ is said to have an $Exponential$ distribution with parameter $\beta>0$ if the density function of $X$ is
 \begin{align*}
-f_Y(y) = f_X(g^{-1}(y)) y\in \mathcal{Y}
-\end{align*}
-$g(y)$ in this case is $g(x)=n-x$. Consequently $g^{-1}(y)=n-y$.
-
-Our expression for $f_Y$ is then:
-
-\begin{align*}
-f_Y(x) = f_X(g^{-1}(x)) = \sum_{y=0}^{n} \binom{n}{n-y}p^{n-y}(1-p)^{n-n-y}
-\end{align*}
-At this point, recall from the previous problem that $\binom{n}{n-y}=\binom{n}{y}$. For simplicity I will substitute in the original expression accordingly.
-\begin{align*}
-\boxed{ f_Y(x) = \sum_{y=0}^{n} \binom{n}{y}p^{n-y}(1-p)^{-y} }
-\end{align*}
-For the sake of intuition, lets compare for a moment $f_Y$ and $f_X$:
-\begin{align*}
-f_Y(y) = \sum_{y=0}^{n} \binom{n}{y}p^{n-y}(1-p)^{-y} && f_X(x) = \sum_{x=0}^{n} \binom{n}{x}p^{x}(1-p)^{n-x}
-\end{align*}
-Notice here that the only difference between the two distributions is that the positions of $p$ and $1-p$ change in the two distributions.
-
-\clearpage
-
-\section*{Problem 4}
-If $X~Poisson(\lambda)$ show that:
-\begin{align*}
-E|X-1|=\lambda - 1+2e^{-\lambda}
-\end{align*}
-Hint:
-\begin{align*}
-\frac{(x-1)}{x!} = \frac{1}{(x-1)!} - \frac{1}{x!}
-\end{align*}
-\subsection*{Part 1}
-We have learned two methods to find $\mathbb{E}X$, the Moment Generating function and via direct integration. Since we are interested in $\mathbb{E}|X-1|$ the direct summation method seems more applicable.
-\begin{align*}
-\mathbb{E}|x-1|=\sum_{x=0}^{\infty} (x-1) f(x) dx
-\end{align*}
-Our distribution is the Poisson distribution
-\begin{align*}
-f(x) = e^{-\lambda} \frac{\lambda^x}{x!}
-\end{align*}
-As such, our expected value expression is:
-\begin{align*}
-\mathbb{E}|x-1| = \sum_{x=0}^{\infty} |x-1| e^{-\lambda} \frac{\lambda^x}{x!}
-\end{align*}
-To get rid of the absolute value, lets shift our summation indicies up one. To ensure that $|x-1|$ is always positive. This essentially amounts to adding the 0th term to the sum, and summing from 1 to infinity.
-\begin{align*}
-\mathbb{E}|x-1| = \sum_{x=1}^{\infty} (x-1) e^{-\lambda \frac{\lambda^x}{x!}} + e^{-\lambda}
-\end{align*}
-Here, we can re arrange our first term:
-\begin{align*}
-\mathbb{E}|x-1| = \sum_{x=1}^{\infty} \frac{(x-1)}{x!} e^{-\lambda} \lambda^x + e^{-\lambda}
-\end{align*}
-This allows us to utilize the identity: $\frac{(x-1)}{x!} = \frac{1}{x-1} - \frac{1}{x!}$
-\begin{align*}
-\mathbb{E}|x-1| = e^{-\lambda} \sum_{x=1}^{\infty} (\frac{1}{(x-1)!} - \frac{1}{x!}) \lambda^x + e^{-\lambda}
-\end{align*}
-We can split this series into smaller sums:
-\begin{align*}
-\mathbb{E}|x-1| =  \sum_{x=1}^{\infty} \frac{e^{-\lambda} \lambda^x}{(x-1)!} - \sum_{x=1}^{\infty} \frac{ e^{-\lambda} \lambda^x}{x!}  + e^{-\lambda}
-\end{align*}
-The second sum is a known exponential series, and it evaluates to $1$. We can also rewrite the left series:
-\begin{align*}
-\mathbb{E}|x-1| = e^{-\lambda} \sum_{x=1}^{\infty} \frac{\lambda^x}{(x-1)!} - 1  + e^{-\lambda}
-\end{align*}
-This left series can be rewritten into a more desirable format with $x!$ in the denominator:
-\begin{align*}
-\mathbb{E}|x-1| = e^{-\lambda} \sum_{x=1}^{\infty} \frac{x \lambda^x}{(x)!} - 1  + e^{-\lambda}
-\end{align*}
-This sum evaluates to $\lambda e^\lambda$
-\begin{align*}
-\mathbb{E}|x-1| = e^{-\lambda} \lambda e^\lambda - 1  + e^{-\lambda}
-\end{align*}
-
-This result is not equivalent with the given expression. I am not sure where the error here is. Over email you suggested that I switch the sum to 2 -> infinity, but I am not sure how that helps.
-I've been playing with the sum for a few hours and I can't see how to manipulate it into the solution, though I believe I am close.
-
-Finally we get:
-\begin{align*}
-\boxed{ \mathbb{E}|x-1| = \lambda - 1+2e^{-\lambda} }
-\end{align*}
-\clearpage
-
-\section*{Problem 5}
-Suppose the random variable $X$ has pmf:
-\begin{align*}
-f(x) = \begin{cases} e^{\theta} \frac{\theta^x}{x!} & x=0,1,2,... \\
+f(x) = \begin{cases} \frac{1}{\beta} e^{\frac{-x}{\beta}} & x>0 \\
                      0 \text{ otherwise.}
                      \end{cases}
 \end{align*}
-Find the MGF of $Y=2X+1$ and hence find Var($Y$).
+\begin{enumerate}
+\item[1] Calculate $\mathbb{E}(X)$, $Var(X)$
+\item[2] Show that the distribution function of $X$ is 
+\begin{align*}
+F(X) = P(X\leq x) = 1-e^{-\frac{x}{\beta}}
+\end{align*}
+\item[3] Also show that, if $a>0$ and $b>0$, are constants,
+\begin{align*}
+ P(X>a+b|X>a) = P(X>b)
+\end{align*}
+\end{enumerate}
 \subsection*{Part 1}
-It is important to note for this problem, that our distribution is in fact the Poisson Distribution. As such, we already know its Moment Generating Function.
+$\mathbb{E}(X)$ is given by:
 \begin{align*}
-M_X(t) = \mathbb{E}(e^{tX}) = e^{\theta(e^t-1)}
+\mathbb{E}(X) = \frac{1}{\beta} \int_{0}^{\infty} x e^{\frac{-x}{\beta}} dx
 \end{align*}
-We know that the transformed distribution will be a Poisson distribution of some form, so we know its MGF will take its form.
+This integral is of the form $\int x e^{cx} dx$ which is a known integral. Its solution takes the form:
 \begin{align*}
-M_Y(t) = \mathbb{E}(e^{tY}) = \mathbb{E}(e^{t(2X+1)})
-\end{align*}
-Lets distribute and separate these exponential functions:
-\begin{align*}
-M_Y(t) = \mathbb{E}(e^{(2tX+t)})
+ = e^{cx} \frac{cx-1}{c^2} = \frac{1}{\beta} e_{\frac{-x}{\beta}} -\frac{\beta^{-1} x - 1}{\beta^{-2}} |_{0}^{\infty}
 \end{align*}
 \begin{align*}
-M_Y(t) = \mathbb{E}(e^{(2tX)} e^t)
+\mathbb{E}(X) = \beta
 \end{align*}
-In this expectation expression, $e^t$ is held constant. So it can be taken from our Expectation operator.
+To find the Var, we must find $\mathbb{E}(X^2)$
 \begin{align*}
-M_Y(t) =  e^t \mathbb{E}(e^{(2tX)})
+\mathbb{E}(X^2) = \frac{1}{\beta} \int_{0}^{\infty} x^2 e^{\frac{-x}{\beta}} dx
 \end{align*}
-At this point we can note that this expression looks a lot like our expression for the MGF for X. In fact, it IS the MGF of X, only with the t input doubled.
+This integral takes the form $\int x^2 e^{cx} dx$, the solution is in the form:
 \begin{align*}
-M_Y(t) = e^t M_X(t=2t) = e^t \mathbb{E}(e^{(2tX)})
+ = e^{cx} )\frac{x^2}{c} - \frac{2x}{c^2} + \frac{2}{c^3}) |_{0}^{\infty} = e^{-\beta^{-1} x} (\frac{-x^2}{\beta^{-1}} + \frac{2x}{\beta^{-2}} - \frac{2}{\beta^{-3}}) |_{0}^{\infty}
 \end{align*}
-Substituting in to $M_X(t=2t)$
 \begin{align*}
-M_Y(t) = e^t e^{\theta(e^{2t}-1)}
+ = 0 - e^{0} ((0 + 0 - \frac{2}{\beta^{-2}})) = 2\beta^{2}
 \end{align*}
-As such, our final expression for $M_Y(t)$ is:
+Thus, our Var is:
 \begin{align*}
-\boxed{ M_Y(t) = e^{\theta(e^{2t}-1)+t} } 
-\end{align*}
-\clearpage
-
-\section*{Problem 6}
-On this problem, you will establish the Poisson approximation to the Binomial using Recursion relations. Let $X~Poisson(\lambda)$
-
-a. Let $X~Poisson(\lambda)$. Then show that
-\begin{align*}
-P(X=x) = \frac{\lambda}{x} P(X=x-1), x=1,2,3,...,n
-\end{align*}
-
-b. Let $Y=Bin(n,p)$ Then show that
-\begin{align*}
-P(Y=y) = \frac{n-y+1}{y} \frac{p}{1-p} P(Y=y-1) y=1,2,3,...,n
-\end{align*}
-
-c. Now, assume $\lambda = n p$ and approximate $\frac{(n-y+1)}{y} \frac{p}{1-p}$ in terms of $\lambda$ and $y$ only, assuming $p$ is small(and $n$ is large).
-
-d. Use the approximation in (c) to rewrite the recursive relation in part (b).
-
-e. We only need to show that $P(X=0)\approx (1-p)^n = (1-\frac{\lambda}{n})^n \rightarrow P(X=0)$
-
-\subsection*{Part A}
-First, lets explicitly write out $P(X=x-1)$. The Poisson distribution is given by:
-\begin{align*}
-P(X=x) = e^{\lambda} \frac{\lambda^x}{x!}
-\end{align*}
-Now lets substitute in $x=x-1$
-\begin{align*}
-P(X=x-1) = e^{\lambda} \frac{\lambda^{x-1}}{{x-1}!}
-\end{align*}
-The exponential factor $e^\lambda$ doesn't depend on $x$ at all so all we have to do is look at the fraction. Its self evident that the only difference between $x=x$ and $x=x-1$ is $\frac{\lambda}{x}$.
-\begin{align*}
-\frac{\lambda}{x} P(X=x-1) = e^{\lambda} \frac{\lambda}{x} \frac{\lambda^{x-1}}{{x-1}!} = e^{\lambda} \frac{\lambda^x}{x!}
-\end{align*}
-\subsection*{Part B}
-Again, we will explicitly write out $P(Y=y-1)$. The Binomial distribution is given by:
-\begin{align*}
-P(Y=y) = f(y) = \binom{n}{y} p^y (1-p)^{n-y} = \frac{n!}{y! (n-y)!} p^y (1-p)^{n-y}
-\end{align*}
-Substituting in $y-1$
-\begin{align*}
-P(Y=y-1) = f(y-1) = \binom{n}{y-1} p^{y-1} (1-p)^{n-y+1}
-\end{align*}
-This will be slightly less easy to simplify than the Poisson but it isn't bad. First lets expand $\binom{n}{y-1}$
-\begin{align*}
-P(Y=y-1) = \frac{n! y}{y!(y-n+1)(n-y)!} p^{y-1} (1-p)^{n-y+1}
-\end{align*}
-Here are the extra factors we have on this expanded term:
-\begin{align*}
-\frac{y (1-p)}{p (n-y+1)} 
-\end{align*}
-Thus to cancel these out we need:
-\begin{align*}
-\frac{p (n-y+1)}{y (1-p)} 
-\end{align*}
-Thus proving that 
-\begin{align*}
-P(Y=y) = \frac{n-y+1}{y} \frac{p}{1-p} P(Y=y-1)
-\end{align*}
-\subsection*{Part C}
-Let $np = \lambda$, and let $p$ be small, and $n$ large. These assumptions about $n$ and $p$ cause the right fraction to disappear. Our recursive factor for the Binomial distribution is then:
-\begin{align*}
-\frac{n-y+1}{y} \frac{p}{1-p} \approx \frac{n-y+1}{y} p
-\end{align*}
-If $n$ is large, the left fraction becomes:
-\begin{align*}
-\frac{n-y+1}{y} \frac{p}{1-p} \approx \frac{n-y}{y} p
-\end{align*}
-$p$ then can be rewritten in terms of $\lambda$
-\begin{align*}
-\frac{n-y+1}{y} \frac{p}{1-p} \approx \frac{\lambda (n-y)}{n y}
-\end{align*}
-\subsection*{Part D}
-Our recursive relation then becomes:
-\begin{align*}
-P(Y=y) = \frac{\lambda (n-y)}{n y} P(Y=y-1)
-\end{align*}
-
-\subsection*{Part E}
-Again the Poisson distribution is given by:
-\begin{align*}
-P(X=x) = e^{-\lambda} \frac{\lambda^x}{x!}
-\end{align*}
-$P(X=0)$ is then:
-\begin{align*}
-P(X=0) = e^{-\lambda} \frac{\lambda^0}{0!} = e^{-\lambda}
-\end{align*}
-Now lets look at the Binomial distribution at $Y=0$
-\begin{align*}
-P(Y=0) = \frac{n!}{0! (n-0)!} p^0 (1-p)^{n-0} = (1-p)^{n}
-\end{align*}
-Recall $\lambda = np$. This means $p=\frac{\lambda}{n}$
-\begin{align*}
-P(Y=0) = (1-\frac{\lambda}{n})^{n}
-\end{align*}
-Here we can take the limit and see:
-\begin{align*}
-\boxed{ \lim_{n\rightarrow \infty} (1-\frac{\lambda}{n})^{n} = e^{-\lambda} = P(X=0) }
-\end{align*}
-\clearpage
-
-\section*{Problem 7}
-Suppose X has a geometric distribution with probability of success $p$. Show that 
-\begin{align*}
-P(X=\text{ an Odd Integer}) = \frac{p}{1-q^2}
-\end{align*}
-Where $q=1-p$
-\subsection*{Part 1}
-Let $p$ be the probability of a success in a given iteration of the experiment. Let $q$ be the probability of failure.
-The first few terms of $P(X=an odd integer)$ are given by
-\begin{align*}
-P(X=\text{ an Odd Integer}) = P(1) +P(3) + P(5) +...+P(N)
-\end{align*}
-Lets write this in terms of success and failure. $P(1)$ is success in one iteration, N is success in N iterations. Therefore:
-\begin{align*}
- = p + q^2 p + q^4 p +...+q^2n p
-\end{align*}
-Now we can write this in summation notation:
-\begin{align*}
- = \sum_{x=1}^{\infty} q^2n p
-\end{align*}
-This can be factored to be:
-\begin{align*}
- = \sum_{x=1}^{\infty} q^n q^n p
-\end{align*}
-Using the summation identity $\sum_{x=1}^{\infty}$ = $\frac{1}{1-a}$ we can rewrite this as:
-\begin{align*}
-\boxed{ P(X=\text{ an Odd Integer}) = \frac{p}{(1-q)^2} }
-\end{align*}
-\clearpage
-
-\section*{Problem 8}
-Consider the logarithmic distribution with pmf:
-\begin{align*}
-f_X(x)=\frac{C \theta^x}{x}, && x=1,2,...
-\end{align*}
-Where $0<\theta < 1$. Show that the expectation and Variance for this distribution are:
-\begin{align*}
-\mu = \frac{C \theta}{1-\theta} && \sigma^2 = \mu (\frac{1}{1-\theta} - \mu)
-\end{align*}
-\subsection*{Part 1}
-\begin{align*}
-\mu = \mathbb{E}(X) = \sum_{x=1}^{\infty} x \frac{C \theta^x}{x}
-\end{align*}
-Interesting to note that the x cancels here, and we are left with a simple geometric series:
-\begin{align*}
-\mu =  \sum_{x=1}^{\infty} C \theta^x
-\end{align*} 
-This series converges as long as $\theta<1$ which it is. And the series from $0$ to $\infty$ converges to $\frac{C}{1-\theta}$. So naturally, the series from 1 to $\infty$ just has an extra factor of $\theta$(as this would be the zeroith term of the aforementioned series).
-\begin{align*}
-\boxed{ \mu =  \frac{C \theta}{1-\theta} }
+\boxed{ Var(X) = \mathbb{E}(X^2) - \mathbb{E}(X)^2 = 2\beta^{2} - \beta^2 = \beta^2}
 \end{align*}
 \subsection*{Part 2}
-To find the Variance, lets first find $\mathbb{E}(X^2)$.
+The cdf of a continuous distribution can be found by integrating the pdf:
 \begin{align*}
-\mathbb{E}(X^2) =  \sum_{x=1}^{\infty} x^2 \frac{C \theta^x}{x} = \sum_{x=1}^{\infty} x C \theta^x 
+F(x) = \int_{0}^{x} f(x) dx = \frac{1}{\beta} \int_{0}^{x} e^{\frac{-x}{\beta}} dx
 \end{align*}
-Unfortunately, this is no longer a simple geometric series. This now takes the form of a power series. This power series from $1$ to $\infty$ converges for $|\theta|<1$ which again is true. It converges to $\frac{\theta}{(\theta-1)^2}$. As such our series becomes:
+
 \begin{align*}
-\mathbb{E}(X^2) =  \frac{C \theta}{(\theta-1)^2}
+F(x) = - \frac{\beta}{\beta}(e^{\frac{-x}{\beta}})|_{0}^{x} 
 \end{align*}
-Now, Variance is given by:
+Our final expression becomes
 \begin{align*}
-\text{Var}(X) =  \mathbb{E}(X^2) - \mathbb{E}(X)^2
+\boxed{F(x) = 1-e^{\frac{-x}{\beta}} }
 \end{align*}
-Substituting in our moments:
+\subsection*{Part 3}
+A cdf follows the following relationship:
 \begin{align*}
-\text{Var}(X) =  \frac{C \theta}{(\theta-1)^2} - (\mu)^2
+F(x) = P(X\leq x)
 \end{align*}
-Note here, the second moment can be expressed in terms of the first moment $\mu$:
+So in order to find, $P(X>a)$ we can simply subtract 1 by $F_X(a)$
 \begin{align*}
-\text{Var}(X) =  \mu \frac{1}{(\theta-1)} - (\mu)^2
+P(X>a) = 1-P(X\leq x) = 1-F(a)
 \end{align*}
-Factoring out $\mu$ yields the given expression:
+To prove our relationship, we need to show that the conditional probability expression for $P(X>a+b|X>a)$ is equivalent to $1-F_X(b)$. Via conditional probability:
 \begin{align*}
-\boxed{ \text{Var}(X) =  \mu (\frac{1}{1-\theta} - \mu) }
+P(X>a+b|X>a) = P(X>a|X>a+b)\frac{P(X>a+b)}{P(X>a)}
+\end{align*}
+Lets write this in terms of the CDF:
+\begin{align*}
+P(X>a+b|X>a) = P(X>a|X>a+b)\frac{1-F(a+b)}{1-F(a)}
+\end{align*}
+If $X>a+b$, it by definition must be greater than $a$ for all non negative values of $b$. So its probability is simply $1$.
+\begin{align*}
+P(X>a+b|X>a) = \frac{1-F(a+b)}{1-F(a)}
+\end{align*}
+Substituting in the cdf:
+\begin{align*}
+P(X>a+b|X>a) = \frac{e^{\frac{-(a+b)}{\beta}})}{e^{\frac{-a}{\beta}}} = e^{-\frac{b}{\beta}}
+\end{align*}
+Now lets see what $1-F(b)$ equals:
+\begin{align*}
+P(X>b) = 1-P(X\leq b) = 1-F(b) = 1-(1-e^{\frac{-b}{\beta}}) = e^{-\frac{b}{\beta}})
+\end{align*}
+Thus we have proven
+\begin{align*}
+\boxed { P(X>a+b|X>a) = P(X>b) }
+\end{align*}
+
+\clearpage
+\section*{Problem 4}
+Let Y be a gamma distributed random variable where $\alpha$ is a positive integer and $\beta=1$. If $y>0$ then:
+\begin{align*}
+\sum_{i=0}^{\alpha-1} \frac{e^-y y^i}{i!} = P(Y>y)
+\end{align*}
+
+Suppose that $X_1$ is a Poisson random variable with mean $\lambda_1$ and $X_2$ is a Poisson random variable with mean $\lambda_2$, where $\lambda_2>\lambda_1$.
+
+\begin{enumerate}
+\item[1] Show that $P(X_1=0) > P(X_2=0)$
+\item[2]  Let $k$ be any fixed positive integer. Show that $P(X_1 \leq k) = P(Y > \lambda_1)$ and $P(X_2 \leq k) = P(Y>\lambda_2)$, where $Y$ has a gamma distribution with $\alpha=k+1$ and $\beta= 1$.
+\item[3] Let $k$ be any fixed positive integer. Use the result in part 2 and the fact $\lambda_2 > \lambda_3$ to show that $P(X_1 \leq k) > P(X_2 \leq k)$.
+\item[4] Interpret $P(X_1 \leq k) > P(X_2 \leq k)$.
+\end{enumerate}
+\subsection*{Part 1}
+\begin{align*}
+P(X_1 = 0) = e^{-\lambda_1 \frac{\lambda_1^{0}}{0!}} = e^{-\lambda_1} && P(X_2 = 0) = e^{-\lambda_2}
+\end{align*}
+Here, if $\lambda_2>\lambda_1$, then $-\lambda_1$ results is a less negative exponent for the Poisson distribution.
+\begin{align*}
+P(X_1 = 0) > P(X_2=0)
+\end{align*}
+\subsection*{Part 2}
+\begin{align*}
+P(Y > \lambda_1) = \sum_{i=0}^{\alpha-1} \frac{e^-{\lambda_1} {\lambda_1}^i}{i!} && P(X_1 \leq k) = e^{-\lambda_1 \frac{\lambda_1^{k}}{k!}}
+\end{align*}
+Note $k = \alpha-1$
+\begin{align*}
+P(Y > \lambda_1) = \sum_{i=0}^{k} \frac{{\lambda_1}^i}{i!} && P(X_1 \leq k) = e^{-\lambda_1 \frac{\lambda_1^{k}}{k!}}
+\end{align*}
+The series from $0 \rightarrow \infty$ evaluates to $e^{\lambda}$, so the series from 0 to k evaluates to:
+\begin{align*}
+\boxed{ P(Y > \lambda_1) = e^{\lambda_1^{k}}{k!} = P(X_1 \leq k) }
+\end{align*}
+\subsection*{Part 3}
+Here lets take the ratio of $P(X_1 \leq k)$ and $P(X_2 \leq k)$. We can equivilantly represent these as$P(Y>\lambda_1)$ and $P(Y> \lambda_2)$ respectively:
+\begin{align*}
+\frac{P(Y> \lambda_2)}{P(Y> \lambda_1)} = \frac{e^{\lambda_2^{k}}{k!}}{e^{\lambda_1^{k}}{k!}}
+\end{align*}
+This reduces to:
+\begin{align*}
+\frac{P(Y> \lambda_2)}{P(Y> \lambda_1)} = \frac{e^{\lambda_2^{k}}}{e^{\lambda_1^{k}}} 
+\end{align*}
+Here we see that if $\lambda_2 > \lambda_1$, this ratio is always greater than 1. As such, the original stated equality must then be true.
+
+\subsection*{Part 4}
+
+This result essentially states that for two Poisson Random variables, if one mean is bigger than another, than for all values of k, the cumulative sum of the terms of the probability function for the one with the smaller mean will approach 1 faster. In other words, at each step of k, the series $\sum_{0}^{k}f_1(x)>\sum_{0}^{k}f_2(x)$ will be true. Intuitivley I take this to mean that the the larger $\lambda$ is for a Poisson distribution, longer it will take to converge to $1$.
+
+\clearpage
+\section*{Problem 5}
+Recall that $Y$ is said to follow a Standard Uniform distribution if it has the pdf $f(y)=1, 0<y<1$. Verify that if X has a Beta distribution with paramaters $\alpha = \beta = 1$, then X essentially has a standard uniform distribution. Use the formula for the expectation and variance of a Beta distribution to calculate the expectation and variance of a standard uniform distribution.
+\subsection*{Part 1}
+The beta distribution is given by:
+\begin{align*}
+f(x) = \frac{1}{Beta(\alpha, \beta)} x^{\alpha-1}(1-x)^{\beta-1}
+\end{align*}
+Let $\alpha=\beta=1$, our pdf reduces to:
+\begin{align*}
+f(x) = \frac{1}{Beta(1,1)} x^{0}(1-x)^{0} = \frac{1}{Beta(1,1)}
+\end{align*}
+The beta function is given by
+\begin{align*}
+Beta(1,1) = \frac{\Gamma(1)\Gamma(1)}{\Gamma(2)}
+\end{align*}
+Here, from the notes we know $\Gamma(1)=\Gamma(2)=1$, so Beta(1,1) reduces to $1$:
+
+Thus, we have our uniform distribution.
+\begin{align*}
+\boxed{ f(x) = 1 }
 \end{align*}
 
 \end{document} 

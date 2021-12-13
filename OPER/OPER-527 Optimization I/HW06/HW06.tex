@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[]{amsthm} %lets us use \begin{proof}
+\usepackage[]{amssymb} %gives us the character \varnothing
+\usepackage{amsmath}
+\usepackage{graphicx}
+\numberwithin{equation}{section}
+\usepackage{titlesec}
+\usepackage{pgf-umlcd}
+\graphicspath{ {figures/} }
+
+\title{OPER-527 Homework 6}
+\author{John Hiles}
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 1}
+\subsection*{a)}
+The objective function is given by
+\begin{align*}
+c(x,y) = f(x,y) - g(x,y)
+\end{align*}
+Where $g(x,y)$ is our penalty function. Our penalty function is given by:
+\begin{align*}
+g(x,y) = \mu * (2x+4y - 12)^2 + (x+3y-15)^2 + (x^2+y^2)
+\end{align*}
+\subsection*{b)}
+Our solutions for the penalty method are listed as follows:
+\begin{align*}
+\mu = 1, (x,y) = (-70.5, 35) && \mu = 10, (x,y) = (1.17501, 4.0666) && \mu = 10, (x,y) = (0.31662, 3.720595)
+\end{align*}
+\subsection*{c)}
+For the barrier method, I opted for a logarithmic barrier function.
+\subsection*{d)}
+Our solutions for the barrier method are listed as follows:
+\begin{align*}
+\mu = 1, (x,y) = (12.9935, 5.865481) && \mu = 10, (x,y) = (0.973348, 1.077965) && \mu = 10, (x,y) = (8.33333, -2.573281)
+\end{align*}
+\subsection*{e)}
+Black represents the penalty method The low value of $\mu$ leads to a wildly inaccurate value for the penalty method, but barrier method results are fairly clustered together. But for this problem, all the other results are mostly clustered in the same area. Without units, its hard to quantify whether or not this level or error is good or not. An error of two simoleons may not be that bad, but 2 lightyears may be untenable.
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{HW06Q1e.png}
+\caption{Penalty vs Barrier Plot. Black is penalty, Red is Barrier}
+\end{figure}
+
+
+\section*{Problem 2}
+Truthfully I Ran out of time to complete this problem. But I completed the first part with a programmed SIR model.
+\subsection*{a)}
+
+Data and source code is presented here:
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{HW06Q2.png}
+\caption{Question 2A Source Code}
+\end{figure}
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{HW06Q22.png}
+\caption{Question 2A Data}
+\end{figure}
+
+
+
+\end{document} 

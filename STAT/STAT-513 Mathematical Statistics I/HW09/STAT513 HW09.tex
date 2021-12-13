@@ -1,0 +1,319 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+
+\title{STAT-513 Homework 9}
+\author{John Hiles}
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 1}
+Suppose $X$ is a Uniform(0,1) random variable and conditioned on $X$, the random
+variable $Y$ has a binomial distribution with $n$ trials and success probability $X$, where $n$ is a given
+constant.
+\begin{enumerate}
+\item[a.]
+Calculate $\mathbb{E}(Y)$ and $Var(Y)$.
+\item[b.]
+Find the joint distribution of X and Y .
+\item[c.]
+Find the marginal (unconditional) distribution of Y .
+\end{enumerate}
+
+\subsection*{Part A}
+$\mathbb{E}(Y)$ can be found by taking the expectation of the expectation of $\mathbb{E}(Y|X)$.
+\begin{align*}
+\mathbb{E}(Y) = \mathbb{E}(\mathbb{E}(Y|X))
+\end{align*}
+First, we need to find $\mathbb{E}(Y|X)$
+\begin{align*}
+\mathbb{E}(Y|X) = \int_{-\infty}^{\infty} y f(y|x) dy
+\end{align*}
+$f(y|x)$ is given by
+\begin{align*}
+f(y|x) = P(Y=y|X=x) = \frac{P(X=x, Y=y)}{P(X=x)}
+\end{align*}
+$X$ is continuous uniform, and $Y$ is a binomial distribution.
+\begin{align*}
+f(x) = 1 (0 \leq x \leq 1) && f_{y|x}(y) = \binom{n}{y} x^y (1-x)^{n-y}
+\end{align*}
+Thus:
+\begin{align*}
+\mathbb{E}(Y|X) = \int_{-\infty}^{\infty} y f(y|x) dy = \int_{-\infty}^{\infty} y \binom{n}{y} x^y (1-x)^{n-y} dy
+\end{align*}
+The expected value of the Binomial distribution is known to be:
+\begin{align*}
+\mathbb{E}(Y|X) = nx
+\end{align*}
+Thus, $\mathbb{E}(Y)$
+\begin{align*}
+\mathbb{E}(Y) = \mathbb{E}(nx) = \int_{0}^{1} n x dx = \frac{n}{2}
+\end{align*}
+Similarly, $Var(Y)$ is:
+\begin{align*}
+Var(Y) = \mathbb{E}(Var(Y|X)) + Var(\mathbb{E}(Y|X))
+\end{align*}
+Var($Y|X$) is known, since it is essentially the Var of a binomial distribution where $p = x$.
+\begin{align*}
+Var(Y|X) = n x (1-x) = n x-x^2
+\end{align*}
+So the expectation of that is then:
+\begin{align*}
+\mathbb{E}Var(Y|X) = \mathbb{E}(n x-x^2) = n \mathbb{E}(X) - n \mathbb{E}(X^2) = \frac{n}{6}
+\end{align*}
+The second term then, 
+\begin{align*}
+Var(\mathbb{E}(Y|X)) = Var(nX) = n^2 (\mathbb{E}(X^2) - \mathbb{E}(X)^2)
+\end{align*}
+\begin{align*}
+Var(\mathbb{E}(Y|X)) = Var(nX) = n^2 (\frac{1}{3} - \frac{1}{4}) = \frac{n^2}{12}
+\end{align*}
+Thus our final Var and expectation is:
+\begin{align*}
+\boxed{Var(Y) = \frac{n}{6} + \frac{n^2}{12} } && \boxed{ \frac{n}{2} }
+\end{align*}
+
+\subsection*{Part B}
+The joint pdf is given by:
+\begin{align*}
+f(x,y) = P(Y=y|X=x)P(X=x) = f_{y|x}(y) f_x(x)
+\end{align*}
+
+\begin{align*}
+f(x,y) = \binom{n}{y} x^y (1-x)^{n-y} && 0 \leq x \leq 1, y = 0,...,n
+\end{align*}
+
+\subsection*{Part C}
+The marginal pdf is given by:
+\begin{align*}
+f_Y(Y) = \int_{0}^{1} f(x,y) dx = \int_{0}^{1} \binom{n}{y} x^y (1-x)^{n-y} dx
+\end{align*}
+Luckily, $y and n$ can be treated as constants.
+\begin{align*}
+f_Y(Y) = \binom{n}{y} \int_{0}^{1} x^y (1-x)^{n-y} dx
+\end{align*}
+I know this integration involves some sort of trick in order to get a beta integral. I wasn't sure how this re arrangement worked so I used CAS to evaluate it.
+\begin{align*}
+f_Y(Y) = \frac{y+1}{n+2}
+\end{align*}
+
+\pagebreak
+\section*{Problem 2}
+Suppose the distribution of $Y$, conditional on $X = x$ is $N(x, x^2)$ and that the marginal distribution of $X$ is Uniform(0,1).
+\begin{enumerate}
+\item[a.]
+Calculate $\mathbb{E}(Y)$, $Var(Y)$, and $Cov(X,Y)$.
+\item[b.]
+Prove that $\frac{Y}{X}$ and $X$ are independent.
+\end{enumerate}
+\subsection*{Part A}
+\begin{align*}
+f_{Y|X}(Y|X) = N(x, x2) && f_{X}(x) = Uniform(0,1)
+\end{align*}
+$\mathbb{E}(Y)$ is then given by
+\begin{align*}
+\mathbb{E}(Y) = \mathbb{E}(\mathbb{E}(Y|X)) = \mathbb{E}(X) = \frac{1}{2}
+\end{align*}
+$\mathbb{Var}(Y)$ is then given by:
+\begin{align*}
+\mathbb{Var}(Y) = \mathbb{E}Var(Y|X) + Var(\mathbb{E}Var(Y|X)) = \mathbb{E}(x^2) + Var(x^2) = \int_{0}^{1} x^2 dx + \int_{0}^{1} x^2 dx - \mathbb{E}(X)^2  = \frac{1}{3} + \frac{1}{12} = \frac{5}{12}
+\end{align*}
+Finally $Cov(X,Y)$ is given by
+\begin{align*}
+Cov(X,Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y) = \mathbb{E}(XY) - \frac{1}{4} = \mathbb{E}(X \mathbb{E}(Y|X)) - \frac{1}{4} = \mathbb{E}(X^2) - \frac{1}{4} = \frac{1}{12}
+\end{align*}
+\subsection*{Part B}
+The joint pdf is 
+\begin{align*}
+f_{X,Y}(x,y) = f_{Y|X}(y|x) f_X(x) = \frac{1}{x \sqrt{2 \pi}} e^{-\frac{(y-x)^2}{2x^2}} && 0<x<1; -\infty < y < \infty
+\end{align*}
+Let $U = \frac{Y}{X}$, $V = X$. $|J|=-v$
+\begin{align*}
+f_{X,Y}(u,v) = -v \frac{-v}{v \sqrt{2 \pi}} e^{-\frac{(uv - v)^2}{2v^2}}
+\end{align*}
+\begin{align*}
+f_{X,Y}(u,v) = -\frac{1}{\sqrt{2 \pi}} e^{-\frac{(u-1)^2}{2}}
+\end{align*}
+Let $h(u)=-\frac{1}{\sqrt{2 \pi}} e^{-\frac{(u-1)^2}{2}}$ and let $g(v) = 1$. $f_{X,Y}(u,v)$ is then:
+\begin{align*}
+f_{X,Y}(u,v) = h(u)g(v)
+\end{align*}
+Which means this is $\frac{Y}{X}$ and $X$ are independent.
+\pagebreak
+
+
+\section*{Problem 3}
+For the hierarchical model
+\begin{align*}
+Y|\Lambda ~ Poisson(\Lambda) and \Lambda ~ Gamma(\alpha, \beta)
+\end{align*}
+\begin{enumerate}
+\item[a.]
+Find the marginal distribution, mean and variance of $Y$. Show that the marginal distribution
+of $Y$ is negative binomial if $\alpha$ is an integer.
+\item[b.]
+Show that the three-stage model
+\begin{align*}
+Y|N ~ Binomial(N,p), N|\Lambda~Poisson(\Lambda) and \Lambda ~ Gamma(\alpha, \beta)
+\end{align*}
+leads to the same marginal (unconditional) distribution of $Y$.
+\end{enumerate}
+
+\subsection*{Part A}
+For this model:
+\begin{align*}
+f_{Y| \Lambda}(y) = \frac{e^{\lambda} \lambda^y}{y!} && f_{\Lambda}(\lambda) = \lambda^{\alpha-1} \frac{\beta^{\alpha}}{\Gamma (\alpha)} e^{-\beta \lambda} 
+\end{align*}
+$\mathbb{E}(Y)$ can be given by:
+\begin{align*}
+\mathbb{E}(Y) = \mathbb{E}(\mathbb{E}(Y|\Lambda)) = \mathbb{E}(\Lambda) = \int_{0}^{\infty} \lambda \lambda^{\alpha-1} \frac{\beta^{\alpha}}{\Gamma (\alpha)} e^{-\beta \lambda}  d \lambda
+\end{align*}
+\begin{align*}
+\mathbb{E}(Y) = \frac{\beta^{\alpha}}{\Gamma (\alpha)} \int_{0}^{\infty} \lambda^{\alpha} e^{-\beta \lambda}  d \lambda = \boxed{ \frac{\alpha}{\beta} }
+\end{align*}
+The Variance can be given by:
+\begin{align*}
+Var(Y) = \mathbb{E}(Var(Y|\Lambda )) + Var(\mathbb{E}(Y|\Lambda)) = \mathbb{E}(\Lambda ) + Var(\Lambda) =\boxed{ \frac{\alpha}{\beta} + \frac{\alpha}{\beta^2} }
+\end{align*}
+The marginal distribution is found via:
+\begin{align*}
+f(y) = \int_{0}^{\infty} \frac{e^{\lambda} \lambda^y}{y!} dy
+\end{align*}
+Truthfully, I used wolfram alpha for this. From what I understand, one has to manipulate this into a form which allows you to represent it as a gamma integral.
+\begin{align*}
+f(y) = \frac{(\alpha+y-1)! \beta^\alpha}{y! (\alpha - 1)! (\beta+1)^y (\beta+1)^\alpha}
+\end{align*}
+This can be re arranged somewhat. Those factorial terms look suspiciously like a binomial expansion, so we can simplify it accordingly.
+\begin{align*}
+\boxed{ f(y) = \binom{\alpha + y - 1}{y}\frac{\beta^\alpha}{(\beta+1)^y (\beta+1)^\alpha} }
+\end{align*}
+This then is the negative binomial distribution. Note that the above is the negative binomial distribution, and that simplification only works when $\alpha$ is an integer, due to the involvement of the gamma function.3
+\subsection*{Part B}
+\begin{align*}
+f_{Y|\Lambda }(y,\lambda ) = \sum_{n=y}^{\infty} P(Y=y| N=n,\lambda ) P(N=n|\lambda ) = \frac{e^{-\lambda p} (\lambda p)^y}{y!} \sum_{n=y}^{\infty} \frac{e^{-\lambda} ((1-p)\lambda)^{n-y}}{(n-y)!e^{-\lambda p}}
+\end{align*} 
+Simplified, we are left with a Poisson pmf:
+\begin{align*}
+f_{Y|\Lambda }(y,\lambda ) = (\lambda p)^y \frac{e^-{\lambda p}}{y!} 
+\end{align*}
+
+
+\pagebreak
+
+\section*{Problem 4}
+Let $(X_1,...,X_m)$ have a multinomial distribution with $n$ trials and cell probabilities
+$p_1,...,p_m$. Show that, for every $i$ and $j$,
+\begin{align*}
+X_i|X_j = x_j ~ Binomial(n-x_j, \frac{p_i}{1-p_j}) && X_j ~ Binomial Binomial(n,p_j)
+\end{align*}
+Hence show that, $Cov(X_i,X_j) = -n p_i p_j$.
+\subsection*{Part A}
+The pmf is given by:
+\begin{align*}
+f(x_j) = \sum \frac{n!}{x_1! x_n! x_m} p_1^{x_1}*...*p_k^{x_k}
+\end{align*}
+
+
+\subsection*{Part B}
+Note $j!=k$
+\begin{align*}
+x_i = \sum_k^{n} A_k, \sum_l^{n} B_l && Cov(x_i, x_k) = Cov(A_k,B_l) = \mathbb{E}(A_k,B_l) - \mathbb{E}(A_k)\mathbb{E}(B_l)
+\end{align*}
+\begin{align*}
+\boxed {Cov(x_i, x_k) = 0 - p_i p_j = }
+\end{align*}
+
+
+\pagebreak
+
+
+
+
+
+\section*{Problem 5}
+Suppose $X_1$ and $X_2$ are independent $N(0,\sigma^2)$ random variables.
+\begin{enumerate}
+\item[a.]
+Find the joint distribution of $Y_1$ and $Y_2$ where
+\begin{align*}
+Y_1 = X_{1}^{2} + X_{2}^{2} && Y_2 = \frac{X_1}{\sqrt{Y_1}}
+\end{align*}
+\item[b.]
+Show that $Y_1$ and $Y_2$ are independent, and interpret this result geometrically
+\begin{align*}
+Y|N ~ Binomial(N,p), N|\Lambda~Poisson(\Lambda) and \Lambda ~ Gamma(\alpha, \beta)
+\end{align*}
+\end{enumerate}
+
+\subsection*{Part A}
+Stating the pdfs of $X_1$ and $X_2$:
+\begin{align*}
+f_{X_1} = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{x_1^2}{2 \sigma^2}} && f_{X_2]} =\frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{x_2^2}{2 \sigma^2}}
+\end{align*}
+Since we know that our random variables are independent, we know the joint pdf will be the product of the two random variables:
+\begin{align*}
+f(x_1,x_2) = f_{X_1}(x_1) f_{X_2}(x_2) = (\frac{1}{\sigma \sqrt{2 \pi}})^2 e^{-\frac{x_1^2}{2 \sigma^2}} e^{-\frac{x_2^2}{2 \sigma^2}}
+\end{align*}
+
+Now we can calculate the joint distribution of $Y_1$ and $Y_2$ by taking the Jacobian of the joint distribution of $X_1$ and $X_2$. Our Jacobian is then:
+\begin{align*}
+Det(J) = \begin{vmatrix}
+\frac{\partial x_1}{\partial y_1} & \frac{\partial x_1}{\partial y_2} \\
+\frac{\partial x_2}{\partial y_1} & \frac{\partial x_2}{\partial y_2}
+\end{vmatrix} = \begin{vmatrix}
+\frac{y_2}{2\sqrt{y_1}} & \sqrt{y_1} \\
+\frac{(1-y^2_2)}{2\sqrt{y_1 - y_1 y_2^2}} & -\frac{y_1 y_2}{\sqrt{y_1 - y_1 y_2^2}}
+\end{vmatrix}
+\end{align*}
+\begin{align*}
+Det(J) = \frac{y_2}{2\sqrt{y_1}} (-\frac{y_1 y_2}{\sqrt{y_1 - y_1 y_2^2}}) - \sqrt{y_1} \frac{(1-y^2_2)}{2\sqrt{y_1 - y_1 y_2^2}} = \frac{1}{2\sqrt{1-y_2^2}}
+\end{align*}
+With the Jacobian, the transformation from $f(x_1,x_2)$ to $g(y_1,y_2)$ is then given by:
+\begin{align*}
+f(y_1,y_2) = f_{X_1,X_2}(g(y_1,y_2),h(y_1,y_2)) |J| = \frac{1}{4 \pi \sigma^2 \sqrt{1-y^2}} e^{-\frac{y_2^2 y_1}{2 \sigma^2}} e^{-\frac{y_1- y_1y_2^2}{2 \sigma^2}}
+\end{align*}
+\begin{align*}
+\boxed { f(y_1,y_2) = \frac{1}{4 \pi \sigma^2 \sqrt{1-y^2}} e^{-\frac{y_1}{2\sigma^2}} }
+\end{align*}
+\subsection*{Part B}
+Two random variables are independant if their joint pdf, they can be expressed as a product of two functions of independent variables.
+
+Our joint distribution is
+\begin{align*}
+f(y_1,y_2) = \frac{1}{4 \pi \sigma^2 \sqrt{1-y^2}} e^{-\frac{y_1}{2\sigma^2}}
+\end{align*}
+Let $v(y_2) = \frac{1}{4 \pi \sigma^2 \sqrt{1-y^2}}$ and let $u(y_1) = e^{-\frac{y_1}{2\sigma^2}}$. Then our joint distribution can be represented as:
+\begin{align*}
+f(y_1,y_2) = u(y_1) v(y_2)
+\end{align*}
+This satisfies the definition of independence. Geometrically speaking, I think this just demonstrates properties of the normal distribution. Given that $X_1$ and $X_2$ are both independent normal distributions, then sums and powers of those retain independence.
+
+
+\pagebreak
+
+
+\section*{Problem 6}
+Suppose $(X_1, X_2,...,X_m) ~ MN(n; p_1, p_2,..., pm)$
+$\sum_{i=1}^{m} p_i = 1$ Define
+\begin{align*}
+Q = \sum_{i=1}^{m} \frac{(X_i-n p_i)^2}{n p_i}
+\end{align*}
+Find $\mathbb{E}(Q)$
+\subsection*{Part A}
+$\mathbb{E}(Q)$ can be stated by:
+\begin{align*}
+\mathbb{E}(Q) = \sum_{i=1}^{m} \frac{\mathbb{E}((X_i-n p_i)^2)}{n p_i}
+\end{align*}
+$\mathbb{E}((X_i-n p_i)^2)$ is the Variance of $X_i$.
+\begin{align*}
+\mathbb{E}(Q) = \sum_{i=1}^{m} \frac{Var(X_i)}{n p_i} = \sum_{i=1}^{m} \frac{n p_i (1-p_1)}{n p_i} = \sum_{i=1}^{m} (1-p_1)
+\end{align*}
+
+\begin{align*}
+\boxed{ \mathbb{E}(Q) = m-1 }
+\end{align*}
+
+\end{document} 

@@ -1,0 +1,51 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+
+\title{EGRE-335 Exam 2}
+\author{John Hiles}
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 1}
+The Fourier transform of the autocorrelation function $R_{xx}(\tau)$ of $x(t)$ is equivalent to what other Fourier transform calculation?
+
+The Fourier transform of the autocorrelation function of a signal $x(t)$ is the spectral power density. This is useful since it essentially gives all the information signal energy would give but in the frequency domain. This equality also ensures that if you have the spectral power density, you can take its reverse fourier transform and get the autocorrelation function.
+
+\section*{Problem 2}
+Describe three methods to calculate the energy of a signal.
+
+The purpose of signal energy is to have a metric by which you can compare signals. This is actually more difficult than it sounds because simple magnitude, duration, or frequency are quantities which can vary greatly from signal to signal. Signal energy is an agreed apon metric which conveys information on the "size" of a signal. Signal energy is given by:
+\begin{align*}
+E = \int_{-\infty}^{\infty} |x(t)|^2 dt
+\end{align*}
+It is important to understand why this equation is the way it is. By taking the absolute value and squaring, the user eliminates negative components of the signal potentially canceling out positive components. However this metric has drawbacks, as some signals may be periodic or may diverge with infinite limits. A signal energy of "Infinity" isn't a very useful metric, nor does this metric really have a way of differentiating between a periodic and nonperiodic signal.
+
+For integrals which diverge, Signal Power can be used. Note the factor of $\frac{1}{T}$. This factor scales the integral, so signal power is more of a metric to measure the average characteristics of a signal, as opposed to signal energy which measures cumulatively.
+\begin{align*}
+P_x = \lim_{T\rightarrow \infty} \frac{1}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} |x(t)|^2 dt
+\end{align*}
+And for periodic signals, we can simply take the signal power over 1 period to characterize the signal.
+\begin{align*}
+P_\theta = \lim_{T\rightarrow \infty} \frac{1}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} |x(t)|^2 dt
+\end{align*}
+For a periodic signal, the above is enough to characterize it completely.
+
+The final method is via Parseval's theorem.
+\begin{align*}
+E = \frac{1}{2\pi} \int_{-\infty}^{\infty} |X(\omega )|^2 dt
+\end{align*}
+Note here that $X(\omega )$ is the fourier transform of the original signal. Note that this transform must be normalized to be true.
+
+\section*{Problem 3}
+Use the provided Fourier Transform tables and properties to examine whether the figures below are correct time-domain and frequency domain pairs. First, you will have to use the provided function values to calculate the parameters in the formula $f(t)=A e^{(-\alpha(t-t_0) )} u(t-t_0)$. Note that the F.T. tables express the FT as a complex function. Take the time to calculate the corresponding magnitude and phase and compare your values against the values provided on the curves. What is your percent difference? Given your calculations, are the graphs below correct? Use the values provided on the graph to calculate the parameters of $f(t)$ (which is the correct functions) and to confirm whether or not the graphs of $|F(\omega)|$ and $\angle F(\omega )$ are correct. The angle in the graph has been “unwrapped” so is not restricted to $(-\pi,\pi)$.
+
+Well right off the bat, its easy to find $t_0$. This graph has obviously been time shifted forward by $20$ seconds. Take note of what
+\begin{align*}
+E = \frac{1}{2\pi} \int_{-\infty}^{\infty} |X(\omega )|^2 dt
+\end{align*}
+
+\end{document}

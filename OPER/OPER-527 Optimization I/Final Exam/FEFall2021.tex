@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+\textwidth=6.75in
+\textheight=9in
+\topmargin=-.5in
+\headheight=0in
+\headsep=.5in
+\hoffset  -.75in
+
+\usepackage{amsmath}
+\pagestyle{empty}
+
+
+\begin{document}
+\begin{center}
+{\bf \large{Final Exam} \\
+OPER 527}
+\end{center}
+
+\vspace{.25in}
+
+\noindent Name \underline{\hspace{7cm}} \\
+Be sure to show all work.\\
+You may work with no other people on this test.\\
+All work must by done by hand.\\
+You will turn in a {\bf hard copy} of this exam by {\bf 9:00pm, December 13, 2021}.
+
+\begin{enumerate}
+\item  Consider $\mathbf{cx}$ and $\mathbf{Ax} \le \mathbf{b}$.
+\begin{enumerate}
+  \item ( 5 pts)  Show that $f(\mathbf{x})=\mathbf{cx}$ is convex.
+  \item (10 pts)  Show that if $\mathbf{Ax} \le \mathbf{b}$ is non-empty then it is also convex. 
+\end{enumerate}
+
+\pagebreak
+\item Using the statement in problem 1, consider the following problem.
+\[ \min_{x,y} f(x,y) = x^2 - xy - 4x + y^2 - 7y + 50 \]
+subject to:
+\begin{eqnarray*}
+x + y &\le& 10 \cr
+x + 10y &\le& 80  \cr
+0.4x - y &\ge& 2 \cr
+y \ge 0 , ~~ x &\ge& 0 
+\end{eqnarray*}
+\begin{enumerate}
+  \item (10 pts) Draw a picture of the feasible region with all corners defined.
+  \item (10 pts) Verify that the unconstrained minimum of f(x,y) is located at (5,6).  Be sure to use eigenvalues.
+  \item (5 pts) Determine which constraint is closest to the unconstrained minimum.
+  \item (5 pts) Solve the constraint for one of the variables and substitute it into f(x,y) to reduce the dimensionality to one variable.  Write this function down.
+  \item (10 pts) Minimize the function found above and verify that it is indeed a minimum.
+   
+\end{enumerate}
+
+\pagebreak
+\item Consider the following mathematical program
+\[ \max_{x,y} e^{-|x-y|/5}\left( -\frac{x^2}{10}sin(x)-\frac{y^2}{15}cos(y) \right) \]
+subject to:
+\begin{eqnarray*}
+  y + 0.2x &\le & 10 \\
+  10y - x^2 &\ge & 0 \\
+  y - 2xsin(x) & \le & 0 \\
+  x & \le & 5
+\end{eqnarray*}
+\begin{enumerate}
+  \item (10 pts) Draw a picture of the feasible region.
+  \item (5 pts) Is the feasible region convex?  Show why or why not using a numerical example, not just a picture.
+  \item (10 pts) Formulate the mathematical program with pentalty functions.
+  \item (10 pts) Calculate the gradient using exact calculation from derivatives and using a numerical derivative calculate the approximate calculation and comment on how close the numbers are.
+  \item (10 pts) Using any technique you choose maximize the mathematical program with the penatlty functions you choose.  Be sure to be as detailed as possible for partial credit if things do not go well. 
+\end{enumerate}
+
+\end{enumerate}
+\end{document}

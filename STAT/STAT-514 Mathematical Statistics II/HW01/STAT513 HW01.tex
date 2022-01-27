@@ -1,0 +1,190 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-514 Homework 1}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+Let $X_1, X_2,..., X_n$ be a random sample of size n from a standard normal distribution. Define:
+\begin{align*}
+\bar{X}_k = \frac{1}{k} \sum_{i=1}^{k} X_i && \bar{X}_{n-k} = \frac{1}{n-k} \sum_{i=k+1}^{n} X_i 
+\end{align*}
+Find:
+\begin{enumerate}
+\item[A.] $\bar{X}_k$ and $\bar{X}_{n-k}$
+\item[B.] $T_1 = \frac{1}{2} (\bar{X}_k + \bar{X}_{n-k})$
+\item[C.] $T_2 = k\bar{X}_{k}^2 + (n-k) \bar{X}_{n-k}^{2})$
+\end{enumerate}
+\subsection*{Part A}
+Given that $X_n$ are independent random samples from the standard normal distribution, we can actually simplify $\bar{X}_n$. 
+\begin{align*}
+\bar{X}_k = \frac{\sum_{i=1}^{k} X_i}{k} && \bar{X}_{n-k} = \frac{\sum_{i=1}^{k} X_i}{n-k}
+\end{align*}
+A property of normal independent random variables, is that the sum of two gaussians is another gaussian. To know what particular normal distribution is, we can solve for their expectation and variance respectively.
+\begin{align*}
+\mathbb{E}(\bar{X}_k) = \frac{\sum_{i=1}^{k} \mu_i}{k}
+\end{align*}
+For each of these, $\frac{\mu_i}{k} = 0$ since these are all standard normal.
+\begin{align*}
+Var(\bar{X}_k) = \frac{\sum_{i=1}^{k} \sigma^2_i}{k} && \sigma_i^2 = 1
+\end{align*}
+As such our distribution is defined as:
+\begin{align*}
+\bar{X}_k ~ \mathcal{N}(0,\frac{1}{k})
+\end{align*}
+Now to do the same for $\bar{X}_{n-k}$
+\begin{align*}
+\mathbb{E}(\bar{X}_k) = \frac{\sum_{i=n}^{k} mu_i}{n-k} = 0 && Var(\bar{X}_k) = \frac{\sum_{i=k+1}^{n} \sigma^2_i}{n-k} = \frac{1}{n-k}
+\end{align*}
+Thus our distributions are:
+\begin{align*}
+\boxed{\bar{X}_k \sim \mathcal{N}(0,\frac{1}{k})} && \boxed{\bar{X}_k \sim \mathcal{N}(0,\frac{1}{n-k})}
+\end{align*}
+\subsection*{Part B}
+Note here that we also must use our knowledge of the properties of the Gaussian distribution. $T_1$ is the sum of two Gaussians, multiplied by a scalar. As established before, the sum of two independant Gaussians is a Gaussian. A Gaussian multiplied by a scalar is also a Gaussian. The easiest way to deal with this is to treat this as a linear combination of $\frac{1}{2}\bar{X}_k$ and $frac{1}{2}\bar{X}_{n-k}$.
+\begin{align*}
+\mathbb{E}(T_1) = \frac{0+0}{2} = 0 && Var(T_1) = \frac{1}{2^2k} + \frac{1}{2^2(n-k)}) = \frac{n}{4k(n-k)}
+\end{align*}
+Thus:
+\begin{align*}
+\boxed{ T_1 \sim \mathcal{N}(0,\tfrac{n}{4k(n-k)}) }
+\end{align*}
+\subsection*{Part C}
+For this problem, we are no longer dealing with linear combinations of Gaussian PDFs. The product of two independant Gaussian random variables is no longer a Gaussian but a Chi-Squared random variable. $T_2$ is composed of two squares of Gaussian variables, and as such we can rewrite it in terms of Chi random variables.
+\begin{align*}
+T_2 = k\bar{X}_{k}^2 + (n-k) \bar{X}_{n-k}^{2}) = k\bar{X}_{k}^2 + (n-k) \bar{X}_{n-k}^{2})
+\end{align*}
+
+
+\clearpage
+
+\section*{Problem 2}
+Let $X$ be a chi-squared random variable with 5 degrees of freedom. Define a random
+variable Y as follows:
+\begin{align*}
+Y = e^{1-X}
+\end{align*}
+Find the expected value of Y
+\subsection*{Part A}
+We can simplify this expression somewhat:
+\begin{align*}
+\mathbb{E}(Y) = \mathbb{E}(e^{1-X}) = \mathbb{E}(e^{1}e^{-X}) = e \mathbb{E}(e^{-X})
+\end{align*}
+Now we can focus on $X$ itself. 
+\begin{align*}
+X \sim \mathcal{X}^2_{5} \equiv Gamma(\tfrac{5}{2},2)
+\end{align*}
+This evaluates to:
+\begin{align*}
+f(x) = Gamma(\tfrac{5}{2},2) = \frac{1}{2^{5/2}\Gamma(\tfrac{5}{2})}
+\end{align*}
+Thus expectation is given by:
+\begin{align*}
+\mathbb{E}(Y) = \int_{0}^{\infty} e^{\frac{1}{2^{5/2}\Gamma(\tfrac{5}{2})} x^{\tfrac{3}{2}} e^{-\tfrac{x}{2}}} dx
+\end{align*}
+Before proceeding, lets take a look at the Moment Generating Function for $X$. To find the MGF of a variable, we take the expectation of a variable:
+\begin{align*}
+M_X = \mathbb{E}(e^{tX})
+\end{align*}
+As you can see, this integration has actually already been computed, as $\mathbb{E}(Y)$ is simply the MGF of $X$ except where $t=-1$. Thus our final answer is:
+\begin{align*}
+\boxed{ \mathbb{E}(Y) = M_X(-1) = (1-2(-1))^{\tfrac{5}{(-1)}} = 3^5 }
+\end{align*}
+    
+\clearpage
+\section*{Problem 3}
+Let $X_1, X_2,..., X_n$ be iid random variables with a continuous cdf $F_x$, and suppose
+$\mathbb{E}(X_i)=\mu$. Define the random variables $Y_1, Y_2,..., Y_n$ by 
+
+\begin{align*}
+Y_i = 
+\begin{cases} 
+      1 & X_i > \mu \\
+      0 & X_i \leq \mu  
+   \end{cases}
+\end{align*}
+
+Find the distribution of $\sum^{n}_{i=1} Y_i$
+\subsection*{Part A}
+Given that there are two outcomes to $Y_i$, each instance of $Y_i$ has probability(unknown to us without the pdfs of $X_i$) of being one of two outcomes. We can call this probability $p_i$. We can write this in terms of the unknown probability function P:
+\begin{align*}
+p_i = P(X_i > \mu)
+\end{align*}
+Allow me to geometrically interpret this probability function. $\mu$ represents a dividing line. The probability of success $p_i$ is represented by the area under the curve of the pdf of $X_i$ from $\mu$ to $\infty$. Since we assume the CDF to be defined $X_i$ we can use that to calculate this area.
+\begin{align*}
+p_i = F_{X_i}(\infty) - F_{X_i}(\mu) = 1 - F_{X_i}(\mu)
+\end{align*}
+With knowledge of $p_i$, we can define $Y_i$ in terms of a series of binomial distributions, in which $p_i$ is specified for each instance of $X_i$.
+\begin{align*}
+\boxed{ \sum_{i=1}^{n} Y_i \sim Bin(n,1 - F_{X_i}(\mu)) }
+\end{align*}
+
+    
+\clearpage
+\section*{Problem 4}
+Let $X_1, X_2,..., X_n$ be a random sample of size n from a standard normal distribution. Define:
+\begin{align*}
+Y_1 = |\frac{1}{n}\sum_{i=1}^{n}X_i| && Y_2 = \frac{1}{n}\sum_{i=1}^{n}|X_i|
+\end{align*}
+Find:
+
+Calculate $\mathbb{E}(Y_1)$ and $\mathbb{E}(Y_2)$.
+\subsection*{Part A}
+I think the best way to approach this would be to use properties of the sample mean $\bar{X}$. Note that for $Y_1$ it is the absolute value of the sample mean.
+\begin{align*}
+Y_1 = |\bar{X}|
+\end{align*}
+Now our expectation is
+\begin{align*}
+\mathbb{E}(Y_1) = \mathbb{E}|\bar{X}| = \mathbb{E}|\bar{X}|f(\bar{x})
+\end{align*}
+$f(\bar{x})$ represents the pdf of the sample mean. This is essentially the average of $n$ many standard normal pdfs.
+\begin{align*}
+f(\bar{x}) = \frac{1}{n} [\frac{1}{\sqrt{2\pi}}e^{(-\frac{x^2}{2})} + ... + \frac{1}{\sqrt{2\pi}}e^{(-\frac{x^2}{2})}] = \frac{1}{n \sqrt{2\pi}}e^{(-\frac{n x^2}{2})}
+\end{align*}
+Substituting back into our expectation integral:
+\begin{align*}
+\mathbb{E}(Y_1) = \mathbb{E} |\bar{X}| \frac{1}{n \sqrt{2\pi}}e^{(-\frac{n x^2}{2})} = \frac{1}{n \sqrt{2\pi}} \int_{-\infty}^{\infty} |\bar{X}| e^{(-\frac{n x^2}{2})} dx
+\end{align*}
+\clearpage
+\section*{Problem 5}
+Given $\theta$, let $X$ be a normal random variable with mean $\theta$ and variance $1$. Also, let
+$\theta$ be a chi-squared random variable with degree of freedom $2n$.
+\begin{enumerate}
+\item[A.] Compute $\mathbb{E}(X)$ and $Var(X)$.
+\item[B.] Compute the moment generating function of $X$.
+\end{enumerate}
+\subsection*{Part A}
+    
+\clearpage
+\section*{Problem 6}
+Establish the following recursion relation relations for means and variances. Let $X_n$ and $S_n^2$ be the mean and variance respectively of $X_1,X_2,...,X_n$. Then suppose another observation $X_{n+1}$ becomes available. Show that
+\begin{enumerate}
+\item[A.] $\bar{X}_{n+1} = \frac{X_{n+1}+n \bar{X}_n}{n+1}$
+\item[B.] $nS^2_{n+1} = (n-1)S^2_n + (\tfrac{n}{n+1})(X_{n+1}-\bar{X}_n)^2$
+\end{enumerate}
+\subsection*{Part A}
+
+    
+\clearpage
+\section*{Problem 7}
+The number of persons coming through a blood bank until the first person with
+type A blood is found is a random variable $X$ with a geometric distribution. If $p$ denotes the
+probability that any randomly selected person will have type A blood, then $\mathbb{E}(X) = \tfrac{1}{p}$ and $Var(X)=\tfrac{(1-p)}{p^2}$. Find a function of $X$ that is an unbiased estimator of $Var(X)$ 
+\subsection*{Part A}
+    
+\clearpage
+
+\end{document}

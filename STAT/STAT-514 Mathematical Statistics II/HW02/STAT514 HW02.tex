@@ -1,0 +1,81 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-514 Homework 2}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+Let $X_1,...,X_5$ be a random sample of size 5 from a normal population with mean $0 $and variance $1$ and let $\bar{X}=(1/5)\sum_{i=1}^{5}X_i^2$. Let $X_6$ be another independent observation from the same population. Find the distributions of
+\begin{enumerate}
+\item[A)] $W=\sum_{i=1}^5 X_i^2$
+\item[B)] $U=\sum_{i=1}^5 (X_i-X_{\bar{X})}^2$
+\item[C)] $T_1 = \sqrt{5} \frac{X_6}{\sqrt{W}}$
+\item[D)] $T_2 = 2(5\bar{X}^2)$
+
+\end{enumerate}
+\subsection*{Part A}
+
+\clearpage
+
+\section*{Problem 2}
+ Show that the median of an F-distribution with $(\nu, \nu)$ degrees of freedom is 1. Also,
+show that $Q_1Q_3 = 1$, where Q1 and Q3 are the first and third quartiles, respectively, of the $F(\nu,\nu)$
+distribution.
+
+Hint: You will have to use the fact that the reciprocal of an F random variable is also an F random
+variable.
+
+\subsection*{Part A}
+
+    
+\clearpage
+\section*{Problem 3}
+Suppose $X_1,X_2,...,X_n$ be a random sample from an exponential distribution with mean $\theta$.
+\begin{enumerate}
+\item[A)] Derive the density for the smallest order statistic $X_{(1)}$. Identify the distribution.
+\item[B)] Show that $X_{(1)}$ is independent of $X_{(n)}-X_{(1)}$.
+\end{enumerate}
+\subsection*{Part A}
+   
+\clearpage
+\section*{Problem 4}
+ Let $X_1,...,X_n$ be a random sample of size $n$ from a population with pdf
+ \begin{align*}
+ f(x) = \begin{cases} 
+      \frac{1}{\theta} & 0<x\leq \theta \\
+       0 & \text{ otherwise } 
+   \end{cases}
+\end{align*}
+Let $X_{(1)}<...< X_{(n)}$ be the order statistics. Show that $\frac{X(1)}{X(n)}$ and $X_{(n)}$ are independent
+random variables.
+
+\subsection*{Part A}
+
+
+
+\clearpage
+\section*{Problem 5}
+Suppose $X_1,...,X_n$ be a random sample from a $Beta(2,1)$ distribution.
+\begin{enumerate}
+\item[A.] Derive the density for the smallest order statistic $X_{(1)}$
+\item[B.] Suppose $n = 3$. Compute the probability that $X_{(1)}$ exceeds the median of the distribution.
+\item[C.] Again, let $n = 3$. What is the covariance between $X_{(2)}$ and $X_{(3)}$.
+
+\end{enumerate}
+
+\subsection*{Part A}
+
+
+\end{document}

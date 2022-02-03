@@ -2,6 +2,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{amssymb,amsmath,amsthm}
+\usepackage{graphicx}
+\graphicspath{ {./figures/} }
 
 \title{EGRE-335 Exam 2}
 \author{John Hiles}
@@ -13,8 +15,8 @@
 \section*{Problem 1}
 The Fourier transform of the autocorrelation function $R_{xx}(\tau)$ of $x(t)$ is equivalent to what other Fourier transform calculation?
 
-The Fourier transform of the autocorrelation function of a signal $x(t)$ is the spectral power density. This is useful since it essentially gives all the information signal energy would give but in the frequency domain. This equality also ensures that if you have the spectral power density, you can take its reverse fourier transform and get the autocorrelation function.
-
+The Fourier transform of the autocorrelation function of a signal $x(t)$ is the spectral power density. This is useful since it essentially gives all the information signal energy would give but in the frequency domain. I've made extensive use of spectral power diagrams in a lab setting analyzing the intensity of different wavelengths of light. This equality also ensures that if you have the spectral power density, you can take its reverse fourier transform and get the autocorrelation function.
+\pagebreak
 \section*{Problem 2}
 Describe three methods to calculate the energy of a signal.
 
@@ -39,13 +41,139 @@ The final method is via Parseval's theorem.
 E = \frac{1}{2\pi} \int_{-\infty}^{\infty} |X(\omega )|^2 dt
 \end{align*}
 Note here that $X(\omega )$ is the fourier transform of the original signal. Note that this transform must be normalized to be true.
-
+\pagebreak
 \section*{Problem 3}
 Use the provided Fourier Transform tables and properties to examine whether the figures below are correct time-domain and frequency domain pairs. First, you will have to use the provided function values to calculate the parameters in the formula $f(t)=A e^{(-\alpha(t-t_0) )} u(t-t_0)$. Note that the F.T. tables express the FT as a complex function. Take the time to calculate the corresponding magnitude and phase and compare your values against the values provided on the curves. What is your percent difference? Given your calculations, are the graphs below correct? Use the values provided on the graph to calculate the parameters of $f(t)$ (which is the correct functions) and to confirm whether or not the graphs of $|F(\omega)|$ and $\angle F(\omega )$ are correct. The angle in the graph has been “unwrapped” so is not restricted to $(-\pi,\pi)$.
 
-Well right off the bat, its easy to find $t_0$. This graph has obviously been time shifted forward by $20$ seconds. Take note of what
+Well right off the bat, its easy to find $t_0$. This graph has obviously been time shifted forward by $20.1$ seconds. So we can fill in:
 \begin{align*}
-E = \frac{1}{2\pi} \int_{-\infty}^{\infty} |X(\omega )|^2 dt
+f(t)=A e^{(-\alpha(t-20.1) )} u(t-20.1)
 \end{align*}
+We can now solve for $A$ based on the peak of the function at $f(20.1)$
+\begin{align*}
+f(20.1)= 9.0448 = A e^{0} u(0) && A=9.0448
+\end{align*}
+Our function now looks like:
+\begin{align*}
+f(t)=9.0448 e^{(-\alpha(t-20.1) )} u(t-20.1)
+\end{align*}
+Now to solve for $\alpha$
+\begin{align*}
+f(20.9)= 4.0657 = 9.0448 e^{(-\alpha(0.8) )} u(0.8) && \alpha = 0.9995
+\end{align*}
+In the real world, we know the experimental difference between real systems and theory means this is probably in reality $\alpha = 1$. But for the sake of the problem, I'm going to roll with $\alpha = 0.9995$. Our function is then:
+\begin{align*}
+f(t)=9.0448 e^{(-0.9995(t-20.1) )} u(t-20.1)
+\end{align*}
+
+The fourier transform of this function is given by:
+\begin{align*}
+X(\omega ) = \frac{1}{\alpha + j \omega}
+\end{align*}
+This didn't take much effort, as it was one of the given functions in the table/textbook. The magnitude then is:
+\begin{align*}
+X(\omega ) = \frac{A}{\alpha + j \omega} = \frac{9.0448}{0.9995 + j \omega}
+\end{align*}
+Based on the plots this looks correct at least in terms of general shape. Lets compare magnitude at the given points to compare our function:
+\begin{align*}
+|X(-0.0628319)| = 9.98038
+\end{align*}
+The magnitude of the given points are:
+\begin{align*}
+|X(-0.0628319)| = 9.98038 && |X(2.32478)| = 3.95143
+\end{align*}
+The corresponding magnitudes in our FT is given by:
+\begin{align*}
+|X(-0.0628319)| = |\frac{9.0448}{0.9995 - 0.0628319 j}| = \frac{9.0448}{\sqrt{0.9995^2 + (-0.0628319)^2}} = 9.031 
+\end{align*}
+\begin{align*}
+|X(2.32478)| = \frac{1}{\sqrt{0.9995^2 + (2.32478)^2}} = 3.574
+\end{align*}
+Our respective percent errors are then:
+\begin{align*}
+Error_1 = \frac{9.98038-9.031}{9.98038} = 0.0951 && Error_2 = \frac{3.95143-3.574}{3.574} = 0.1056
+\end{align*}
+Interestingly, both figures have a similar error of around ten percent.
+Moving on, lets now calculate the phase of our FT.
+The two points we are given are stated:
+\begin{align*}
+\angle X(-31.2274) = -2.23113 && \angle X(-7.97965) = -467.279
+\end{align*}
+In our FT, these values correspond to:
+\begin{align*}
+\angle X(-31.2274) = arctan(\frac{0.3199}{0.001}) = 1.538 && \angle X(-7.97965) = 1.44 \frac{3.95143-3.574}{3.574} = 0.1056
+\end{align*}
+Before panicking lets try something:
+\begin{align*}
+\angle X(-31.2274) = 1.538 - 2\pi = -4.745 && \angle X(-7.97965) = 1.44 \frac{3.95143-3.574}{3.574} + 150\pi = -466.65
+\end{align*}
+The issue here is that due to the unconstrained nature of the phase, the phase will cyclically repeat itself as it "spins" around the angle.
+\pagebreak
+\section*{Problem 4}
+Here is our given function:
+\begin{align*}
+ f(t) = \begin{cases} 
+      1 + 0.5 t & -2\leq t \leq t  \\
+      1 - 0.25t & 0\leq t \leq 4 \\
+      0 & else 
+   \end{cases}
+\end{align*}
+This question essentially asks for a time shifted signal. Here is my plot of both signals:
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.66\linewidth]{plotq04.pdf}
+\caption{MATLAB Plot of Signal f(t)}\label{fig:Q41Plot}
+\end{figure}
+
+This next part asks for the scaled signal $f(\frac{t}{2})$. For this I think its more illustrative to plot all three signals on the same plot. The time scaling factor of $\frac{1}{2}$ causes dilation or expansion of the signal.
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.66\linewidth]{plotq042.pdf}
+\caption{MATLAB Plot of Signal f(t/2)}\label{fig:Q42Plot}
+\end{figure}
+\pagebreak
+\section*{Section 2 Problem 1}
+You have the “black box” below, described as defined in the image. Calculate the output of this filtering circuit. For BW=10 rad/s, $\omega_0=5$ rad/s, $N=3$ then $ω=[-3\omega_0,-2\omega_0,-1\omega_0,0,\omega_0,2\omega_0,3\omega_0]$. If the filter with bandwidth BW=10 rad/s acts on the input, which of the above frequencies will be present in the output? If $A_i=[2 5 3]$ $(A_0=0)$, then what is $V_in (t)$? What is $V_out(t)$?
+
+The first part of this problem is to figure out what the filter will actually filter out. The filter is a rectangular pulse function with bandwidth 10, meaning any frequency from $\frac{BW}{2}< \omega < ]frac{BW}{2}$ will pass through unmolested.
+
+However, for $\omega = \pm \frac{BW}{2}$, the amplitude will be halved. Out of the given ranges of 7 frequencies which are specified to pass through, only the following will make it through:
+\begin{align*}
+-\omega_0 && 0 && \omega_0
+\end{align*}
+A frequency of zero will make it though with no changes, but that hardly matters, as it will basically just end up being a singly monotone pulse of amplitude $A$. The frequencies of $\pm omega_0$ will pass through with their amplitude halved.
+
+The next part is concerned with the $V_in$ and $V_out$ functions respectively. Lets explicitly write out what we've got:
+\begin{align*}
+V_in = \sum_{i=1}^{3} A_i cos(i \omega_0 t)
+\end{align*}
+This sum expanded looks like:
+\begin{align*}
+\boxed{ V_in = 2 cos(\omega_0 t) + 5 cos(2 \omega_0 t) + 3 cos(3 \omega_0 t) }
+\end{align*}
+Unfortunately, the second and third terms are not long for this world. Their respective frequencies will be cut off by the filter as they exceed $\pm omega_0$. The first term will make it through the filter, though since they exactly meet the edge of the filter. It will however, have it's amplitude halved.
+\begin{align*}
+\boxed{ V_out = cos(\omega_0 t) }
+\end{align*}
+
+\pagebreak
+\section*{Section 2 Problem 2}
+You have another circuit with the input/output characteristics shown in the following graph. What can you say about the attenuation and time shift exhibited by this system? Explain how the correlation functions impart the same information.(This is important because in many cases, you can’t make a clear-cut observation on the data but you can by using the cross-correlation function.) Note that one correlation graph is the input with respect to the output while the other is the output with respect to the input. What difference does that make?
+\begin{figure}[hbt!]
+
+\centering
+\includegraphics[width=0.66\linewidth]{graphs22.png}
+\caption{Given plots of input and output of system.}\label{fig:Q42Plot}
+\end{figure}
+Lets start by talking about what we can observe from JUST direct observation of $v_i$ and $v_o$. Immediatly I can tell there is more than just one thing going on. Right off the bat, the signal goes from being symmetrical about the $y$ axis, to either asymmetrical or symmetrical about $t=5$. Without being able to zoom out, it is hard to definitively say. We can however definitively say that the amplitudes seem to be multiplied by a factor of $\frac{1}{2}$. 
+
+So direct observation seems to indicate that the signals is shifted to the right by 5 seconds, and that the amplitude is reduced by half.
+
+Now looking at the correlation function. We can see that the max correlation value is at $\pm 5$. Its also important to note that the $R$ value for correlation seems to be $R(5) = 0.5$. In layman's terms this means "At $\tau = 5$, $V_{in}$ and $V_{out}$ are 50\% similar.".
+
+So from this, the correlation does tell us most of the information we got via direct observation. HOWEVER, the correlation plot would have been identical if the amplitude of the signal was doubled instead of halved.
+
+Also, since you asked, the correlation functions show how one signal relates to the other. So it makes sense that the two Correlation functions appear mirrored.
 
 \end{document}

@@ -19,13 +19,27 @@
 \section*{Problem 1}
 Let $X_1,...,X_5$ be a random sample of size 5 from a normal population with mean $0 $and variance $1$ and let $\bar{X}=(1/5)\sum_{i=1}^{5}X_i^2$. Let $X_6$ be another independent observation from the same population. Find the distributions of
 \begin{enumerate}
-\item[A)] $W=\sum_{i=1}^5 X_i^2$
-\item[B)] $U=\sum_{i=1}^5 (X_i-X_{\bar{X})}^2$
-\item[C)] $T_1 = \sqrt{5} \frac{X_6}{\sqrt{W}}$
-\item[D)] $T_2 = 2(5\bar{X}^2)$
+\item[A.] $W=\sum_{i=1}^5 X_i^2$
+\item[B.] $U=\sum_{i=1}^5 (X_i-X_{\bar{X}})^2$
+\item[C.] $T_1 = \sqrt{5} \frac{X_6}{\sqrt{W}}$
+\item[D.] $T_2 = 2(5\bar{X}^2)$
 
 \end{enumerate}
 \subsection*{Part A}
+$W$ simply represents the non averaged sum of the squares of the sample random variables.
+\begin{align*}
+W=\sum_{i=1}^5 X_i^2 = X_1^2+X_2^2+X_3^2+X_4^2+X_5^2
+\end{align*}lt.
+Here lets note that these are standard normal distributions. As such, the sum of their squares (i.e. $W$) will be a chi squared random variable with $5$ degrees of freedom.
+\begin{align*}
+W = \mathcal{X}_5^2
+\end{align*}
+\subsection*{Part B}
+$U$ here is simply the sample Variance except missing the scaling $\frac{1}{n-1}$ factor.
+\begin{align*}
+S_5 = \frac{1}{4} U
+\end{align*}
+Logically, inside the parenthesis we have a sum of a standard normal and a negative nonstandard normal. The resulting distribution will be some sort of normal. That distribution will then be squared. If that resulting distribution is normalized the result will be chi squared. As such, our objective should be to find $\mathbb{E}(X_i-\bar{})$
 
 \clearpage
 
@@ -76,6 +90,17 @@ Suppose $X_1,...,X_n$ be a random sample from a $Beta(2,1)$ distribution.
 \end{enumerate}
 
 \subsection*{Part A}
+All $X_{(n)}$ samples are sampled from the $Beta(2,1)$ distribution. The pdf of this distribution is given by:
+\begin{align*}
+f(x) = \frac{x^{\alpha-1}(1-x)^{\beta-1}}{B(\alpha,\beta)} = 2x & 0<x<1
+\end{align*}
+
+
+
+
+\subsection*{Part B}
+Since $n=3$, the only value which exceeds the median is $X_{(3)}$ itself.
+
 
 
 \end{document}

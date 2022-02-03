@@ -1,0 +1,113 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{graphicx}
+\graphicspath{ {figures/} }
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-636 Homework 1}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+\subsection*{A}
+Brightness as measured by a light meter (in lumen).
+
+\textbf{Continuous, quantitative, ratio.}
+Rationale: While a sensor will provide a finite precision(discrete), it approximates/measures a continuous quantity. Ratios also have physical meaning (x is twice as bright as y).
+\subsection*{B}
+Brightness as measured by peoples judgments (e.g., dark, dim, or bright).
+
+\textbf{Discrete, Qualitative Ordinal.}
+Rationale: To be honest, I could argue that this is discrete quantitative by assigning each "bright dim dark" classification with a number, and we attribute to each measurement a high degree of uncertainty. But that is pedantic, its qualitative ordinal because these classifications are mainly relative ones to a person's own experience.
+\subsection*{C}
+Angles as measured in degrees between 0 and 360.
+
+\textbf{Continuous, quantitative, ratio.}
+Rationale: This one seems straightforward, especially considering radian measure is explicitly a ratio.
+\subsection*{D}
+Bronze, Silver, and Gold medals as awarded at the Olympics.
+
+\textbf{Discrete, Qualitative Ordinal.}
+Rationale: Gold Silver Bronze equates to Best Better Worst.
+\subsection*{E}
+Height above sea level (can be positive or negative).
+
+\textbf{Continuous, quantitative, ratio.}
+Rationale: Both ratios and differences are meaningful.
+\subsection*{F}
+Number of patients in a hospital.
+
+\textbf{Discrete, Quantitative Ratio.}
+Rationale: This is a count which is by definition Quantitative ratio.
+\subsection*{G}
+Ability to pass light in terms of the following values: opaque, translucent, transparent
+
+\textbf{Discrete, Qualitative Ordinal.}
+Rationale: These classifications have a clear observable hierarchy to their classification.
+\subsection*{H}
+Military rank.
+
+\textbf{Discrete, Qualitative Ordinal.}
+Rationale: Military Rank denotes a clear hierarchy, and numbers can be associated with each rank to denote seniority. The reason this isn't quantitative ratio however is that there isn't really any significance to the idea of someone being "double the rank" of an officer. Only differences in rank matter.
+\subsection*{I}
+ Distance from the center of campus (no direction).
+
+\textbf{Continuous, quantitative, ratio.}
+Rationale: Direction info is neglected, but distance is still a measurable quantity in which differences and ratios have meaning.
+\subsection*{J}
+Density of a substance in grams per cubic centimeter.
+
+\textbf{Continuous, quantitative, ratio.}
+Rationale: Most densities are presented in ratios so this seems like an obvious one.
+\clearpage
+
+\section*{Problem 2}
+\subsection*{Part A}
+Lets lay out the relationship between $x$ and $x*$
+\begin{align*}
+x^* = x^2
+\end{align*}
+Since $A$ and $B$ are simply points along the dataset, they will be transformed the same as any other transformation along the dataset. Let us denote the transformed constants as: $A^*$ and $B*$
+\begin{align*}
+\boxed{A^* = A^2} && \boxed{x = B^* = B^2}
+\end{align*}
+Thus our new interval in terms of the old interval is $(\sqrt{A},sqrt{B})$.
+\subsection*{Part B}
+Given the fact $x^* = x^2$, we can simply substitute in this for $x^*$ in our equation of $y$.
+\begin{align*}
+\boxed{ y = a x^2 + b }
+\end{align*}
+\clearpage
+
+\section*{Problem 3}
+\subsection*{Part A}
+I will list the summary statistics here. Let Column 36 be denoted as sample $x$.
+\begin{align*}
+\bar{x} = 2.244296 && \text{Med}(x) = 1 && s = 3.37112 && Q_1 = 0.165 && Q_3 = 2.625
+\end{align*}
+Finally our histogram and CDF are given by:
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{Histogram.png}
+\caption{Histogram}
+\end{figure}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{eCDF.png}
+\caption{Empirical CDF}
+\end{figure}
+
+
+
+
+\end{document}

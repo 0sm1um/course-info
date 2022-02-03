@@ -1,0 +1,344 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-514 Homework 1}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+Let $X_1, X_2,..., X_n$ be a random sample of size n from a standard normal distribution. Define:
+\begin{align*}
+\bar{X}_k = \frac{1}{k} \sum_{i=1}^{k} X_i && \bar{X}_{n-k} = \frac{1}{n-k} \sum_{i=k+1}^{n} X_i 
+\end{align*}
+Find:
+\begin{enumerate}
+\item[A.] $\bar{X}_k$ and $\bar{X}_{n-k}$
+\item[B.] $T_1 = \frac{1}{2} (\bar{X}_k + \bar{X}_{n-k})$
+\item[C.] $T_2 = k\bar{X}_{k}^2 + (n-k) \bar{X}_{n-k}^{2})$
+\end{enumerate}-
+\subsection*{Part A}
+Given that $X_n$ are independent random samples from the standard normal distribution, we can actually simplify $\bar{X}_n$. 
+\begin{align*}
+\bar{X}_k = \frac{\sum_{i=1}^{k} X_i}{k} && \bar{X}_{n-k} = \frac{\sum_{i=1}^{k} X_i}{n-k}
+\end{align*}
+A property of normal independent random variables, is that the sum of two gaussians is another gaussian. To know what particular normal distribution is, we can solve for their expectation and variance respectively.
+\begin{align*}
+\mathbb{E}(\bar{X}_k) = \frac{\sum_{i=1}^{k} \mu_i}{k}
+\end{align*}
+For each of these, $\frac{\mu_i}{k} = 0$ since these are all standard normal.
+\begin{align*}
+Var(\bar{X}_k) = \frac{\sum_{i=1}^{k} \sigma^2_i}{k} && \sigma_i^2 = 1
+\end{align*}
+As such our distribution is defined as:
+\begin{align*}
+\bar{X}_k \sim \mathcal{N}(0,\frac{1}{k})
+\end{align*}
+Now to do the same for $\bar{X}_{n-k}$
+\begin{align*}
+\mathbb{E}(\bar{X}_k) = \frac{\sum_{i=n}^{k} mu_i}{n-k} = 0 && Var(\bar{X}_k) = \frac{\sum_{i=k+1}^{n} \sigma^2_i}{n-k} = \frac{1}{n-k}
+\end{align*}
+Thus our distributions are:
+\begin{align*}
+\boxed{\bar{X}_k \sim \mathcal{N}(0,\frac{1}{k})} && \boxed{\bar{X}_k \sim \mathcal{N}(0,\frac{1}{n-k})}
+\end{align*}
+\subsection*{Part B}
+Note here that we also must use our knowledge of the properties of the Gaussian distribution. $T_1$ is the sum of two Gaussians, multiplied by a scalar. As established before, the sum of two independant Gaussians is a Gaussian. A Gaussian multiplied by a scalar is also a Gaussian. The easiest way to deal with this is to treat this as a linear combination of $\frac{1}{2}\bar{X}_k$ and $frac{1}{2}\bar{X}_{n-k}$.
+\begin{align*}
+\mathbb{E}(T_1) = \frac{0+0}{2} = 0 && Var(T_1) = \frac{1}{2^2k} + \frac{1}{2^2(n-k)}) = \frac{n}{4k(n-k)}
+\end{align*}
+Thus:
+\begin{align*}
+\boxed{ T_1 \sim \mathcal{N}(0,\tfrac{n}{4k(n-k)}) }
+\end{align*}
+\subsection*{Part C}
+For this problem, we are no longer dealing with linear combinations of Gaussian PDFs. The product of two independant Gaussian random variables is no longer a Gaussian but a Chi-Squared random variable. $T_2$ is composed of two squares of Gaussian variables, and as such we can rewrite it in terms of Chi random variables.
+\begin{align*}
+\bar{X}_k \sim \mathcal{N}(0,\frac{1}{k}) && \bar{X}_k \sim \mathcal{N}(0,\frac{1}{k})
+\end{align*}
+In order to combine them we should first transform our distributions into standard normal distributions. We can do this by normalizing them. Let 
+\begin{align*}
+Z_{k} = \frac{\bar{X}_{n}-\mu}{\frac{1}{\sqrt{k}}} && Z_{n-k} = \frac{\bar{X}_{n-k} - \mu}{\frac{1}{\sqrt{n-k}}}
+\end{align*}
+With this in mind we can run the same calculation with our normalized variables.
+\begin{align*}
+T_2 = k Z_{k}^2 + (n-k) Z_{n-k}^{2})
+\end{align*}
+These squared standard normals become Chi-Squared distributions with degree of freedom $n=2$.
+\begin{align*}
+T_2 = k \mathcal{X}^{2}_{1} + (n-k) \mathcal{X}^{2}_{1})
+\end{align*}
+\clearpage
+
+\section*{Problem 2}
+Let $X$ be a chi-squared random variable with 5 degrees of freedom. Define a random
+variable Y as follows:
+\begin{align*}
+Y = e^{1-X}
+\end{align*}
+Find the expected value of Y
+\subsection*{Part A}
+We can simplify this expression somewhat:
+\begin{align*}
+\mathbb{E}(Y) = \mathbb{E}(e^{1-X}) = \mathbb{E}(e^{1}e^{-X}) = e \mathbb{E}(e^{-X})
+\end{align*}
+Now we can focus on $X$ itself. 
+\begin{align*}
+X \sim \mathcal{X}^2_{5} \equiv Gamma(\tfrac{5}{2},2)
+\end{align*}
+This evaluates to:
+\begin{align*}
+f(x) = Gamma(\tfrac{5}{2},2) = \frac{1}{2^{5/2}\Gamma(\tfrac{5}{2})}
+\end{align*}
+Thus expectation is given by:
+\begin{align*}
+\mathbb{E}(Y) = \int_{0}^{\infty} e^{\frac{1}{2^{5/2}\Gamma(\tfrac{5}{2})} x^{\tfrac{3}{2}} e^{-\tfrac{x}{2}}} dx
+\end{align*}
+Before proceeding, lets take a look at the Moment Generating Function for $X$. To find the MGF of a variable, we take the expectation of a variable:
+\begin{align*}
+M_X = \mathbb{E}(e^{tX})
+\end{align*}
+As you can see, this integration has actually already been computed, as $\mathbb{E}(Y)$ is simply the MGF of $X$ except where $t=-1$. Thus our final answer is:
+\begin{align*}
+\boxed{ \mathbb{E}(Y) = M_X(-1) = (1-2(-1))^{-\tfrac{5}{(2)}} = \tfrac{\sqrt{3}}{27} }
+\end{align*}
+    
+\clearpage
+\section*{Problem 3}
+Let $X_1, X_2,..., X_n$ be iid random variables with a continuous cdf $F_x$, and suppose
+$\mathbb{E}(X_i)=\mu$. Define the random variables $Y_1, Y_2,..., Y_n$ by 
+
+\begin{align*}
+Y_i = 
+\begin{cases} 
+      1 & X_i > \mu \\
+      0 & X_i \leq \mu  
+   \end{cases}
+\end{align*}
+
+Find the distribution of $\sum^{n}_{i=1} Y_i$
+\subsection*{Part A}
+Given that there are two outcomes to $Y_i$, each instance of $Y_i$ has probability(unknown to us without the pdfs of $X_i$) of being one of two outcomes. We can call this probability $p_i$. We can write this in terms of the unknown probability function P:
+\begin{align*}
+p_i = P(X_i > \mu)
+\end{align*}
+Allow me to geometrically interpret this probability function. $\mu$ represents a dividing line. The probability of success $p_i$ is represented by the area under the curve of the pdf of $X_i$ from $\mu$ to $\infty$. Since we assume the CDF to be defined $X_i$ we can use that to calculate this area.
+\begin{align*}
+p_i = F_{X_i}(\infty) - F_{X_i}(\mu) = 1 - F_{X_i}(\mu)
+\end{align*}
+With knowledge of $p_i$, we can define $Y_i$ in terms of a series of binomial distributions, in which $p_i$ is specified for each instance of $X_i$.
+\begin{align*}
+\boxed{ \sum_{i=1}^{n} Y_i \sim Bin(n,1 - F_{X_i}(\mu)) }
+\end{align*}
+
+    
+\clearpage
+\section*{Problem 4}
+Let $X_1, X_2,..., X_n$ be a random sample of size n from a standard normal distribution. Define:
+\begin{align*}
+Y_1 = |\frac{1}{n}\sum_{i=1}^{n}X_i| && Y_2 = \frac{1}{n}\sum_{i=1}^{n}|X_i|
+\end{align*}
+Find:
+
+Calculate $\mathbb{E}(Y_1)$ and $\mathbb{E}(Y_2)$.
+\subsection*{Part A}
+I think the best way to approach this would be to use properties of the sample mean $\bar{X}$. Note that for $Y_1$ it is the absolute value of the sample mean.
+\begin{align*}
+Y_1 = |\bar{X}|
+\end{align*}
+Now our expectation is
+\begin{align*}
+\mathbb{E}(Y_1) = \mathbb{E}|\bar{X}|
+\end{align*}
+Note here that $\bar{X}$ is a non standard but still normal distribution with variance $\frac{1}{n}$. The absolute value of $\bar{X}$ is what is known as a half normal distribution. This expectation is known to be:
+\begin{align*}
+\mathbb{E}(Y_1) = \sigma \frac{\sqrt{2}}{\sqrt{\pi}}
+\end{align*}
+$\sigma$ is known to be $\frac{1}{\sqrt{n}}$ so our final expectation is:
+\begin{align*}
+\boxed{ \mathbb{E}(Y_1) = \frac{1}{\sqrt{n}} \frac{\sqrt{2}}{\sqrt{\pi}} }
+\end{align*}
+\subsection*{Part B}
+For this one, we can't re arrange it in the same way as before since the sum of a bunch of half normal distributions does not necessarily equal $\bar{X}$. Instead we can take a different approach involving the Expectation operator's linearity.
+\begin{align*}
+\mathbb{E}(Y_2) = \mathbb{E}(\frac{1}{n}\sum_{i=1}^{n}|X_i|) = \frac{1}{n}\sum_{i=1}^{n}\mathbb{E}|X_i|
+\end{align*}
+Here the expectation can be applied to each individual half normal distribution in the sum which we do know the value of. For each $X_i$ we have an additional factor of $\mathbb{E}(|X|)$ added. As such this sum can be evaluated to:
+\begin{align*}
+\mathbb{E}(Y_2) = \frac{1}{n} (n \mathbb{E}|X_i|) = \mathbb{E}|X_i|
+\end{align*}
+Our final answer is:
+\begin{align*}
+\boxed{ \mathbb{E}(Y_2) = \sqrt{\frac{2}{\pi}}}
+\end{align*}
+
+\clearpage
+\section*{Problem 5}
+Given $\theta$, let $X$ be a normal random variable with mean $\theta$ and variance $1$. Also, let
+$\theta$ be a chi-squared random variable with degree of freedom $2n$.
+\begin{enumerate}
+\item[A.] Compute $\mathbb{E}(X)$ and $Var(X)$.
+\item[B.] Compute the moment generating function of $X$.
+\end{enumerate}
+\subsection*{Part A}
+$X$ is defined in terms of $\theta$. We know this:
+\begin{align*}
+X|\theta \sim \mathcal{N}(\theta,1)
+\end{align*}
+In order to get $\mathbb{E}X$ we will need to use conditional expectation and Variance.
+\begin{align*}
+\mathbb{E}(X) = \mathbb{E}(\mathbb{E}(X|\theta)) && Var(X) = \mathbb{E}(Var(X|\theta)+Var(\mathbb{E}(\theta|X))
+\end{align*}
+Focusing on the mean, since we know $X|\theta$ is Gaussian, the expectation is known to be $\theta$.
+\begin{align*}
+\mathbb{E}(X) = \mathbb{E}(\theta)
+\end{align*}
+Given that $\theta \sim \mathcal{X}_{2n}^{2}$, its expectation is known.
+\begin{align*}
+\mathbb{E}(X) = 2n
+\end{align*}
+While the expectation was simple, the Variance is a bit of a mouthful. Working from inside to outside, we know $Var(X|\theta) = 1$ and $\mathbb{E}(X|\theta)= \theta$. This leaves us with:
+\begin{align*}
+Var(X) = \mathbb{E}(1)+Var(\theta))
+\end{align*}
+$\theta$ is chi squared so its variance is:
+\begin{align*}
+Var(X) = 1+4n
+\end{align*}
+Thus, $X$ is:
+\begin{align*}
+\boxed{\mathbb{E}(X) = 2n} && \boxed{ Var(X) = 1+4n }
+\end{align*}
+\subsection*{Part B}
+To calculate the MGF $M_x(t)$ of $X$, we must take the following expectation of $X$. But we don't have $X$ directly and we only have it in terms of $\theta$.
+\begin{align*}
+\mathbb{E}(e^{tX}) = \mathbb{E}\mathbb{E}((e^{tX|\theta}))
+\end{align*}
+$X|\theta$ is normal so we actually know its MGF already. 
+\begin{align*}
+\mathbb{E}(e^{tX}) = \mathbb{E}(e^{\theta t + \tfrac{t^2}{2}})
+\end{align*}
+For this expression, we know $\tfrac{t^2}{2}$ is constant so we can pull it out of out expectation.
+
+\begin{align*}
+\mathbb{E}(e^{tX}) = e^{\tfrac{t^2}{2}} \mathbb{E}(e^{\theta t})
+\end{align*}
+Our final expression is then:
+\begin{align*}
+\boxed{ \mathbb{E}(e^{tX}) = \tfrac{t^2}{2} (1-2t)^{-n} }
+\end{align*}
+
+\clearpage
+\section*{Problem 6}
+Establish the following recursion relation relations for means and variances. Let $X_n$ and $S_n^2$ be the mean and variance respectively of $X_1,X_2,...,X_n$. Then suppose another observation $X_{n+1}$ becomes available. Show that
+\begin{enumerate}
+\item[A.] $\bar{X}_{n+1} = \frac{X_{n+1}+n \bar{X}_n}{n+1}$
+\item[B.] $nS^2_{n+1} = (n-1)S^2_n + (\tfrac{n}{n+1})(X_{n+1}-\bar{X}_n)^2$
+\end{enumerate}
+\subsection*{Part A}
+This relation for the sample mean is fairly intuitive. Essentially it is a weighted average between the previous estimate for the sample mean and the new estimate given a new observation. To show this, lets first show the sample mean with $n$ observations:
+\begin{align*}
+\bar{X}_{n} = \frac{\sum_{i=1}^{n} X_i}{n} = \frac{X_1+...+X_n}{n}
+\end{align*}
+Suppose we wanted to run this sum from $n$ observations to $n+1$ observations. We get:
+\begin{align*}
+\bar{X}_{n+1} = \frac{\sum_{i=1}^{n+1} X_i}{n+1} = \frac{X_1+...+X_n+X_{n+1}}{n+1}
+\end{align*}
+Note that we can rearrange this in terms of two fractions
+\begin{align*}
+\bar{X}_{n+1} = \frac{X_1+...+X_n+X_{n+1}}{n+1} = frac{X_1+...+X_n}{n+1} + \frac{X_{n+1}}{n+1}
+\end{align*}
+At this step we can substitute the first term for $\bar{X}_n$, and note we have to add a factor of $n$ to equate keep the common denominator:
+\begin{align*}
+\boxed{ \bar{X}_{n+1} = \frac{n\bar{X}_n}{n+1} + \frac{X_{n+1}}{n+1} = \frac{X_{n+1}+n \bar{X}_n}{n+1} }
+\end{align*}
+\subsection*{Part B}
+I assume that the same approach will hold for the Variance, although I must admit it is a far less intuitive operation. Sample Variance is given by:
+\begin{align*}
+S^2_{n} = \tfrac{1}{n-1}\sum_{i=1}^{n}(X_{i}-\bar{X}_n)^2 = \frac{(X_{1}-\bar{X}_n)^2+...+(X_{n}-\bar{X}_n)^2}{n-1}
+\end{align*}
+Again, lets run this sum from $n$ to $n+1$ and multiply by $n$
+\begin{align*}
+n S^2_{n+1} = \tfrac{n}{(n+1)-1}\sum_{i=1}^{n+1}(X_{i}-\bar{X}_{n+1})^2
+\end{align*}
+Here lets "extract" our final term here.
+\begin{align*}
+n S^2_{n+1} = (X_{n+1}-\bar{X}_{n+1})^2 + \sum_{i=1}^{n}(X_{i}-\bar{X}_{n+1})^2
+\end{align*}
+For reasons unclear to me, we can add and subtract $\bar{X}_{n}$ to this expression inside the summed square before expanding the square.
+\begin{align*}
+n S^2_{n+1} = (X_{n+1}-\bar{X}_{n+1})^2 + \sum_{i=1}^{n}(X_{i}-\bar{X}_{n+1}+\bar{X}_{n}-\bar{X}_{n})^2
+\end{align*}
+Expanding this yields:
+\begin{align*}
+n S^2_{n+1} = (X_{n+1}-\bar{X}_{n+1})^2 + 2(\bar{X}_n-\bar{X}_{n+1})^2 + (n-1)\sum_{i=1}^{n}[(X_n-\bar{X}_n)^2 +(X_n-\bar{X}_n) + (\bar{X}_n-\bar{X}_{n+1})^2]
+\end{align*}
+Splitting into three sums:
+\begin{align*}
+n S^2_{n+1} = (X_{n+1}-\bar{X}_{n+1})^2 + (n-1)\sum_{i=1}^{n}(X_n-\bar{X}_n)^2 +2(\bar{X}_n-\bar{X}_{n+1})^2\sum_{i=1}^{n}(X_n-\bar{X}_n) + \sum_{i=1}^{n}(\bar{X}_n-\bar{X}_{n+1})^2
+\end{align*}
+If we look at these three sums individually we can simplify them. The first sum is simply the Variance at $n$: $S_n = (n-1)\sum_{i=1}^{n}(X_n-\bar{X}_n)^2$. The second sum is simply zero, since it is essentially the residual sum of all the random variables and their mean. Once all is added up, they will exactly equal each other. The third sum is a bit more tricky. Essentially, every term except the final term will cancel out due to the repetition involved with a difference of index shifted means. As such the third sum equals $\sum_{i=1}^{n}(\bar{X}_n-\bar{X}_{n+1})^2 = n(\bar{X}_n-\bar{X}_{n+1})^2$. Substituting into our expression yields:
+\begin{align*}
+n S^2_{n+1} = (n-1)S_n^2+(X_{n+1}-\bar{X}_{n+1})^2 + n(\bar{X}_n-\bar{X}_{n+1})^2
+\end{align*}
+This relation is technically usable as is, if $\bar{X}_{n+1}$ is known when this recursion is being used. However if this is being used in a real time estimation program it may be advantageous to be able to calculate it in real time, without requiring knowledge of $\bar{X}_{n+1}$ explicitly. As such we can substitute in our previous recursion relation to write this in terms of $\bar{X}_{n}$
+\begin{align*}
+n S^2_{n+1} = (n-1)S_n^2+(X_{n+1}-\frac{X_{n+1}+n \bar{X}_n}{n+1})^2 + n(\bar{X}_n-\frac{X_{n+1}+n \bar{X}_n}{n+1})^2
+\end{align*}
+
+\begin{align*}
+n S^2_{n+1} = (n-1)S_n^2+\frac{n^2(X_{n+1}-\bar{X}_n)^2}{(n+1)^2} + n\frac{(X_{n+1}-\bar{X}_n)^2}{(n+1)^2}
+\end{align*}
+Combining like terms:
+\begin{align*}
+\boxed{ n S^2_{n+1} = (n-1)S_n^2+\frac{n}{n+1}(X_{n+1}-\bar{X}_n)^2} 
+\end{align*}
+
+
+\clearpage
+\section*{Problem 7}
+The number of persons coming through a blood bank until the first person with
+type A blood is found is a random variable $X$ with a geometric distribution. If $p$ denotes the
+probability that any randomly selected person will have type A blood, then $\mathbb{E}(X) = \tfrac{1}{p}$ and $Var(X)=\tfrac{(1-p)}{p^2}$. Find a function of $X$ that is an unbiased estimator of $Var(X)$.
+\subsection*{Part A}
+An unbiased estimator is a statistic such that its expectation precicley equals a given parameter which that statistic is meant to estimate. Let $T$ be a function. For it to be an unbiased estimator:
+\begin{align*}
+\mathbb{E}(T)\equiv Var(X) =\tfrac{(1-p)}{p^2}
+\end{align*}
+We know that the Variance generally is given by:
+\begin{align*}
+Var(X)=\mathbb{E}(X^2)-\mathbb{E}(X)^2
+\end{align*}
+Given that $X$ takes a geometric distribution, we actually know a quite a bit about it. For one, we know $\mathbb{E}(X)=\frac{1}{p}$, and we know $Var(X) = \frac{1-p}{p^2}$. So for this, we can solve for $\mathbb{E}(X^2)$.
+\begin{align*}
+\mathbb{E}(X^2) = \mathbb{E}(X)^2-Var(X) = \frac{1-p}{p^2} - \frac{1}{p}
+\end{align*}
+We are almost done, now we can write this result as a linear combination of other expectations. Specifically $\mathbb{E}(X^2)$
+\begin{align*}
+\mathbb{E}(X^2) = \frac{1-p}{p^2} - \frac{1}{p} = \frac{-(2p-1)}{p^2}
+\end{align*}
+Due to the linearity of the Expectation operator, some value of $a$ exists which makes the following relation true:
+\begin{align*}
+a \mathbb{E}(X^2) = \frac{1-p}{p^2} && a = \frac{1-p}{p^2 \mathbb{E}(X^2)}
+\end{align*}
+For this, $a=\frac{p-1}{2p-1}$.
+Now, our final unbiased estimator is given by:
+\begin{align*}
+\boxed{T = aX^2 = \frac{p-1}{2p-1}X^2}
+\end{align*}
+And we know it is unbiased since:
+\begin{align*}
+\mathbb{E}(T) = \frac{1-p}{p^2} = Var(X)
+\end{align*}
+
+\end{document}

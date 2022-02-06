@@ -22,14 +22,14 @@ Let $X_1,...,X_5$ be a random sample of size 5 from a normal population with mea
 \item[A.] $W=\sum_{i=1}^5 X_i^2$
 \item[B.] $U=\sum_{i=1}^5 (X_i-X_{\bar{X}})^2$
 \item[C.] $T_1 = \sqrt{5} \frac{X_6}{\sqrt{W}}$
-\item[D.] $T_2 = 2(5\bar{X}^2)$
+\item[D.] $T_2 = 2\frac{(5\bar{X}^2+(X_6)^2)}{U}$
 
 \end{enumerate}
 \subsection*{Part A}
 $W$ simply represents the non averaged sum of the squares of the sample random variables.
 \begin{align*}
 W=\sum_{i=1}^5 X_i^2 = X_1^2+X_2^2+X_3^2+X_4^2+X_5^2
-\end{align*}lt.
+\end{align*}.
 Here lets note that these are standard normal distributions. As such, the sum of their squares (i.e. $W$) will be a chi squared random variable with $5$ degrees of freedom.
 \begin{align*}
 W = \mathcal{X}_5^2
@@ -37,14 +37,71 @@ W = \mathcal{X}_5^2
 \subsection*{Part B}
 $U$ here is simply the sample Variance except missing the scaling $\frac{1}{n-1}$ factor.
 \begin{align*}
-S_5 = \frac{1}{4} U
+S = \frac{1}{4} U && U = (4)S^2
 \end{align*}
-Logically, inside the parenthesis we have a sum of a standard normal and a negative nonstandard normal. The resulting distribution will be some sort of normal. That distribution will then be squared. If that resulting distribution is normalized the result will be chi squared. As such, our objective should be to find $\mathbb{E}(X_i-\bar{})$
+The sample variance for a sample of standard normal of sample size $5$ is:
+\begin{align*}
+S^2 \sim \frac{1}{4} \mathcal{X}_{4}^{2}
+\end{align*}
+As such, $U$ is then:
+\begin{align*}
+\boxed{ U = \mathcal{X}_{4}^{2} }
+\end{align*}
+\subsection*{Part C}
+Finding $T_1$ should just be a case of simple substitution.
+\begin{align*}
+T_1 = \sqrt{5} \frac{X_6}{\sqrt{W}}
+\end{align*}
+Substituting in W from part A:
+\begin{align*}
+T_1 = \sqrt{5} \frac{X_6}{\sqrt{\mathcal{X}_5^2}}
+\end{align*}
+Note here that we can rewrite this fraction to move that factor of $\sqrt{5}$ from the numerator to the denominator.
+\begin{align*}
+T_1 = \frac{X_6}{\sqrt{\tfrac{\mathcal{X}_5^2}{5}}} 
+\end{align*}
+Here we should note that this is the exact form of Student's $T$ distribution. Thus $T_1$ is a T distribution with $5$ degrees of freedom.
+\begin{align*}
+T_1 \sim t_{5}
+\end{align*}
+\subsection*{Part D}
+Before proceeding, lets specify the distribution of $\bar{X}$.
+\begin{align*}
+\bar{X} \sim \mathcal{N}(0,\frac{1}{5})
+\end{align*}
+This result was dealt with extensively in part 1 of the last homework. With this in mind lets look at $T_2$
+\begin{align*}
+T_2 = 2\frac{(5\bar{X}^2+(X_6)^2)}{U}
+\end{align*}
+Here we have a sum of two squares of normal distributions. The former being nonstandard. But luckily that factor of 5 will help us out:
+\begin{align*}
+T_2 = 2\frac{(5\bar{X}^2+(X_6)^2)}{U} = 2\frac{((\sqrt{5}\bar{X})^2+X_6^2)}{U}
+\end{align*}
+The product of a scalar and a normal random variable is another gaussian. The mean scales by a factor of the scalar and the variance scales by the square of that scalar. As such $\sqrt{5}\bar{X} \sim \mathcal{0,1}$. Therefore the square of $\sqrt{5}\bar{X}$ is a Chi-Squared random variable.
+\begin{align*}
+T_2 = 2\frac{(\mathcal{X}^2_5+(X_6)^2)}{U}
+\end{align*}
+We also know that $X_6$ is standard normal so it too is a Chi-Squared random variable.
+\begin{align*}
+T_2 = 2\frac{(\mathcal{X}^2_5+\mathcal{X}^2_5)}{U}
+\end{align*}
+These Chi-Squared can be combined:
+\begin{align*}
+T_2 = T_2 = \frac{4(\mathcal{X}^2_5)}{U}
+\end{align*}
+Now to substitute in $U$ from part C.
+\begin{align*}
+\boxed { T_2 = \frac{4\mathcal{X}^2_5}{\mathcal{X}^2_4} }
+\end{align*}
+Here we can rearrange the numerator like in part C to pull that factor of 4 into the denominator.
+\begin{align*}
+\boxed { T_2 = \frac{\mathcal{X}^2_5}{\tfrac{\mathcal{X}^2_4}{4}} }
+\end{align*}
 
 \clearpage
 
 \section*{Problem 2}
- Show that the median of an F-distribution with $(\nu, \nu)$ degrees of freedom is 1. Also,
+Show that the median of an F-distribution with $(\nu, \nu)$ degrees of freedom is 1. Also,
 show that $Q_1Q_3 = 1$, where Q1 and Q3 are the first and third quartiles, respectively, of the $F(\nu,\nu)$
 distribution.
 
@@ -58,11 +115,35 @@ variable.
 \section*{Problem 3}
 Suppose $X_1,X_2,...,X_n$ be a random sample from an exponential distribution with mean $\theta$.
 \begin{enumerate}
-\item[A)] Derive the density for the smallest order statistic $X_{(1)}$. Identify the distribution.
-\item[B)] Show that $X_{(1)}$ is independent of $X_{(n)}-X_{(1)}$.
+\item[A.] Derive the density for the smallest order statistic $X_{(1)}$. Identify the distribution.
+\item[B.] Show that $X_{(1)}$ is independent of $X_{(n)}-X_{(1)}$.
 \end{enumerate}
 \subsection*{Part A}
-   
+Theorem 5.5.2 gives the pdf of the jth order statistic as:
+\begin{align*}
+f_{X_{(j)}}(x) = \frac{n!}{(j-1)!(n-j)!} f_X(x) [F_X(x)]^{j-1} [1-F_X(x)]^{n-j}
+\end{align*}
+In this case $j=1$, leaving us with:
+\begin{align*}
+f_{X_{(j)}}(x) = \frac{n!}{(n-1)!} f_X(x) [1-F_X(x)]^{n-1} = n f_X(x) [1-F_X(x)]^{n-1}
+\end{align*}
+Our pdf is the exponential distribution with mean 1. As such we know the parameter $\lambda=1$. Our pdf is then given by:\begin{align*}
+f_X = e^{-x} && x \geq 0
+\end{align*}
+Our CDF is then:
+\begin{align*}
+F_X = 1-e^{-x} && x \geq 0
+\end{align*}
+Substituting these in:
+\begin{align*}
+f_{X_{(j)}}(x) = n e^{-x} [1-(1-e^{-x})]^{n-1} = n e^{-x} [2-e^{-x}]^{n-1}
+\end{align*}
+This can be rearranged further:
+\begin{align*}
+f_{X_{(j)}}(x) = n e^{-nx} [2e^{-x}-1]^{n-1}
+\end{align*}
+
+
 \clearpage
 \section*{Problem 4}
  Let $X_1,...,X_n$ be a random sample of size $n$ from a population with pdf
@@ -72,7 +153,7 @@ Suppose $X_1,X_2,...,X_n$ be a random sample from an exponential distribution wi
        0 & \text{ otherwise } 
    \end{cases}
 \end{align*}
-Let $X_{(1)}<...< X_{(n)}$ be the order statistics. Show that $\frac{X(1)}{X(n)}$ and $X_{(n)}$ are independent
+Let $X_{(1)}<...< X_{(n)}$ be the order statistics. Show that $\frac{X_{(1)}}{X_{(n)}}$ and $X_{(n)}$ are independent
 random variables.
 
 \subsection*{Part A}
@@ -90,17 +171,34 @@ Suppose $X_1,...,X_n$ be a random sample from a $Beta(2,1)$ distribution.
 \end{enumerate}
 
 \subsection*{Part A}
-All $X_{(n)}$ samples are sampled from the $Beta(2,1)$ distribution. The pdf of this distribution is given by:
+All $X_{(n)}$ samples are sampled from the $Beta(2,1)$ distribution. The pdf and cdf of this distribution is given by:
 \begin{align*}
-f(x) = \frac{x^{\alpha-1}(1-x)^{\beta-1}}{B(\alpha,\beta)} = 2x & 0<x<1
+f_X(x) = \frac{x^{\alpha-1}(1-x)^{\beta-1}}{B(\alpha,\beta)} = 2x & 0<x<1 && F_X(x) = B(2,1) = x^2
 \end{align*}
-
-
-
-
+Note here the CDF is the incomplete beta function. Theorem 5.5.2 gives the pdf of the jth order statistic as:
+\begin{align*}
+f_{X_{(j)}}(x) = \frac{n!}{(j-1)!(n-j)!} f_X(x) [F_X(x)]^{j-1} [1-F_X(x)]^{n-j}
+\end{align*}
+In this case $j=1$. Substituting in the CDF and PDF:
+\begin{align*}
+f_{X_{(j)}}(x) = \frac{n!}{(n-1)!} 2x [x^2]^{0} [1-x^2]^{n-1} = n 2x [1-x^2]^{n-1}
+\end{align*}
+Our density then is:
+\begin{align*}
+\boxed{ f_{X_{(j)}}(x) = n 2x (1-x^2)^{n-1} } && 0<x<1
+\end{align*}
 \subsection*{Part B}
-Since $n=3$, the only value which exceeds the median is $X_{(3)}$ itself.
+With $n=3$, we have three Beta distributed random variables. I think its important to rephrase this question in easier to understand language. We have three random numbers with a beta distribution. What is the probability that the smallest of these numbers is greater than the median of the beta distribution? The Median of the beta distribution is $\tfrac{1}{\sqrt{2}}$.
 
+First we can state our density with $n=3$
+\begin{align*}
+f_{X_{(j)}}(x) = (3) 2x (1-x^2)^{3-1} = 6x (1-x^2)^{2} && 0<x<1
+\end{align*}
+With this in mind, we need to solve for how much area under the curve from the median $\tfrac{1}{\sqrt{2}}$ to the end of the domain $1$. As such we get:
+\begin{align*}
+P(x_{(x_1)} > \tfrac{1}{\sqrt{2}}) = \int_{\tfrac{1}{\sqrt{2}}}^{1} 6x (1-x^2)^{2} dx = \frac{1}{8}
+\end{align*}
+\subsection*{Part C}
 
 
 \end{document}

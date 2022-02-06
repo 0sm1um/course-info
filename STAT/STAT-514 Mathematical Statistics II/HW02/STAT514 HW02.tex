@@ -109,6 +109,7 @@ Hint: You will have to use the fact that the reciprocal of an F random variable 
 variable.
 
 \subsection*{Part A}
+First lets find the median of the F distribution with $(\nu, \nu)$ degrees of freedom. The median is defined as the value such that $\int_{-\infty}^{m} f_X(x) dx = \int_{m}^{\infty} f_X(x) dx = \frac{1}{2}$. The CDF of the F distribution is the 
 
     
 \clearpage
@@ -142,6 +143,7 @@ This can be rearranged further:
 \begin{align*}
 f_{X_{(j)}}(x) = n e^{-nx} [2e^{-x}-1]^{n-1}
 \end{align*}
+\subsection*{Part B}
 
 
 \clearpage
@@ -155,8 +157,36 @@ f_{X_{(j)}}(x) = n e^{-nx} [2e^{-x}-1]^{n-1}
 \end{align*}
 Let $X_{(1)}<...< X_{(n)}$ be the order statistics. Show that $\frac{X_{(1)}}{X_{(n)}}$ and $X_{(n)}$ are independent
 random variables.
-
 \subsection*{Part A}
+Its important to note that this is a uniform distribution with start point $0$ and endpoint $\theta$.
+The pdf was given, and the cdf is known to be:
+\begin{align*}
+F_X = \frac{x}{\theta} && 0 \leq x \leq \theta
+\end{align*}
+Thus the jth order statistics are:
+\begin{align*}
+f_{X_{(j)}}(x) = \frac{n!}{(j-1)!(n-j)!} f_X(x) [F_X(x)]^{j-1} [1-F_X(x)]^{n-j}
+\end{align*}
+Substituting in CDF and PDF:
+\begin{align*}
+f_{X_{(j)}}(x) = \frac{n!}{(j-1)!(n-j)!} \frac{1}{\theta} [\frac{x}{\theta}]^{j-1} [1-(\frac{x}{\theta})]^{n-j}
+\end{align*}
+Thus, the first order $j=1$ statistics are given by:
+\begin{align*}
+f_{X_{(1)}}(x) = n \frac{1}{\theta} [1-(\frac{x}{\theta})]^{n-1}
+\end{align*}
+And the $n$th order $j=n$ statistics are given by:
+\begin{align*}
+f_{X_{(n)}}(x) = n \frac{1}{\theta} [\frac{x}{\theta}]^{n-1}
+\end{align*}
+Now the fraction of $\frac{X_{(1)}}{X_{(n)}}$.
+\begin{align*}
+\frac{X_{(1)}}{X_{(n)}} = \frac{n \frac{1}{\theta} [1-(\frac{x}{\theta})]^{n-1}}{n \frac{1}{\theta} [\frac{x}{\theta}]^{n-1}}
+\end{align*}
+Simplifying further:
+\begin{align*}
+\frac{X_{(1)}}{X_{(n)}} = \frac{[1-(\frac{x}{\theta})]^{n-1}}{[\frac{x}{\theta}]^{n-1}}
+\end{align*}
 
 
 

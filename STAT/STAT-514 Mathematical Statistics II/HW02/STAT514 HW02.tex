@@ -73,17 +73,17 @@ This result was dealt with extensively in part 1 of the last homework. With this
 \begin{align*}
 T_2 = 2\frac{(5\bar{X}^2+(X_6)^2)}{U}
 \end{align*}
-Here we have a sum of two squares of normal distributions. The former being nonstandard. But luckily that factor of 5 will help us out:
+Here we have a sum of two squares of normal distributions. The former being nonstandard. But luckily that factor of $\sqrt{5}$ will help us out:
 \begin{align*}
 T_2 = 2\frac{(5\bar{X}^2+(X_6)^2)}{U} = 2\frac{((\sqrt{5}\bar{X})^2+X_6^2)}{U}
 \end{align*}
-The product of a scalar and a normal random variable is another gaussian. The mean scales by a factor of the scalar and the variance scales by the square of that scalar. As such $\sqrt{5}\bar{X} \sim \mathcal{0,1}$. Therefore the square of $\sqrt{5}\bar{X}$ is a Chi-Squared random variable.
+The product of a scalar and a normal random variable is another gaussian. The mean scales by a factor of the scalar and the variance scales by the square of that scalar. As such $5\bar{X} \sim \mathcal{N}(0,1)$. Therefore the square of $5\bar{X}$ is a Chi-Squared random variable.
 \begin{align*}
 T_2 = 2\frac{(\mathcal{X}^2_5+(X_6)^2)}{U}
 \end{align*}
-We also know that $X_6$ is standard normal so it too is a Chi-Squared random variable.
+We also know that $X_6$ is standard normal so it too is a Chi-Squared random variable but with 2 degrees of freedom.
 \begin{align*}
-T_2 = 2\frac{(\mathcal{X}^2_5+\mathcal{X}^2_5)}{U}
+T_2 = 2\frac{(\mathcal{X}^2_5+\mathcal{X}^2_2)}{U}
 \end{align*}
 These Chi-Squared can be combined:
 \begin{align*}
@@ -91,7 +91,7 @@ T_2 = T_2 = \frac{4(\mathcal{X}^2_5)}{U}
 \end{align*}
 Now to substitute in $U$ from part C.
 \begin{align*}
-\boxed { T_2 = \frac{4\mathcal{X}^2_5}{\mathcal{X}^2_4} }
+T_2 = \frac{4\mathcal{X}^2_5}{\mathcal{X}^2_4}
 \end{align*}
 Here we can rearrange the numerator like in part C to pull that factor of 4 into the denominator.
 \begin{align*}
@@ -137,12 +137,15 @@ F_X = 1-e^{-x} && x \geq 0
 \end{align*}
 Substituting these in:
 \begin{align*}
-f_{X_{(j)}}(x) = n e^{-x} [1-(1-e^{-x})]^{n-1} = n e^{-x} [2-e^{-x}]^{n-1}
+f_{X_{(1)}}(x) = n e^{-x} [1-(1-e^{-x})]^{n-1} = n e^{-x} [2-e^{-x}]^{n-1}
 \end{align*}
 This can be rearranged further:
 \begin{align*}
-f_{X_{(j)}}(x) = n e^{-nx} [2e^{-x}-1]^{n-1}
+f_{X_{(1)}}(x) = n e^{-nx} [2e^{-x}-1]^{n-1}
 \end{align*}
+
+%ENDS UP BEING EXPONENTIAL
+
 \subsection*{Part B}
 
 

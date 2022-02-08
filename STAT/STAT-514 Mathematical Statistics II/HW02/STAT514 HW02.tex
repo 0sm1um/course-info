@@ -109,9 +109,39 @@ Hint: You will have to use the fact that the reciprocal of an F random variable 
 variable.
 
 \subsection*{Part A}
-First lets find the median of the F distribution with $(\nu, \nu)$ degrees of freedom. The median is defined as the value such that $\int_{-\infty}^{m} f_X(x) dx = \int_{m}^{\infty} f_X(x) dx = \frac{1}{2}$. The CDF of the F distribution is the 
+First lets find the median of the F distribution with $(\nu, \nu)$ degrees of freedom. The median is defined as the value such that $\int_{-\infty}^{m} f_X(x) dx = \int_{m}^{\infty} f_X(x) dx = \frac{1}{2}$. Graphically it means that half the area under the pdf is to the left of the median, and half is to the right.
 
-    
+Before diving into computation, lets take a look at our distribution for a second, because we can exploit a property of it to make this easier. The F distribution is the fraction of two Chi squared random variables in this format:
+\begin{align*}
+F_{(n,m)} = \frac{\tfrac{\mathcal{X}_n^2}{n}}{\tfrac{\mathcal{X}_m^2}{m}}
+\end{align*}
+We are specifically dealing with the case where $m=n=\nu$. This is important because the following relation is then true:
+\begin{align*}
+F_{(\nu,\nu)} = \frac{\tfrac{\mathcal{X}_\nu^2}{\nu}}{\tfrac{\mathcal{X}^2_\nu}{\nu}} = F_{(\nu,\nu)}^{-1}
+\end{align*}
+If $F_{(\nu,\nu)}=F_{(\nu,\nu)}^{-1}$, we can establish the relation $m=\tfrac{1}{m}$. Only one number satisfies this relation and that is $m=1$. Thus our median is:
+\begin{align*}
+\boxed{m=1}
+\end{align*}
+\subsection*{Part B}
+Next is to find the first and third Quartiles. These are defined such that $\int_{-\infty}^{Q_1} f_X(x) dx=0.25$ and $\int_{-\infty}^{Q_3} f_X(x) dx=0.75$. Another way to approach this is to divide our sample space in half. To compensate for this in both, we need to multiply each half space by two to ensure we are dealing with a valid pdf(as the integral over a sample space must equal to one). This way, we treat can this as two median problems.
+\begin{align*}
+\int_{-\infty}^{Q_1} 2f_X(x) dx = \int_{Q_1}^{m} 2f_X(x) dx = \frac{1}{2} && \int_{m}^{Q_3} 2f_X(x) dx = \int_{Q_3}^{\infty} 2f_X(x) dx = \frac{1}{2}
+\end{align*}
+Note that the median of the original distribution bounds these integrals.
+
+
+
+
+
+
+
+
+
+
+
+
+
 \clearpage
 \section*{Problem 3}
 Suppose $X_1,X_2,...,X_n$ be a random sample from an exponential distribution with mean $\theta$.
@@ -126,29 +156,36 @@ f_{X_{(j)}}(x) = \frac{n!}{(j-1)!(n-j)!} f_X(x) [F_X(x)]^{j-1} [1-F_X(x)]^{n-j}
 \end{align*}
 In this case $j=1$, leaving us with:
 \begin{align*}
-f_{X_{(j)}}(x) = \frac{n!}{(n-1)!} f_X(x) [1-F_X(x)]^{n-1} = n f_X(x) [1-F_X(x)]^{n-1}
+f_{X_{(1)}}(x) = \frac{n!}{(n-1)!} f_X(x) [1-F_X(x)]^{n-1} = 1-[1-F(x)]^n
 \end{align*}
 Our pdf is the exponential distribution with mean 1. As such we know the parameter $\lambda=1$. Our pdf is then given by:\begin{align*}
 f_X = e^{-x} && x \geq 0
 \end{align*}
 Our CDF is then:
 \begin{align*}
-F_X = 1-e^{-x} && x \geq 0
+F_X(x) = 1-e^{-x} && x \geq 0
 \end{align*}
-Substituting these in:
+Substituting this in:
 \begin{align*}
-f_{X_{(1)}}(x) = n e^{-x} [1-(1-e^{-x})]^{n-1} = n e^{-x} [2-e^{-x}]^{n-1}
+f_{X_{(1)}}(x) = 1-[1-(1-e^{-x})]^n = 1-[e^{-x})]^n = 1-e^{-nx}
 \end{align*}
-This can be rearranged further:
+Our density is then:
 \begin{align*}
-f_{X_{(1)}}(x) = n e^{-nx} [2e^{-x}-1]^{n-1}
+f_{X_{(1)}}(x) = 1-e^{-nx}
 \end{align*}
-
-%ENDS UP BEING EXPONENTIAL
-
+This is actually an exponential distribution with an alternative parameterization in the format of:
+\begin{align*}
+f_Y(y;\beta) = 1-e^{-\tfrac{x}{\beta}}
+\end{align*}
+In this case $\beta = \tfrac{1}{\theta}$. Therefore our distribution is an exponential with $\lambda=\tfrac{1}{n}$
+\begin{align*}
+\boxed{ X_{(1)} \sim \text{Exp}(\tfrac{1}{n}) }
+\end{align*}
 \subsection*{Part B}
-
-
+Prior to attempting this problem, I was filled with dread imagining having to compute the transformation of $X_{(n)}-X_{(1)}$. Let $W=X_{(n)}-X_{(1)}$ Luckily we later went over this in class and it turns out this transformation turns out to be:
+\begin{align*}
+f_{W}(x) = n(n-1) \int_{-\infty}^{\infty} [F(w+t)-F(t)]^{n-2} f(w+t)
+\end{align*}
 \clearpage
 \section*{Problem 4}
  Let $X_1,...,X_n$ be a random sample of size $n$ from a population with pdf
@@ -229,7 +266,11 @@ f_{X_{(j)}}(x) = (3) 2x (1-x^2)^{3-1} = 6x (1-x^2)^{2} && 0<x<1
 \end{align*}
 With this in mind, we need to solve for how much area under the curve from the median $\tfrac{1}{\sqrt{2}}$ to the end of the domain $1$. As such we get:
 \begin{align*}
-P(x_{(x_1)} > \tfrac{1}{\sqrt{2}}) = \int_{\tfrac{1}{\sqrt{2}}}^{1} 6x (1-x^2)^{2} dx = \frac{1}{8}
+P(x_{(x_1)} > \tfrac{1}{\sqrt{2}}) = \int_{\tfrac{1}{\sqrt{2}}}^{1} 6x (1-x^2)^{2} dx
+\end{align*}
+This integral then evaluates to:
+\begin{align*}
+\boxed{ P(x_{(x_1)} > \tfrac{1}{\sqrt{2}}) = \frac{1}{8} }
 \end{align*}
 \subsection*{Part C}
 

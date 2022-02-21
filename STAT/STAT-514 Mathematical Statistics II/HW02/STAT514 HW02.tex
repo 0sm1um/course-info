@@ -62,7 +62,7 @@ T_1 = \frac{X_6}{\sqrt{\tfrac{\mathcal{X}_5^2}{5}}}
 \end{align*}
 Here we should note that this is the exact form of Student's $T$ distribution. Thus $T_1$ is a T distribution with $5$ degrees of freedom.
 \begin{align*}
-T_1 \sim t_{5}
+\boxed{ T_1 \sim t_{5} }
 \end{align*}
 \subsection*{Part D}
 Before proceeding, lets specify the distribution of $\bar{X}$.
@@ -77,27 +77,30 @@ Here we have a sum of two squares of normal distributions. The former being nons
 \begin{align*}
 T_2 = 2\frac{(5\bar{X}^2+(X_6)^2)}{U} = 2\frac{((\sqrt{5}\bar{X})^2+X_6^2)}{U}
 \end{align*}
-The product of a scalar and a normal random variable is another gaussian. The mean scales by a factor of the scalar and the variance scales by the square of that scalar. As such $5\bar{X} \sim \mathcal{N}(0,1)$. Therefore the square of $5\bar{X}$ is a Chi-Squared random variable.
+The product of a scalar and a normal random variable is another gaussian. The mean scales by a factor of the scalar and the variance scales by the square of that scalar. As such $\sqrt{5}\bar{X} \sim \mathcal{N}(0,1)$. Therefore the square of $\sqrt{5}\bar{X}$ is a Chi-Squared random variable.
 \begin{align*}
-T_2 = 2\frac{(\mathcal{X}^2_5+(X_6)^2)}{U}
+T_2 = 2\frac{(\mathcal{X}^2_1+(X_6)^2)}{U}
 \end{align*}
 We also know that $X_6$ is standard normal so it too is a Chi-Squared random variable but with 2 degrees of freedom.
 \begin{align*}
-T_2 = 2\frac{(\mathcal{X}^2_5+\mathcal{X}^2_2)}{U}
+T_2 = 2\frac{(\mathcal{X}^2_1+\mathcal{X}^2_1)}{U}
 \end{align*}
 These Chi-Squared can be combined:
 \begin{align*}
-T_2 = T_2 = \frac{4(\mathcal{X}^2_5)}{U}
+T_2 = T_2 = \frac{2(\mathcal{X}^2_2)}{U}
 \end{align*}
 Now to substitute in $U$ from part C.
 \begin{align*}
-T_2 = \frac{4\mathcal{X}^2_5}{\mathcal{X}^2_4}
+T_2 = \frac{2\mathcal{X}^2_5}{\mathcal{X}^2_4}
 \end{align*}
-Here we can rearrange the numerator like in part C to pull that factor of 4 into the denominator.
+Here we can rearrange the numerator like in part C to pull that factor of 4 into the denominator. However this time since we want $\tfrac{1}{4}$ in the denominator we must add a $\tfrac{1}{2}$ in the numerator to balance it out.
 \begin{align*}
-\boxed { T_2 = \frac{\mathcal{X}^2_5}{\tfrac{\mathcal{X}^2_4}{4}} }
+T_2 = \frac{\tfrac{\mathcal{X}^2_2}{2}}{\tfrac{\mathcal{X}^2_4}{4}}
 \end{align*}
-
+This here is an F distribution with $(2,4)$ degrees of freedom.
+\begin{align*}
+\boxed{T_2 \sim F(2,4)}
+\end{align*}
 \clearpage
 
 \section*{Problem 2}
@@ -119,28 +122,31 @@ We are specifically dealing with the case where $m=n=\nu$. This is important bec
 \begin{align*}
 F_{(\nu,\nu)} = \frac{\tfrac{\mathcal{X}_\nu^2}{\nu}}{\tfrac{\mathcal{X}^2_\nu}{\nu}} = F_{(\nu,\nu)}^{-1}
 \end{align*}
-If $F_{(\nu,\nu)}=F_{(\nu,\nu)}^{-1}$, we can establish the relation $m=\tfrac{1}{m}$. Only one number satisfies this relation and that is $m=1$. Thus our median is:
+If $F_{(\nu,\nu)}=F_{(\nu,\nu)}^{-1}$, we can establish this:
+\begin{align*}
+P(F(\nu,\nu)\geq m) = \frac{1}{2} && 1 - P(\frac{1}{F(\nu,\nu)} \geq \frac{1}{m}) = \frac{1}{2}
+\end{align*}
+From this we see thee relation $m=\tfrac{1}{m}$. Only one number satisfies this relation and that is $m=1$. Thus our median is:
 \begin{align*}
 \boxed{m=1}
 \end{align*}
 \subsection*{Part B}
-Next is to find the first and third Quartiles. These are defined such that $\int_{-\infty}^{Q_1} f_X(x) dx=0.25$ and $\int_{-\infty}^{Q_3} f_X(x) dx=0.75$. Another way to approach this is to divide our sample space in half. To compensate for this in both, we need to multiply each half space by two to ensure we are dealing with a valid pdf(as the integral over a sample space must equal to one). This way, we treat can this as two median problems.
+Next is to find the first and third Quartiles. These are defined such that:
 \begin{align*}
-\int_{-\infty}^{Q_1} 2f_X(x) dx = \int_{Q_1}^{m} 2f_X(x) dx = \frac{1}{2} && \int_{m}^{Q_3} 2f_X(x) dx = \int_{Q_3}^{\infty} 2f_X(x) dx = \frac{1}{2}
+P(F(\nu,\nu) \leq Q_1) = 0.25 && P(F(\nu,\nu) \geq Q_3) = 0.25
 \end{align*}
-Note that the median of the original distribution bounds these integrals.
-
-
-
-
-
-
-
-
-
-
-
-
+Since $\frac{1}{F(\nu,\nu)}=F(\nu,\nu)$, we can also say:
+\begin{align*}
+P(\frac{1}{F(\nu,\nu)} \leq Q_3) = 0.25
+\end{align*}
+Thus, with equality established between:
+\begin{align*}
+P(\frac{1}{F(\nu,\nu)} \leq Q_1) = P(\frac{1}{F(\nu,\nu)} \leq Q_1) = 0.25
+\end{align*}
+We know that 
+\begin{align*}
+\boxed{Q_1Q_3 = Q_1\frac{1}{Q_3} = 1}
+\end{align*}
 
 \clearpage
 \section*{Problem 3}
@@ -158,35 +164,48 @@ In this case $j=1$, leaving us with:
 \begin{align*}
 f_{X_{(1)}}(x) = \frac{n!}{(n-1)!} f_X(x) [1-F_X(x)]^{n-1} = 1-[1-F(x)]^n
 \end{align*}
-Our pdf is the exponential distribution with mean 1. As such we know the parameter $\lambda=1$. Our pdf is then given by:\begin{align*}
-f_X = e^{-x} && x \geq 0
+Our pdf is the exponential distribution with mean $\theta$. As such we know the parameter $\lambda=\tfrac{1}{\theta}$. Our pdf is then given by:
+\begin{align*}
+f_X = \theta e^{-\tfrac{x}{\theta}} && 0 \leq x \leq \theta
 \end{align*}
 Our CDF is then:
 \begin{align*}
-F_X(x) = 1-e^{-x} && x \geq 0
+F_X(x) = 1-e^{-\tfrac{x}{\theta}} && x \leq x \leq \theta
 \end{align*}
 Substituting this in:
 \begin{align*}
-f_{X_{(1)}}(x) = 1-[1-(1-e^{-x})]^n = 1-[e^{-x})]^n = 1-e^{-nx}
+f_{X_{(1)}}(x) = 1-[1-(1-e^{-\tfrac{x}{\theta}})]^n = 1-[e^{-\tfrac{x}{\theta}})]^n = 1-e^{-\tfrac{nx}{\theta}}
 \end{align*}
-Our density is then:
+Our CDF is then:
 \begin{align*}
-f_{X_{(1)}}(x) = 1-e^{-nx}
+f_{X_{(1)}}(x) = 1-e^{-\tfrac{nx}{\theta}}
 \end{align*}
-This is actually an exponential distribution with an alternative parameterization in the format of:
+This is actually the CDF of an exponential distribution with $\lambda = \tfrac{\theta}{n}$
 \begin{align*}
-f_Y(y;\beta) = 1-e^{-\tfrac{x}{\beta}}
-\end{align*}
-In this case $\beta = \tfrac{1}{\theta}$. Therefore our distribution is an exponential with $\lambda=\tfrac{1}{n}$
-\begin{align*}
-\boxed{ X_{(1)} \sim \text{Exp}(\tfrac{1}{n}) }
+\boxed{ X_{(1)} \sim \text{Exp}(\tfrac{\theta}{n}) }
 \end{align*}
 \subsection*{Part B}
 Prior to attempting this problem, I was filled with dread imagining having to compute the transformation of $X_{(n)}-X_{(1)}$. Let $W=X_{(n)}-X_{(1)}$ Luckily we later went over this in class and it turns out this transformation turns out to be:
 \begin{align*}
-f_{W}(x) = n(n-1) \int_{-\infty}^{\infty} [F(w+t)-F(t)]^{n-2} f(w+t)
+f_{W}(w) = n(n-1) \int_{-\infty}^{\infty} [F(w+t)-F(t)]^{n-2} f(w+t)f(t) dt
 \end{align*}
+Recall $F_X(x)=1-e^{-\frac{x}{\theta}}$ and $f_X(x)=\theta e^{-\frac{x}{\theta}}$. We can now substitute this in:
+\begin{align*}
+f_{W}(w) = n(n-1) \int_{-\infty}^{\infty} [1-e^{-\frac{w+t}{\theta}}-(1-e^{-\frac{t}{\theta}})]^{n-2} \theta^-1 e^{-\frac{w+t}{\theta}}\theta^{-1} e^{-\frac{t}{\theta}} dt
+\end{align*}
+Simplifying:
+\begin{align*}
+f_{W}(w) = \frac{n(n-1) e^{-\frac{w}{\theta}}}{\theta^2} \int_{0}^{\theta} [e^{-\tfrac{t}{\theta}}(1-e^{\tfrac{w}{\theta}})]^{n-2} e^{\tfrac{2t}{\theta}} dt = \frac{n(n-1) e^{-\frac{w}{\theta}}}{\theta^2} (1-e^{\tfrac{w}{\theta}}) \int_{0}^{\theta} e^{(\tfrac{4}{\theta}-\tfrac{n}{\theta})t} dt
+\end{align*}
+Distributing this:
+\begin{align*}
+f_{W}(w) = \frac{n(n-1) e^{-\frac{w}{\theta}}}{\theta^2} (1-e^{\tfrac{w}{\theta}}) \int_{0}^{\theta}e^{(\tfrac{4}{\theta}-\tfrac{n}{\theta})t} dt = \frac{n(n-1) e^{-\frac{w}{\theta}}}{\theta^2} (1-e^{\tfrac{w}{\theta}}) \frac{\theta - e^{4-n}\theta}{n-4}
+\end{align*}
+
+NOTE: I can't tell if I've made a mistake or if my setup is wrong. I am fairly certain the setup is correct but a mistake was made in integration. The way I would continue this problem depends on what form the distribution of the range $X_{(n)}-X_{(1)}$ ends up in. If it is in a recognizable form like a type of exponential, the sensible method would be to prove independence via the MGF method. Otherwise I would prove it via the distribution function method.
+
 \clearpage
+
 \section*{Problem 4}
  Let $X_1,...,X_n$ be a random sample of size $n$ from a population with pdf
  \begin{align*}
@@ -203,31 +222,49 @@ The pdf was given, and the cdf is known to be:
 \begin{align*}
 F_X = \frac{x}{\theta} && 0 \leq x \leq \theta
 \end{align*}
-Thus the jth order statistics are:
+The joint distribution between $X_1$ and $X_n$ is given by:
 \begin{align*}
-f_{X_{(j)}}(x) = \frac{n!}{(j-1)!(n-j)!} f_X(x) [F_X(x)]^{j-1} [1-F_X(x)]^{n-j}
+f_{X_{(1)},X_{(n)}} = \frac{n!}{(n-2)!} (\frac{1}{\theta^2}) [\frac{x_n}{\theta}-\frac{x_1}{\theta}]^{n-2} = n(n-1) \frac{(x_n-x_1)^{n-2}}{\theta^n}
 \end{align*}
-Substituting in CDF and PDF:
+We can use a bivariate transformation to get the distribution of $frac{X_{(1)}}{X_{(n)}}$. Let:
 \begin{align*}
-f_{X_{(j)}}(x) = \frac{n!}{(j-1)!(n-j)!} \frac{1}{\theta} [\frac{x}{\theta}]^{j-1} [1-(\frac{x}{\theta})]^{n-j}
+U = X_{(n)} && V = \frac{X_{(1)}}{X_{(n)}} 
 \end{align*}
-Thus, the first order $j=1$ statistics are given by:
+From this:
 \begin{align*}
-f_{X_{(1)}}(x) = n \frac{1}{\theta} [1-(\frac{x}{\theta})]^{n-1}
+X_{(1)} = UV && X_{(n)} = U 
 \end{align*}
-And the $n$th order $j=n$ statistics are given by:
+The transformed distribution is given by:
 \begin{align*}
-f_{X_{(n)}}(x) = n \frac{1}{\theta} [\frac{x}{\theta}]^{n-1}
+f_{U,V} = f_{X_{(1)},X_{(n)}}(h(u,v),g(u,v)) |J|
 \end{align*}
-Now the fraction of $\frac{X_{(1)}}{X_{(n)}}$.
+$|J|$ in this case is given by
 \begin{align*}
-\frac{X_{(1)}}{X_{(n)}} = \frac{n \frac{1}{\theta} [1-(\frac{x}{\theta})]^{n-1}}{n \frac{1}{\theta} [\frac{x}{\theta}]^{n-1}}
+|J| = \begin{vmatrix}
+v & u \\
+1 & 0
+\end{vmatrix} = U
 \end{align*}
-Simplifying further:
+Substituting in what we know then:
 \begin{align*}
-\frac{X_{(1)}}{X_{(n)}} = \frac{[1-(\frac{x}{\theta})]^{n-1}}{[\frac{x}{\theta}]^{n-1}}
+f_{U,V}(u,v) = f_{X_{(1)},X_{(n)}}(h(u,w),g(u,w)) u = n(n-1)u \frac{(u-uv)^{n-2}}{\theta^n}
 \end{align*}
-
+If U and V are independant, then the joint distribution can be arranged such that $f_{U,V}(u,v)=f_u(u)f(v)$. As such, all we have to do now is factor this into two different functions.
+\begin{align*}
+f_{U}(u) = \frac{n(n-1)u^{n-1}}{\theta^n} \int_0^\theta (1-v)^{n-2} dv = \frac{n (n-1) (1-v)^{n-2}}{n}
+\end{align*}
+\begin{align*}
+f_{V}(v) = \frac{n(n-1)(1-v)^{n-2}}{\theta^n} \int_0^\theta (u)^{n-1} du = n(1-v)^{n-2} \theta^{1-n}
+\end{align*}
+The product of these two distributions is:
+\begin{align*}
+f_{U}(u)f_{V}(v) = \frac{n u^{n-1}(n-1) (1-v)^{n-2} n(1-v)^{n-2} \theta}{n \theta^n} = \frac{u^{n-1}(n-1) (1-v)^{n-2} n(1-v)^{n-2}\theta}{\theta^n}
+\end{align*}
+Combining these disparate factors:
+\begin{align*}
+\boxed{ f_{U}(u)f_{V}(v) = n(n-1)u \frac{(u-uv)^{n-2}}{\theta^n} }
+\end{align*}
+Thus, we have proven the products of our margainal distributions equals our joint pdf which is the condition for independence.
 
 
 \clearpage
@@ -273,6 +310,36 @@ This integral then evaluates to:
 \boxed{ P(x_{(x_1)} > \tfrac{1}{\sqrt{2}}) = \frac{1}{8} }
 \end{align*}
 \subsection*{Part C}
-
+First lets derive our distributions for the second and third order distributions. Since $n=3$ we can use the special case identity for its density:
+\begin{align*}
+f_{X_{(n)}}(x) = n[F(x)]^{n-1} f(x) = 3 [x^2]^2 2x = 6x^5 && 0 \leq x \leq 1 
+\end{align*}
+For the second distribution we must use the generalized formula and plug in $j=2$
+\begin{align*}
+f_{X_{(2)}}(x) = \frac{3!}{(2-1)!(3-2)!} f_X(x) [F_X(x)]^{2-1} [1-F_X(x)]^{3-2} = 6 2x [x^2] [1-x^2] = 12x^3[1-x^2]
+\end{align*}
+We also need the joint distribution of these two variables which is given by:
+\begin{align*}
+f_{X_{(n)},X_{(n)}}(y,z) = \frac{n!}{(j-1)!(k-j-1)!(n-k)!} [F(y)]^{j-1} [F(z)-F(y)]^{k-j-1} [1-F(z)]^{n-k} f(y) f(z)
+\end{align*}
+Plugging in what we know, where $j=2, k=n=3$:
+\begin{align*}
+f_{X_{(n)},X_{(n)}}(y,z) = \frac{3!}{(2-1)!(3-2-1)!(3-3)!} [F(y)]^{2-1} [F(z)-F(y)]^{3-2-1} [1-F(z)]^{3-3} f(y) f(z)
+\end{align*}
+\begin{align*}
+f_{X_{(n)},X_{(n)}}(y,z) = 6 [y^2] 2y 2z = 24 y^3 z
+\end{align*}
+For ease of notation let $Y=X_{(2)}$ and $Z=X_{(n)}$. Covariance is given by:
+\begin{align*}
+Cov(Y,Z) = \mathbb{E}(YZ) - \mathbb{E}(Y)\mathbb{E}(Z)
+\end{align*}
+Our expectations are:
+\begin{align*}
+\mathbb{E}(YZ) =\frac{2}{3} && \mathbb{E}(Y) = \frac{24}{35} && \mathbb{E}(Z) = \frac{6}{7}
+\end{align*}
+Our covariance is then:
+\begin{align*}
+\boxed{ Cov(Y,Z) = \frac{2}{3} - \frac{24}{35}\frac{6}{7} = \frac{58}{735} = 0.0789 }
+\end{align*}
 
 \end{document}

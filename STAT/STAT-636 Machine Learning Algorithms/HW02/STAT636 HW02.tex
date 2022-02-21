@@ -1,0 +1,138 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{graphicx}
+\graphicspath{ {figures/} }
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-636 Homework 2}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+\subsection*{A}
+Done!
+\section*{Problem 2}
+The least squares estimator can be derived by treating it as an optimization problem.
+
+Given points $\{(x_i ,y_i) \in \mathbb{R}^{d}\times \mathbb{R}:i = 1,...,n\}$, find the values of
+coefficients $\beta_j$ such that the sum of squared vertical distances of the
+points to the hyperplane $y = X\beta$ is minimized.
+\begin{align*}
+min_{\beta}f(\beta)=[(\textbf{y}-\textbf{X}\beta)^\textbf{T} (\textbf{y}-\textbf{X}\beta)]
+\end{align*}
+\subsection*{Part A}
+In matrix notation, the objective function can be rewritten as:
+\begin{align*}
+f(\beta)=[(\textbf{y}-\textbf{X}\beta)^\textbf{T} (\textbf{y}-\textbf{X}\beta)]
+\end{align*}
+Distributing the transpose
+\begin{align*}
+f(\beta)=(\textbf{y}^T-\textbf{X}^T\beta^T) (\textbf{y}-\textbf{X}\beta)
+\end{align*}
+Expanding this multiplication:
+\begin{align*}
+f(\beta)= y^Ty - \beta^T X^T y - y^T X \beta + \beta^T X^T X \beta
+\end{align*}
+Note here that the middle terms $\beta^T X^T y=y^T X \beta$, so they can be combined:
+\begin{align*}
+f(\beta)= y^Ty - 2\beta^T X^T y + \beta^T X^T X \beta
+\end{align*}
+To minimize this, we need to compute the gradient and hessian of this. Here we can take the gradient and hessian of this expression to determine.
+\begin{align*}
+\frac{\partial}{\partial \beta} f(\beta) = \frac{\partial}{\partial\beta} - \frac{\partial (2\beta^T X^T y)}{\partial \beta} + \frac{\partial (\beta^T X^T X \beta)}{\partial \beta} 
+\end{align*}
+Evaluating partial derivatives:
+\begin{align*}
+\frac{\partial}{\partial \beta} f(\beta) = 0 - 2X^Ty + 2 X^T X \beta
+\end{align*}
+To minimize $f(\beta)$, we must set this expression equal to zero and solve for $\beta$
+\begin{align*}
+0 = -2X^Ty + 2X^T X \beta
+\end{align*}
+\begin{align*}
+2\beta^T X^T X \beta = 2X^Ty
+\end{align*}
+\begin{align*}
+\beta^T X^T X \beta = X^Ty
+\end{align*}
+\begin{align*}
+X^T X \beta = X^Ty
+\end{align*}
+Finally beta is:
+\begin{align*}
+\boxed{\beta = (X^T X)^{-1} X^Ty}
+\end{align*}
+\clearpage
+
+\section*{Problem 3}
+Forward stepwise selection involves starting with a model with zero variables, and adding predictors which in order of most significant to least significant. The key is we can specify ourselves which parameter defines significance. One option would be to select for the model which maximizes linear correlation factor $\bar{R}^2$, and stop when a certain threshold is reached.
+The adjusted $R^2$ criterion is given by:
+\begin{align*}
+\bar{R}^2 = 1- (\frac{n-1}{n-p-1}) (1-R^2)
+\end{align*}
+In Psuedocode I will list out the steps of the forward stepwise selection method:
+\begin{enumerate}
+\item[1.] Compile list of $N$ candidate predictors
+\item[2.] Initialize master predictor with $k=0$ dimensions.
+\item[3.] Compute $\bar{R}^2_n$ for each of the remaining $n$ candidate predictors.
+\item[4.] Assign the best performing model to dimension $k$.
+\item[5.] Remove the $k$th predictor from the canidate pool
+\item[6.] Add $1$ to $k$
+\item[7.] Check that $\bar{R}^2_m$ for the master predictor is below the threshold $T$ where $0<T<1$
+\item[8.] If $\bar{R}^2_m<T$ resume algorithm at step 3.
+\item[9.] If $\bar{R}^2_m>T$ the model is complete.
+\end{enumerate}
+
+The resulting model may be composed of $k<N$ candidate predictors, but this is okay because it means that predictors which could potentially negatively impact performance were not selected. The stopping value of $T$ can be tuned by the programmer for performance in their desired problem.
+\clearpage
+\section*{Problem 4}
+\subsection*{Part A}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{Q4a.png}
+\caption{Full Model}
+\end{figure}
+Note here that "Population", and "Employed" are not very important variables.
+\subsection*{Part B}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{Q4Forward.png}
+\caption{Forward Method}
+\end{figure}
+
+The Forward method removed Employed, and Population as predicted. Note that the performance has improved with respect to adjusted $\bar{R}^2$ and in terms of residual standard error.
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{Q4Backward.png}
+\caption{Backward Method}
+\end{figure}
+
+The Backward method removed half of our predictors. Note that the performance has improved with respect to adjusted $\bar{R}^2$ and in terms of residual standard error but it still is not as good as the forward method.
+
+\subsection*{Part C}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{Q4Ridge.png}
+\caption{Ridge Regression}
+\end{figure}
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{Q4Lasso.png}
+\caption{Lasso Method}
+\end{figure}
+
+Note here that Ridge method significantly by increasing lambda from $0.001$ to $0.005$. Lasso however eliminated the GNP variable from the regression upon increasing lambda. This is strange to me since all other parameters are on the same order of magnitude between the Ridge and LASSO methods.
+
+\end{document}

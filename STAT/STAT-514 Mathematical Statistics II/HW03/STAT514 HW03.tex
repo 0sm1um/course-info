@@ -1,0 +1,304 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-514 Homework 3}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+Prove the following results. Let $X_1, X_2,..., X_n$ be a sequence of random variables.
+\begin{enumerate}
+\item[a.] If $\mathbb{E}(X-c)^2 \rightarrow 0$ as $n \rightarrow \infty$, then $X_n \rightarrow^P c$.
+\item[b.] If $\mathbb{E}(X_n) \rightarrow c$ and $Var(X_n) \rightarrow 0$ as $n \rightarrow \infty$, then $X_n \rightarrow^P c$
+\end{enumerate}
+\subsection*{Part A}
+We are given that $\mathbb{E}(X-c)^2 \rightarrow 0$ as $n \rightarrow \infty$.
+The definition of convergence in probability is given by
+\begin{align*}
+\lim_{n\rightarrow \infty} P(|X_n-X| \geq \epsilon) = 0
+\end{align*}
+\begin{align*}
+\lim_{n\rightarrow \infty} P(|X_n-c| \geq \epsilon) = 0
+\end{align*}
+We can square the terms inside the probability function, and our relation will still hold.
+\begin{align*}
+\lim_{n\rightarrow \infty} P((X_n-c)^2 \geq \epsilon^2) = 0
+\end{align*}
+Here we can rewrite this in terms of expectation  via Markov's inequality as:
+\begin{align*}
+\lim_{n\rightarrow \infty} P((X_n-c)^2 \geq \epsilon^2) \leq \lim_{n\rightarrow \infty} \mathbb{E}(\frac{P((X_n-c)^2}{\epsilon^2}) \geq \epsilon^2) = 0
+\end{align*}
+Since we are given that $\mathbb{E}(X_n-c)^2 \rightarrow 0$, we know that
+\begin{align*}
+\lim_{n\rightarrow \infty} \mathbb{E}(\frac{P((X_n-c)^2}{\epsilon^2}) \rightarrow 0
+\end{align*}
+With this in mind, we can say that $X_n$ converges in probability to $c$
+\begin{align*}
+\boxed{ X_n \rightarrow^P c }
+\end{align*}
+\subsection*{Part B}
+This second result is actually fairly intuitive. If the the nth variable in a sequence of random variables converges to a constant, and the variance converges to zero. Then the sequence converges in probability to $c$.
+\begin{align*}
+\mathbb{E}(X_n) \rightarrow c && Var(X_n) \rightarrow 0 && n \rightarrow \infty
+\end{align*}
+Consider the Variance:
+\begin{align*}
+\lim_{n\rightarrow \infty} Var(X_n) = \lim_{n\rightarrow \infty} \mathbb{E}[((X_n)-\mathbb{E}(X_n))^2]
+\end{align*}
+It is given to us that $\mathbb{E}(X_n)$ converges to $c$, we can substitute that here:
+\begin{align*}
+ = \lim_{n\rightarrow \infty} \mathbb{E}[((X_n)-c)^2]
+\end{align*}
+Suppose we divide by a nonzero constant $\epsilon^2$, our convergence to zero does not change.
+\begin{align*}
+ = \lim_{n\rightarrow \infty} \frac{\mathbb{E}[((X_n)-c)^2]}{\epsilon^2}
+\end{align*}
+For this expression we can apply Markov's Inequality, the reverse of part A.
+\begin{align*}
+\lim_{n\rightarrow \infty} P((X_n-c)^2 \geq \epsilon^2)
+\end{align*}
+From here it is simple to see:
+\begin{align*}
+\lim_{n\rightarrow \infty} P(|X_n-c| \geq \epsilon)
+\end{align*}
+This is the definition of convergence in probability of $X_n$ to $c$.
+\begin{align*}
+\boxed{ X_n \rightarrow c }
+\end{align*}
+
+\clearpage
+
+\section*{Problem 2}
+Suppose $\bar{X}$ is the mean of 100 observations from a population with mean $\mu$ and variance $\sigma^2 = 9$. Find the limits between which $\bar{X}-\mu$ will lie with probability of at least $0.9$. Use both Chebychev's inequality and Central Limit Theorem, and comment on each.
+\subsection*{Part A}
+For this problem, we are finding the values of $a$ and $b$ for which $0.9 \leq P(|X-\mu| \geq t)$. Chebychev's inequality gives a simple framework to bound this. It is given by: 
+\begin{align*}
+P(|X-\mu| \geq t\sigma_p) \leq \frac{1}{t^2}
+\end{align*}
+Something to note here, is that we aren't dealing with $Var(X)=\sigma^2$. We are using the sample variance for this inequality so in this case $\sigma_p=\tfrac{3}{\sqrt{100}}=\tfrac{3}{10}$
+
+
+For our particular sample the distribution is unknown, but the mean and variance are both known. Note that our inequality is flipped the wrong direction so we can change $\frac{1}{t^2}$ to $1-\frac{1}{t^2}$ to flip the inequality.
+\begin{align*}
+P(|\bar{X}_n-\mu| \geq \tfrac{3}{10}t) \leq \frac{1}{t^2}
+\end{align*}
+Note that our inequality is the wrong direction so we can change $\frac{1}{t^2}$ to $1-\frac{1}{t^2}$ to flip the inequality.
+\begin{align*}
+P(|\bar{X}_n-\mu| \geq \tfrac{3}{10}t) \geq 1-\frac{1}{t^2}
+\end{align*}
+Since we are searching for the region in which we are ninty percent likley to find the mean, we can equate the righthand side with 0.9 and solve for t:
+\begin{align*}
+1-\frac{1}{t^2} = 0.9 && t=\sqrt{10} \approx 3.1623
+\end{align*}
+$t$ refers to the number of factors of the variance that the mean lies within. A convenient way of defining bounds.
+\begin{align*}
+P(|\bar{X}_n-\mu| \geq \tfrac{3\sqrt{10}}{10}) \geq 0.9
+\end{align*}
+This fraction simplifies to:
+\begin{align*}
+P(|\bar{X}_n-\mu| \geq 0.9487) \geq 0.9
+\end{align*}
+Thus our bounds are:
+\begin{align*}
+\boxed{(-0.9487,0.9487)}
+\end{align*}
+\subsection*{Part B}
+The central limit theorem asserts that a sequence of i.i.d. random variables has a limiting standard normal distribution REGARDLESS of the form of the underlying distribution.
+\begin{align*}
+\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma} \sim \mathcal{N}(0,1)
+\end{align*}
+Lets follow the logic used in part A to manipulate the probability function. Let $Y$ denote our standard normal random variable. Recall we are searching for the interval which $P(|Y|\leq t) \geq 0.9$.
+\begin{align*}
+P(|Y|\leq t) \geq 0.9
+\end{align*}
+Since we know the probability function takes the form of the standard normal, we know it is symmetrical about the horizontal axis. Given that our pdf is standard normal, all we need is to find the value of t that satisfies:
+\begin{align*}
+0.9 = \int_{-t}^{t} f_y(y) dy
+\end{align*}
+Exploiting the symmetry of the standard normal:
+\begin{align*}
+0.9 = 2\int_{0}^{t} f_y(y) dy
+\end{align*}
+By playing around with a numerical integration tool, I found that $t \approx 1.645$. Note here that this calculation was done for random variable $Y$ and not our "true" random variable $X = \frac{\sqrt{n}(\bar{X}-\mu)}{\sigma_p}$. Recall $\sigma^2=9$ and $n=100$. Thus our probability function can be written as:
+
+\begin{align*}
+P(-1.645 \leq \frac{10(\bar{X}-\mu)}{3} \leq 1.645) \geq 0.9
+\end{align*}
+\begin{align*}
+P(\frac{-3*1.645}{10} \leq (\bar{X}-\mu) \leq \frac{-3*1.645}{10}) \geq 0.9
+\end{align*}
+This evaluates to:
+\begin{align*}
+P(-0.4962 \leq (\bar{X}-\mu) \leq 0.4962) \geq 0.9
+\end{align*}
+Thus our interval is:
+\begin{align*}
+\boxed{(-0.4962,0.4962)}
+\end{align*}
+\subsection*{Part C}
+It is clear that these two methods provide wildly different results. The Chebychev's Inequality provides a very conservative estimate. The CLT provides a much more precise estimate. I assume this is due to the assumptions made in each. Chebychev's Inequality applies to any sequence of random variables, and it only supposes the existence of a first and second order moment. The CLT by contrast assumes that the sequence of random variables are all i.i.d. This means it can be applied in fewer situations but offers a more precise bound.
+
+\clearpage
+
+\section*{Problem 3}
+Let $X_1, X_2,..., X_n$ be a sequence of random variables that converges in probability to a constant $a$. Assume that $P(X_i>0)=1$ for all $i$.
+\begin{enumerate}
+\item[a.] Verify that the sequences defined by $Y_i=\sqrt{X_i}$ and $Y^{'}_{i}=\tfrac{a}{X_i}$ converge in probability.
+\item[b.] Use the results in part $a.$ to prove that if $X_i$'s are iid with mean $\mu$ and variance $\sigma^2 < \infty$, then $\frac{\sigma}{S_n}$ converges in probability to 1, provided $Var(S^2_n)\rightarrow 0$ as $n \rightarrow \infty$.
+\end{enumerate}
+\subsection*{Part A}
+%JUST USES DEFINITION OF CONVERGENCE IN PROBABILITY
+%USE THEOREM IN WEEK 4 NOTES PG 3
+\subsection*{Part A}
+This problem hinges on the unnamed theorem on page 3 of the week 3 notes. This theorem states that for any sequence of $X_n$ random variables which converge in probability to random variable $X_c$, the resulting sequence of random variables caused by iterating each member of $X_n$ through any continuous function $g(x)$ also is guaranteed to converge. NOT ONLY THAT but it also converges to $g(X_c)$. This is a very cool theorem, and from this point on I will refer to it as "Ben's Theorem" because he asked for it to be called that, in absence of a better name.
+
+	Consider the sequences:
+\begin{align*}
+Y_i=\sqrt{X_i} && Y^{'}_{i}=\tfrac{a}{X_i}
+\end{align*}
+Let us define functions as:
+\begin{align*}
+g(x) = \sqrt{x} && h(x)=\tfrac{a}{x}
+\end{align*}
+$g(x)$ is continuous for all $x\geq0$. And $h(x)$ is continuous for $x\neq 0$. With this in mind, according to Ben's theorem $Y_i$ and $Y^{'}_{i}$ are both guaranteed to converge to $\sqrt{a}$ $1$ respectively.
+\subsection*{Part B}
+% START WITH PROBABILITY CONVERGENCE DEFINITION
+% MARKOV'S INEQUALITY FOR SAMPLE VARIANCE
+This result makes sense intuitively. If the variance of the sample variance is ever zero, it means that the sample variance is completley nonrandom. Hence it follows that the ratio of variance to sample variance would have to be 1. Lets start by looking at the definition of convergence in probability for the Variance. We are given that $Var(S^2_n)\rightarrow 0$. By the definition of convergence in probability we get:
+\begin{align*}
+\lim_{n \rightarrow \infty} P(|S^2_n-\sigma^2| \geq \epsilon) = 0
+\end{align*}
+We can rewrite this in terms of squares and apply Markov's inequality:
+\begin{align*}
+\lim_{n \rightarrow \infty} P(|S^2_n-\sigma^2| \geq \epsilon^2) \leq \frac{\mathbb{E}(S^2_n - \sigma^2)}{\epsilon^2}
+\end{align*}
+Note that this in fact is the Variance in the numerator.
+\begin{align*}
+\frac{\mathbb{E}(S^2_n - \sigma^2)}{\epsilon^2} = \frac{Var(S^2_n)}{\epsilon^2}
+\end{align*}
+$Var(S^2_n) \rightarrow 0$ as n approaches infinity, meaning we have proven that $S^2_n$ converges in probability to $\sigma$. This in turn means that $\boxed{ \frac{S^2_n}{\sigma^2}=1} $ as n approaches infinity.
+
+
+\clearpage
+
+\section*{Problem 4}
+Let $X_1, X_2,..., X_n$ be a random sample from a population with mean $\mu$ and variance $\sigma^2$. Show that
+\begin{align*}
+\mathbb{E}(\frac{\sqrt{n}(\bar{X}_n - \mu)}{\sigma}) && Var(\frac{\sqrt{n}(\bar{X}_n - \mu)}{\sigma})
+\end{align*}
+\subsection*{Part A}
+%VERY EASY
+Lets start by distributing the $\sqrt{n}$
+\begin{align*}
+\mathbb{E}[\frac{(\sqrt{n}\bar{X} - \sqrt{n}\mu)}{\sigma}]
+\end{align*}
+Now we can distribute the expectation operator:
+\begin{align*}
+\frac{\sqrt{n}}{\sigma} \mathbb{E}(\bar{X}) - \frac{\sqrt{n}(\mu)}{\sigma} 
+\end{align*}
+$\mathbb{E}(\bar{X})$ is known to simply equal $\mu$.
+\begin{align*}
+\frac{\sqrt{n}\mu}{\sigma} - \frac{\sqrt{n}(\mu)}{\sigma} 
+\end{align*}
+Thus $\mathbb{E}(\frac{\sqrt{n}(\bar{X}_n - \mu)}{\sigma}) = 0$
+\begin{align*}
+\boxed{ \mathbb{E}(\frac{\sqrt{n}(\bar{X}_n - \mu)}{\sigma}) = 0 }
+\end{align*}
+\subsection*{Part B}
+Lets start by distributing the variance operator:
+\begin{align*}
+Var[\frac{\sqrt{n}\bar{X}_n}{\sigma}] - Var[\frac{\sqrt{n}\mu}{\sigma}]
+\end{align*}
+Note the variance of a non random constant is zero:
+\begin{align*}
+\frac{nVar(\bar{X}_n)}{\sigma^2}
+\end{align*}
+The Variance of $\bar{X}_n$ is known to be $\tfrac{\sigma^2}{n}$:
+\begin{align*}
+\frac{n \sigma^2}{n \sigma^2}
+\end{align*}
+Thus our final result is:
+\begin{align*}
+\boxed{ Var(\frac{\sqrt{n}(\bar{X}_n - \mu)}{\sigma}) = 1 }
+\end{align*}
+\clearpage
+
+\section*{Problem 5}
+Given that $N=n$, the conditional distribution of $Y$ is $\mathcal{X}^2_{2n}$. The unconditional distribution of $N$ is Poisson($\theta$).
+\begin{enumerate}
+\item[a.] Calculate $\mathbb{E}(Y)$ and $Var(Y)$.
+\item[b.] Show that as $\theta \rightarrow \infty$ 
+\begin{align*}
+\frac{Y-\mathbb{E}(Y)}{\sqrt{Var(Y)}} \rightarrow \mathcal{N}(0,1)
+\end{align*}
+in distribution.
+\end{enumerate}
+\subsection*{Part A}
+To restate the given information in equation form, we know:
+\begin{align*}
+Y|N=n \sim \mathcal{X}^2_{2n} && N \sim Poisson(\theta)
+\end{align*}
+$\mathbb{E}(Y)$ is given by:
+\begin{align*}
+\mathbb{E}(Y) = \mathbb{E}(\mathbb{E}(Y|N=n))
+\end{align*}
+Since $Y|N=n$ is a Chi-Squared Distribution, its expectation is known to be $2n$.
+\begin{align*}
+\mathbb{E}(Y) = \mathbb{E}(2n) = 2\theta
+\end{align*}
+The Variance is given by
+\begin{align*}
+Var(Y) = \mathbb{E}(Var(Y|N=n)) + Var(\mathbb{E}(Y|N=n))
+\end{align*}
+The Variance and Expectation of the chi squared are known to be $4n$ and $2n$ respectively.
+\begin{align*}
+Var(Y) = \mathbb{E}(4n) + Var(2n)
+\end{align*}
+The Variance of a constant is zero, so our result is:
+\begin{align*}
+\boxed{ \mathbb{E}(Y) = 2\theta } && \boxed{ Var(Y) = 8\theta }
+\end{align*}
+%Part A easy
+%Part B, calculate MGF of Y, Z is just the standardized version of Y. Find MGF of Y, write MGF of Z in terms of MGF of Y.
+\subsection*{Part B}
+Lets now compare this MGF to our normalized random variable. Lets refer to it as $Z$:
+\begin{align*}
+Z = \frac{Y-\mathbb{E}(Y)}{\sqrt{Var(Y)}}
+\end{align*}
+Substituting in what we know from part A:
+\begin{align*}
+Z = \frac{Y-2\theta}{\sqrt{8\theta}}
+\end{align*}
+The MGF of Z is then given by:
+\begin{align*}
+M_Z(t) = \mathbb{E}(e^{t\tfrac{Y-2\theta}{\sqrt{8\theta}}}) = \mathbb{E}(e^{\tfrac{-2\theta t}{\sqrt{8\theta}}} e^{\tfrac{y t}{\sqrt{8\theta}}}) = e^{\tfrac{-2\theta t}{\sqrt{8\theta}}}\mathbb{E}(e^{\tfrac{y t}{\sqrt{8\theta}}})
+\end{align*}
+The result of that expectation is then:
+\begin{align*}
+M_Z(t) = e^{\tfrac{-2\theta t}{\sqrt{8\theta}}}\mathbb{E}(e^{\tfrac{y t}{\sqrt{8\theta}}}) = e^{\tfrac{2\theta}{\sqrt{8\theta}}} e^{\tfrac{\sqrt{8\theta}}{1-2t}} e^{-\theta} = e^{-\theta} e^{-\tfrac{2\theta}{\sqrt{8\theta}}} e^{\theta(\frac{4t^2}{8\theta}+\frac{2t}{\sqrt{8\theta}}+1)}
+\end{align*}
+Continuing:
+\begin{align*}
+M_Z(t) = e^{-\theta} e^{-\tfrac{2\theta}{\sqrt{8\theta}}} e^{\theta(\frac{4t^2}{8\theta}+\frac{2t}{\sqrt{8\theta}}+1)} = e^{-\theta} e^{-\tfrac{2\theta}{\sqrt{8\theta}}} e^{\tfrac{4\theta t^2}{8\theta}} e^{\tfrac{2t\theta}{8\theta}} e^{\theta}
+\end{align*}
+As $\theta \rightarrow \infty$
+\begin{align*}
+e^{\frac{t^2}{2}}
+\end{align*}
+Note here that this is the MGF of the standard normal distribution. Thus we have proven that as $\theta \rightarrow \infty$, $Z$ approaches standard normality.
+
+\clearpage
+
+
+\end{document}

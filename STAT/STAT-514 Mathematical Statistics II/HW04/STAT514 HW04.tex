@@ -1,0 +1,204 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-514 Homework 3}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+Let $X_i$, $i = 1,...,n$ be independent $Bernoulli(p)$ random variables and let $Y_n = \frac{1}{n} P_n \sum_{i=1}^{n} Xi$
+\begin{enumerate}
+\item[a.] Show that $\sqrt{n}(Y_n-p)\rightarrow^d\mathcal{N}(0,p(1 - p))$
+\item[b.] Show that for $p \neq \frac{1}{2}$, the estimate of the variance $Y_n(1-Y_n)$ satisfies
+\begin{align*}
+\sqrt{n}[Y_n(1 - Yn) - p(1 - p)] \rightarrow^d \mathcal{N}(0,[1 - 2p]^2 p[1 - p])
+\end{align*}
+\item[c.] Show that for $p=\frac{1}{2}$
+\begin{align*}
+n[Y_n(1 - Yn)] \rightarrow^d -\frac{1}{4}\mathcal{X}^2_1
+\end{align*}
+\item[d.] Show that the sample variance can be obtained as
+\begin{align*}
+S^2 = \frac{n}{n-1} Y_n(1-Y_n)
+\end{align*}
+\item[e.] Use the results from $(b.)$ and $(d.)$, along with Slutsky’s Theorem, to derive the limiting distribution of an appropriately standardized $S^2$, when $p \neq \frac{1}{2}$.
+\item[f.] Find the (approximate?) probability that a random sample of size $n = 100$ from a $Bernoulli(p = 1/4)$ distribution has sample variance greater than $0.2$.
+\end{enumerate}
+\subsection*{Part A}
+%Apply CLT
+\subsection*{Part B}
+%Apply delta method
+\subsection*{Part C}
+%Second order delta method
+\subsection*{Part D}
+%Manipulation of sample variance
+\subsection*{Part E}
+%
+\subsection*{Part F}
+%
+\clearpage
+
+\section*{Problem 2}
+Suppose $X$ follows a gamma distribution with parameters $\alpha = n$ and $\beta$.
+\begin{enumerate}
+\item[a.] Show that
+\begin{align*}
+\lim_{n\rightarrow \infty} P(\frac{X-n\beta}{\sqrt{n\beta^2}} \leq t) = \int_{-\infty}^{t} \frac{1}{2\pi} e^{-\frac{u^2}{2}} du
+\end{align*}
+\item[b.] Show that $\sqrt{2X} - \sqrt{2n\beta} \rightarrow^d \mathcal{N}(0,\tau)$ as $n\rightarrow \infty$ and specify $\tau$.
+\end{enumerate}
+\subsection*{Part A}
+%Define X = sum y_i where Y is a exponential distribution with mean \beta var \beta^2
+%Via delta method/CLT show sample mean converges to N(0,beta^2)
+%Set up CLT to equal function h(x)
+%Solve for the h(x) which satisfies CLT
+%Equate h(x) to the function thats given
+%Show that as n\rightarrow infinity H(x) converges to the given integral.
+\subsection*{Part B}
+%Via part A we've shown that \sqrt{n}[1/nX-\beta] \rightarrow N(0,\beta^2) as n approaches infinity
+%Just apply delta method
+
+
+\clearpage
+
+\section*{Problem 3}
+ Suppose $X_1,..., X_n$ be a random sample from a gamma distribution with parameters $\alpha = 3$ and $\beta = 1$. Let
+ \begin{align*}
+ T_n = \frac{n}{\sum_{i=1}^{n}\tfrac{1}{X_i}}
+ \end{align*}
+ be the harmonic mean of the sample.
+ \begin{enumerate}
+ \item[a.] Find the constant $\theta$ such that $T_n \rightarrow^P \theta$ as $n\rightarrow \infty$
+ \item[b.] Find constants $a$ and $b$ such that
+ \begin{align*}
+ \frac{\sqrt{n}(T_n-a)}{b} \rightarrow^d \mathcal{N}(0,1)
+ \end{align*}
+ as $n\rightarrow \infty$.
+ \end{enumerate}
+\subsection*{Part A}
+%T_n is not bar(X_n). It is the mean of mean(1/X_i). Harmonic mean converges in probability to E(1/X) due to weak law of large numbers. Result should be 1/2
+
+%From WLLN Bar{Xn} converges to mu as x approaches infinity.
+%But Tn converges in probability to E(X^-1) as n approaches infinity, therefore theta = E(1/X)
+
+
+
+
+\clearpage
+
+\section*{Problem 4}
+Let $X_1,...,X_n$ be independent random variables with densities:
+\begin{align*}
+f(x|\theta,\sigma) = \begin{cases} 
+      e^{i\theta - x} & x \geq i\theta \\
+       0 & x < i\theta 
+   \end{cases}
+\end{align*}
+Prove that $T = min_i(\frac{X_i}{i})$ is a sufficient statistic for $\theta$.
+\subsection*{Part A}
+It is important to note here that $X_i,...X_n$ is not an iid sample of random variables but a sequence of random variables. That being said, they are still independent. And as such, their joint distribution must then be the product of their individual pdfs.
+\begin{align*}
+f_{X_1,...,X_n}(X_1,...,X_n) = (e^{\theta - x}) (e^{2\theta - x}) ... (e^{i\theta - x}) = \prod_{i=1}^{n} e^{i\theta - x_i} \mathbf{1}\{x_{(1)} \geq \theta\}
+\end{align*}
+Note here that $\mathbf{1}$ denotes the indicator function which equals 1 when the condition is met and zero elsewhere. Another important thing to note here is that the function essentially says that in order to exist, the first order statistic (smallest) must be greater than $i\theta$. This essentially restricts the domain to conform with the given pdf. Furthermore, the product can be rearranged as a summation due to properties of exponents:
+\begin{align*}
+f_{X_1,...,X_n}(X_1,...,X_n) = e^{\sum_{i=1}^{n} i\theta - x_i} \prod_{i=1}^{n} \mathbf{1}\{x_{(1)} \geq i\theta\} = e^{\sum_{i=1}^{n}i\theta} e^{-\sum_{i=1}^{n} x_i} \prod_{i=1}^{n} \mathbf{1}\{x_{(1)} \geq \theta\}
+\end{align*}
+At this point let me draw your attention to the first order statistic $x_{(1)}$. The statistic given in the problem is $T = min_i(\frac{X_i}{i})$. Note that the statistic T is equivilant to the first order statistic of the sequence of first order statistic. $T=X_{(1)}$. As such we can substitute the two:
+\begin{align*}
+f_{X_1,...,X_n}(X_1,...,X_n) = e^{\sum_{i=1}^{n}i\theta} e^{-\sum_{i=1}^{n} x_i} \prod_{i=1}^{n} \mathbf{1}\{min_i(\frac{X_i}{i}) \geq i\theta\} = e^{\sum_{i=1}^{n}i\theta} e^{-\sum_{i=1}^{n} x_i} \prod_{i=1}^{n} \mathbf{1}\{min_i(\frac{X_i}{i}) \geq \theta\}
+\end{align*}
+In our current form, this is factorized according to Fischer-Neyman Factorization Theorem.
+\begin{align*}
+f(x|\theta) = g(T(x)|\theta)h(x)
+\end{align*}
+Where $g(T(x)|\theta) = e^{\sum_{i=1}^{n}i\theta} \prod_{i=1}^{n} \mathbf{1}\{min_i(\frac{X_i}{i}) \geq \theta\}$. and $h(x)=e^{-\sum_{i=1}^{n} x_i}$. Therefore
+\begin{align*}
+\boxed{ \text{T is a sufficient statistic of } \theta }
+\end{align*}
+
+
+\clearpage
+
+\section*{Problem 5}
+Let $X_1,...,X_n$ be a random sample from the pdf
+\begin{align*}
+f(x|\theta,\sigma) = \begin{cases} 
+      \frac{1}{\sigma} e^{-\frac{(x-\theta)}{\sigma}} & x > \theta \\
+       0 & x < \theta 
+   \end{cases}
+\end{align*}
+where $0<\sigma<\infty$. Find a two dimensional sufficient statistic for $(\theta,\sigma^2)$.
+\subsection*{Part A}
+Fischer-Neyman Factorization Theorem states that a statistic $T(X)$ is a sufficient statistic if it can be factored in the following format:
+\begin{align*}
+f(x|\theta) = g(T(x)|\theta)h(x)
+\end{align*}
+Where $f(x|\theta)$ is the joint pdf of the sample, and $h(x)$ is any arbitrary function. Given that our sample is iid, its joint distribution is the product of each of the members of the sample together:
+\begin{align*}
+f_{X_1,...,X_i}(x|\theta,\sigma) = \prod_{i=1}^{n} [\frac{1}{\sigma} e^{-\frac{(x_i-\theta)}{\sigma}}] \mathbf{1}\{x_i > \theta\}
+\end{align*}
+Note that $\mathbf{1}\{x > \theta\}$ denotes the indicator function which equals 1 when the condition is met and zero elsewhere.
+\begin{align*}
+f_{X_1,...,X_i}(x|\theta,\sigma) = \frac{1}{\sigma^n} e^{\frac{n\theta}{\sigma}} e^{-\frac{\sum_{i=1}^{n} x_i}{\sigma}} \prod_{i=1}^{n} \mathbf{1}\{x_i > \theta\} \mathbf{1}\{x_i > \theta\}
+\end{align*}
+Lets take a look at our indicator function order statistics for a second. Just like in problem 4, we know that we can express our indicator function in terms of order statistics. And we can equivalently represent the bounds of the pdf like this:
+\begin{align*}
+f_{X_1,...,X_i}(x|\theta,\sigma) = \frac{1}{\sigma^n} e^{\frac{n\theta}{\sigma}} e^{-\sum_{i=1}^{n} x_i} \mathbf{1}\{x_{(1)} > \theta\} \prod_{i=1}^{n} \mathbf{1}\{x_i > \theta\}
+\end{align*}
+This pdf is now able to be factored. Let $T_1 = \sum_{i=1}^{n} x_i$ and $T_2 = x_{(1)}$ Let $T = (T_1,T_2)$ Then:
+\begin{align*}
+g(T_1,T_2|\theta,\sigma) = \frac{1}{\sigma^n} e^{\frac{n\theta}{\sigma}} e^{-\sum_{i=1}^{n} x_i} \mathbf{1}\{x_{(1)} > \theta\} && h(x)=\prod_{i=1}^{n} \mathbf{1}\{x_i > \theta\}
+\end{align*}
+\begin{align*}
+\boxed{ \text{T is a sufficient statistic of } \theta,\sigma }
+\end{align*}
+
+\clearpage
+
+\section*{Problem 6}
+For each of the following distributions let $X_1,...,X_n$ be a random sample. Find a minimal sufficient statistic for $\theta$.
+\begin{enumerate}
+\item[a.] $f(x|\theta) = \frac{1}{\sqrt{2\pi}} e^{-(x-\theta)^2}$, $-\infty < x < \infty$, $-\infty < \theta < \infty$
+\item[b.] $f(x|\theta) = e^{-(x-\theta)}$, $\theta < x < \infty$, $-\infty < \theta < \infty$
+\item[c.] $f(x|\theta) = \frac{e^{-(x-\theta)}}{1+e^{-(x-\theta)^2}} $, $-\infty < x < \infty$, $-\infty < \theta < \infty$
+\end{enumerate}
+\subsection*{Part A}
+Lets start by finding the joint pdf of this expression. The joint pdf of these iid random variables is their product:
+\begin{align*}
+f(x|\theta) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi}} e^{-(x_i-\theta)^2} = \frac{1}{(\sqrt{2\pi})^n} e^{-\sum_{i=1}^{n}(x_i-\theta)^2}
+\end{align*}
+
+\subsection*{Part B}
+Lets start by finding the joint pdf of this expression. The joint pdf of these iid random variables is their product:
+\begin{align*}
+f(x|\theta) = \prod_{i=1}^{n} e^{-(x_i-\theta)} \mathbf{1}\{\theta < x\} = e^{-\sum_{i=1}^{n} (x_i-\theta)} \mathbf{1}\{\theta < x\}
+\end{align*}
+Pulling out $\theta$ from the summation:
+\begin{align*}
+f(x|\theta) = e^{n\theta} e^{-\sum_{i=1}^{n} (x_i)} \mathbf{1}\{\theta < x\}
+\end{align*}
+
+\subsection*{Part C}
+Lets start by finding the joint pdf of this expression. The joint pdf of these iid random variables is their product:
+\begin{align*}
+f(x|\theta) = \prod_{i=1}^{n} \frac{ e^{-(x_i-\theta)} }{1+e^{-(x_i-\theta)^2}} = \frac{ e^{-\sum_{i=1}^{n}(x_i-\theta)} }{1+e^{-\sum_{i=1}^{n}(x_i-\theta)^2}}
+\end{align*}
+das
+\begin{align*}
+f(x|\theta) = \frac{e^{n\theta} e^{-\sum_{i=1}^{n}(x_i)} }{1+e^{-\sum_{i=1}^{n}(x_i-\theta)^2}}
+\end{align*}
+
+\clearpage
+\end{document}

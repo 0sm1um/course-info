@@ -22,10 +22,61 @@
 \subsection*{A}
 Done!
 \section*{Problem 2}
-
+For the following constrained optimization problem:
+\begin{align*}
+min [(x_1 - 2)^2 + (x_2 - 1)^2] && \text{ subject to } -x_1 + x_2 = 3
+\end{align*}
+\begin{enumerate}
+\item[a.] Write the Lagrange Function of this problem.
+\item[b.] Using KKT conditions, write the 3 equations that a global minimum should satisfy.
+\end{enumerate}
+\subsection*{A}
+The Lagrange expression is given by:
+\begin{align*}
+\mathcal{L}(x_1,x_2,\lambda) = f(x_1,x_2) - \lambda g(x_1,x_2)
+\end{align*}
+Where $f(x_1,x_2)$ is the objective function and $g(x_1,x_2)$ is the equality constraint arranged to equal zero. Substituting in our given objective function and constraint yields:
+\begin{align*}
+\boxed{ \mathcal{L}(x_1,x_2,\lambda) = (x_1 - 2)^2 + (x_2 - 1)^2 - \lambda (-x_1 + x_2 - 3) }
+\end{align*}
+\subsection*{B}
+Our equations involve differentiating this expression with respect to each parameters and setting each equal to zero.
+\begin{align*}
+0 = \frac{\partial}{\partial x_1}[(x_1 - 2)^2 + (x_2 - 1)^2 - \lambda (-x_1 + x_2 - 3)] && \\
+0 = \frac{\partial}{\partial x_2}[(x_1 - 2)^2 + (x_2 - 1)^2 - \lambda (-x_1 + x_2 - 3)] && \\
+0 = \frac{\partial}{\partial \lambda}[(x_1 - 2)^2 + (x_2 - 1)^2 - \lambda (-x_1 + x_2 - 3)]
+\end{align*}
+Evaluating these derivatives yields the following equations:
+\begin{align*}
+\boxed{0 = 2x_1+\lambda-4} && \\
+\boxed{0 = 2x_2+\lambda-2} && \\
+\boxed{0 = x_1+y_1+3}
+\end{align*}
 \clearpage
 
 \section*{Problem 3}
-
-
+My particular PCA summary is given by:
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{PCASummary.png}
+\caption{PCA Summary given in R}
+\end{figure}
+\subsection*{Part A}
+The Barplot of the relative variances is here:
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{barplot.png}
+\caption{Bar plot of scaled variances given in R}
+\end{figure}
+\subsection*{Part B}
+The cumulative proportion of variance of Principal components 1 through 9 is 87.46 percent of variance. Thus components 1 through 9 should be included to account for at least 85\% of the variance.
+\subsection*{Part C}
+41.56 percent of the total variance are explained by the first two principal components.
+\subsection*{Part D}
+The scatterplot of the first two principal components is given by:
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{scatterplot.png}
+\caption{First two principal components given in R}
+\end{figure}
 \end{document}

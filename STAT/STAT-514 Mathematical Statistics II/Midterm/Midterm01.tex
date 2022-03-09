@@ -17,46 +17,335 @@
 
 %Section and subsection automatically number unless you put the asterisk next to them.
 \section*{Foreword}
-I hate writing on pen and paper so I decided to do this in LaTeX. Saving the trees!
+I hate writing on pen and paper so I decided to do this in LaTeX.
 
 \section*{Problem 1}
 \subsection*{Part A}
+Here is our given sum:
+\begin{align*}
+\frac{\sum_{i=1}^{n} X_i - n\lambda}{\sqrt{n\lambda}} = \frac{1}{\sqrt{n\lambda}}\sum_{i=1}^{n} X_i - \frac{(n\lambda)}{\sqrt{n\lambda}}
+\end{align*}
+Note here that $X_i$ are all Poisson distributions so their distributions are all poisson with mean $\lambda$. Their sum is then $\sum_{i=1}^{n} X_i \sim Poisson(n\lambda)$. Let $\sum_{i=1}^{n} X_i=Y \sim Poisson(n\lambda)$
+\begin{align*}
+\frac{Y - n\lambda}{\sqrt{n\lambda}}
+\end{align*}
+Note here that the poisson distribution has mean $\mu=n\lambda$, and standard deviation $\sigma = \sqrt{n\lambda}$. As such, via the central limit theorem we know that this converges in distribution to a standard normal:
+\begin{align*}
+\boxed{ \frac{Y - n\lambda}{\sqrt{n\lambda}} \sim \mathcal{N}(0,1) }
+\end{align*}
 \subsection*{Part B}
+Here is our given sum:
+\begin{align*}
+\frac{\sum_{i=1}^{n} X_i - n\lambda}{\sqrt{\sum_{i=1}^{n} X_i}}
+\end{align*}
+As with before lets split our numerator:
+\begin{align*}
+= \frac{\sum_{i=1}^{n} X_i}{{\sqrt{\sum_{i=1}^{n} X_i}}} - \frac{n\lambda}{\sqrt{\sum_{i=1}^{n} X_i}}
+\end{align*}
+Again let $\sum_{i=1}^{n} X_i=Y \sim Poisson(n\lambda)$. Here we can apply [UNNAMED THEOREM ON PAGE 6 OF WEEK 4 NOTES] which states if $X_n \rightarrow^d X$, then $g(X_n) \rightarrow g(X)$ so long as $g$ is a continuous function. By this theorem $\sqrt{\sum_{i=1}^{n} X_i} \rightarrow^d (\sqrt{Y})$.
+\begin{align*}
+= \frac{Y -n\lambda}{\sqrt{Y}}
+\end{align*}
+At this point, we know that $\sqrt{Y}$ converges in distribution but we don't what that distribution looks like exactly. However, if we can employ Slutsky's theorem which states if you have two random variables, where $X$ converges in probability to a constant, and $Y$ other converges in distribution then $\frac{X}{Y} = \frac{a}{Y}$. All we need to do is verify our numerator converges in probability.
+
+The definition of convergence in probability is given by:
+\begin{align*}
+\lim_{n\rightarrow \infty} P(|Y - c| \geq \epsilon) = 0 && \text{For any }\epsilon\text{ greater than zero.}
+\end{align*}
+Substituting in our numerator:
+\begin{align*}
+\lim_{n\rightarrow \infty} P(|Y - n\lambda| \geq \epsilon) = 0 && \text{For any }\epsilon\text{ greater than zero.}
+\end{align*}
+Via Markov's inequality we can write this as:
+\begin{align*}
+P((Y - n\lambda)^2 \geq \epsilon^2) \leq \frac{\mathbb{E}(Y-n\lambda)^2}{\epsilon^2} \rightarrow 0  \text{ as }n\rightarrow \infty
+\end{align*}
+Hence we know that the $Y$ converges in probability to $n\lambda$. So our expression can be rewritten:
+\begin{align*}
+P((Y - n\lambda)^2 \geq \epsilon^2) \leq \frac{\mathbb{E}(Y-n\lambda)^2}{\epsilon^2} \rightarrow 0  \text{ as }n\rightarrow \infty
+\end{align*}
+Then via the normal approximation with estimated variance:
+\begin{align*}
+\boxed{ = \frac{Y -n\lambda}{\sqrt{Y}} \rightarrow^d \frac{Y -n\lambda}{\sqrt{n\lambda}} \sim \mathcal{N}(0,\frac{1}{\sqrt{n}}) }
+\end{align*}
 \subsection*{Part C}
+Our given expression:
+\begin{align*}
+\sqrt{n} [ln(\bar{X})-ln(\lambda)]
+\end{align*}
+ia the weak law of large numbers we know that $\bar{X}$ converges to $\lambda$
+Note $\bar{X}=\frac{1}{n}\sum_{i=1}^{n}X_i = \frac{1}{n} Y$
+\begin{align*}
+\sqrt{n} [ln(\frac{1}{n} Y)-ln(\lambda)]
+\end{align*}
+First lets analyze the following similar expression:
+\begin{align*}
+\sqrt{n} [\bar{X}-\lambda]
+\end{align*}
+Via Central limit theorem this expression can be said to approach a normal distribution with variance 1.
+\begin{align*}
+\sqrt{n} [\bar{X}-\lambda] \rightarrow^d \mathcal{N}(0,1)
+\end{align*}
+Now, the Delta method states that for any sequence of random variables which approaches a standard normal in distribution, and for a g(x) which is defined and not zero the following relation is true:
+\begin{align*}
+\sqrt{n} [g(\bar{X})-g(\lambda)] \rightarrow^d \mathcal{N}(0,\sigma^2[g'(\theta)]^2)
+\end{align*}
+In our case $g(x) = ln(x)$ and $g'(x) = \frac{1}{x}$ so:
+\begin{align*}
+\boxed{ \sqrt{n} [ln(\frac{1}{n} Y)-ln(\lambda)] \rightarrow^d \mathcal{N}(0,\frac{1}{\theta^2}) }
+\end{align*}
 \clearpage
 \section*{Problem 2}
 \subsection*{Part A}
+I think this response requires some explaining. This questions asks me to construct statistics with no regard sufficiency, them being estimators, or any other requirement besides them being statistics. Wikipedia defines a statistic as any quantity computed from values in a sample "which is considered for a statistical purpose". I take that to mean anything goes; so long as what I have depends on the sample. Though I give no assurances that these statistics are useful.
+
 \subsubsection*{i.}
+A chi squared distribution is defined as:
+\begin{align*}
+\mathcal{X}^{2}_{k} = \sum_{i=1}^{k} Z^2_i
+\end{align*}
+Where Z are standard normal random variables. As such the easiest way to construct a chi squared with 3 degrees of freedom would be to sum the squares of our 3 samples. However we need to normalize $X_2$ and $X_3$ since they aren't normal by default.
+\begin{align*}
+\boxed{ T_1 = \sum_{i=1}^{3} \frac{Z^2_i}{i^2} \sim \mathcal{X}^{2}_{3} }
+\end{align*}
 \subsubsection*{ii.}
+A T distribution is given by:
+\begin{align*}
+T_d = \frac{Z}{\sqrt{\tfrac{\mathcal{X}_p^2}{p}}}
+\end{align*}
+Here let $T_2$ be
+\begin{align*}
+\boxed{ T_2 = \frac{\sqrt{2}X_1}{\sqrt{\sum_{i=2}^{3}\tfrac{Z^2_i}{i^2}}} \sim T_d}
+\end{align*}
+I like this configuration since I don't have to normalize $X_1$.
+
 \subsubsection*{iii.}
+A F distribution is essentially a ratio of two chi squared random variables.
+\begin{align*}
+F = \frac{\tfrac{\mathcal{X}^2_{d_1}}{d_1}}{\tfrac{\mathcal{X}^2_{d_2}}{d_2}}
+\end{align*}
+The key to this problem is to massage our input sample variables into being 1 and 2 degrees of freedom respectively.
+\begin{align*}
+\boxed{ T_3 = \frac{2X_1^2}{\sum_{i=2}^{3}\tfrac{Z^2_i}{i^2}} \sim T_{\tfrac{1}{2}} }
+\end{align*}
 
 \subsection*{Part B}
+Note here that these two sums represent the sample variance of their respective distributions, except each variance term is missing the scaling $\frac{1}{n-1}$. This results in two chi squared distributions(result from HW02 where this same expression appears):
+\begin{align*}
+W=(n-1)S_n^2(X) + (n-1)S_n^2(Y) 
+\end{align*}
+Note here that Cochran's theorem states that the scaled sample variance takes the form of a chi squared distribution:
+\begin{align*}
+(n-1)\frac{S^2}{\sigma^2} \sim \mathcal{X}^2_{n-1}
+\end{align*}
+Note here that sigma for our underlying distribution is 1, so that means our two terms of $W$ are already in the scaled form. Therefore W is:
+\begin{align*}
+W= \mathcal{X}^2_{n-1} + \mathcal{X}^2_{n-1} 
+\end{align*}
+A known property of the Chi-Squared is that the sum of two independant Chi-Squared random variables is another Chi-Squared random variable with the sum of their degrees of freedom.
+\begin{align*}
+W \sim \mathcal{X}^2_{2(n-1)} 
+\end{align*}
+Finally our Expectation and Variance is given by:
+\begin{align*}
+\boxed{ \mathbb{E}(W) = 2(n-1) } && \boxed{ Var(W) = 4(n-1) }
+\end{align*}
+
 
 \clearpage
 \section*{Problem 3}
 \subsection*{Part A}
-\subsection*{Part B}
+Which of these estimators are unbiased for estimating $\theta$?
 
+	The definition of an unbiased estimator is that the expectation of that estimator equals the quantity which it is said to estimate. Lets find $\mathbb{E}(X)$ for each of the estimators. Note here that $X$ is an exponential distribution with $\mathbb{E}(X) = \theta$
+	
+\begin{align*}
+\mathbb{E}(T_1) = \mathbb{E}(X_1) = \theta && \\
+\mathbb{E}(T_2) = \frac{\mathbb{E}(X_1) + \mathbb{E}(X_2)}{2} = \frac{2\theta}{2} = \theta && \\
+\mathbb{E}(T_3) = \frac{\mathbb{E}(X_1) + 2\mathbb{E}(X_2)}{3} = \frac{\theta+2\theta}{3} = \theta && \\
+\mathbb{E}(T_5) = \theta
+\end{align*}
+The only one I haven't covered here is $T_4$. The minimum of the sample refers to the first order statistic.
+\begin{align*}
+\mathbb{E}(T_4) = \mathbb{E}[min(X_1,X_2,X_3)] = \mathbb{E}[min(X_{(1)})]
+\end{align*}
+The density of the first order statistic is given by:
+\begin{align*}
+\frac{d}{dx}f_{X_{(1)}}(x) = \frac{d}{dx} 1-[1-F(x)]^n = \frac{d}{dx} 1-[1-(1-e^{-\frac{x}{\theta}})]^3 = \frac{3}{\theta} e^{-\frac{3x}{\theta}}
+\end{align*}
+This density is an exponential with $\lambda = \frac{3}{\theta}$ Thus our expectation is then:
+\begin{align*}
+\mathbb{E}(T_4) = 3\theta
+\end{align*}
+Therefore $T_4$ is biased.
+\begin{align*}
+\boxed{ T_1,T_2,T_3,T_5 \text{ are unbiased} }
+\end{align*} 
+\subsection*{Part B}
+\begin{align*}
+Var(T_1) = Var(X_1) = \theta^2 && \\
+Var(T_2) = Var( \frac{X_1 + X_2}{2} ) = Var(\frac{X_1}{2}) + Var(\frac{X_2}{2}) = \frac{1}{4}\theta^2 + \frac{1}{4}\theta^2 = \frac{1}{2}\theta^2 && \\
+Var(T_3) = Var(\frac{X_1}{3}) + Var(\frac{2X_2}{3}) = \frac{1}{9}\theta^2 + \frac{4}{9}\theta^2 = \frac{5}{9} \theta^2 && \\
+Var(T_5) = Var(\bar{X}) = \frac{\theta^2}{3}
+\end{align*}
+Therefore $T_4$ is biased.
+\begin{align*}
+\boxed{ T_5 \text{ is the lowest variance estimator of }\theta. }
+\end{align*} 
 \clearpage
 \section*{Problem 4}
 \subsection*{Part A}
+Lets first specify our three sample means. The sample mean is given by:
+\begin{align*}
+\bar{X} = \frac{1}{n} \sum_{i=1}^{n} X_i
+\end{align*}
+To distinguish between our 3 samples, let populations be defined by $X_1 = X$, $X_2=Y$, $X_3 = Z$
+\begin{align*}
+\theta = 2\bar{X} - \bar{Y} - \bar{Z}
+\end{align*}
+Our sample means have the following distribution(from Week 1 notes example 1, also HW01):
+\begin{align*}
+\bar{X} \sim \mathcal{N}(\mu_1,\tfrac{\sigma^2}{n}) && \bar{Y} \sim \mathcal{N}(\mu_2,\tfrac{\sigma^2}{n}) && \bar{Z} \sim \mathcal{N}(\mu_3,\tfrac{\sigma^2}{n}) 
+\end{align*}
+A known property of Normal distributions is that linear combinations of normal distributions are ALSO normal. For a linear combination of Gaussians:
+\begin{align*}
+\mathbb{E}(\theta) = \sum_{i}^{k} a_i \mu_i && Var(\theta) = \sum_{i}^{k} b_i^2 \sigma^2
+\end{align*}
+Plugging in what we know:
+\begin{align*}
+\mathbb{E}(\theta) = 2\mu_1-\mu_2-\mu_3 && Var(\theta) = \frac{2^2}{n} \sigma^2 + \frac{1}{n} \sigma^2 + \frac{1}{n} \sigma^2 = \frac{6\sigma^2}{n}
+\end{align*}
+Thus our distribution is a normal with mean and variance:
+\begin{align*}
+\theta \sim \mathcal{N}(2\mu_1-\mu_2-\mu_3, \frac{6\sigma^2}{n})
+\end{align*}
 
 \subsection*{Part B}
-
-\subsection*{Part C}
+Let $Y=\frac{(n-1)\sum_{i=1}^{k} S^2_i}{\sigma^2}$. Recall from question 02 of this exam, that the scaled variance takes the form of a Chi-Squared distribution.
+\begin{align*}
+(n-1)\frac{S^2}{\sigma^2} \sim \mathcal{X}^2_{n-1}
+\end{align*}
+As such, this sum becomes three Chi-Squared random variables.
+\begin{align*}
+Y = \mathcal{X}^2_{(n-1)} + \mathcal{X}^2_{(n-1)} + \mathcal{X}^2_{(n-1)}
+\end{align*}
+As we know, the sum of a Chi-Squared random variable is a chi squared with DOF added up from all the variables being summed.
+\begin{align*}
+\boxed{ Y \sim \mathcal{X}^2_{3(n-1)} }
+\end{align*}
 
 \clearpage
 \section*{Problem 5}
 \subsection*{Part A}
+The pdf of the $j$th order statistic is given by:
+\begin{align*}
+f_{X_{(j)}}(x) = \frac{n!}{(j-1)! (n-j)!} F(x)^{j-1} [1-F(x)]^{n-j} f(x)
+\end{align*}
+Where $F$ and $f$ are the CDF and pdf of $X$ respectively. In our case $X$ is a pdf of a uniform distribution.
+\begin{align*}
+f(x) = 1 && F(x) = x
+\end{align*}
+Substituting in $j=2$, $n=5$:
+\begin{align*}
+f_{X_{(n)}}(x) = \frac{5!}{(2-1)! (n-2)!} F(x)^{2-1} [1-F(x)]^{5-2} f(x)
+\end{align*}
+Substituting in CDF and pdf:
+\begin{align*}
+\boxed{ f_{X_{(n)}}(x) = 20 x (1-x)^{3} }
+\end{align*}
 \subsection*{Part B}
+The joint pdf of two orders statistics is given by:
+\begin{align*}
+f_{X_{(j)},X_{(k)}}(u,v) = \frac{n!}{(j-1)! (k-j-1)! (n-k)!} [F(u)]^{j-1} [F(v)-F(u)]^{k-j-1} [1-F(v)]^{n-k} f(u)f(v)
+\end{align*}
+Substituting in $j=2$, $k=4$, $n=5$.
+\begin{align*}
+f_{X_{(j)},X_{(k)}}(u,v) = \frac{5!}{(2-1)! (4-2-1)! (5-4)!} [F(u)]^{2-1} [F(v)-F(u)]^{4-2-1} [1-F(v)]^{5-4} f(u)f(v)
+\end{align*}
+Substituting in cdfs and pdfs:
+\begin{align*}
+\boxed{ f_{X_{(j)},X_{(k)}}(u,v) = 120u(v-u)(1-v) }
+\end{align*}
 
 \clearpage
 \section*{Problem 6}
+In english, what this problem is saying is "The larger a sample is, the more probable it is that the minimum of the sample equals the minimum of the underlying pdf.
+
+The definition of convergence in probability is given by:
+\begin{align*}
+\lim_{n\rightarrow \infty} P(|Y - c| \geq \epsilon) = 0 && \text{For any }\epsilon\text{ greater than zero.}
+\end{align*}
+Lets find the density of $Y$, Let $Y=X_{(1)} = min(X_{(1)},...X_{(n)})$. The first order pdf is given by:
+\begin{align*}
+f_{X_{(1)}}(x) = n[1-F(x)]^{n-1} f(x) && f(x) = Beta(2,1)^{-1} x && F(x) = x^2
+\end{align*}
+Substituting in our pdf and cdf:
+\begin{align*}
+f_{X_{(1)}}(x) = n[1-x^2]^{n-1} 2x = 2x n (1-x^2)^{n-1}
+\end{align*}
+The expectation of this is:
+\begin{align*}
+\mathbb{E}[f_{X_{(1)}}(x)] = \mathbb{E}[2x n (1-x^2)^{n-1}] = \int_{-0}^{1} 2x^2 n (1-x^2)^{n-1} dx
+\end{align*}
+Let $u=x^2$. $\frac{du}{dx} = 2x$, $\frac{du}{2x} = dx$
+\begin{align*}
+\int_{-0}^{1} 2x^2 n (1-x^2)^{n-1} dx
+\end{align*}
+Let $b=n$, $a=3$. This follows a $Beta(3,n)$ distribution. As such:
+\begin{align*}
+\mathbb{E}(X_{(1)}) = \frac{3}{n+3} && Var(X_{(1)}) = \frac{3n}{(n+3)^2(n+4)} 
+\end{align*}
+As with the result from the quiz, we know that $\mathbb{E}(X_{(1)}) \rightarrow 0$ as n approaches infinity. The expectations are different but they exhibit the same behavior as n approaches infinity. Hence in our original expression, the only value which makes the expression true is $c=0$ (due to its relation to Markov's inequality).
+Hence, 
+\begin{align*}
+\boxed{ Y \rightarrow^p 0 }
+\end{align*}
 
 \clearpage
 
 \section*{Problem 7}
 \subsection*{Part A}
+I am fond of Fischer-Neyman Factorization Theorem so I think I will go with it. Fischer-Neyman Factorization Theorem states that a statistic $T(X)$ is a sufficient statistic if it can be factored in the following format:
+\begin{align*}
+f(x|\theta) = g(T(x)|\theta)h(x)
+\end{align*}
+We are given a random sample $X_1,...,X_n$. This sample is composed of iid random variables, as such the joint pdf of the entire sample is simply the product of each element.
+\begin{align*}
+f_{X_1,...,X_n}(x_i) = \prod_{i=1}^{n} \frac{x_i}{\theta} e^{-\tfrac{x^2_i}{2\theta^2}} \mathbf{1}\{x_i>0\} \mathbf{1}\{\theta > 0\}
+\end{align*}
+Note $\mathbf{1}$ denotes the indicator function which serves to restrict the domain of these sets of random variables. We can use properties of exponents to factor the exponential factors out.
+\begin{align*}
+f_{X_1,...,X_n}(x_i) = e^{\tfrac{1}{2 n \theta^2}} e^{-\sum_{i=1}^{n} x^2_i} \prod_{i=1}^{n} \frac{x_i}{\theta} \mathbf{1}\{x_i>0\} \mathbf{1}\{\theta > 0\}
+\end{align*}
+Let $T = x^2_i$, then:
+\begin{align*}
+g(T(x)|\theta) = e^{-\sum_{i=1}^{n} x^2_i} e^{\tfrac{1}{2 n \theta^2}} \mathbf{1}\{\theta > 0\} && h(x) = \prod_{i=1}^{n} \mathbf{1}\{x_i>0\}
+\end{align*}
+Therefore:
+\begin{align*}
+\boxed{ \text{T is a sufficient statistic of } \theta }
+\end{align*}
+
 \subsection*{Part B}
+%Use exponential family argument for minimal sufficiency
+%If you can express the statistic in the form of an exponential family then it is automatically minimal sufficient
+To verify minimality, we can simply take the ratio of their joint distributions to test whether or not they have dependance on $\theta$.
+\begin{align*}
+\frac{f(x|\theta)}{f(y|\theta)} = \frac{e^{-\sum_{i=1}^{n} x^2_i} e^{\tfrac{1}{2 n \theta^2}} \mathbf{1}\{\theta > 0\}}{e^{-\sum_{i=1}^{n} y^2_i} e^{\tfrac{1}{2 n \theta^2}} \mathbf{1}\{\theta > 0\}}
+\end{align*}
+
+\begin{align*}
+= \frac{e^{-\sum_{i=1}^{n} x^2_i} e^{\tfrac{1}{2 n \theta^2}}}{e^{-\sum_{i=1}^{n} y^2_i} e^{\tfrac{1}{2 n \theta^2}}}
+\end{align*}
+
+\begin{align*}
+= \frac{e^{-\sum_{i=1}^{n} x^2_i} }{e^{-\sum_{i=1}^{n} y^2_i}}
+\end{align*}
+Here there is no dependence on $\theta$.
+\begin{align*}
+\boxed{ \text{T is a minimally sufficient statistic of } \theta }
+\end{align*}
+
+
 
 \end{document}

@@ -17,7 +17,7 @@
 
 %Section and subsection automatically number unless you put the asterisk next to them.
 \section*{Problem 1}
-Let $X_i$, $i = 1,...,n$ be independent $Bernoulli(p)$ random variables and let $Y_n = \frac{1}{n} P_n \sum_{i=1}^{n} Xi$
+Let $X_i$, $i = 1,...,n$ be independent $Bernoulli(p)$ random variables and let $Y_n = \frac{1}{n}\sum_{i=1}^{n} Xi$
 \begin{enumerate}
 \item[a.] Show that $\sqrt{n}(Y_n-p)\rightarrow^d\mathcal{N}(0,p(1 - p))$
 \item[b.] Show that for $p \neq \frac{1}{2}$, the estimate of the variance $Y_n(1-Y_n)$ satisfies
@@ -37,16 +37,77 @@ S^2 = \frac{n}{n-1} Y_n(1-Y_n)
 \end{enumerate}
 \subsection*{Part A}
 %Apply CLT
+Note here that $Y_n$ is simply the sample mean $\bar{X}$. $E(X)=p$ since X is a Bernoulli random variable. As such, Central Limit Theorem applies here. Central Limit Theorem states:
+\begin{align*}
+\lim_{n\rightarrow \infty} \sqrt{n}\frac{\bar{X}_n-\mu}{\sigma} \rightarrow^d \mathcal{N}(0,1)
+\end{align*}
+Note here that the Variance of $Var(X_i)=p(1-p)$. As such:
+\begin{align*}
+\boxed{ \sqrt{n}(Y_n-p) \rightarrow^d \mathcal{N}(0,p(1 - p)) }
+\end{align*}
 \subsection*{Part B}
 %Apply delta method
+The Delta method states that if the following converges in distribution:
+\begin{align*}
+\sqrt{n}[Y_n - \theta] \rightarrow^d \mathcal{N}(0,\sigma^2)
+\end{align*}
+Then for any continuous function $g(x)$ the following is also true:
+\begin{align*}
+\sqrt{n}[g(Y_n) - g(\theta)] \rightarrow^d \mathcal{N}(0,\sigma^2 [g'(\theta)]^2)
+\end{align*}
+Let $g(x)=x(1-x)$, $g'(x)=1-2x$ and $\sigma^2=p(1 - p)$ We can apply this to our result in part A:
+\begin{align*}
+\boxed{ \sqrt{n}[Y_n(1 - Yn) - p(1 - p)] \rightarrow^d \mathcal{N}(0,[1 - 2p]^2 p[1 - p]) }
+\end{align*}
+Note, that the reason this result is invalid for $p=\frac{1}{2}$ is because at that value, $g'(p)=0$ for which the delta method is not valid for.
 \subsection*{Part C}
 %Second order delta method
+Here we can apply the second order delta method. The second order delta method is given by:
+\begin{align*}
+n[g(X_n) - g(\theta)] \rightarrow^d \sigma^2 \frac{g''(\theta)}{2} \mathcal{X}^2_{1}
+\end{align*}
+Let $g(x)=x(1-x)$, $g''(x)=-2$. Note that $g(p) = p(1-p)$, and if $p=1/2$ then  $g(p) = 0$. So our delta method expression is given by:
+\begin{align*}
+\boxed{ n(Y_n(1-Y_n) - 0) \rightarrow^d -\frac{1}{4} \mathcal{X}^2_{1} }
+\end{align*}
 \subsection*{Part D}
 %Manipulation of sample variance
+Sample variance is given by:
+\begin{align*}
+S^2 = \frac{\sum_{i=1}^{n} (X_i-\bar{X})^2}{n-1}
+\end{align*}
+$\bar{X}$ is a repeated term in all of these summations, so it can be separated:
+\begin{align*}
+S^2 = [\frac{1}{n-1} \sum_{i=1}^{n} X_i^2] - \frac{n}{n-1} \bar{X}^2_n = \frac{n}{n-1} [\frac{1}{n} \sum_{i=1}^{n} X_i^2-\bar{X}_n^2]
+\end{align*}
+Note here we are dealing with Bernoulli random variables, which can only be 1 or 0. As such, $X_i^2=X_i$.
+\begin{align*}
+S^2 = \frac{n}{n-1} [\frac{1}{n} \sum_{i=1}^{n} X_i-\bar{X}_n^2]
+\end{align*}
+Recall here that $\bar{X}=\frac{1}{n} \sum_{i=1}^{n} X_i^2 = Y_n$:
+\begin{align*}
+S^2 = \frac{n}{n-1} [Y_n-Y_n^2]
+\end{align*}
+Here factoring out a factor of $Y_n$ yields our given result:
+\begin{align*}
+\boxed{ S^2 = \frac{n}{n-1} Y_n[1-Y_n] }
+\end{align*}
+
 \subsection*{Part E}
 %
+What is this question asking? From what I understand Slutsky's theorem requires one expression which converges in probability and another which converges in distribution. What does appropriately standardized mean?
+
+
+
 \subsection*{Part F}
 %
+I am also unsure how to determine this. I suspect it has to do with some application of CLT, and perhaps some analytically property of the standard normal but beyond that I have no idea. That being said, I can give the expression for the sample variance, and I can say that the true variance should be pretty close to that given that it is a sample of 100 points.
+
+
+The sample variance predicted by the result in d equals:
+\begin{align*}
+\boxed{ S^2 = \frac{n}{n-1} Y_n[1-Y_n] = \frac{100}{99} \tfrac{1}{4}[\frac{3}{4}] = 0.1894 }
+\end{align*}
 \clearpage
 
 \section*{Problem 2}
@@ -65,10 +126,33 @@ Suppose $X$ follows a gamma distribution with parameters $\alpha = n$ and $\beta
 %Solve for the h(x) which satisfies CLT
 %Equate h(x) to the function thats given
 %Show that as n\rightarrow infinity H(x) converges to the given integral.
+First lets take a look at this given expression.
+\begin{align*}
+\lim_{n\rightarrow \infty} P(\frac{X-n\beta}{\sqrt{n\beta^2}} \leq t) = \int_{-\infty}^{t} \frac{1}{2\pi} e^{-\frac{u^2}{2}} du
+\end{align*}
+This is essentially just the statement of the Central Limit theorem since $P(u \leq t)$ is equivalent to the CDF of $\frac{\sqrt{n}(\bar{X}-\mu)}{\sigma}$ at point $u$. Note our random variable is a gamma distribution which has mean $\mu=n\beta$ and Variance $\sigma^2=n^2 \beta^2$. So long as that CDF exists, this expression must be true via the Central limit theorem.
+\begin{align*}
+\boxed{ \lim_{n\rightarrow \infty} P(\frac{X-n\beta}{\sqrt{n\beta^2}} \leq t) = \int_{-\infty}^{t} \frac{1}{2\pi} e^{-\frac{u^2}{2}} du }
+\end{align*}
+
 \subsection*{Part B}
 %Via part A we've shown that \sqrt{n}[1/nX-\beta] \rightarrow N(0,\beta^2) as n approaches infinity
 %Just apply delta method
+In part A we've shown that $\frac{X-n\beta}{\sqrt{n\beta^2}}$ converges in distribution to the standard normal. The denominator of this expression basically serves to normalize the numerator which is $X-n\beta$. The Delta Method states that if the following converges:
+\begin{align*}
+\sqrt{n}(X-n\beta) \rightarrow^d \mathcal{N}(0,\sigma^2)
+\end{align*}
+Then the following also converges in distribution:
+\begin{align*}
+\sqrt{n}(g(X)-g(n\beta)) \rightarrow^d \mathcal{N}(0,\sigma^2 g''(n\beta)^2)
+\end{align*}
 
+
+Let $g(x)=\sqrt{2x}$, via the delta method we can say:
+\begin{align*}
+\boxed{ \sqrt{n}[\frac{1}{n}\sqrt{2X}-\sqrt{2\beta}] \rightarrow^d \mathcal{N}(0,\beta^2) }
+\end{align*}
+Here $\tau=\beta^2$
 
 \clearpage
 
@@ -88,13 +172,34 @@ Suppose $X$ follows a gamma distribution with parameters $\alpha = n$ and $\beta
  \end{enumerate}
 \subsection*{Part A}
 %T_n is not bar(X_n). It is the mean of mean(1/X_i). Harmonic mean converges in probability to E(1/X) due to weak law of large numbers. Result should be 1/2
-
 %From WLLN Bar{Xn} converges to mu as x approaches infinity.
 %But Tn converges in probability to E(X^-1) as n approaches infinity, therefore theta = E(1/X)
-
-
-
-
+This first question asks to find what value the harmonic mean converges to in probability. This value will range between 0 and 1. Our sample is one from a Gamma(3,1) random variable. Via the WLLN, $\bar{X} \rightarrow^p \mathbb{E}(X)$, the Harmonic mean then converges to $\mathbb{E}(\frac{1}{X})$.
+\begin{align*}
+\mathbb{E}(\tfrac{1}{X}) = \int_{0}^{\infty} \frac{1}{x} f(x) dx
+\end{align*}
+Note here that the pdf of Gamma(3,1) is given by $f(x)=\tfrac{1}{2}e^{-x}x^2$. So our integral is:
+\begin{align*}
+\mathbb{E}(\tfrac{1}{X}) = \tfrac{1}{2} \int_{0}^{\infty} \frac{1}{x} e^{-x}x^2 dx = \frac{1}{2}
+\end{align*}
+As such:
+\begin{align*}
+\boxed{ T_n \rightarrow^P \frac{1}{2} }
+\end{align*}
+Where $\theta=\frac{1}{2}$
+\subsection*{Part B}
+This here is a central limit theorem problem. Note that convergence in probability implies convergence in distribution(but not the other way around.).
+\begin{align*}
+\frac{\sqrt{n}(T_n-a)}{b} \rightarrow^d \mathcal{N}(0,1)
+\end{align*}
+For this problem, $T_n$ can be treated as the mean of a new random variable $\frac{1}{X}$. The mean of $\frac{1}{X}=\mathbb{E}(\frac{1}{X})=\frac{1}{2}$. However we still need $\sigma=\sqrt{Var(\frac{1}{X})}$. If we treat $\frac{1}{X}$ we can apply CLT to it to arrive at a standard normal. We just need the Variance.
+\begin{align*}
+Var(\frac{1}{X}) = \mathbb{E}(\frac{1}{X^2}) - \mathbb{E}(X)^2 = \tfrac{1}{2} \int_{0}^{\infty} \frac{1}{x^2} e^{-x}x^2 dx - \frac{1}{2^2} = \frac{1}{2} - \frac{1}{4} = \frac{1}{4}
+\end{align*}
+As such, $a=\frac{1}{2}$, $b=\frac{1}{2}$
+\begin{align*}
+\boxed{ 2\sqrt{n}(T_n-\frac{1}{2}) \rightarrow^d \mathcal{N}(0,1) }
+\end{align*}
 \clearpage
 
 \section*{Problem 4}
@@ -179,25 +284,76 @@ Lets start by finding the joint pdf of this expression. The joint pdf of these i
 \begin{align*}
 f(x|\theta) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi}} e^{-(x_i-\theta)^2} = \frac{1}{(\sqrt{2\pi})^n} e^{-\sum_{i=1}^{n}(x_i-\theta)^2}
 \end{align*}
+Expanding out the square in the exponent:
+\begin{align*}
+f(x|\theta) = \frac{1}{(\sqrt{2\pi})^n} e^{-\sum_{i=1}^{n} [x_i^2 - 2x_i\theta + \theta^2]}
+\end{align*}
+Separating our sum into three exponential functions:
+\begin{align*}
+f(x|\theta) = \frac{1}{(\sqrt{2\pi})^n}  e^{n\theta^2} e^{-\sum_{i=1}^{n} x_i^2} e^{\sum_{i=1}^{n} 2x_i\theta}
+\end{align*}
+Pulling out factors of theta:
+\begin{align*}
+f(x|\theta) = \frac{1}{(\sqrt{2\pi})^n}  e^{n\theta^2} e^{n\theta}  e^{-\sum_{i=1}^{n} x_i^2} e^{2\sum_{i=1}^{n} x_i}
+\end{align*}
+Fischer-Neyman Factorization Theorem states that a statistic $T(X)$ is a sufficient statistic if it can be factored in the following format:
+\begin{align*}
+f(x|\theta) = g(T(x)|\theta)h(x)
+\end{align*}
+Let $T(x)=\sum_{i=1}^{n} x_i^2$ $g(T(x)|\theta)=\frac{1}{(\sqrt{2\pi})^n}  e^{n\theta^2} e^{n\theta}  e^{-\sum_{i=1}^{n} x_i^2}$ and $h(x) = e^{2\sum_{i=1}^{n} x_i}$. To test minimal sufficiency we need to test whether or not the ratio of $\frac{g(T(x)|\theta)}{g(T(y)|\theta)}$ depends on $\theta$.
+\begin{align*}
+\frac{f(x|\theta)}{f(y|\theta)} = \frac{\frac{1}{(\sqrt{2\pi})^n}  e^{n\theta^2} e^{n\theta}  e^{-\sum_{i=1}^{n} x_i^2}}{\frac{1}{(\sqrt{2\pi})^n}  e^{n\theta^2} e^{n\theta}  e^{-\sum_{i=1}^{n} y_i^2}} = \frac{e^{-\sum_{i=1}^{n} x_i^2}}{e^{-\sum_{i=1}^{n} y_i^2}}
+\end{align*}
+Hence
+\begin{align*}
+\boxed{ \text{T is a minimal sufficient statistic of } \theta}
+\end{align*}
 
 \subsection*{Part B}
 Lets start by finding the joint pdf of this expression. The joint pdf of these iid random variables is their product:
 \begin{align*}
-f(x|\theta) = \prod_{i=1}^{n} e^{-(x_i-\theta)} \mathbf{1}\{\theta < x\} = e^{-\sum_{i=1}^{n} (x_i-\theta)} \mathbf{1}\{\theta < x\}
+f(x|\theta) = \prod_{i=1}^{n} e^{-(x_i-\theta)} \mathbf{1}\{\theta < x\} = e^{-\sum_{i=1}^{n} (x_i-\theta)} \mathbf{1}\{\theta < x_i\}
 \end{align*}
 Pulling out $\theta$ from the summation:
 \begin{align*}
-f(x|\theta) = e^{n\theta} e^{-\sum_{i=1}^{n} (x_i)} \mathbf{1}\{\theta < x\}
+f(x|\theta) = e^{n\theta} e^{-\sum_{i=1}^{n} (x_i)} \mathbf{1}\{\theta < x_i\}
 \end{align*}
+Fischer-Neyman Factorization Theorem states that a statistic $T(X)$ is a sufficient statistic if it can be factored in the following format:
+\begin{align*}
+f(x|\theta) = g(T(x)|\theta)h(x)
+\end{align*}
+Let $T(x)=\sum_{i=1}^{n} x_i$ $g(T(x)|\theta)= e^{n\theta} e^{-\sum_{i=1}^{n} (x_i)} \mathbf{1}\{\theta < x_i\}$ and $h(x) = 1$. To test minimal sufficiency we need to test whether or not the ratio of $\frac{g(T(x)|\theta)}{g(T(y)|\theta)}$ depends on $\theta$.
+\begin{align*}
+\frac{f(x|\theta)}{f(y|\theta)} = \frac{e^{n\theta} e^{-\sum_{i=1}^{n} (x_i)} \mathbf{1}\{\theta < x_i\}}{e^{n\theta} e^{-\sum_{i=1}^{n} (y_i)} \mathbf{1}\{\theta < y_i\}}
+\end{align*}
+One way to remove the dependence on $\theta$ in this expression is to re frame this indicator function in terms of the first order statistic. By definition the first order statistic must be greater than $\theta$.
+\begin{align*}
+\boxed{ \frac{f(x|\theta)}{f(y|\theta)} = \frac{e^{-\sum_{i=1}^{n} (x_i)} \mathbf{1}\{x_{(1)} < x_i\}}{e^{n\theta} e^{-\sum_{i=1}^{n} (y_i)} \mathbf{1}\{x_{(1)} < y_i\}} }
+\end{align*}
+In this case, $T(x)=x_{(1)}$ would then be the minimal sufficient first order statistic.
 
 \subsection*{Part C}
 Lets start by finding the joint pdf of this expression. The joint pdf of these iid random variables is their product:
 \begin{align*}
 f(x|\theta) = \prod_{i=1}^{n} \frac{ e^{-(x_i-\theta)} }{1+e^{-(x_i-\theta)^2}} = \frac{ e^{-\sum_{i=1}^{n}(x_i-\theta)} }{1+e^{-\sum_{i=1}^{n}(x_i-\theta)^2}}
 \end{align*}
-das
+
 \begin{align*}
-f(x|\theta) = \frac{e^{n\theta} e^{-\sum_{i=1}^{n}(x_i)} }{1+e^{-\sum_{i=1}^{n}(x_i-\theta)^2}}
+f(x|\theta) = \frac{e^{n\theta} e^{-\sum_{i=1}^{n}(x_i)} }{1+e^{-\sum_{i=1}^{n} (x_i^2-2\theta x_i+\theta^2)}}
+\end{align*}
+
+Fischer-Neyman Factorization Theorem states that a statistic $T(X)$ is a sufficient statistic if it can be factored in the following format:
+\begin{align*}
+f(x|\theta) = g(T(x)|\theta)h(x)
+\end{align*}
+Let $T(x)=\sum_{i=1}^{n} (x_i^2-2\theta x_i)$ $g(T(x)|\theta)= \frac{e^{n\theta}}{1+e^{{-\sum_{i=1}^{n} (x_i^2-2\theta x_i+\theta^2)}}} $ and $h(x) = e^{-\sum_{i=1}^{n}(x_i)}$. To test minimal sufficiency we need to test whether or not the ratio of $\frac{g(T(x)|\theta)}{g(T(y)|\theta)}$ depends on $\theta$.
+\begin{align*}
+\frac{f(x|\theta)}{f(y|\theta)} = \frac{\frac{e^{n\theta}}{1+e^{{-\sum_{i=1}^{n} (x_i^2-2\theta x_i+\theta^2)}}}}{\frac{e^{n\theta}}{1+e^{{-\sum_{i=1}^{n} (y_i^2-2\theta y_i+\theta^2)}}}} = \frac{1+e^{{-\sum_{i=1}^{n} (x_i^2-x_i)}}}{1+e^{{-\sum_{i=1}^{n} (y_i^2-y_i)}}}
+\end{align*}
+
+Hence
+\begin{align*}
+\boxed{ \text{T is a minimal sufficient statistic of } \theta}
 \end{align*}
 
 \clearpage

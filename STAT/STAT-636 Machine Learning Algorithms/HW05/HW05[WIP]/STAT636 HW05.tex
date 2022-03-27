@@ -1,0 +1,116 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\graphicspath{ {figures/} }
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-636 Homework 5}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+Done!
+\section*{Problem 2}
+\subsection*{A}
+Calculate
+\begin{align*}
+C = Prorportion(A=T)Gini(A=T)+Prorportion(A=F)Gini(A=F)
+\end{align*}
+
+Gini Index is given by:
+\begin{align*}
+ G = 1-\sum_{i=0}^{c-1} p_i(t)^2
+\end{align*}
+Where $p_i$ is the relative frequency of training instances that belong to class
+$i$ at node $t$, $c$ is the total number of classes.
+
+	For our particular situation $c=2$ so our gini indicies reduce to:
+\begin{align*}
+ G_1 = 1-p_1(t)^2 && G_2 = 1-p_2(t)^2
+\end{align*}
+For the case of $A=T$, $Prop(A=T)=\frac{7}{10}$. Class 1 appears 4 times out of 7 total, so $G_{A_1}(t) = 1-0.57^2 = 0.6735$. Class 0 appears 3 out of 7 so $G_{A_2}(t) = 1-0.42^2=0.8163$.
+
+For the case of $B=T$, $Prop(B=T)=\frac{4}{10}$. Class 1 appears 3 times out of 4 total, so $G_{A_1}(t) = 1-0.75^2 = 0.4375$. Class 0 appears 1 out of 4 so $G_{A_2}(t) = 1-.25^2=0.9375$.
+
+\begin{align*}
+C_A = (0.7)(0.6735)+(0.3)(0.8163) = 0.7163 && C_B = (0.4)(0.4375)+(0.6)(0.9375) = 0.7375
+\end{align*}
+
+\subsection*{B}
+Attribute A would be the better choice to split the tree since it has a lower weighted Gini index, thus leading to "purer" subsets.
+\clearpage
+
+\section*{Problem 3}
+%\begin{figure}[hbt!]
+%\centering
+%\includegraphics[width=0.7\linewidth]{PCASummary.png}
+%\caption{PCA Summary given in R}
+%\end{figure}
+\subsection*{Part A.}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{FittedTree.png}
+\caption{Fitted Tree in R}
+\end{figure}
+
+
+\subsection*{Part B.}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{BTResponse.png}
+\caption{BT Response}
+\end{figure}
+
+\begin{tabularx}{0.8\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\raggedleft\arraybackslash}X | }
+ \hline
+   & BTresponse=B & BTresponse=T \\
+ \hline
+ Predicted as B  & 95  & 16  \\
+\hline
+Predicted as T & 0 & 17 \\
+\hline
+\end{tabularx}
+\clearpage
+\subsection*{Part C.}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{decisionTree.png}
+\caption{Decision Tree}
+\end{figure}
+
+
+The topmost node in a decision tree is said to be the most important. In the logistic model, we also identified $X1007_s$ as the most significant predictor. This result is reasonable then as both our Regression and prediction tree agree that $X1007_s$ is the most significant predictor.
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{logisticFitModel.png}
+\caption{Logistic Model}
+\end{figure}
+ 
+\clearpage
+
+\subsection*{Part D.}
+M should be the number of available predictors minus the ones currently acting as a node. The idea being that the random forest compares multiple tree configurations before choosing the best to proceed with at each step.
+
+\subsection*{Part E.}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{randomForest.png}
+\caption{Random Tree}
+\end{figure}
+
+\end{document}

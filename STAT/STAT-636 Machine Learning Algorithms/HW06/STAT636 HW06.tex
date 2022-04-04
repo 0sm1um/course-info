@@ -1,0 +1,206 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\graphicspath{ {figures/} }
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-636 HW 06}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 1}
+\textbf{Read Support Vector Machines in R in R.}
+
+Done!
+\section*{Problem 2}
+    For the following quadratic constrained optimization:
+\begin{align*}
+      \min_{x_1,x_2}\frac{1}{2}x_1^2 + \frac{1}{2}x_2^2 - 2x_1 -3x_2,
+\end{align*}
+    subject to:
+\begin{align*}
+      x_1 + x_ 2 &\leq 4\\
+      x_2 &\leq 2
+\end{align*}
+\begin{enumerate}
+    \item[a.]
+      Write the Lagrangian function of the constrained optimization $L(x_1,x_2,\lambda_1,\lambda_2)$ where $\lambda_1,\lambda_2$ are Lagrangian multipliers.
+    \item[b.]
+      Calculate the first order derivative of $L$ with respect to $x_1$ and $x_2$. Set them as 0 and then find the relation between $\lambda_1, \lambda_2$ and $x_1,x_2$.
+    \item[c.]
+      Write the nonnegativity, complementary slackness and primal feasibility constraints in the KKT conditions.
+    \end{enumerate}
+\subsection*{Part A.}
+The Lagrange function of this problem is given by:
+\begin{align*}
+L(x_1, x_2, \lambda) = f(x) + \sum_{i \in I} \lambda_i h_i(x)
+\end{align*}
+Note that $h_i(x)$ represent inequality constraints such that $h_i(x) \leq 0$. Substituting in our objective function and constraints:
+\begin{align*}
+\boxed{ L(x_1, x_2, \lambda_1, \lambda_2) = \frac{1}{2}x_1^2 + \frac{1}{2}x_2^2 - 2x_1 -3x_2 + \lambda_1(x_1+x_2-4)+ \lambda_2 (x_2-2) }
+\end{align*}
+\subsection*{Part B.}
+Our derivatives are given by:
+\begin{align*}
+\frac{\partial}{\partial x_1} L(x_1, x_2, \lambda_1, \lambda_2) = x_1+\lambda_1-2 && \frac{\partial}{\partial x_2} L(x_1, x_2, \lambda_1, \lambda_2) = x_2+\lambda_1 + \lambda_2 -3
+\end{align*}
+Setting equal to zero:
+\begin{align*}
+0 = x_1+\lambda_1-2 && 0 = x_2+\lambda_1 + \lambda_2 -3 \\
+\boxed{ x_1 = 2-\lambda_1 } && \boxed{ x_2 = 3 - \lambda_1 - \lambda_2 }
+\end{align*}
+\subsection*{Part C.}
+The first order KKT conditions for the Lagrangian multipliers are given by:
+\begin{align*}
+\nabla_x L(\mathbf{x}^{*}, \mathbf{\lambda}^{*}) = 0\\
+\lambda_i^{*} h_i(\mathbf{x^{*}}) && \text{ Complimentary Slackness }\\
+h_i(\mathbf{x^{*}}) \in I && \text{ Primary Feasibility }\\ 
+\lambda_i^{*} \geq 0, i\in I && \text{Nonnegativity}
+\end{align*}
+
+
+\clearpage
+\section*{Problem 3}
+The figure shows an SVM trained from a non-separable case: choose the range of the slack variables $\xi_i, i = 1,\dots,5$ for the five support vectors.
+\begin{enumerate}
+    \item[a.]
+      $\xi_i < 0$ $\boxed{  \xi_3,  \xi_4 }$
+    \item[b.]
+      $0 < \xi_i < 1$ $\boxed{ \xi_1, \xi_2 }$
+    \item[c.]
+      $1 < \xi_i < 2$ $\boxed{ \xi_3} $
+    \item[d.]
+      $\xi_i > 2$ $\boxed{ xi_5 }$
+\end{enumerate}
+
+
+\clearpage
+
+
+\section*{Problem 4}
+    Show the $2^{th}$-degree polynomial kernel $\kappa(\textbf{x},\textbf{x}^\prime)= (1+\langle\textbf{x},\textbf{x}^\prime\rangle)^2$'s mapping function is:
+    \begin{align*}
+    \mathbf{\phi}(\mathbf{x}) = [\phi_1(\mathbf{x}), \phi_2(\mathbf{x}), \phi_3(\mathbf{x}), \phi_4(\mathbf{x}), \phi_5(\mathbf{x}), \phi_6(\mathbf{x})]^T
+    \end{align*}
+    with $\phi_1(\mathbf{x}) = 1,\phi_2(\mathbf{x}) = \sqrt{2}x_1,\phi_3(\mathbf{x}) = \sqrt{2}x_2,\phi_4(\mathbf{x}) = 1,\phi_5(\mathbf{x}) = 1,\phi_6(\mathbf{x}) = \sqrt{2}x_1x_2$
+\subsection*{Part A.}
+This result is largely lifted from the result in lecture.
+\begin{align*}
+      k(\mathbf{x},\mathbf{x}^\prime) &= (1 + \langle\mathbf{x},\mathbf{x}^\prime\rangle)^2\\
+      &=(1 + [x_1x_1^\prime]\begin{bmatrix}x_1\\{x_1^\prime}^2\\\end{bmatrix})^2\\
+        &=1 + x_1^2x^{\prime^2}_1 + x_2^2x^{\prime^2}_2 + 2x_1x_1^{\prime} + 2x_2x_2^{\prime} + 2x_1x^{\prime}_1x_2x^{\prime}_2\\
+      &= \langle\phi(\mathbf{x}),\phi(\mathbf{x}^\prime)\rangle) 
+\end{align*}
+
+
+\clearpage
+\section*{Problem 5}
+    Use the data in bupa.data to try to predict the group label (response = myresponse) by the other 6 variables.
+    \begin{enumerate}
+    \item[a.]
+      Choose the optimal cost $C$ for the linear SVM from $C = 0.1,1,10,100,1000$. $\boxed{1000}$      
+      
+	\item[b.]
+      How many support vectors do we have in the optimal model?Show the predicted results on the training data in the following table:
+      
+      \begin{tabular}{|l|c|r|}
+        \hline
+        & myresponse = 1 & myresponse = 2\\
+        \hline
+        Predicted as 1 & 80 & 33 \\
+        \hline
+        Predicted as 2 & 65 & 167 \\
+        \hline
+      \end{tabular}
+    \item[c.]
+      Choose the optimal parameters for the nonlinear SVM with the radial bias (Gaussian) kernel, using the same candidates for $C$ and $\gamma = 0.001,0.01.0.1,1,10$.
+    \item[d.]
+      Write the number of support vectors. $\boxed{251}$
+      
+      Show the predicted results on the training data in the following table:
+    \item[]
+      \begin{tabular}{|l|c|r|}
+        \hline
+        & myresponse = 1 & myresponse = 2\\
+        \hline
+        Predicted as 1 & 95 & 30\\
+        \hline
+        Predicted as 2 & 50 & 170\\
+        \hline
+      \end{tabular}
+      \end{enumerate}
+
+\subsection*{Part A.}
+$\boxed{1000}$ 
+\subsection*{Part B.}
+$cost = 100$, $251$ total support vectors.
+      \begin{tabular}{|l|c|r|} 
+        \hline
+        & myresponse = 1 & myresponse = 2\\
+        \hline
+        Predicted as 1 & 80 & 33 \\
+        \hline
+        Predicted as 2 & 65 & 167 \\
+        \hline
+      \end{tabular}
+\subsection*{Part C.}
+$cost = 100, gamma = 0.01$, $229$ total support vectors.
+
+
+      \begin{tabular}{|l|c|r|}
+        \hline
+        & myresponse = 1 & myresponse = 2\\
+        \hline
+        Predicted as 1 & 95 & 30\\
+        \hline
+        Predicted as 2 & 50 & 170\\
+        \hline
+      \end{tabular}
+
+ 
+
+%    \begin{lstlisting}
+%    \end{lstlisting}
+%    \includegraphics[width=\textwidth]{n1/images/101}\\
+%        The fitted model is:
+%    \[
+%	    \begin{aligned}
+%		    \vec{S}_{t+1} &= B\vec{S}_t = +\mu_t\\
+%		    Y_t &= Z\vec{S}_t +e_t
+%	    \end{aligned}
+%    \]
+%		\noindent
+%\[
+%\begin{bmatrix}
+%1&1&0&0&0&0&0&0&0&0&0&0&0\\
+%0&1&0&0&0&0&0&0&0&0&0&0&0\\
+%0&0&-1&-1&-1&-1&-1&-1&-1&-1&-1&-1&-1\\
+%0&0&1&0&0&0&0&0&0&0&0&0&0\\
+%0&0&0&1&0&0&0&0&0&0&0&0&0\\
+%0&0&0&1&1&0&0&0&0&0&0&0&0\\
+%0&0&0&0&0&1&0&0&0&0&0&0&0\\
+%0&0&0&0&0&0&1&0&0&0&0&0&0\\
+%0&0&0&0&0&0&0&1&0&0&0&0&0\\
+%0&0&0&0&0&0&0&0&1&0&0&0&0\\
+%0&0&0&0&0&0&0&0&0&1&0&0&0\\
+%0&0&0&0&0&0&0&0&0&0&1&0&0\\
+%0&0&0&0&0&0&0&0&0&0&0&1&0
+%\end{bmatrix}
+%\]
+
+
+
+\end{document}
+
+\end{document}

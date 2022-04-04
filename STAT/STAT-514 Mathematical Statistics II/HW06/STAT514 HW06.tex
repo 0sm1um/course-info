@@ -1,0 +1,286 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-514 Homework 6}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+Let $X_1,...,X_n \overset{iid}{\sim} Uniform(\theta,1)$.
+\begin{enumerate}
+\item[A.] Calculate the MLE of $\theta$.
+\item[B.] Calculate the method of moments estimator for $\theta$.
+\item[C.] Calculate the MSE of the estimators obtained in parts (a) and (b).
+\item[D.] Compare the two estimators based on their mean squared errors.
+\end{enumerate}
+\subsection*{Part A.}
+The MLE is given by:
+\begin{align*}
+arg \underset{x}{max} L(\theta|x)
+\end{align*}
+Where L is the likleyhood function. The likleyhood function is the joint pdf of the sample of $\theta$ given that $X=x$ has been observed:
+\begin{align*}
+L(\theta|x) = \prod_{i=1}^{n} f(x_i|\theta)
+\end{align*}
+For our particular distribution we get:
+\begin{align*}
+L(\theta|x) = \prod_{i=1}^{n} \frac{1}{1-\theta} = \frac{1}{(1-\theta)^n}
+\end{align*}
+This is maximized at the first order statistic, or when $\theta$ is maximum.
+\begin{align*}
+\boxed{ \hat{\theta}^{ML} = X_{(1)} }
+\end{align*}
+\subsection*{Part B.}
+The method of moments estimator involves setting up an equality equation in terms of moments of the random variable. As long as $\theta$ appears in a moment, it can be used. Lets look at the first order moment of the uniform:
+\begin{align*}
+E(X) = \frac{(\theta+1)}{2} = \bar{X}
+\end{align*}
+Solving this equation for $\theta$ yields our estimator $\tilde{\theta}$
+\begin{align*}
+\boxed{ \tilde{\theta}^{M} = 2\bar{X}-1 }
+\end{align*}
+\subsection*{Part C.}
+The MSE is given by:
+\begin{align*}
+MSE = \mathbb{E}(T-\theta)^2 = \mathbb{E}(T^2) + theta \mathbb{E}(T) + theta
+\end{align*}
+\begin{align*}
+MSE = Var(T) - Bias(T)^2
+\end{align*}
+MSE for $\tilde{x}$ is given by:
+\begin{align*}
+MSE( \tilde{\theta} ) = Var(2\bar{X}-1) - Bias(2\bar{X}-1)^2
+\end{align*}
+Note that this estimator is unbiased, so the latter term can be omitted:
+\begin{align*}
+MSE( \tilde{\theta} ) = Var(2\bar{X})-Var(1) = 4Var(\bar{X}) - 0 
+\end{align*}
+Thus the MSE of $\tilde{\theta}$ is:
+\begin{align*}
+\boxed{ \frac{(1-\theta)^2}{3 n}  }
+\end{align*}
+
+\textbf{NOTE:} I wasn't actually able to find the MSE value for the first order statistic. I did some calculations to find the Variance of the first order statistic and that computation got very large very quickly, I can't imagine that was intended.
+
+\subsection*{Part D.}
+Suppose I had the mean square errors for the two estimators. Whichever was smaller performs better. Also when estimating parameters with physical meaning I prefer root mean square error which is essentially just the square root of the MSE. I prefer it when the error is in the same units as the parameter being estimated.
+
+
+\subsection*{Part D.}
+\clearpage
+\section*{Problem 2}
+A random sample $X_1,...,X_n$ is drawn from a population with pdf
+\begin{align*}
+f(x|\theta) = \frac{1}{2} (1+\theta x) && -1 < x < 1, & -1 < x < 1
+\end{align*}
+Find a consistent estimator of $\theta$.
+\subsection*{Part A.}
+Consistency for an estimator $W_n$ is defined as:
+\begin{align*}
+W_n \rightarrow^P \theta & \text{ as } n \rightarrow \infty
+\end{align*}
+Applying the definition of convergence in probability, the definition can be stated as:
+\begin{align*}
+P(|W_n-\theta| \leq \epsilon) \rightarrow 1 && P(|W_n-\theta| \geq \epsilon) \rightarrow 0
+\end{align*}
+Via Markov's inequality the left side becomes:
+\begin{align*}
+P((W_n-\theta)^2 \geq \epsilon^2) = \frac{\mathbb{E}(W_n-\theta)^2}{\epsilon^2}
+\end{align*}
+To find our estimator, we should find the value of $W_n$ which causes this expression to converge in probability, and also acts as an estimator of $\theta$.
+\begin{align*}
+P((W_n-\theta)^2 \geq \epsilon^2) = \frac{\mathbb{E}(W_n-\theta)^2}{\epsilon^2}
+\end{align*}
+Lets test out the methods of moments estimator $\hat{\theta}$.
+\begin{align*}
+\mathbb{E}(X) = \frac{\theta}{3} && \hat{\theta} = 3\bar{x}
+\end{align*}
+Substituting it in to our Markov's inequality expression. Also note we can express $\theta = 3\mathbb{E}(\bar{x}))^2$
+\begin{align*}
+ = \frac{\mathbb{E}(3\bar{x}-3\mathbb{E}(\bar{x}))^2}{\epsilon^2}
+\end{align*}
+This numerator is the variance of the estimator.
+\begin{align*}
+ = \frac{Var(3\bar{x})}{\epsilon^2} = \frac{9Var(\bar{x})}{\epsilon^2} = \frac{3[1-\frac{\theta^2}{3}]}{n \epsilon^2} = \frac{3-\theta^2}{n\epsilon^2}
+\end{align*}
+Since:
+\begin{align*}
+\frac{3-\theta^2}{n\epsilon^2} \rightarrow 0 && \text{ as } n \rightarrow \infty
+\end{align*}
+As such, we know that
+\begin{align*}
+\boxed{ \text{Estimator } W_n = 3\bar{x} \text{ is consistant.}      }
+\end{align*}
+
+\clearpage
+
+\section*{Problem 3}
+A random sample of size $n$ is taken from an exponential $(\beta)$ distribution. We wish to estimate $\theta=\beta^2$.
+\begin{enumerate}
+\item[A.] Find the MLE of $\theta$.
+\item[B.] Calculate the mean squared error (MSE) of $\hat{\theta}$
+\item[C.] Show that $\bar{X}^2$ is a consistent estimator of $\theta$.
+\end{enumerate}
+\subsection*{Part A.}
+Before finding the MLE of $\theta=\beta^2$, lets find the MLE of $\beta$. The likleyhood function of $\beta$ is given by:
+\begin{align*}
+L(\theta|x) = \prod_{i=1}^{n} f(x_i|\theta) = \prod_{i=1}^{n} \frac{1}{\beta} e^{-\beta x_i} = \frac{1}{\beta^n} e^{- \frac{1}{\beta} \sum_{i=1}^{n} x_i}
+\end{align*}
+Before finding the MLE of $\theta=\beta^2$, lets find the MLE of $\beta$
+\begin{align*}
+L(\theta|x) = \prod_{i=1}^{n} f(x_i|\theta) = \prod_{i=1}^{n} \frac{1}{\beta} e^{-\frac{1}{\beta} x_i} = \frac{1}{\beta^n} e^{- \frac{1}{\beta} \sum_{i=1}^{n} x_i} = \frac{1}{\beta^n} e^{- \frac{n \bar{x}}{\beta}}
+\end{align*}
+To solve for the maximizer we need to take the derivative and set this equal to zero.
+\begin{align*}
+0 = \frac{\partial}{\partial \beta} ln[\frac{1}{\beta^n} e^{- \frac{n \bar{x}}{\beta}}] = n\beta - n \bar{x} \rightarrow \hat{\beta} = \bar{x}
+\end{align*}
+According to the invariance property of the MLE, if $\hat{ \beta }$ is the MLE of $\beta$, then for any function $g(x)$, the MLE of $g(\theta)$ is $g(\hat{\theta})$. As such:
+\begin{align*}
+\boxed{ \hat{\theta} = \bar{x}^2 }
+\end{align*}
+\subsection*{Part B.}
+Calculate the mean squared error (MSE) of $\hat{\theta}$. Let $T={\bar{x}^2}$ 
+
+The MSE is given by:
+\begin{align*}
+MSE = \mathbb{E}(T-\theta)^2 = \mathbb{E}(T^2) - \theta \mathbb{E}(T) + \theta
+\end{align*}
+An alternate formulation which may be easier to work with in this case:
+\begin{align*}
+MSE = Var(T) - Bias(T)^2
+\end{align*}
+Substituting in our estimator:
+\begin{align*}
+\boxed{ MSE = Var(\bar{x}^2) - Bias(\bar{x}^2)^2 = \frac{\beta^4}{n} - (\frac{\beta^2}{n})^2 }
+\end{align*}
+
+
+
+\subsection*{Part C.}
+Lets consider $\bar{X}^2$ as an estimator. Consistency for an estimator $W_n$ is defined as:
+\begin{align*}
+W_n \rightarrow^P \theta & \text{as } n \rightarrow \infty
+\end{align*}
+Applying the definition of convergence in probability, the definition can be stated as:
+\begin{align*}
+P(|W_n-\theta| \leq \epsilon) \rightarrow 1 && P(|W_n-\theta| \geq \epsilon) \rightarrow 0
+\end{align*}
+Lets try $\bar{X}^2$ and $\beta^2$:
+\begin{align*}
+P(|\bar{X}^2-\beta^2| \geq \epsilon) \rightarrow 0
+\end{align*}
+Via Markov's inequality the left side becomes:
+\begin{align*}
+P((\bar{X}^2-\beta^2)^2 \geq \epsilon^2) = \frac{\mathbb{E}(\bar{X}^2-\beta^2)^2}{\epsilon^2}
+\end{align*}
+Since $\bar{X}$ is an unbiased estimator of $\beta$, this can be rewritten
+\begin{align*}
+P((\bar{X}^2-\beta^2)^2 \geq \epsilon^2) = \frac{Var(\bar{X}^2)}{\epsilon^2} = \frac{\beta^2}{n \epsilon^2}
+\end{align*}
+Note that all central moments of $\bar{X}$ have a factor of $n$ in their respective denominators. Hence, we can say that the Variance of $\bar{X}^2$ does as well. From that it is sufficient to state:
+\begin{align*}
+\frac{\beta^2}{n \epsilon^2} \rightarrow 0 && \text{ as } n \rightarrow \infty
+\end{align*}
+Hence, $\bar{X}^2$ converges in probability to $\beta^2$ and is a consistent estimator of $\beta^2$:
+\begin{align*}
+\boxed{ \bar{X}^2 \rightarrow^P \beta^2 }
+\end{align*}
+\clearpage
+
+\section*{Problem 4}
+Suppose that $X_1,...,X_n \overset{iid}{\sim} Bernoulli(p)$. Show that the variance of the MLE of $p$ attains the Cramer-Rao Lower Bound.
+\subsection*{Part A.}
+The MLE is given by:
+\begin{align*}
+\hat{x}^{MLE} = arg \underset{x}{max} L(p|x) = \bar{X}
+\end{align*}
+We now need to verify that the Variance of $\hat{x}^{MLE}$ attains the CRLB. First lets start by finding the CRLB via the Fischer Information Matrix. The Cramer-Rao Lower Bound is given by:
+\begin{align*}
+Var(\hat{x}) \geq J^{-1}
+\end{align*}
+Where J is the Fischer Information Matrix:
+\begin{align*}
+J \overset{\Delta}{=} -n \mathbb{E}[ \frac{\partial^2}{\partial p^2} ln L(p|x)] = n \mathbb{E}\{[ \frac{\partial}{\partial p} ln L(p|x)]^2 \}
+\end{align*}
+The derivative of the likleyhood function is then:
+\begin{align*}
+J = n \mathbb{E}\{[ \frac{\partial}{\partial p} ln L(p|x)]^2 \} = n \mathbb{E}\{ \frac{1}{p^2} \}
+\end{align*}
+This expectation is then:
+\begin{align*}
+J = n \mathbb{E}\{ \frac{1}{p^2} \} = n \sum_{i=1}^{N} \frac{1}{p^2} p^k (1-p)^{1-p} = \frac{n}{p(1-p)}
+\end{align*}
+So our CRLB is then:
+\begin{align*}
+Var(\hat{x}) \geq \frac{p(1-p)}{n}
+\end{align*}
+We can verify our estimator attains this by taking the variance of our estimator $\bar{X}$
+\begin{align*}
+\boxed{ Var(\bar{X}) = \frac{\sigma^2}{n} = \frac{p(1-p)}{n} }
+\end{align*}
+Thus $\bar{X}$ attains the CRLB.
+\clearpage
+
+\section*{Problem 5}
+For each of the following distributions, let $X_1,...,X_n$ denote a random sample. Is there a function of $\theta$, say, $g(\theta)$, for which there exists an unbiased estimator whose variance attains the Cramer-Rao Lower Bound? If so, find it. If not, show why not.
+\begin{enumerate}
+\item[A.] $f(x|\theta) = \theta x^{\theta-1},$  $ 0<x<1, \theta>0$
+\item[B.] $f(x|\theta) = \frac{ln(\theta)}{\theta-1} \theta^x ,$  $ 0<x<1, \theta>0$
+\end{enumerate}
+\subsection*{Part A.}
+Lets denote the likleyhood function and an arbitrary unbiased estimator of $\theta$
+\begin{align*}
+L(\theta|x) = \prod_{i=1}^{N} \theta x_i^{\theta-1}
+\end{align*}
+
+According to equation $7.3.11$ in the textbook, an estimator attains the the CRLB if and only if
+\begin{align*}
+a(\theta)[W(x) - \tau(\theta)] = \frac{\partial}{\partial \theta} ln[L(\theta|x)]
+\end{align*}
+Substituting in the likleyhood function:
+\begin{align*}
+a(\theta)[W(x) - \tau(\theta)] = \frac{\partial}{\partial \theta} ln[\prod_{i=1}^{N} \theta x_i^{\theta-1}] = \frac{\partial}{\partial \theta} \sum_{i=1}^{N} [ln(\theta) + (\theta-1) ln(x_i)]
+\end{align*}
+Differentiation is a linear operator, so we can apply it to elements of the sum:
+\begin{align*}
+a(\theta)[W(x) - \tau(\theta)] = \sum_{i=1}^{N} [\frac{1}{\theta} + ln(x_i)] = \sum_{i=1}^{N} ln(x_i) + \frac{n}{\theta}
+\end{align*}
+Let $a(\theta) = 1$, $w(x_i)=\sum_{i=1}^{N}ln(x_i)$, and $\tau(\theta) = \frac{n}{\theta}$. 
+\begin{align*}
+\boxed{ \text{ This expression proves that }W(x)\text{ attains the Cramer Rao Lower Bound.} }
+\end{align*}
+\subsection*{Part B.}
+Lets denote the likleyhood function and an arbitrary unbiased estimator of $\theta$
+\begin{align*}
+L(\theta|x) = \prod_{i=1}^{N} \frac{ln(\theta)}{\theta-1} \theta^x
+\end{align*}
+According to equation $7.3.11$ in the textbook, an estimator attains the the CRLB if and only if
+\begin{align*}
+a(\theta)[W(x) - \tau(\theta)] = \frac{\partial}{\partial \theta} ln[L(\theta|x)]
+\end{align*}
+Substituting in the likleyhood function:
+\begin{align*}
+a(\theta)[W(x) - \tau(\theta)] = \frac{\partial}{\partial \theta} ln[\prod_{i=1}^{N} \frac{ln(\theta)}{\theta-1} \theta^x] = \frac{\partial}{\partial \theta} \sum_{i=1}^{N} [ln(ln(\theta)) - ln(\theta-1) +x_i ln(\theta)]
+\end{align*}
+Differentiation is a linear operator, so again we can apply it to elements of the sum:
+\begin{align*}
+a(\theta)[W(x) - \tau(\theta)] = \sum_{i=1}^{N} [\frac{1}{\theta ln(\theta)} - \frac{1}{\theta-1} +\frac{1}{\theta} x_i]
+\end{align*}
+Let $a(\theta) = \frac{1}{\theta}$, $w(x_i)=\sum_{i=1}^{N}x_i$, and $\tau(\theta) = \frac{\theta}{\theta-1}-\frac{1}{ln(\theta)}$. 
+\begin{align*}
+\boxed{ \text{ This expression proves that }W(x)\text{ attains the Cramer Rao Lower Bound.} }
+\end{align*}
+\clearpage
+
+\end{document}

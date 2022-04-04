@@ -1,0 +1,183 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{EGRE-656 Homework 5}
+\author{John Hiles}
+\date\today
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+NOTE: I did not have enough time to finish this first problem, I do not feel confident in this work.
+
+\section*{Problem 3-1}
+\textbf{MMSE Estimation with correlated noises}
+Given the prior information $x \sim \mathcal{N}(\bar{x},\sigma^2_0)$ and the measurements 
+\begin{align*}
+z(j) = x + w(j) && j=1,2
+\end{align*}
+with the jointly Gaussian measurement noises $w(j)=\sim \mathcal{N}(0,\sigma^2)$ independant of $x$ but correlated among themselves with
+\begin{align*}
+\mathbb{E}[w(1)w(2)] = \rho \sigma^2
+\end{align*}
+\subsection*{Part 1.}
+This prior distribution and measurement equation is identical to the setup of the problem in HW05, and we know that this measurement is jointly gaussian.
+\begin{align*}
+Cov(w_1,w_2) = \mathbb{E}(w_1 w_2) - \mathbb{E}(w_1)\mathbb{E}(w_2) = \rho \sigma^2
+\end{align*}
+As such our measurement is:
+\begin{align*}
+Z \sim \mathcal{N}(\bar{z},P_{zz}) && P_{zz} = \Sigma+R && \Sigma = \begin{bmatrix} \sigma^2_0 & 0 \\
+                                                   0 & \sigma^2_0 \end{bmatrix}                                                   
+                                                   && R = \begin{bmatrix} \sigma^2 & \rho \sigma^2 \\
+                                                          \rho \sigma^2 & \sigma^2 \end{bmatrix}
+\end{align*}
+The measurement covariance is then:
+\begin{align*}
+P_{zz} = \begin{bmatrix} \sigma^2_0+ \sigma^2 & \rho \sigma^2 \\
+          \rho \sigma^2 & \sigma^2_0+ \sigma^2 \end{bmatrix}
+\end{align*}
+The Covariance of the prior is given by:
+\begin{align*}
+P_{xx} = \sigma^2_0
+\end{align*}
+Recall that $P_{xz}=Cov(\bar{x},\bar{z})$ is the cross covariance and $P_{zz}=Cov(\bar{z},\bar{z})$ is the measurement covariance. The Covariance of the estimate is given by:
+\begin{align*}
+Cov(\hat{x}) = P_{xx} - P_{xz} P_{zz}^{-1} P_{xz}^T
+\end{align*}
+Lets list what all of our covariances are:
+\begin{align*}
+P_{xx} = \mathbb{E}[[x-\bar{x}][x-\bar{x}]^T] && P_{xz} = \mathbb{E}[[x-\bar{x}][z-\bar{z}]^T] && P_{zz} = \mathbb{E}[[z-\bar{z}][z-\bar{z}]^T]
+\end{align*}
+\begin{align*}
+P_{xx} = \sigma^2_0 && P_{xz} = <\sigma^2_0, \sigma^2_0> && P_{zz} = \begin{bmatrix} \sigma^2_0+ \sigma^2 & \rho \sigma^2 \\
+          																																\rho \sigma^2 & \sigma^2_0+ \sigma^2 \end{bmatrix}
+\end{align*}
+The covariance is then:
+\begin{align*}
+Cov(\hat{x}) = \sigma^2_0 - <\sigma^2_0, \sigma^2_0> \begin{bmatrix}\sigma^2_0+ \sigma^2 & \rho \sigma^2 \\
+          											\rho \sigma^2 & \sigma^2_0+ \sigma^2 \end{bmatrix} ^{-1} + <\sigma^2_0, \sigma^2_0>^T \\
+\end{align*}
+We end up with:
+\begin{align*}
+\boxed{ Cov(\hat{x}) = \sigma^2_0 - \frac{2\sigma^4}{\rho \sigma^2+\sigma+\sigma^2_0} }
+\end{align*}
+\subsection*{Part 2.}
+The only time the covariance would be the same for a measurement with vs without measurement cross correlation is when a single measurement for both is taken. The only place $\rho$ shows up in the off diagonal parts of the $P_{zz}$ matrix. By taking a single measurement the dimension of that matrix reduces to $1$ and those correlation terms are not considered.
+\begin{align*}
+\boxed{ \text{A single measurement will yield the same Covariance for correlated and uncorrelated measurements.} } 
+\end{align*}
+
+
+\subsection*{Part 3.}
+The MMSE estimator is given by:
+\begin{align*}
+\hat{x} = \bar{x} + P_{xz} P_{zz}^{-1} (z-\bar{z}) && Cov(\hat{x}) = \sigma^2_0 - \frac{2\sigma^4}{\rho \sigma^2+\sigma+\sigma^2_0}
+\end{align*}
+Substituting in what we know:
+\begin{align*}
+\hat{x} = 10 + <\frac{1}{\tfrac{1}{2}\sigma^2+\sigma+1},\frac{1}{\tfrac{1}{2}\sigma^2+\sigma+1}> (z-\bar{z}) && Cov(\hat{x}) = 1 - \frac{2\sigma^4}{\tfrac{1}{2}\sigma^2+\sigma+1}
+\end{align*}
+The empirical rule of statistics states that for an approximately normal distribution, $\mu \pm 3\sigma$ contains 99.7\% of the information of a given distribution. So to solve for the value of $\sigma$ which gets us where we want to be, we need to solve:
+\begin{align*}
+\frac{10 0.1}{2} = 3 \sqrt{ Cov(\hat{x}) } = 1 - \frac{2\sigma^4}{\tfrac{1}{2}\sigma^2+\sigma+1}
+\end{align*}
+Solving for sigma:
+\begin{align*}
+\frac{10 0.1}{2} = 3 \sqrt{ Cov(\hat{x}) } = 1 - \frac{2\sigma^4}{\tfrac{1}{2}\sigma^2+\sigma+1}
+\end{align*}
+\subsection*{Part 4.}
+
+
+\clearpage
+
+\section*{Problem 3-6}
+\textbf{Covariance of the residual}
+Prove that:
+\begin{align*}
+S(k+1) = \mathbb{E}[[z(k+1) - H(k+1)\hat{x}(k)][z(k+1)-H(k+1)\hat{x}(k)]^T]
+\end{align*}
+\subsection*{Part 1.}
+
+This expression has a pretty straightforward physical meaning. $H$ is the matrix which maps the vector space of $x$ to the vector space of $z$. In other words, it maps "State Space" to "Measurement Space". The product of $H(k+1)\hat{z}(k)$ has a distinct physical meaning. Its represents the measurement we predict based on our estimate of the state. Lets call this the "Measurement Prediction" or $\hat{z}(k)$. So our expression becomes:
+\begin{align*}
+S(k+1) = Cov[z(k+1),\hat{z}(k)] = \mathbb{E}[[z(k+1) - \hat{z}(k)][z(k+1) - \hat{z}(k)]^T]
+\end{align*}
+
+Note here that this is just the covariance $P_{\hat{z}\hat{z}}$
+%In my opinion this is a much more intuitive form. But we must equate this to the following definition:
+%\begin{align*}
+%S(k+1) \overset{\Delta}{=} H(k+1)P(k)H(k+1)^{T} + R 
+%\end{align*}
+
+Let $P(k)$ denote the covariance matrix of the prediction $\hat{x}$ at time $k$. Suppose we want to know the associated covariance matrix of random variable $\hat{z}=H(k+1)\hat{x}$. We would have to take the covariance of:
+\begin{align*}
+Cov(H(k+1)\hat{x}(k+1))
+\end{align*}
+
+A property of linear transformations of covariance matrices is:
+\begin{align*}
+Cov(\hat{z}(k+1)) = Cov(H(k+1) \hat{x}(k)) = H(k+1) Cov(\hat{x}(k)) H(k+1)^T = H(k+1) P(k) H(k+1)^T
+\end{align*}
+
+This quantity represents the Covariance of the predicted measurement. Now we need the covariance of the measurement itself. The measurement is defined as:
+\begin{align*}
+Z_i(k) = x + w_i & i = 1,...,n
+\end{align*}
+
+We are interested in
+\begin{align*}
+Var(Z_i(k)) = Var(x) + Var(w_i) & i = 1,...,n
+\end{align*}
+
+In this problem, we assume that $x$ an unknown constant and thus has no randomness to it. So ultimatly it has no contribution to the covariance of the elements of $Z$. The additive noise then is the only contributor to the Covariance. Lets define $R$ as the stacked measurement errors.
+\begin{align*}
+R(k+1) = Diag(Var(w_i))
+\end{align*}
+
+By this definition, vector $z(k+1)$ has associated covariance matrix $R(k+1)$. Now consider the measurement residual which is:
+\begin{align*}
+\hat{z}(k)-z(k+1)
+\end{align*}
+
+This can be treated as a linear combination of two covariance matricies. As such taking the covariance becomes:
+\begin{align*}
+\boxed{ Cov(\hat{z}(k+1)-z(k)) = Cov(\hat{z}(k)) + Cov(z(k+1)) = H(k+1) P(k) H(k+1)^T + R(k+1) }
+\end{align*}
+
+
+
+
+
+%Let X denote the gaussian random variable of our recursive estimate at time $k=1$, recall $Cov(\hat{x}) = P$:
+%\begin{align*}
+%\hat{X} \sim \mathcal{N}(\hat{x},P)
+%\end{align*}
+%Note that the left term is unperturbed by noise of the measurement model. This noise is additive and can be thought of as having a zero mean multivariate distribution of $\mathcal{N}(0,R)$.
+%\begin{align*}
+%\hat{Z} = H X \sim \mathcal{N}(H \hat{x},H P H^{T})
+%\end{align*}
+%Lets then look at the random variable $Z$ itself. Z takes the distribution:
+%\begin{align*}
+%Z = \sim \mathcal{N}(\bar{z}, R)
+%\end{align*}
+%The measurement residual then is a linear combination of these two variables.
+%\begin{align*}
+%\nu = Z + (-1)\hat{Z} \sim \mathcal{N}(\bar{z}, R) - \mathcal{N}(H \hat{x},H P H^{T})
+%\end{align*}
+%As such
+%\begin{align*}
+%\nu \sim \mathcal{N}(\bar{z} - H \hat{x},H P H^{T} + R)
+%\end{align*}
+%With this the result is proven:
+%\begin{align*}
+%\boxed{ Cov(\nu) = S = H P H^{T} + R }
+%\end{align*}
+
+
+
+\end{document}

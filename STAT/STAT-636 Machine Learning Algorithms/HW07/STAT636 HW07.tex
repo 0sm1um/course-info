@@ -1,0 +1,155 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\graphicspath{ {figures/} }
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-636 HW 07}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 1}
+\textbf{Read Nearest Neighbor Classifiers}
+
+Done!
+\section*{Problem 2}
+Consider the one-dimensional table shown below:\\
+  \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c}
+    \hline
+    \hline
+    x & 0.5 & 3.0 & 4.5 & 4.6 & 4.9 & 5.2 & 5.3 & 5.5 & 7.0 & 9.5\\
+    \hline
+    y & - & - & + & + & + & - & - & + & - & -\\
+    \hline
+    \hline
+  \end{tabular}
+  
+  Classify the data point $x=50$ according to its 1,3,5, and 9 nearest neighbors using majority vote.
+\subsection*{Part A.}  
+  
+  \begin{enumerate}
+  \item[1.]
+    $+$
+  \item[3.]
+    $-$
+  \item[5.]
+    $+$
+  \item[9.]
+    $-$
+  \end{enumerate}
+\clearpage
+\section*{Problem 3}
+On page $\#33$ of the course notes of Lecture 5, part 1, we fitted logistic linear models for the South African heart disease data. Now we will try the classification tree for $chd ~ tobacco +
+ldl + famhist + age$ on the same data.
+
+\begin{enumerate}
+  \item[a.]
+    Calculate the training confusion matrix with the following codes:
+\begin{verbatim}
+  mydata <- read.table("SAheart.csv", sep='','',header = TRUE, row.names = 1)
+  mydata$chd <- factor(mydata$chd)
+
+  library(rpart)
+  myfull <- rpart(chd ~ tobacco + ldl + famhist + age, data = mydata)
+  myfullPredict <- predict(myfull, newdata=mydata, type="class")
+  confusion <- table(mydata$chd, myfullPredict)
+  confusion
+\end{verbatim}
+
+  \item[b.]
+    Implement the 10-fold cross validation on the same model and data. Write the total confusion matrix obtained from the cross validation below:
+\begin{verbatim}
+myresponse <- mydata$chd
+mydf <- data.frame(myresponse,mydata[,1:ncol(mydata)-1])
+numobs <- nrow(mydf)
+numobs
+
+# Part I: k-fold cross validation (classification tree)
+set.seed(1)
+numFolds <- 10
+
+# Assign observations to k groups
+xvalFoldNumber <- sample(1:numobs %% numFolds + 1,
+                         replace=FALSE)
+xvalFoldNumber
+
+# Create a list of test observations for each group
+xvalSets <- lapply(1:numFolds, FUN=function(x) {
+  list(test=which(xvalFoldNumber == x))
+})
+xvalSets
+
+# Create a function for each group
+rpartFold <- function(x) {
+  testdf <- mydf[x$test,]
+  traindf <- mydf[-x$test,]
+  
+  myrpart <- rpart(myresponse ~ ., data=traindf)
+  ## classification predictions
+  myrpartPredict <- predict(myrpart, newdata=testdf, type="class")
+  confusion <- table(testdf[,1], myrpartPredict) 
+  confusion
+}
+
+# Apply the function to each group
+myrpartResults <- lapply(xvalSets, FUN=rpartFold)
+myrpartResults
+
+# Sum up all the results
+
+totalConfusion <- Reduce("+", myrpartResults)
+totalConfusion
+totalConfusion/rowSums(totalConfusion)
+\end{verbatim}
+  \item[]
+    \begin{tabular}{|l|c|r|}
+      \hline
+      & Predicted as 0 & Predicted as 1 \\
+      \hline
+      chd=0 & 239 & 63\\
+      \hline
+      chd=1 & 87 & 73\\
+      \hline
+    \end{tabular}
+  \item
+    Which confusion matrix has the higher accuracy rate? Which one should be closer to the true prediction accuracy rate?
+\end{enumerate}
+\subsection*{Part A.}
+The results are as follows:
+\begin{tabular}{|l|c|r|}
+  \hline
+  & Predicted as 0 & Predicted as 1 \\
+  \hline
+  chd=0 & 272 & 30\\
+  \hline
+  chd=1 & 76 & 84\\
+  \hline
+\end{tabular}
+\subsection*{Part B.}
+Our results are as follows:
+
+    \begin{tabular}{|l|c|r|}
+      \hline
+      & Predicted as 0 & Predicted as 1 \\
+      \hline
+      chd=0 & 239 & 63\\
+      \hline
+      chd=1 & 87 & 73\\
+      \hline
+    \end{tabular}
+
+\subsection*{Part C.}
+The full model has the better confusion matrix but it the 10-fold model has a higher prediction accuracy.
+
+\end{document}

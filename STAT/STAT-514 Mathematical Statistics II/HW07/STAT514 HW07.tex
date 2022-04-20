@@ -1,0 +1,177 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-514 Homework 7}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+Suppose that when the radius of a circle is measured, an error is made that has a $\mathcal{N}(0,\sigma^2)$ distribution. If $n$ independent measurements are made, find an unbiased estimator of the area of the circle. Is it best unbiased?
+\subsection*{Part A}
+Let us define our measurement equation:
+\begin{align*}
+z_i = r + w_i && w \sim \mathcal{N}(0,\sigma^2)
+\end{align*}
+So our sample is:
+\begin{align*}
+Z_2,Z_2,...,Z_i,...,Z_n
+\end{align*}
+Since the noise is zero mean, the expectation of z is r:
+\begin{align*}
+\mathbb{E}(z_i) = \mathbb{E}(r) + \mathbb{E}(w_i) = r && Var(z_i) = \sigma^2
+\end{align*}
+Hence $z_i \sim \mathcal{N}(r,\sigma^2)$. Consider the statistic $T=\bar{z_i}$.
+\begin{align*}
+T \sim \mathcal{N}(r,\frac{\sigma^2}{n})
+\end{align*}
+Consider the Variance of T:
+\begin{align*}
+Var(T) = \frac{\sigma^2}{n} = \mathbb{E}(\bar{Z_i}^2) - \mathbb{E}(\bar{Z_i})^2
+\end{align*}
+Note that we know the first order moment of the measurement $\mathbb{E}(\bar{Z_i}) = r$. Hence:
+\begin{align*}
+Var(T) = \frac{\sigma^2}{n} = \mathbb{E}(\bar{Z_i}^2) - r^2
+\end{align*}
+This is important since we now have an expression for $r^2$ in terms of other statistics.
+\begin{align*}
+r^2 = \mathbb{E}(\bar{Z_i}^2) - \frac{\sigma^2}{n}
+\end{align*}
+
+The area of a circle is:
+\begin{align*}
+A = \pi r^2 
+\end{align*}
+Area in terms of the radius is then:
+\begin{align*}
+r = \sqrt{\frac{A}{\pi}}
+\end{align*}
+Hence:
+\begin{align*}
+A = \pi \mathbb{E}(\bar{Z_i}^2) - \frac{\pi \sigma^2}{n}
+\end{align*}
+
+\clearpage
+
+\section*{Problem 2}
+Suppose that $X_1,...,X_n \overset{i.i.d.}{\sim} Bernoulli(p)$. For $n \geq 4$, show that the product $X_1 X_2 X_3 X_4$ is an unbiased estimator of $p^4$. Use this fact to obtain the best unbiased estimator of $p^4$.
+
+\subsection*{Part A}
+Note that all $X_i$ are independent of each other.
+\begin{align*}
+\mathbb{E}(X_i) = p && \text{for all } i \in [1,n]
+\end{align*}
+This independance means that:
+\begin{align*}
+\mathbb{E}(X_1 X_2 X_3 X_4) = \mathbb{E}(X_1)\mathbb{E}(X_2)\mathbb{E}(X_3)\mathbb{E}(X_4) = p^4
+\end{align*}
+Thus by the definition of independence the product of $X_1 X_2 X_3 X_4$ is an unbiased estimator of $p^4$. Now consider the statistic $T=\sum_{i=1}^{n}X_i$. A sum of bernoulli is a binomial distribution so $T\sim binomial(n,p)$.
+
+
+
+
+\clearpage
+
+\section*{Problem 3}
+
+Let $X_1,...,X_n \overset{i.i.d.}{\sim} Exponential(\lambda)$.
+\begin{enumerate}
+\item[a.] Find an unbiased estimator of $\lambda$ based only on $Y=min(X_1,...,X_n)$.
+\item[b.] Find a better estimator than the one in part (a). Prove that it is better.
+\item[c.] The following data are high-stress failure times (in hours) of Kevlar/epoxy spherical vessels used in a sustained pressure environment on the space shuttle:
+\begin{align*}
+50.1, 70.1, 137.0, 166.9, 170.5, 152.8, 80.5, 123.5, 112.6, 148.5, 160.0, 125.4
+\end{align*}
+Failure times are often modeled with the exponential distribution. Estimate the mean failure time using the estimators from parts (a) and (b).
+\end{enumerate}
+\subsection*{Part A}
+Y is the first order statistic:
+\begin{align*}
+f_{x_{(1)}}(x) = n[1-F(x)]^{n-1} f(x) = n[1-(1-e^{-\lambda x})] \lambda e^{-\lambda x} = \frac{n}{\lambda} e^{-\frac{nx}{\lambda}}
+\end{align*}
+The expectation of this is then:
+\begin{align*}
+\mathbb{E}(X_{(1)}) = \frac{\lambda}{n}
+\end{align*}
+Thus multiplying this by $n$ would make it an unbiased estimator of $\lambda$
+\begin{align*}
+\mathbb{E}(nX_{(1)}) = \lambda && \boxed{ nX_{(1)} }
+\end{align*}
+\subsection*{Part B}
+Via Rao-Blackwell theorem, given an unbiased estimator it can be improved upon by taking the expectation conditioned on a sufficient statistic.
+
+Let W be any unbiased estimator of $\tau(\lambda)$ and T be a sufficient
+statistic for $\lambda$. Then $\phi(T) = E(W|T)$ is a uniformly better unbiased estimator of $\tau(\theta)$ (better, in terms of lower variance). Lets follow the same procedure as before to get a sufficient statistic.
+
+
+$W=\sum_{i=1}^{n} X_i$ which is a sufficient statistic for iid exponential random variables(result proven in a previous HW). The expectation of this statistic is:
+\begin{align*}
+\mathbb{E}(W_1) =\mathbb{E}[ \sum_{i=1}^{n} X_i ] =n\lambda
+\end{align*}
+Thus to make this unbiased we need our statistic to be:
+\begin{align*}
+\mathbb{E}(W_2) =\mathbb{E}[ \frac{1}{n} \sum_{i=1}^{n} X_i ] = \lambda
+\end{align*}
+Let $\phi(T) = \frac{T}{n}$, let $T=\sum_{i=1}^{n} X_i$.
+Thus via Rao-Blackwell theorem, this is the UMVUE.
+
+\clearpage
+\subsection*{Part C}
+Lets compute the sample mean of this:
+\begin{align*}
+50.1+70.1+137.0+166.9+170.5+152.8+80.5+123.5+112.6+148.5+160.0+125.4 = 1497.9
+\end{align*}
+\begin{align*}
+\boxed{ \hat{\lambda} = \frac{1497.9}{12} = 124.825 }
+\end{align*}
+
+
+\section*{Problem 4}
+Let $X_1,...,X_n \overset{i.i.d.}{\sim} Poisson(\lambda)$.
+\begin{enumerate}
+\item[a.] What is a complete sufficient statistic for $\lambda$? Refer to the relevant example from class notes and state your answer.
+\item[b.] Find the MLE of $\lambda^2$. Use results that we have already discussed in class.
+\item[c.] Find the conditional distribution of $X_1|T=\sum_{i=1}^{n}X_i$ independent of $\lambda$. Explain your answer.
+\item[d.] Show that $X^2_1-X_1$ is an unbiased estimator of $\lambda^2$, and derive the UMVUE of $\lambda^2$, by using the Rao-Blackwell method.
+\item[e.] Find the best unbiased estimator of $\tau(\lambda) = P(X=0)= e^{-\lambda}$
+\item[f.] Find the MLE of $\tau(\theta)$; call it $\hat{\lambda}$. Findthe asymptotic variance of $\hat{\tau}$.
+\item[g.] Calculate the asymptotic relative efficiency of the best unbiased estimator with respect to the MLE. Which estimator do you prefer? Why?
+\end{enumerate}
+\subsection*{Part A}
+From class, we found that the MLE of $\lambda$ is $\bar{x}$(Week 8 Notes). This statistic is complete sufficient for $\lambda$ and it is the UMVUE for $\lambda$(Week 10 notes).
+\begin{align*}
+\boxed{ \bar{x} = \frac{1}{n} \sum_{i=1}^{\infty} X_i  }
+\end{align*}
+
+\subsection*{Part B}
+Since the MLE of lambda is known, the MLE of $\lambda^2$ is:
+\begin{align*}
+\boxed{ T = \bar{x}^2 = \frac{1}{n^2} [\sum_{i=1}^{\infty} X_i]^2  }
+\end{align*}
+Via the invariant property of the MLE. Since the MLE is complete sufficient then all functions of a complete sufficient statistic are also complete sufficient.
+
+\subsection*{Part C}
+
+\clearpage
+
+\section*{Problem 5}
+Let $X_1,...,X_n \overset{i.i.d.}{\sim} Gamma(\alpha,\beta)$  with $\alpha$ known. Find the best unbiased estimator of $\frac{1}{\beta}$.
+
+\subsection*{Part A}
+
+
+\clearpage
+
+
+
+\end{document}

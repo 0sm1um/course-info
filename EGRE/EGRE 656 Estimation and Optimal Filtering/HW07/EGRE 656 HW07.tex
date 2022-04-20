@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{EGRE-656 Homework 6}
+\author{John Hiles}
+\date\today
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+\section*{Problem 4-2}
+\textbf{Moments of the white noise response of a scalar linear system.}
+Consider the system:
+\begin{align*}
+\dot{x}(t) = \alpha x(t) + \tilde{\nu}(t)
+\end{align*}
+with $\tilde{\nu}(t)$ being white noise with mean $\bar{\nu}(t)$ and variance $q$
+
+\begin{enumerate}
+\item[a.] Find $\alpha$ such that the mean of the resulting stationary process is $\bar{x}=c$.
+\item[b.] Using a time domain approach, find the autocorrelation of the resulting stationary process.
+\end{enumerate}
+
+\subsection*{Part A.}
+The process noise autocorrelation is given by:
+\begin{align*}
+R_{z,z}(\tau) = \sigma^2 e^{-\alpha |\tau|} = \mathbb{E}(z \bar{z})
+\end{align*}
+
+PAGE:
+
+\end{document}

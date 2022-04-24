@@ -58,8 +58,9 @@ r = \sqrt{\frac{A}{\pi}}
 \end{align*}
 Hence:
 \begin{align*}
-A = \pi \mathbb{E}(\bar{Z_i}^2) - \frac{\pi \sigma^2}{n}
+\boxed{ A = \pi \mathbb{E}(\bar{Z_i}^2) - \frac{\pi \sigma^2}{n} }
 \end{align*}
+Note that by Lehmann-Scheffe theorem, since this estimator is a function of $\bar{x}$ which is complete sufficient, then this estimator is the best estimator of A.
 
 \clearpage
 
@@ -75,8 +76,24 @@ This independance means that:
 \begin{align*}
 \mathbb{E}(X_1 X_2 X_3 X_4) = \mathbb{E}(X_1)\mathbb{E}(X_2)\mathbb{E}(X_3)\mathbb{E}(X_4) = p^4
 \end{align*}
-Thus by the definition of independence the product of $X_1 X_2 X_3 X_4$ is an unbiased estimator of $p^4$. Now consider the statistic $T=\sum_{i=1}^{n}X_i$. A sum of bernoulli is a binomial distribution so $T\sim binomial(n,p)$.
+Thus by the definition of independence the product of $X_1 X_2 X_3 X_4$ is an unbiased estimator of $p^4$. 
 
+Now consider the statistic $T=\sum_{i=1}^{n}X_i$. A sum of bernoulli is a binomial distribution so $T\sim binomial(n,p)$. And this statistic is complete according to the Week 06 notes. With a complete statistic and an unbiased estimator, we can apply Rao-Blackwell theorem to attain the best unbiased estimator of $p^4$
+\begin{align*}
+\mathbb{E}(g(T)) = p^4
+\end{align*}
+Note that for all $i\in [1,n]$:
+\begin{align*}
+\mathbb{E}(X_i) = p && \mathbb{E}(T) = np
+\end{align*}
+We can write this expectation in terms of T then.
+\begin{align*}
+\mathbb{E}(\prod_{i=1}^{n} X_i) = p = \prod_{i=1}^{n} \frac{T-i-1}{n-i-1}
+\end{align*}
+Our particular estimator is then just $n=4$
+\begin{align*}
+\boxed{ \mathbb{E}(X_1 X_2 X_3 X_4) = \prod_{i=1}^{4} \frac{T-i-1}{n-i-1} = \frac{T(T-1)(T-2)(T-3)}{n(n-1)(n-2)(n-3)} }
+\end{align*}
 
 
 
@@ -108,13 +125,7 @@ Thus multiplying this by $n$ would make it an unbiased estimator of $\lambda$
 \mathbb{E}(nX_{(1)}) = \lambda && \boxed{ nX_{(1)} }
 \end{align*}
 \subsection*{Part B}
-Via Rao-Blackwell theorem, given an unbiased estimator it can be improved upon by taking the expectation conditioned on a sufficient statistic.
-
-Let W be any unbiased estimator of $\tau(\lambda)$ and T be a sufficient
-statistic for $\lambda$. Then $\phi(T) = E(W|T)$ is a uniformly better unbiased estimator of $\tau(\theta)$ (better, in terms of lower variance). Lets follow the same procedure as before to get a sufficient statistic.
-
-
-$W=\sum_{i=1}^{n} X_i$ which is a sufficient statistic for iid exponential random variables(result proven in a previous HW). The expectation of this statistic is:
+$W=\sum_{i=1}^{n} X_i$ which is a complete sufficient statistic for iid exponential random variables(result proven in a previous HW). The expectation of this statistic is:
 \begin{align*}
 \mathbb{E}(W_1) =\mathbb{E}[ \sum_{i=1}^{n} X_i ] =n\lambda
 \end{align*}
@@ -123,7 +134,18 @@ Thus to make this unbiased we need our statistic to be:
 \mathbb{E}(W_2) =\mathbb{E}[ \frac{1}{n} \sum_{i=1}^{n} X_i ] = \lambda
 \end{align*}
 Let $\phi(T) = \frac{T}{n}$, let $T=\sum_{i=1}^{n} X_i$.
-Thus via Rao-Blackwell theorem, this is the UMVUE.
+Thus via Lehmann-Scheffe theorem, this is the UMVUE.
+\begin{align*}
+\boxed{ \phi(T) = \frac{\sum_{i=1}^{n} X_i}{n} = \bar{x}}
+\end{align*}
+Since this is the UMVUE, we know it must be better than the first order statistic estimator. %But we can check our Variances anyway.
+%\begin{align*}
+%Var(\frac{T}{n}) = \frac{ \sigma^2}{n} && Var(nX_{(1)}) = n^2 \mathbb{E}(X_{(1)}^2)-\mathbb{E}(X_{(1)})^2
+%\end{align*}
+%These moments are:
+%\begin{align*}
+%Var(nX_{(1)}) = n^2 \mathbb{E}(X_{(1)}^2)-[ \int_{0}^{\infty} x n[1-[]] ]
+%\end{align*}
 
 \clearpage
 \subsection*{Part C}
@@ -132,7 +154,7 @@ Lets compute the sample mean of this:
 50.1+70.1+137.0+166.9+170.5+152.8+80.5+123.5+112.6+148.5+160.0+125.4 = 1497.9
 \end{align*}
 \begin{align*}
-\boxed{ \hat{\lambda} = \frac{1497.9}{12} = 124.825 }
+\boxed{ \hat{\lambda} = \frac{1497.9}{12} = 124.825 } &&\boxed{ nX_{(1)} = 601.2 }
 \end{align*}
 
 
@@ -144,7 +166,7 @@ Let $X_1,...,X_n \overset{i.i.d.}{\sim} Poisson(\lambda)$.
 \item[c.] Find the conditional distribution of $X_1|T=\sum_{i=1}^{n}X_i$ independent of $\lambda$. Explain your answer.
 \item[d.] Show that $X^2_1-X_1$ is an unbiased estimator of $\lambda^2$, and derive the UMVUE of $\lambda^2$, by using the Rao-Blackwell method.
 \item[e.] Find the best unbiased estimator of $\tau(\lambda) = P(X=0)= e^{-\lambda}$
-\item[f.] Find the MLE of $\tau(\theta)$; call it $\hat{\lambda}$. Findthe asymptotic variance of $\hat{\tau}$.
+\item[f.] Find the MLE of $\tau(\theta)$; call it $\hat{\lambda}$. Find the asymptotic variance of $\hat{\tau}$.
 \item[g.] Calculate the asymptotic relative efficiency of the best unbiased estimator with respect to the MLE. Which estimator do you prefer? Why?
 \end{enumerate}
 \subsection*{Part A}
@@ -161,14 +183,44 @@ Since the MLE of lambda is known, the MLE of $\lambda^2$ is:
 Via the invariant property of the MLE. Since the MLE is complete sufficient then all functions of a complete sufficient statistic are also complete sufficient.
 
 \subsection*{Part C}
+The conditional distribution of $X_1|T=\sum_{i=1}^{n}$ is independent of $\lambda$ since this is an application of Rao Blackwell theorem. T is a complete statistic (meaning it is independent of lambda) and $X_1$ is an unbiased estimator of $\lambda$.
+
+\subsection*{Part D}
+\begin{align*}
+\mathbb{E}(X_1^2) - \mathbb{E}(X_1) = \lambda^2 - \lambda
+\end{align*}
+
+Let $T=n\sum_{i=1}^{n}X_i=n\bar{x}$. The conditional distribution of $W|T$ is given by
+\begin{align*}
+\mathbb{E}(W|T) = \frac{P(X_1^2-X_1|T = \sum_{i=1}^{n} x_i)}{P(T=\sum_{i=1}^{n})}
+\end{align*}
+Substituting in probability functions:
+\begin{align*}
+\mathbb{E}(W|T) = \frac{[\frac{\lambda^2x e^{-2\lambda}}{x!^2} - \frac{\lambda^x-e^{-\lambda}}{x!}] \frac{e^{t-x}([n-1]\lambda)^{t-x}}{(t-x)!}}{P(T=\sum_{i=1}^{n})} \\
+\boxed{ \mathbb{E}(W|T) = \frac{[\frac{\lambda^2x e^{-2\lambda}}{x!^2} - \frac{\lambda^x-e^{-\lambda}}{x!}] \frac{e^{t-x}([n-1]\lambda)^{t-x}}{(t-x)!}}{\frac{e^{-n\lambda}n^t\lambda^t}{t!}} }
+\end{align*}
+Got lost in this algebra at some point, I feel like this should be simpler.
+
 
 \clearpage
 
 \section*{Problem 5}
 Let $X_1,...,X_n \overset{i.i.d.}{\sim} Gamma(\alpha,\beta)$  with $\alpha$ known. Find the best unbiased estimator of $\frac{1}{\beta}$.
-
 \subsection*{Part A}
-
+Let $\hat{\beta}^{-1}$ denote the MLE of $\frac{1}{\beta}$
+\begin{align*}
+\hat{\beta}^{-1} = \frac{1}{\alpha n} \sum_{i=1}^{n} X_i = \frac{1}{\alpha} \bar{x}
+\end{align*}
+To check for bias:
+\begin{align*}
+\mathbb{E}[\hat{\beta}^{-1}] = \frac{1}{\alpha n}\mathbb{E}[\sum_{i=1}^{n} X_i] = \frac{1}{\alpha n}  \frac{n \alpha}{\beta} = \frac{1}{\beta}
+\end{align*}
+So our MLE is unbiased, since it is unbiased we can apply Rao-Blackwell theorem. Let $T=\sum_{i=1}^{n}x_i$ be our sufficient statistic.
+Note here that the MLE is a function of a complete statistic:
+\begin{align*}
+\tau(x) = \frac{1}{\alpha n} x && \boxed{ \tau(t) = \frac{1}{\alpha n} \sum_{i=1}^{n} X_i }
+\end{align*}
+Our statistic is already conditioned on a complete sufficient statistic, and hence it is the best estimator of $\frac{1}{\beta}$
 
 \clearpage
 

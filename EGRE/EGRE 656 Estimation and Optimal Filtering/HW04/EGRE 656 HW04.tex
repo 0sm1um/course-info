@@ -1,0 +1,312 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{EGRE-656 Homework 4}
+\author{John Hiles}
+\date\today
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 2-2}
+\textbf{ML Estimation with correlated noises.}
+
+	A parameter x is measured with correlated rather than independant additive Gaussian noise.
+\begin{align*}
+z_k = x + w_k && k=1,...,n
+\end{align*}
+with
+\begin{align*}
+\mathbb{E}(w_k) = 0 && \mathbb{E}(w_k,w_j) = \begin{cases} 
+      1 &  k = j  \\
+      \rho & |k-j| = 1\\
+      0 & |k-j| > 1 
+   \end{cases}
+\end{align*}
+For $n=2$
+\begin{enumerate}
+\item[a.] Write the likelihood function of the parameter $x$
+\item[b.] Find MLE of $x$. What happens if $\rho=1$? What happens if $\rho = -1$?
+\item[c.] Find the CRN for the estimation of $x$. Show the effect of $\rho>0$ versus $\rho <0$. Explain what happens at $\rho=-1$.
+\item[d.] Is the MLE Efficient? Can one have a perfect (zero variance estimate?)
+\item[e.] Using the above notations write the likelihood function of $x$ if $Cov(\mathbf{w})=\mathbf{P}$
+\item[f.] Find the MLE of $x$ if $Cov(\mathbf{w})=\mathbf{P}$
+\end{enumerate}
+
+\subsection*{Part A.}
+\textbf{Write the likelihood function of the parameter $x$.}
+
+The likelihood function is given by:
+\begin{align*}
+\Lambda_Z(x) \overset{\Delta}{=} p(Z|x)
+\end{align*}
+
+In the previous HW, it was found that $p(z|x)$ was given by:
+\begin{align*}
+p(z|x) = p_w(z-x)
+\end{align*}
+
+However that result only worked for $z_k = x + w_k$ where $x$ and $w$ were independent. In our case their joint distribution $p(x,w_k)\neq p(x)p(w_k)$. Thus we must rederive this result. First lets specify $p(z)$
+\begin{align*}
+z_k = x + w_k \sim \mathcal{N}(x,Var(W_k))
+\end{align*}
+Let $Z = <z_1,z_2>^T = <x+w_1,x+w_2>^T$, and let $P = Cov(Z)$
+\begin{align*}
+\mathbb{E}(Z) = <\mathbb{E}(z_1),\mathbb{E}(z_2)>^T = <x,x>
+\end{align*}
+Covariance between two scalar random variables is given by:
+\begin{align*}
+Cov(X,Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y)
+\end{align*}
+Plugging in $z_1$
+
+\begin{align*}
+Cov(w_1,w_2) = \mathbb{E}(w_1 w_2) - \mathbb{E}(w_1)\mathbb{E}(w_2) = \rho
+\end{align*}
+
+
+
+\begin{align*}
+Cov(z_1,z_2) = \mathbb{E} [ (z_1 - \mathbb{E}(z_1))(z_2 - \mathbb{E}(z_2)) ] = \mathbb{E} [\mathbb{E}(z_1)z_1 + \mathbb{E}(z_1)z_2 - \mathbb{E}(z_1)z_1 - \mathbb{E}(z_2)z_2 ]
+\end{align*}
+For our particular random variables this can be simplified to:
+\begin{align*}
+Cov(z_1,z_2) = \mathbb{E} [x^2 + z_1 z_2 - z_1 x - z_2 x]
+\end{align*}
+The Covariance matrix is given by:
+\begin{align*}
+Cov(z) = \begin{bmatrix}
+Cov(z_1,z_1) & Cov(z_1,z_2) \\
+Cov(z_2,z_1) & Cov(z_2,z_2)
+\end{bmatrix}
+\end{align*}
+Note here that the "randomness" of the parameter $x$ is completely caused by the additive noise $w_k$. Therefore we know that $Cov(z_1,z_2)=Cov(w_1,w_2)$
+Thus our covariance matrix becomes:
+\begin{align*}
+P = Cov(z) = \begin{bmatrix}
+Cov(w_1,w_1) & Cov(w_1,w_2) \\
+Cov(w_2,w_1) & Cov(w_2,w_2)
+\end{bmatrix} = 
+\begin{bmatrix}
+1 & \rho \\
+\rho & 1
+\end{bmatrix}
+\end{align*}
+Thus here, we now know that $z \sim \mathcal{N}(\mu,P)$ where $z$ is a multivariate Gaussian distribution with mean $\mu$ and covariance matrix $P$. So:
+\begin{align*}
+\boxed{ \Lambda_Z (x) = |2\pi P|^{-\tfrac{1}{2}} e^{-\tfrac{1}{2} (z-\mu)^T P^{-1} (z-\mu)} }
+\end{align*}
+Where $z$ is $<z_1,z_2>^T$. Note that I have parameterized this in terms of a vector z, but it is truly a function of $x$. I did this for ease of notation, but note that is really a function of $x+w_1$ and $x+w_2$.
+\clearpage
+
+\subsection*{Part B.}
+\textbf{Find MLE of $x$. What happens if $\rho=1$? What happens if $\rho = -1$?}
+The ML estimator is given by:
+\begin{align*}
+\hat{x}^{ML} = arg \underset{x}{max} (\Lambda_Z(x))
+\end{align*}
+Note here that $x$ is a vector. It is the value which maximizes the likelihood function, which can be found by differentiating the likleyhood function.
+\begin{align*}
+0 = \frac{\partial}{\partial x}(\Lambda_Z(x))
+\end{align*}
+This differentiates to:
+\begin{align*}
+0 = \frac{\partial}{\partial x}(\Lambda_Z(x))
+\end{align*}
+
+\begin{align*}
+\Lambda_Z (x) = |2\pi P|^{-\tfrac{1}{2}} e^{-\tfrac{1}{2} (<z_1,z_2>-<x,x>)^T P^{-1} (<z_1,z_2>-<x,x>)}
+\end{align*}
+This evaluates to:
+\begin{align*}
+\Lambda_Z (x) = \frac{1}{2\pi \sqrt{1-\rho^2}} e^{-\tfrac{1}{2} \frac{2x^2(\rho-1) - 2(z_1+z_2)(\rho-1)x - z_1^2 + 2z_1 z_2 \rho -z_2^2}{\rho^2-1}}
+\end{align*}
+Thus our equation to solve is:
+\begin{align*}
+0 = \frac{\partial}{\partial x} [ \frac{1}{2\pi \sqrt{1-\rho^2}} e^{- \frac{2x^2(\rho-1) - 2(z_1+z_2)(\rho-1)x - z_1^2 + 2z_1 z_2 \rho -z_2^2}{2(\rho^2-1)}} ]
+\end{align*}
+
+Via computer algebra system I found this result to be:
+\begin{align*}
+\hat{x}^{ML} = \frac{z_1+z_2}{2}
+\end{align*}
+If $\rho=1$ the likleyhood function is undefined because:
+\begin{align*}
+|2\pi P|^{-\tfrac{1}{2}} = \frac{1}{0}
+\end{align*}
+If $\rho=-1$ the determinate is also undefined.
+\subsection*{Part C.}
+Find the CRLB for the estimation of $x$. Show the effect of $\rho>0$ versus $\rho <0$. Explain what happens at $\rho=-1$.
+
+The Cramer-Rao Lower Bound is given by:
+\begin{align*}
+\mathbb{E}[[\hat{y}(Z) - y_0]^2] \geq J^{-1}
+\end{align*}
+Where J is the expectation of the log likleyhood function:
+\begin{align*}
+J = \mathbb{E}[[\frac{\partial ln(\Lambda_Z(y))}{\partial y}]^2]|_{x=x_0} = \mathbb{E}[[\frac{\partial^2 ln(\Lambda_Z(y))}{\partial y^2}]]|_{x=x_0}
+\end{align*}
+In this case:
+\begin{align*}
+J= - \mathbb{E} ( -\frac{2}{\rho} ) = \frac{2}{\rho+1}
+\end{align*}
+As such our CRLB is:
+\begin{align*}
+\boxed{ \mathbb{E}[[\hat{y}(Z) - y_0]^2] \geq \frac{\rho+1}{2} }
+\end{align*}
+In this case, if $\rho$ is positive, then Variance is positive. However is $\rho=-1$ we end up with an interesting situation where the CRLB is zero. Zero variance essentially means that the estimate is completely nonrandom.
+\clearpage
+
+\subsection*{Part D.}
+To determine efficiency we take the variance of the estimator $\hat{x}$. If $Var(\hat{x}) = \mathbb{E}[[\hat{y}(Z) - y_0]^2]$ then the estimator is efficient.
+Var()
+\begin{align*}
+Var( \hat{x}^{ML} ) = Var( \frac{z_1+z_2}{2} ) = Var( \frac{z_1}{2} ) + Var( \frac{z_2}{2} ) = \frac{1}{4} Var(z_1) + \frac{1}{4} Var(z_1)
+\end{align*}
+$Var(z_1)=Var(w_1) = 1$ and $Var(z_2)=Var(w_2) = 1$
+\begin{align*}
+Var( \hat{x}^{ML} ) = \frac{1}{2}
+\end{align*}
+The CRLB then states:
+\begin{align*}
+\mathbb{E}[[\hat{y}(Z) - y_0]^2] \geq \frac{\rho+1}{2}
+\end{align*}
+Now we end up with the inequality:
+\begin{align*}
+\boxed{ \frac{1}{2} \geq \frac{\rho+1}{2} }
+\end{align*}
+This is interesting, because it means that the only allowable values for $\rho$ range on the interval 
+\begin{align*}
+\rho \in (0,1)
+\end{align*}
+$\rho$ cannot be negative or else the estimator is invalid.
+\clearpage
+
+\subsection*{Part E.}
+Let $Z \sim \mathcal{N}(\mu, P)$.
+\begin{align*}
+\boxed{ \Lambda_Z (x) = |2\pi P|^{-\tfrac{1}{2}} e^{-\tfrac{1}{2} (z-\mu)^T P^{-1} (z-\mu)} }
+\end{align*}
+
+SIDE NOTE: I don't think I see the purpose of this modification. I believe matrix notation is the most consise way of representing this. Here is the pdf with the matrix multiplication multiplied out.
+
+\begin{align*}
+\Lambda_Z(x) = |2\pi P|^{-\tfrac{1}{2}} e^{-\tfrac{1}{2} [(P_{1,1}+P_{1,2}+P_{2,1}+P_{2,2})x^2+(-2P_{1,1} - P_{1,2}(z_1+z_2) - P_{2,1}(z_1+z_2)-2P_{2,2}z_2)x+a z_1^2 + bz_1 z_2 + P_{2,1} z_1 z_2 + d z_2^2]}
+\end{align*}
+
+However I do not believe the above statement offers an intuitive advantage over just writing it in matrix notation. I believe it can be rewritten in terms of the adjudicate however I am out of time to work on this as I need to complete a STAT-514 assignment before next week.
+
+\clearpage
+
+\subsection*{Part F.}
+Find the MLE of $x$ if $Cov(\mathbf{w})=\mathbf{P}$. Before doing this lets recall a few things. For starters $\mu=<x,x>$. The Vector Valued Fischer Information Matrix is defined as:
+\begin{align*}
+\hat{x}^{ML} = arg \underset{x}{max} (\Lambda_Z(x))
+\end{align*}
+The solution to this equation is:
+\begin{align*}
+0 = \frac{\partial}{\partial \vec{x}}(\Lambda_Z(x))
+\end{align*}
+\begin{align*}
+0 = |2\pi P|^{-\tfrac{1}{2}} e^{-\tfrac{1}{2} [(P_{1,1}+P_{1,2}+P_{2,1}+P_{2,2})x^2+(-2P_{1,1} - P_{1,2}(z_1+z_2) - P_{2,1}(z_1+z_2)-2P_{2,2}z_2)x+a z_1^2 + bz_1 z_2 + P_{2,1} z_1 z_2 + d z_2^2]}
+\end{align*}
+
+I suspect that the purpose of this problem is to come up with a generalized expression for $\hat{x}$ which works for all problems involving additive gaussian noise measurements. In other words an expression for the MLE estimator for any problem we would come across in this course.
+
+\clearpage
+
+\subsection{Problem 2-11}
+\textbf{Measurement error variance.}
+
+	A sensor is located at $(0,0)$. It is desired estimate the height $y$ of a point, located at $(d,y)$ where $d$ is horizontal distance, and $y$ is the eheight is known based on the slant range measurement $z=r+w$ where $r=h(y)=\sqrt{d^2+y^2}$ and $w\sim \mathcal{N}(0,\sigma^2)$.
+\begin{enumerate}
+\item[a.] Write the likelihood function of the parameter $y$
+\item[b.] write the CRLB for estimating $y$.
+\item[c.] Evaluate the standard deviation of the estimate according to the CRLB for $d=10^5$,$\sigma=10^2$, and assumed true value of $y=10^3$. How useful would this estimate be?
+\item[d.] Find the expression of the MLE of $y$ in terms of $z$ and $d$.
+\end{enumerate}
+\subsection*{Part A.}
+\textbf{Write the likelihood function of the parameter $y$.}
+The likelihood function is given by:
+\begin{align*}
+\Lambda_Z(r) \overset{\Delta}{=} p(Z|r)
+\end{align*}
+Given that $r$ and $w$ are independent, $p(z_k|r)$ is given by:
+\begin{align*}
+p(z|r) = p_w(z_k-r) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\tfrac{(z_k-r)^2}{2\sigma^2}}
+\end{align*}
+Lets now write this function in terms of y:
+\begin{align*}
+\Lambda_Z(y) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\tfrac{(z_k-\sqrt{y^2+d^2})^2}{2\sigma^2}}
+\end{align*}
+\subsection*{Part B.}
+The Cramer-Rao Lower Bound is given by:
+\begin{align*}
+\mathbb{E}[[\hat{y}(Z) - y_0]^2] \geq J^{-1}
+\end{align*}
+Where J is the expectation of the log likleyhood function:
+\begin{align*}
+J = \mathbb{E}[[\frac{\partial ln(\Lambda_Z(y))}{\partial y}]^2]|_{y=y_0} = \mathbb{E}[[\frac{\partial^2 ln(\Lambda_Z(y))}{\partial y^2}]]|_{y=y_0}
+\end{align*}
+First the log likleyhood function is:
+\begin{align*}
+ln[ \Lambda_Z(y)] =  ln[\frac{1}{\sigma \sqrt{2\pi}}] + [\tfrac{(z-\sqrt{y^2+d^2})^2}{2\sigma^2}]
+\end{align*}
+Our first and second partial derivatives are:
+\begin{align*}
+\frac{\partial}{\partial y}ln[ \Lambda_Z(y)] = \frac{yz}{\sigma^2 \sqrt{y^2+d^2}} - \frac{y}{\sigma^2} && \frac{\partial^2}{\partial y^2}ln[ \Lambda_Z(y)] = \frac{d^2 z}{\sigma^2 (y^2+d^2)^{\tfrac{3}{2}}} - \frac{1}{\sigma^2}
+\end{align*}
+
+
+Lets substitute in what we know for $J$. First to make the algebra simpler let $A = \frac{1}{\sigma \sqrt{2\pi}}$
+\begin{align*}
+J = \mathbb{E}[\frac{\partial ln(A e^{-\tfrac{(z-\sqrt{y^2+d^2})^2}{2\sigma^2}})}{\partial y}]^2|_{y=y_0} = \mathbb{E}[\frac{y}{\sigma^2} - \frac{z y}{\sigma^2 \sqrt{y^2+d^2}}]^2|_{y=y_0}
+\end{align*}
+\begin{align*}
+J = \frac{y}{\sigma^2(d^2+y^2)}|_{y=y_0} = \frac{y_0}{\sigma^2 (d^2+y_0^2)}
+\end{align*}
+Thus the cramer rao lower bound is:
+\begin{align*}
+\boxed{ \mathbb{E}[[\hat{y}(Z) - y_0]^2] \geq \frac{\sigma^2 (d^2+y_0^2)}{y_0} }
+\end{align*}
+\subsection*{Part C.}
+\textbf{Evaluate the standard deviation of the estimate according to the CRLB for $d=10^5$,$\sigma=10^2$, and assumed true value of $y=10^3$. How useful would this estimate be?}
+
+	The Cramer-Rao Lower bound is given by:
+\begin{align*}
+Var(\hat{y}) \geq \frac{(10^2)^2 (d^2+y_0^2)}{y_0}
+\end{align*}
+Substituting in what is known:
+\begin{align*}
+Var(\hat{y}) \geq \frac{\sigma^2 ((10^5)^2+(10^2)^2)}{10^2}
+\end{align*}
+Yhe standard deviation then is the square root of this which is:
+\begin{align*}
+\sqrt{Var(\hat{y})} = \boxed{ 3.162\times 10^6 }
+\end{align*}
+This is a VERY high lower bound and it would not be suitable to estimate given these parameters. Std Deviation is a metric of uncertainty which is notable for being in the same units as the parameter being estimated. The fact it is orders of magnitude greater than the true value means the estimate could be off by magnitudes greater than the magnitude of the actual measurement.
+\subsection*{Part D.}
+The MLE Estimator is given by:
+\begin{align*}
+arg \underset{y}{max} (\Lambda_Z(y))
+\end{align*}
+This can be found by solving the following equation:
+\begin{align*}
+0 = \frac{\partial}{\partial y} \Lambda_Z(y)
+\end{align*}
+Since we know that $\Lambda_Z(y)$ is Gaussian with respect to $\sqrt{d^2+y^2}$. We know that it is maximized when $\sqrt{d^2+y^2}=z_k$. So we know:
+\begin{align*}
+arg \underset{y}{max} (\Lambda_Z(y)) = z_k = \sqrt{d^2+y^2}
+\end{align*}
+As such:
+\begin{align*}
+\boxed{ \hat{y} = \sqrt{z_k^2-d^2} }
+\end{align*}
+
+
+\end{document} 

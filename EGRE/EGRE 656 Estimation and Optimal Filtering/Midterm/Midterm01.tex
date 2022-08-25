@@ -1,0 +1,132 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-514 Midterm 1}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Foreword}
+I hate writing on pen and paper so I decided to do this in LaTeX.
+
+\section*{Problem 1}
+\begin{enumerate}
+\item[a.] Please explain the difference between a Bayesian approach and a non-Bayesian approach.
+\item[b.] Classify the least squares (LS), maximum likelihood (ML), maximum a posteriori (MAP),
+minimum mean square error (MMSE) estimators, into two categories, namely Bayesian approaches
+and non-Bayesian approaches.
+\item[c.] Discuss the relationship between different estimators. More specifically under what condition, the LS estimator is equivalent to MLE? Repeat the same for MAP and MMSE, and for MLE
+and MAP.
+\end{enumerate}
+\subsection*{Part A.}
+The Bayesian interpretation of statistics is a fundamentally different approach than the traditional of frequentist school. The difference lies in the interpretation of the probability function. To a frequentist the pdf is an "experiment". As the number of times this experiment is conducted approaches infinity, the outcome's dataset will converge to that predicted in the pdf. Baysean's interpret the pdf a different way. They posit that the probability function expresses "degree of confidence" that the outcome will turn out the predicted way. Bayesian statistics revolves around making predictions with associated confidence levels, and updating those predictions based on the new information. The frequentist approach is typically advantageous in situations where there is no prior information, or ability to know the outcome of the "experiment" until it is done. The Bayesian approach is advantageous if you have information about the prior distribution already, hence it lends itself more easily to recursion as well.
+\subsection*{Part B.}
+\begin{enumerate}
+\item[Least Squares Estimator] The least squares estimator involves a prior distribution, and involves making a predicted measurement, this prediction is then corrected via a residual scaled by a gain factor. This is a distinctly Bayesian estimator.
+\item[Maximum Likleyhood Estimator] The maximum likleyhood function involves taking the likleyhood function, and finding the value which maximizes it (finding the maximizer). The estimate is then the mode of the distribution, of the most likely value which we expect the pdf to assume. This is a frequentest/non Bayesian approach
+\item[Maximum a Posteriori Estimator] The MAP estimator and the MLE estimators operate under a very similar framework. The MAP estimator maximizes the conditional likleyhood function given the measurement. The difference between the MLE and MAP is the MLE operates with total ignorance of the prior state, while the MAP maximizes the function incorperating information from the prior distribution. Hence it is distinctly Bayesian.
+\item[Minimum Mean Square Error Estimator] The MMSE Estimator involves taking the expectation of the conditional pdf. This is a Bayesian estimator because it takes into account information of the prior and the measurement.
+\end{enumerate}
+\subsection*{Part C.}
+
+	The LS and MLE estimators are equivalent when measurement errors are independant gaussian random variables with zero mean and finite covariance. In this case minimizing the LS criterion is equivilant to maximizing the likleyhood function.
+
+The MAP and MMSE estimators both "operate" on the conditional pdf $p(x|Z)$. Hence they will be equivalent under the circumstance when $p(x|Z)$ is symmetrical about the mode. In other words, then the mean of the distribution equals the mode, these estimators are the same. In our world, this means whenever $p(x|Z)$ is Gaussian, though this could occur with other symmetrical distributions.
+
+The MLE and MAP estimators both provide the same estimate under one condition. Consider the difference between the MLE and MAP. The MAP is essentially an MLE except with a restricted sample space. The allowable values are smaller because they are restricted by the prior pdf. However consider the case where the prior pdf has a VERY large variance. If it were a gaussian, as $\sigma$ approaches infinity, the sample space would get "wider and wider". The limit as a gaussian's variance approaches infinity, approaches a uniform distribution spanning $\mathbb{R}^n$. In this case, the MLE equals the MAP estimator exactly, because the prior does nothing to restrict the sample space.
+\clearpage
+\section*{Problem 2.}
+\begin{enumerate}
+\item[a.] Find $G=P_{xz}P_{zz}^{-1}$
+\item[b.] Find $\mathbb{E}(x|z)$
+\item[c.] Find the posterior Covariance.
+\end{enumerate}
+\subsection*{Part A.}
+$P_{xx} = <1,10>, P_{xz} = <1,10>, P_{zz} = \begin{bmatrix}
+                                        11 & 0 \\
+                                         0 & 11
+                                        \end{bmatrix}$
+\begin{align*}
+G = P_{xz} P_{zz} = \begin{bmatrix}     1 & 10 
+                                        \end{bmatrix} && \begin{bmatrix}
+                                        11 & 0 \\
+                                         0 & 11
+                                        \end{bmatrix}^{-1} = \begin{bmatrix}
+                                        \frac{1}{11} & \frac{10}{11}
+                                        \end{bmatrix}
+\end{align*}
+
+\subsection*{Part B.}
+
+\begin{align*}
+\hat{x} = \bar{x} + G (z-\bar{z})
+\end{align*}
+
+
+\begin{align*}
+\hat{x} = [1,1] + [\frac{1}{11},\frac{10}{11}] ([20,3] - [1,1]) = <\frac{30}{11}, \frac{13,11}>
+\end{align*}
+
+\subsection*{Part C.}
+The posterior Covariance is given by:
+\begin{align*}
+P_{xx|z} = P_{xx} - P_{xz}P_{zz}^{-1}P_{xz}^T = <1,10> - <1,10> \begin{bmatrix}
+                                        11 & 0 \\
+                                         0 & 11
+                                        \end{bmatrix}^{-1} <1,10>^T
+\end{align*}
+
+
+NOTE: This entire problem is wrong, I made a mistake with the initial covariances, the dimensions are wrong. However I know these formulas are correct.
+
+
+\clearpage
+\section*{Problem 3.}
+\subsection*{Part A.}
+\begin{align*}
+\mathbb{E}(\frac{1}{2}\sum_{i=1}^{2} y_i) = \frac{1}{2} (x+x) = x && Cov(\hat{x}) = \begin{bmatrix}
+                                        											\frac{\sigma^2}{2} & \rho \sigma^2\\
+                                         											\rho \sigma^2 & \frac{\sigma^2}{2}
+                                        											\end{bmatrix}
+\end{align*}
+Note here that this estimator is $\bar{x}$ for n=2.
+\subsection*{Part B.}
+\begin{align*}
+\mathbb{E}(\frac{1}{N}\sum_{i=1}^{N} y_i) = \bar{x} = x && Cov(\hat{x}) = Diag(\frac{\sigma^2}{N})
+\end{align*}
+Note that the dimension of that covariance matrix is NxN with N diagonal elements all of which are $\frac{\sigma^2}{N}$
+\subsection*{Part C.}
+For this problem with correlated measurements, the simplist way for the covariance of correlated vs uncorrelated result to equal each other would be for the person to take only a single measurement, as $\rho$ only shows up in the off diagonal elements of the covariance matrix.
+
+
+
+NOTE: I did not get to return to this, I got stuck on Problem trying to correct it.
+
+\clearpage
+\section*{Problem 4.}
+The likleyhood function of Z in terms of $\theta$ is given by:
+\begin{align*}
+p(z|\theta) = p_w(z_k-\theta) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\tfrac{(z_k-z)^2}{2\sigma^2}}
+\end{align*}
+Lets now write this function in terms of $\nu$, $\nu = -tan(w-z)$:
+\begin{align*}
+\Lambda_Z(y) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\epsilon \tfrac{(z_k - z}{2\sigma^2}}
+\end{align*}
+
+NOTE: I did not get to return to this, I got stuck on Problem trying to correct it.
+
+
+\clearpage
+
+
+\end{document}

@@ -1,0 +1,117 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+
+\title{EGRE-656 Homework 2}
+\author{John Hiles}
+\date\today
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 1}
+Consider $x$ and $y$ independent Gaussian random variables with zero mean and unit variance.
+\begin{enumerate}
+\item[1.] For an arbitrary new random variable does the following hold?
+\begin{align*}
+p(x,y|z) = p(x|z)p(y|z)
+\end{align*}
+\item[2.] Let $z=x+y$. Write the explicit expression of the pdf $p(x,y|z)$. Use the dirac delta function if necessary.
+\end{enumerate}
+\subsection*{Part 1}
+By the definition of conditional probability, the joint pdf of $x$ and $y|z$ can be expressed as:
+\begin{align*}
+p(x,y|z) = p(x|y|z)p(y|z)
+\end{align*}
+Note here that $x$ and $y$ are independent of each other, meaning that $p(x|y)=p(x)$ and $p(y|x)=p(y)$. In other words being given $y$ has no bearing on the outcome of $x$. As such, $p(x|y|z)=p(x|z)$. Which leaves us with:
+\begin{align*}
+\boxed{ p(x,y|z) = p(x|z)p(y|z) }
+\end{align*}
+\subsection*{Part 2}
+Lets start by identifying the pdf of $z$. We know that the sum of two gaussians is also gaussian. 
+\begin{align*}
+Z \sim \mathcal{N}(\mu_X+\mu_Y, \sigma_X^2+\sigma_Y^2) = \mathcal{N}(0,2)
+\end{align*}
+Thus our respective pdfs are given by:
+\begin{align*}
+f_X(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}} && f_Y(y) = \frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}} && f_Z(z) = \frac{1}{2\sqrt{2\pi}} e^{-\frac{z^2}{8}}
+\end{align*}
+Via the set theory definition of our conditional probability $P(A\cupB)/P(B) = P(A|B) = P(B|A)P(A)/P(B)$ $P(A|B) = \frac{P(B|A)P(A)}{P(B)}$, we can substitute in the "reversed" causation conditional probabilities.
+\begin{align*}
+p(x,y|z) = p(x|z)p(y|z) = \frac{p(z|x)}{p(z)} \frac{p(z|y)}{p(z)} = \frac{p(z|x,y)}{p(z)^2}
+\end{align*}
+At this point, we should note that $z$ depends entirely on the sum of $x$ and $y$. Lets think about that for a second. If $x$ and $y$ are perfectly defined, then that means that $z$ is also perfectly defined non random number. $z$ takes the form of a Gaussian, but if we are given $x$ and $y$, then this Gaussian must have zero variance. This type of gaussian distribution is known as a Dirac Delta function. We can express $p(z|x,y)$ in terms of a dirac delta function denoted by $\delta$.
+\begin{align*}
+p(x,y|z) = \frac{\delta(z-(x+y))}{p(z)^2}
+\end{align*}
+Finally, substituting in the pdf of z in the denominator:
+\begin{align*}
+\boxed{ p(x,y|z) = \frac{\delta(z-(x+y))}{(\frac{1}{2\sqrt{2\pi}} e^{-\frac{z^2}{8}})^2} }
+\end{align*}
+\clearpage
+\section{Problem 2}
+Given the random variables $x$ and $y$ of dimensions $n_x$ and $n_y$, with means $\bar{x}$ and $\bar{y}$ respectively, and with covariances $P_{xx}$, $P_{yy}$, and $P_{xy}$.
+\begin{enumerate}
+\item[1.] Find the mean and covariance of the $n_z$ dimensional vector $Ax+By+c$ where A and B are matrices of appropriate dimensions.
+\item[2.] Indicate the dimensions of $A$ $B$ and $c$
+\end{enumerate}
+\subsection*{Part B}
+I think its easier to answer the dimension question first personally. Lets think this through. Matrix addition preserves the dimension of the vectors being added. Thus the dimensions of $c$ must be dimension $n_z\times 1$. We also know the dimensions of $x$ and $y$
+\begin{align*}
+\underset{n_x\times 1}{\mathrm{x}} && \underset{n_y \times 1}{\mathrm{y}} && \underset{n_z\times 1}{\mathrm{c}}
+\end{align*}
+Thus, the dimensions of $A$ and $B$ must produce the dimension $n_z\times 1$ when multiplied with $x$ and $y$ respectively. We know that the columns of $A$ must match the elements of $x$, and the rows must equal $n_z$. Ditto $B$. This results in:
+\begin{align*}
+\underset{n_z \times n_x}{\mathrm{A}} \times  \underset{n_x\times 1}{\mathrm{x}} + \underset{n_z \times n_y}{\mathrm{B}} \times \underset{n_y\times 1}{\mathrm{y}} + \underset{n_z\times 1}{\mathrm{c}} = \underset{n_z\times 1}{\mathrm{z}}
+\end{align*}
+\subsection*{Part A}
+Calculating the mean is fairly straightforward. The expectation operator is linear and as such it can be "distributed" to additive terms.
+\begin{align*}
+\mathbb{E}(z) = \mathbb{E}(Ax + By +c)\\
+\end{align*}
+\begin{align*}
+= \mathbb{E}(Ax) +\mathbb{E}(By) +\mathbb{E}(c)\\ 
+\end{align*}
+\begin{align*}
+= A \mathbb{E}(x) + B\mathbb{E}(y)+c\\
+\end{align*}
+\begin{align*}
+\boxed{ \mathbb{E}(z) = A\bar{x} + B\bar{y} + c }
+\end{align*}
+The covariance however is significantly more complicated.
+\begin{align*}
+P_{zz} = \mathbb{E}[(z - \bar{z})(z - \bar{z})^T]
+\end{align*}
+Substituting our previous expression for the mean for $\bar{z}$:
+\begin{align*}
+ = \mathbb{E}[(Ax + By +c - A\bar{x} -B\bar{y} -c)(Ax +By +c - A\bar{x} -B\bar{y} -c)^T]
+\end{align*}
+Re arranging in terms of the means of $x$ and $y$
+\begin{align*}
+= \mathbb{E}[(A(x-\bar{x}) + B(y-\bar{y}))(A(x-\bar{x}) + B(y-\bar{y} ))^T]
+\end{align*}
+Distributing the transpose to the rightmost factors:
+\begin{align*}
+= \mathbb{E}[(A(x-\bar{x}) + B(y-\bar{y} ) )((x-\bar{x})^TA^T + (y-\bar{y} )^TB^T )] 
+\end{align*}
+Expanding out this massive product:
+\begin{align*}
+= \mathbb{E}[ A(x-\bar{x})(x-\bar{x})^TA^T + A(x-\bar{x})(y - \bar{y})^TB^T + B(y-\bar{y} )(x-\bar{x})^TA^T + B(y-\bar{y} )(y-\bar{y} )^TB^T )]
+\end{align*}
+Finally we have this massive thing arranged in terms of a massive sum. As such we can now distribute the linear Expectation operator to all the terms in the sum.
+\begin{align*}
+= A\mathbb{E}[(x-\bar{x})(x-\bar{x})^T]A^T + A\mathbb{E}[(x-\bar{x})(y - \bar{y})^T]B^T + \\ B\mathbb{E}[(y-\bar{y} )(x-\bar{x})^T ]A^T + B\mathbb{E}[(y-\bar{y} )(y-\bar{y} )^T ]B^T
+\end{align*}
+Now, we can substitute in our expressions for $P_{xx}$, $P_{xy}$, $P_{yy}$
+\begin{align*}
+= AP_{xx}A^T + AP_{xy}B^T + BP_{xy}^TA^T + BP_{yy}B^T
+\end{align*}
+Thus our final result is:
+\begin{align*}
+\boxed{ \mathbb{E}(z) = A\bar{x} + B\bar{y} + c } && \boxed{Cov(z) = AP_{xx}A^T + AP_{xy}B^T + BP_{xy}^TA^T + BP_{yy}B^T} 
+\end{align*}
+
+
+\end{document} 

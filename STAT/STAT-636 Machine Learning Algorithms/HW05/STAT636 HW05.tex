@@ -1,0 +1,144 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\graphicspath{ {figures/} }
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-636 Midterm 1}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 7.}
+\subsection*{Part A.}
+The Lagrange function of this problem is given by:
+\begin{align*}
+\boxed{ \mathcal{L}(x_1,x_2,\lambda) = (x_1-2)^2 + (x_2-1)^2 + \lambda(-x_1 + x_2 -3) }
+\end{align*}
+\subsection*{Part B.}
+The system of equations specified by $\nabla_x \mathcal{L}(x_1,x_2,\lambda)$ is:
+\begin{align*}
+0 = 2(x_1-2) - \lambda \\
+0= 2(x_2-1) + \lambda \\
+0= -x_1 +x_2 - 3
+\end{align*}
+\subsection*{Part C.}
+This linear system has solution
+\begin{align*}
+x_1^* = 0 && x_2^* = 3 && \lambda = -4
+\end{align*}
+Thus
+\begin{align*}
+\boxed{ (x_1^*,x_2^*) = (0,3)}
+\end{align*}
+\clearpage
+
+\section*{Problem 8.}
+\subsection*{A.}
+The Fitted Linear Model is given by:
+\begin{align*}
+\boxed{ Y = Intercept + lcavol x_1 + lweight x_2 + age x_3 + lbph x_4 + svi x_5 + lcp x_6 + gleason x_7 + pgg45 x_8 }
+\end{align*}
+\subsection*{B.}
+"Gleason" provides the smallest absolute Z-Score, therefore it is the least significant predictor on the list.
+\subsection*{C.}
+If one were to remove another predictor, they are at risk of removing a predictor which is more significant than another. The reason is the intercept term is calculated for the current set of predictors. If one were to remove "Gleason", the intercept would have to change, which would have the knock on effect of changing the coefficients of every single other predictor in the regression. This then would change the Z score of all other predictors and there is no guarantee that the second least significant predictor in THIS model would be the least significant in the model with "Gleason" removed.
+\clearpage
+
+\section*{Problem 9.}
+\subsection*{A.}
+Only the first 8 principal components are necessary to explain at least 80\% of the cumulative Variance.
+\subsection*{B.}
+Our score is:
+\begin{align*}
+\boxed{ PC1 = -0.31233090 1 + 0.28813421 2 = 0.26393752 }
+\end{align*}
+\subsection*{C.}
+Both equal one since the components are necessarily standardized:
+\begin{align*}
+a_1 a_1^T = 1 && a_2 a_2^T = 1
+\end{align*}
+\clearpage
+\section*{Problem 10.}
+Gini Index is given by
+\begin{align*}
+G_i = 1-\sum_{i=0}^{c-1} p_i(t)^2 = 
+\end{align*}
+\subsection*{A}
+6 total data points have $x>1$. Let $a$ denote the subsample of x<1, and $b$ denote subsample of $x>1$.
+\begin{align*}
+G_a = 1-(.75^2+0.25^2) = 0.375 && G_b = 1-{0.8333^2 + 0.1666^2} = 0.2777
+\end{align*}
+\subsection*{B}
+8 total data points have $x>2$. Let $c$ denote the subsample of $x<2$, and $d$ denote subsample of $x>2$.
+\begin{align*}
+G_c = 1-(.5^2+0.5^2) = 0.5 && G_d = 1-{1^2 + 0} = 0
+\end{align*}
+\subsection*{C}
+Weighted gini index is given by
+\begin{align*}
+Y_1 = \frac{6}{10} G_a + \frac{4}{10} G_b = 0.3361 && Y_2 = \frac{8}{10} G_c + \frac{2}{10} G_d = 0.4
+\end{align*}
+\subsection*{D}
+The optimal split point is to split along $x=1$, as the weighted gini index is much lower.
+\clearpage
+\section*{Problem 11.}
+\subsection*{A}
+\begin{align*}
+Logit(Pr(Y=1|x_1,x_2)) = -2 + x_1 - x_2 = -2 + 4 -1 = 1
+\end{align*}
+
+\begin{align*}
+Pr(Y=1|x_1,x_2) = \frac{e^1}{1+e^1} = 0.7310
+\end{align*}
+Since we know this, we know
+\begin{align*}
+Pr(Y=0|x_1,x_2) = 1-Pr(Y=1|x_1,x_2) = 0.2689
+\end{align*}
+So the odds are:
+\begin{align*}
+\boxed{ \frac{0.7310}{0.2689} = 2.718 }
+\end{align*}
+\subsection*{B}
+In the previous part we calculated 
+\begin{align*}
+Pr(Y=1|x_1,x_2) = \frac{Pr(Y=1)/Pr(Y=0)}{1+Pr(Y=1)/Pr(Y=0)} && Pr(Y=1) = -\frac{Pr(Y=1|x_1,x_2)}{Pr(Y=1|x_1,x_2)-1}
+\end{align*}
+As such:
+\begin{align*}
+Pr(Y=1|x_1,x_2) = \frac{e^1}{1+e^1} = 0.7310
+\end{align*}
+
+
+\subsection*{C}
+Redoing our calculations:
+\begin{align*}
+Logit(Pr(Y=1|x_1,x_2)) = -2 + x_1 - x_2 = -2 + 5 -1 = 2
+\end{align*}
+\begin{align*}
+Pr(Y=1|x_1,x_2) = \frac{e^2}{1+e^2} = 0.8808
+\end{align*}
+Since we know this, we know
+\begin{align*}
+Pr(Y=0|x_1,x_2) = 1-Pr(Y=1|x_1,x_2) = 0.1192
+\end{align*}
+So the odds are:
+\begin{align*}
+\boxed{ \frac{0.7310}{0.2689} = 7.3891 }
+\end{align*}
+\subsection*{D}
+\begin{align*}
+Pr(Y=1|x_1,x_2) = \frac{e^2}{1+e^2} = 0.8808
+\end{align*}
+
+\end{document}

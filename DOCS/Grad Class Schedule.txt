@@ -1,0 +1,20 @@
+__Fall Semester 2021__
+EGRE 335 Signals and Systems
+STAT 513 Mathematical Statistics I
+OPER 527 Optimization I
+
+
+__Spring Semester 2022__ 9 Credit Hours
+STAT 514 Mathematical Statistics II
+EGRE 656 Estimation and Optimal Filtering
+OPER 628 Optimization II
+
+
+__Fall Semester 2022__
+?OPER 636 Machine Learning Algorithms
+EGRE 656
+
+__Spring Semester 2023__
+EGRE 454 Lab
+EGRE 455 No Lab
+

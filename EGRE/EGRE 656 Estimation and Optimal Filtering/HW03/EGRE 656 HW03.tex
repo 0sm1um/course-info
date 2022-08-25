@@ -1,0 +1,205 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{EGRE-656 Homework 2}
+\author{John Hiles}
+\date\today
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 1}
+A discrete-valued parameter with the prior pdf:
+\begin{align*}
+p(x) = \sum_{i=1}^{2} p_i \delta(x-i)
+\end{align*}
+And it is measured with measurement noise $w \sim \mathcal{N}(0,\sigma^2)$
+\begin{enumerate}
+\item[a.] Find the posterior pdf of the parameter.
+\item[b.] Find its MAP estimate and associated MSE conditioned on $z$.
+\item[c.] Find its MMSE estimate and the associated variance.
+\item[d.] Evaluate these estimates and MSE for 
+$\begin{matrix}
+CASE & p_1 & \sigma & z \\
+A & 0.5 & 1 & 1.5 \\
+B & 0.5 & 1 & 3 \\
+C & 0.3 & 1 & 1.5 \\
+D & 0.5 & 0.1 & 1.8 \\
+\end{matrix}$
+\item[e.] Evaluate these estimates and MSE for 
+\end{enumerate}
+\subsection*{Part A.}
+Lets characterize our measurement as:
+\begin{align*}
+z = x + w
+\end{align*}
+The posterior $p(x|z)$ is given by:
+\begin{align*}
+p(x|z) = \frac{p(z|x) p(x)}{p(z)}
+\end{align*}
+Thus, we need to find $p(z|x)$, $p(x)$, and $p(z)$ individually. Starting with $p(z)$, the easiest way to integrate the convolution of their marginal densities.
+\begin{align*}
+p(z) = \int_{-\infty}^{\infty} p_x(z-x)p_w(x)dx = \sum_{i=1}^{2} p_i \delta(x-z-i) \mathcal{N}(0,\sigma^2)
+\end{align*}
+Lets look at $p_x(x)$.
+\begin{align*}
+p(x) = \sum_{i=1}^{2} p_i \delta(x-i) = p_1 \delta(x-1) + p_2 \delta(x-2)
+\end{align*}
+Since we only have two terms, and we know the sum of all of these point masses $\sum_{i=1}^{2}p_i=1$, we know that $p_2 = 1-p_1$
+\begin{align*}
+p(x) = \sum_{i=1}^{2} p_i \delta(x-i) = p_1 \delta(x-1) + (1-p_1) \delta(x-2)
+\end{align*}
+Now to substitute this back into our expression for $p(z)$
+\begin{align*}
+p(z) = \int_{-\infty}^{\infty} p_1 \frac{1}{\sigma \sqrt{2\pi}} e^{-\tfrac{(z-x)^2}{2\sigma^2}} \delta(x-1) dx + \int_{-\infty}^{\infty} (1-p_1) \frac{1}{\sigma \sqrt{2\pi}} e^{-\tfrac{(z-x)^2}{2\sigma^2}} \delta(x-2) dx
+\end{align*}
+Simplifying:
+\begin{align*}
+p(z) = \frac{p_1}{\sigma \sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-\tfrac{(z-x)^2}{2\sigma^2}} \delta(x-1) dx + \frac{(1-p_1)}{\sigma \sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-\tfrac{(z-x)^2}{2\sigma^2}} \delta(x-2) dx
+\end{align*}
+Note here that the dirac delta function has a "sifting property" such that $\int_{-\infty}^{\infty}f(x)\delta(x-a)=f(a)$. Thus these two integrals evaluate to:
+\begin{align*}
+p(z) = \frac{p_1}{\sigma \sqrt{2\pi}} e^{-\tfrac{(z-1)^2}{2\sigma^2}} + \frac{(1-p_1)}{\sigma \sqrt{2\pi}} e^{-\tfrac{(z-2)^2}{2\sigma^2}}
+\end{align*}
+Factoring yields:
+\begin{align*}
+p(z) = \frac{1}{\sigma \sqrt{2\pi}} [p_1 e^{-\tfrac{(z-1)^2}{2\sigma^2}} + (1-p_1) e^{-\tfrac{(z-2)^2}{2\sigma^2}}]
+\end{align*}
+
+
+
+Next we need to find $p(z|x)$. Given that $x$ and $w$ are independent, $p(z|x)$ is given by:
+\begin{align*}
+p(z|x) = p_w(z-x)
+\end{align*}
+$w$ is known to take the form of a gaussian distribution so the pdf is given by:
+\begin{align*}
+p(z|x) = p_w(z-x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\tfrac{(z-x)^2}{2\sigma^2}}
+\end{align*}
+
+
+
+$p(x)$ is given in the problem, thus our posterior is given by:
+\begin{align*}
+p(x|z) =  \frac{\sigma \sqrt{2\pi}}{\sigma \sqrt{2\pi}}  \frac{ e^{-\tfrac{(z-x)^2}{2\sigma^2}} [p_1 \delta(x-1) + (1-p_1) \delta(x-2)]}{[p_1 e^{-\tfrac{(z-1)^2}{2\sigma^2}} + (1-p_1) e^{-\tfrac{(z-2)^2}{2\sigma^2}}]}
+\end{align*}
+Simplified we are left with:
+\begin{align*}
+\boxed { p(x|z) =  \frac{ e^{-\tfrac{(z-x)^2}{2\sigma^2}} [p_1 \delta(x-1) + (1-p_1) \delta(x-2)]}{[p_1 e^{-\tfrac{(z-1)^2}{2\sigma^2}} + (1-p_1) e^{-\tfrac{(z-2)^2}{2\sigma^2}}]} }
+\end{align*}
+
+\subsection*{Part 2}
+With the true posterior distribution in mind, we can apply our estimators and evaluate their efficacy. The maximum a posterior estimator is given by:
+\begin{align*}
+\hat{x}^{MAP} = argmax(p(x|Z)) = argmax(p(Z|x)p(x)))
+\end{align*}
+Note that $argmax$ is essentially searching for the maximizer of the probability function $p(x|Z)$, not the maximum of it(finding the mode of the distribution). As such normalization of the probability function is irrelevant. Since our pdf is nominally discrete due to the dirac delta functions, we only have two values to test. $x=1$ and $x=2$. These are the only two possible maxima. Essentially, the maximize only depends on the value of $p_1$. If $p_1>1-p_1$, then the maximizer is $1$. Otherwise the maximizer is $2$. If they are equal, then the argmax operator returns a set of $1$ and $2$
+\begin{align*}
+\boxed{ \hat{x}^{MAP} = \{1\} \iff p_1 > 1-p_1 } \\
+\boxed{ \hat{x}^{MAP} = \{2\} \iff p_1 < 1-p_1 }\\
+\boxed{ \hat{x}^{MAP} = \{1,2\} \iff p_1 = 1-p_1 }
+\end{align*}
+\clearpage
+\subsection*{Part 3}
+\subsubsection*{MMSE Estimator}
+The minimum mean square error estimator is given by:
+\begin{align*}
+\hat{x}^{MMSE} = \mathbb{E}(x|Z)
+\end{align*}
+Note that our distribution is discrete and so our expectation will involve summing our two terms. As such our $\hat{x}^{MMSE}$ is given by:
+\begin{align*}
+\hat{x}^{MMSE} = \mathbb{E}[ \frac{ e^{-\tfrac{(z-x)^2}{2\sigma^2}} [p_1 \delta(x-1) + (1-p_1) \delta(x-2)]}{[p_1 e^{-\tfrac{(z-1)^2}{2\sigma^2}} + (1-p_1) e^{-\tfrac{(z-2)^2}{2\sigma^2}}]} ]
+\end{align*}
+The to find the expectation we need to integrate over the sample space. Again we can exploit the sifting property of the dirac delta function. But first we have to split it into two terms of the in the form of $\int_{-\infty}^{\infty}f(x)\delta(x-a)$. The denominator can be rewritten in summation notation:
+\begin{align*}
+\hat{x}^{MMSE} = \int_{\infty}^{\infty} x \frac{ e^{-\tfrac{(z-x)^2}{2\sigma^2}} [p_1 \delta(x-1) + (1-p_1) \delta(x-2)]}{ \sum_{i=1}^{2}p_i e^{-\tfrac{(z-i)^2}{2\sigma^2}} } dx
+\end{align*}
+To split this into two terms we distribute the exponential factor in the numerator:
+\begin{align*}
+\hat{x}^{MMSE} = \int_{\infty}^{\infty} \frac{ xp_1 e^{-\tfrac{(z-x)^2}{2\sigma^2}} \delta(x-1) + x(1-p_1) e^{-\tfrac{(z-x)^2}{2\sigma^2}} \delta(x-2)}{ \sum_{i=1}^{2}p_i e^{-\tfrac{(z-i)^2}{2\sigma^2}} } dx
+\end{align*}
+Splitting into two integrals:
+\begin{align*}
+\hat{x}^{MMSE} = \int_{\infty}^{\infty} \frac{ x p_1 e^{-\tfrac{(z-x)^2}{2\sigma^2}} \delta(x-1)}{ \sum_{i=1}^{2}p_i e^{-\tfrac{(z-i)^2}{2\sigma^2}} } dx + \int_{\infty}^{\infty} \frac{ x(1-p_1) e^{-\tfrac{(z-x)^2}{2\sigma^2}} \delta(x-2)}{ \sum_{i=1}^{2}p_i e^{-\tfrac{(z-i)^2}{2\sigma^2}} } dx 
+\end{align*}
+Via the sifting property, these integrals evaluate to:
+\begin{align*}
+\hat{x}^{MMSE} =  \frac{ p_1 e^{-\tfrac{(z-1)^2}{2\sigma^2}}}{ \sum_{i=1}^{2}p_i e^{-\tfrac{(z-i)^2}{2\sigma^2}} }  + \frac{ 2(1-p_1) e^{-\tfrac{(z-2)^2}{2\sigma^2}}}{ \sum_{i=1}^{2}p_i e^{-\tfrac{(z-i)^2}{2\sigma^2}} }
+\end{align*}
+Combining our fraction:
+\begin{align*}
+\hat{x}^{MMSE} =  \frac{ p_1 e^{-\tfrac{(z-1)^2}{2\sigma^2}}+ 2(1-p_1) e^{-\tfrac{(z-2)^2}{2\sigma^2}} }{ \sum_{i=1}^{2} p_i e^{-\tfrac{(z-i)^2}{2\sigma^2}} }
+\end{align*}
+Expanding the denominator:
+\begin{align*}
+\boxed{ \hat{x}^{MMSE} =  \frac{ p_1 e^{-\tfrac{(z-1)^2}{2\sigma^2}}+ 2(1-p_1) e^{-\tfrac{(z-2)^2}{2\sigma^2}} }{ p_1 e^{-\tfrac{(z-1)^2}{2\sigma^2}}+ (1-p_1) e^{-\tfrac{(z-2)^2}{2\sigma^2}} } }
+\end{align*}
+This can also be expressed in summation notation as:
+\begin{align*}
+\hat{x}^{MMSE} =  \frac{ \sum_{i=1}^{2} \tfrac{1}{i} p_i e^{-\tfrac{(z-i)^2}{2\sigma^2}}  }{ \sum_{i=1}^{2} p_i e^{-\tfrac{(z-i)^2}{2\sigma^2}} }
+\end{align*}
+\subsubsection*{MSE}
+The conditional MSE for the MMSE is given by:
+\begin{align*}
+MSE = \mathbb{E}[Var(x|Z)] = \mathbb{E}[ (x-\hat{x})^2 ] = \mathbb{E}[ (\hat{x}^{2} - 2\hat{x} x + x^2 ]
+\end{align*}
+Distributing expectation operator:
+\begin{align*}
+MSE = \mathbb{E}(\hat{x}^{2}) - \mathbb{E} (2\hat{x} x) + \mathbb{E}(x^2)
+\end{align*}
+Note that $\hat{x}$ is not a random variable(has no $x$ dependence). Thus its expectation is simply itself.
+\begin{align*}
+MSE = \hat{x}^{2} - 2\hat{x}\mathbb{E}(x) + \mathbb{E}(x^2)
+\end{align*}
+These expectations are
+\begin{align*}
+\mathbb{E}(x) = \int_{-\infty}^{\infty} x p(x) dx && \mathbb{E}(x^2) = \int_{-\infty}^{\infty} x^2 p(x) dx
+\end{align*}
+Substituting the pdf of x:
+\begin{align*}
+\mathbb{E}(x) = \int_{-\infty}^{\infty} x p_1 \delta(x-1) + x(1-p_1) \delta(x-2) dx && \mathbb{E}(x^2) = \int_{-\infty}^{\infty} x^2 p_1 \delta(x-1) + x^2(1-p_1) \delta(x-2) dx
+\end{align*}
+Again exploiting the sifting property these become:
+\begin{align*}
+\mathbb{E}(x) = p_1 + 2(1-p_1) && \mathbb{E}(x^2) = p_1 + 4(1-p_1)
+\end{align*}
+Substituting these expectations back in to our MSE expression
+\begin{align*}
+MSE = \hat{x}^{2} - 2\hat{x}[p_1 + 2(1-p_1)] + [p_1 + 4(1-p_1)]
+\end{align*}
+Distributing:
+\begin{align*}
+MSE = \hat{x}^{2} - 2\hat{x}p_1 - 4\hat{x}(1-p_1) + p_1 + 4(1-p_1)
+\end{align*}
+Simplifying:
+\begin{align*}
+\boxed{ MSE = \hat{x}^{2} + (2p_1-4)\hat{x} -3p_1+4 }
+\end{align*}
+\subsection*{Part 4}
+Now we evaluate the MMSE for four cases:
+
+Case A:
+\begin{align*}
+\hat{x}^{MMSE} = 1.5 && MSE = 0.25
+\end{align*}
+Case B:
+\begin{align*}
+\hat{x}^{MMSE} = 2 && MSE = 0.5
+\end{align*}
+Case C:
+\begin{align*}
+\hat{x}^{MMSE} = 1.7 && MSE = 0.21
+\end{align*}
+Case D:
+\begin{align*}
+\hat{x}^{MMSE} = 2 && MSE = 0.5
+\end{align*}
+\subsection*{Part 5}
+	These estimates cannot be treated as a meaningful guess at the true EXACT value of x. In reality, we know that x can only be one or two. However, we can use these estimates to guess which value is more probable. For instance, Case C estimates a value of 1.7. 1.7 is a closer value to 2 than 1, so it tells us that the estimator believes the true value is probably 2. In the real world it is usually much less clear cut than this, but this tells me that you have to pay close attention to what you are estimating and what that means.
+
+\end{document} 

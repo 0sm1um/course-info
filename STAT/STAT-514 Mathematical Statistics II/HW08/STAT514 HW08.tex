@@ -1,0 +1,94 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-514 Homework 8}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+We are interested in testing whether or not a coin is balanced ($H_0:p=0.5$ versus $H_1\neq 0.5$) based on the number of heads obtained $Y$ out of 36 tosses of the coin. If we use the
+critical (rejection) region $|y - 18| \geq 4$, what is
+\begin{enumerate}
+\item[a.] The value of P(Type I Error)
+\item[b.] The value of P(Type II Error)
+\item[c.] Suppose the critical region is now changed to $|y-18| \geq 2$. Find the new probability of making a Type I error.
+\end{enumerate}
+\subsection*{Part A}
+\clearpage
+
+\section*{Problem 2}
+Aptitude tests should produce scores with a large amount of variation so that an administrator can distinguish between persons with low aptitude and persons with high aptitude. The standard test used by a certain industry has been producing scores with a standard deviation of 10 points. A new test is given to 20 prospective employees and produces a sample standard deviation of 12 points. Are scores from the new test significantly more variable than scores from the standard? Use $\alpha = 0.01$.
+\subsection*{Part A}
+
+\clearpage
+
+\section*{Problem 3}
+Let $X_1,...,X_n$ be a random sample of size $n$ from a $Uniform(\theta,1)$ population. Define $T=X_{(1)}$.
+\begin{enumerate}
+\item[a.] Derive the density of T (you can quote this from a previous homework problem) and show the family of the distribution has the MLR property.
+\item[b.] Give the UMP test of size $\alpha$ for $H_0 : \theta \leq 0$ versus $H_1 : \theta > 0$. Specify all the required
+constants.
+\item[c.] Suppose we collect a sample of size 10 and observe $t = 0.1$; what is the p-value of the test?
+\end{enumerate}
+\subsection*{Part A}
+\clearpage
+
+\section*{Problem 4}
+Let $Y$ be a random sample of size 1 from a population with density function
+\begin{align*}
+f(y|\theta) =
+\begin{cases} 
+      \theta y^{\theta-1} & 0 \leq y \leq 1 \\
+      0 & \text{ otherwise  }
+   \end{cases}
+\end{align*}
+Where $\theta > 0$
+\begin{enumerate}
+\item[a.] Sketch the power function of the test with rejection region: Y>0.5
+\item[b.] Based on the single observation Y, find a uniformly most powerful test of size $\alpha$ for testing $H_0:\theta = 1$ against $H_1: \theta > 1$.
+\end{enumerate}
+\subsection*{Part A}
+\clearpage
+
+\section*{Problem 5}
+Let $Y_1,...Y_n$ be a random sample of size $n$ from the pdf:
+\begin{align*}
+f(y|\theta) =
+\begin{cases} 
+      \frac{1}{2\theta^3} y^2 e^{-\frac{y}{\theta}} & y>0 \\
+      0 & \text{ otherwise  }
+   \end{cases}
+\end{align*}
+\begin{enumerate}
+\item[a.] Find the rejection region for the most powerful test of $H_0: \theta = \theta_0$ against $H_1:\theta=\theta_1$ assuming $\theta_1>\theta_0$.
+\item[b.]  Is the test given in part (a) uniformly most powerful for the alternative $\theta_1 > \theta_0$
+\end{enumerate}
+\subsection*{Part A}
+\clearpage
+
+\section*{Problem 6}
+Let $X_1,...,X_n$ denote the incomes of $n$ individuals chosen at random from a certain population. Suppose that each $X_i$ has the density:
+\begin{align*}
+f(x|\theta) = \frac{1}{\theta} x^{-(1+\frac{1}{\theta})}, && x>1, \theta>1
+\end{align*}
+\begin{enumerate}
+\item[a.] Show that $T=\sum_{i=1}^{n} ln(X_i) \sim Gamma(n,\theta)$
+\item[b.]  Find the level $\alpha$ UMP test for testing $H_0:\theta \geq \theta_0$ versus $H_1: \theta < \theta_0$, and express the constant in terms of a chi-squared percentile.
+\end{enumerate}
+
+\subsection*{Part A}
+\clearpage
+
+
+\end{document}

@@ -1,0 +1,96 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\graphicspath{ {figures/} }
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-636 Homework 4}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+Done!
+\section*{Problem 2}
+\subsection*{A}
+Our model is given by:
+\begin{align*}
+logit(p(chd|x)) = -4.204+0.081tabacco + 0.1681dl + 0.924famhist + 0.044age
+\end{align*}
+For brevity, lets rename variables to $C=logit, t=tabacco, l=ldl, f=famhist, a=age$
+\begin{align*}
+logit(p(chd=1|x)) = -4.204+0.081t + 0.168ld + 0.924f + 0.044a
+\end{align*}
+Substituting in our variables:
+\begin{align*}
+logit(p(chd=1|x)) = -4.204+0.081 (10) + 0.168(5) + 0.924(0) + 0.044(50) = 19.45
+\end{align*}
+The left hand side of the equation isn't actually $p(chd|x)$, but its actually $log(\frac{p(chd|x)}{1-p(chd|x)})$. So to solve for $p(chd|x)$ we need to solve for the probability function.
+\begin{align*}
+p(chd=1|x) = \frac{e^{19.45}}{1+e^{19.45}} && p(chd=1|x) = 0.4124
+\end{align*}
+\subsection*{B}
+The odds of one event happening vs another is the ratio of the two events:
+\begin{align*}
+\frac{p(p(chd=1|x))}{p(chd=0|x)}
+\end{align*}
+Note here that $p(chd=1|x)$ and $p(chd=0|x)$ are mutually exclusive events and so $p(chd=0|x) = 1-p(chd=1|x)$. Thus our ratio is:
+\begin{align*}
+\frac{p(p(chd=1|x))}{1-p(chd=1|x)} = 0.7018
+\end{align*}
+\subsection*{C}
+If famhist changes from 0 to 1, we have to redo our calculations from part A. Lets substitute in to our logregression equation. Recall $t=tabacco, l=ldl, f=famhist, a=age$
+\begin{align*}
+logit(p(chd=1|x))^* = 19.45+0.924 = 20.374
+\end{align*}
+Solving for $p(chd=1|x)$ again.
+\begin{align*}
+logit(p(C)) = log(\frac{p(chd=1|x)}{1-p(chd=1|x)}) = 20.374 && p(chd=1|x) = 0.6388
+\end{align*}
+Redoing odds calculation:
+\begin{align*}
+\frac{p(p(chd=1|x))}{1-p(chd=1|x)} = 1.76
+\end{align*}
+famhist affects the odds very significantly.
+\subsection*{D}
+\begin{align*}
+\boxed{ p(chd=1|x)) = 0.6388 }
+\end{align*}
+
+\clearpage
+
+\section*{Problem 3}
+%\begin{figure}[hbt!]
+%\centering
+%\includegraphics[width=0.7\linewidth]{PCASummary.png}
+%\caption{PCA Summary given in R}
+%\end{figure}
+\subsection*{Part A}
+
+\begin{tabularx}{0.8\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\raggedleft\arraybackslash}X | }
+ \hline
+   & BTresponse=B & BTresponse=T \\
+ \hline
+ Predicted as FALSE  & 92  & 9  \\
+\hline
+Predicted as TRUE & 3 & 24\\
+\hline
+\end{tabularx}
+
+\subsection*{Part B}
+$X1006_at$ has by far the highest standard error so it should be the first predictor removed.
+
+\end{document}

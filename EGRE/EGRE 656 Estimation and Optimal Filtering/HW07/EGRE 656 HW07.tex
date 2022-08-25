@@ -1,0 +1,268 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{verbatim}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{EGRE-656 Homework 7}
+\author{John Hiles}
+\date\today
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+\section*{Problem 4-2}
+\textbf{Moments of the white noise response of a scalar linear system.}
+Consider the system:
+\begin{align*}
+\dot{x}(t) = \alpha x(t) + \tilde{\nu}(t)
+\end{align*}
+with $\tilde{\nu}(t)$ being white noise with mean $\bar{\nu}$ and variance $q$
+\begin{enumerate}
+\item[a.] Find $\alpha$ such that the mean of the resulting stationary process is $\bar{x}=c$.
+\item[b.] Using a time domain approach, find the autocorrelation of the resulting stationary process.
+\end{enumerate}
+
+\subsection*{Part A.}
+For this problem, we can consider the continuous time state space model:
+\begin{align*}
+\dot{x}(t) = A(t)x(t) + B(t)u(t) + D(t)\tilde{\nu}(t)
+\end{align*}
+For our problem, $A(t)=\alpha$. Note that it has no time dependence. Also note that $B(t)=0$ and $D(t)=1$ and are also time independent.
+\begin{align*}
+\dot{x}(t) = \alpha x(t) + \tilde{\nu}(t)
+\end{align*}
+Hence, the solution to this differential equation is given by:
+\begin{align*}
+x(t) = F(t,t_0)x(t_0) + \int_{t_0}^{t} F(t,\tau) \tilde{\nu}(t)
+\end{align*}
+The transition matrix for a communative $\alpha$ is defined as:
+\begin{align*}
+F(t,t_0)= e^{\int_{t_0}^{t} \alpha d\tau} = e^{\alpha (t-t_0)}
+\end{align*}
+Hence our solution is:
+\begin{align*}
+x(t) = e^{\alpha (t-t_0)}x(t_0) + \int_{t_0}^{t} e^{\alpha (t-\tau)} \tilde{\nu}(t) d\tau
+\end{align*}
+\begin{comment}
+
+The mean of this solution is its expectation:
+\begin{align*}
+\mathbb{E}[x(t)] = \bar{x}(t) = \mathbb{E}[e^{\alpha (t-t_0)}x(t_0) + \int_{t_0}^{t} e^{\alpha t-t_0)} \tilde{\nu}(t) d\tau]
+\end{align*}
+Exploiting the linearity of the expectation operator we can apply it to each term of %the sum.
+\begin{align*}
+\bar{x}(t) = \mathbb{E}[e^{\alpha (t-t_0)}x(t_0)] + \mathbb{E}[ \int_{t_0}^{t} %e^{\alpha (t-t_0)} \tilde{\nu}(t) d\tau]
+\end{align*}
+The left term can be considered constant, and the right expectation can be moved into %the integral term.
+\begin{align*}
+\bar{x}(t) = e^{\alpha (t-t_0)}\mathbb{E}[x(t_0)] + \int_{t_0}^{t} e^{\alpha (t-t_0)} %\mathbb{E}[\tilde{\nu}(t)] d\tau
+\end{align*}
+\end{comment}
+Now consider the differential equation of the mean of this system. Note that it is of the exact same form as the state equation, hence its solution will take the exact same form as the solution to the state equation.
+\begin{align*}
+\bar{x}(t) = \alpha \bar{x}(t) + \bar{\nu}
+\end{align*}
+To find the steady state we take the limit of this as t approaches infinity:
+\begin{align*}
+\lim_{t \rightarrow \infty} \bar{x}(t) = c
+\end{align*}
+\begin{align*}
+c = \lim_{t \rightarrow \infty} \alpha \bar{x} + \bar{\nu}
+\end{align*}
+Like before, the solution to this differential equation takes the form:
+\begin{align*}
+x(t) = F(t,t_0)\bar{x}(t_0) + \int_{t_0}^{t} F(t,\tau) \bar{\nu}d\tau
+\end{align*}
+\begin{align*}
+\bar{x}(t) = e^{\alpha (t-t_0)}\bar{x}(t_0) + \int_{t_0}^{t} e^{\alpha (t-\tau)} \bar{\nu} d\tau
+\end{align*}
+Taking the infininte limit:
+\begin{align*}
+c = \lim_{t \rightarrow \infty} e^{\alpha (t-t_0)}\bar{x}(t_0) + \int_{t_0}^{t} e^{\alpha (t-\tau)} \bar{\nu} d\tau
+\end{align*}
+For any negative value of $\alpha$, this first term disappears.
+\begin{align*}
+c = \lim_{t \rightarrow \infty} \int_{t_0}^{t} e^{\alpha (t-\tau)} \bar{\nu} d\tau
+\end{align*}
+Note that this $\bar{\nu}(\tau)$ is a nonrandom constant
+\begin{align*}
+c = \lim_{t \rightarrow \infty} \bar{\nu} \int_{t_0}^{t} e^{\alpha (t-\tau)} d\tau
+\end{align*}
+This integral is:
+\begin{align*}
+c = \lim_{t \rightarrow \infty} \frac{\bar{\nu}}{\alpha} (\frac{e^{\alpha t}}{e^{\alpha t_0}}- 1)
+\end{align*}
+Again, assuming that $\alpha$ must be negative, this fraction term is eliminated as $t\rightarrow \infty$ leaving us with:
+\begin{align*}
+c = \frac{\bar{\nu}}{\alpha} (-1)
+\end{align*}
+Solving for alpha:
+\begin{align*}
+\boxed{ \alpha = -\frac{\bar{\nu}}{c} }
+\end{align*}
+Thank god its negative.
+\subsection*{Part B}
+The autocorrelation $R$ relates to the autocovariance $V$ in the following way:
+\begin{align*}
+R_{xx}(t_2,t_1) = V_{xx}(t_2,t_1) + \bar{x}(t_1)\bar{x}(t_2)
+\end{align*}
+To find our autocorrelation, we need the mean of $\bar{x}(t_1)$ and $\bar{x}(t_2)$, as well as their autocovariance.
+The Autocovariance is given by:
+\begin{align*}
+V_{xx}(t_2,t_1) = \mathbb{E}([x(t_2)-\bar{x}(t_2)][x(t_1)-\bar{x}(t_1)])
+\end{align*}
+In order to compute both the autocorrelation and autocovariance we now need these four functions:
+\begin{align*}
+x(t_1) && \bar{x}(t_1) \\
+x(t_2) && \bar{x}(t_2)
+\end{align*}
+
+
+
+The solutions are given by:
+\begin{align*}
+x(t) = e^{\alpha (t-t_0)} x(t_0) + \int_{t_0}^{t} e^{\alpha (t-\tau)} \tilde{\nu}(t) d\tau
+\end{align*}
+\begin{align*}
+\bar{x}(t) = e^{\alpha (t-t_0)}\bar{x}(t_0) + \bar{\nu}\int_{t_0}^{t} e^{\alpha (t-\tau)} d\tau
+\end{align*}
+Our solutions are then:
+\begin{align*}
+x(t_1) = e^{\alpha (t_1-t_0)} x(t_0) + \int_{t_0}^{t_1} e^{\alpha (t_1-\tau)} \tilde{\nu}(\tau) d\tau \\
+x(t_2) = e^{\alpha (t_2-t_0)} x(t_0) + \int_{t_0}^{t_2} e^{\alpha (t_2-\tau)} \tilde{\nu}(\tau) d\tau \\
+\end{align*}
+For the mean:
+\begin{align*}
+\bar{x}(t_1) = e^{\alpha (t_1-t_0)}\bar{x}(t_0) + \int_{t_0}^{t_1} e^{\alpha (t_1-\tau)} \bar{\nu} d\tau \\
+\bar{x}(t_2) = e^{\alpha (t_2-t_1)}\bar{x}(t_1) + \int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} \bar{\nu} d\tau
+\end{align*}
+The differences are then:
+\begin{align*}
+x(t_2)-\bar{x}(t_2) = e^{\alpha (t_2-t_1)} x(t_1) + \int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} \tilde{\nu}(\tau) d\tau - e^{\alpha (t_2-t_1)}\bar{x}(t_1) - \int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} \bar{\nu} d\tau
+\end{align*}
+\begin{align*}
+x(t_2)-\bar{x}(t_2) = e^{\alpha (t_2-t_1)}[x(t_1) - \bar{x}(t_1)] +  \int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} [\tilde{\nu}(\tau) - \bar{\nu}] d\tau
+\end{align*}
+For $t_1$
+\begin{align*}
+x(t_1)-\bar{x}(t_1) = e^{\alpha (t_1-t_0)}[x(t_0) - \bar{x}(t_0)] +  \int_{t_0}^{t_1} e^{\alpha (t_1-\tau)} [\tilde{\nu}(\tau) - \bar{\nu}] d\tau
+\end{align*}
+
+\begin{comment}
+Substituting into the autocovariance:
+\begin{align*}
+V_{xx}(t_2,t_1) = \mathbb{E}([e^{\alpha (t_2-t_1)}[x(t_1) - \bar{x}(t_1)] +  \int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} [\tilde{\nu}(\tau) - \bar{\nu}] d\tau] \\
+[e^{\alpha (t_1-t_0)}[x(t_0) - \bar{x}(t_0)] + \int_{t_0}^{t_1} e^{\alpha (t_1-\tau)} [\tilde{\nu}(\tau) - \bar{\nu}] d\tau])
+\end{align*}
+Expanding this product out:
+
+\begin{align*}
+V_{xx}(t_2,t_1) = \mathbb{E}(e^{\alpha (t_2-t_1)}[x(t_1) - \bar{x}(t_1)] \int_{t_0}^{t_1} e^{\alpha (t_1-\tau)} [\tilde{\nu}(\tau) - \bar{\nu}] d\tau]) + \\
+\mathbb{E}(\int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} [\tilde{\nu}(\tau) - \bar{\nu}] d\tau] \int_{t_0}^{t_1} e^{\alpha (t_1-\tau)} [\tilde{\nu}(\tau) - \bar{\nu}] d\tau]) + \\
+\mathbb{E}([e^{\alpha (t_2-t_1)}[x(t_1) - \bar{x}(t_1)][e^{\alpha (t_1-t_0)}[x(t_0) - \bar{x}(t_0)]) + \\
+\mathbb{E}([e^{\alpha (t_1-t_0)}[x(t_0) - \bar{x}(t_0)] \int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} [\tilde{\nu}(\tau) - \bar{\nu}] d\tau])
+\end{align*}
+
+\begin{align*}
+V_{xx}(t_2,t_1) = xt + \\
+ty + \\
+xz + \\
+yz
+\end{align*}
+\end{comment}
+We now have what we need to compute the autocovariance. Recall the autocovariance is:
+\begin{align*}
+V_{xx}(t_2,t_1) = \mathbb{E}([x(t_2)-\bar{x}(t_2)][x(t_1)-\bar{x}(t_1)])
+\end{align*}
+Substituting in the difference for $x(t_2)$
+\begin{align*}
+V_{xx}(t_2,t_1) = \mathbb{E}([e^{\alpha (t_2-t_1)}[x(t_1) - \bar{x}(t_1)] +  \int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} [\tilde{\nu}(\tau) - \bar{\nu}] d\tau][x(t_1)-\bar{x}(t_1)])
+\end{align*}
+Distributing the rightmost factor to everything within the difference of $x(t_2)-\bar{x}(t_2)$:
+\begin{align*}
+V_{xx}(t_2,t_1) = \mathbb{E}(e^{\alpha (t_2-t_1)}[x(t_1) - \bar{x}(t_1)][x(t_1)-\bar{x}(t_1)] +  x(t_1)-\bar{x}(t_1)\int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} [\tilde{\nu}(\tau) - \bar{\nu}] d\tau)
+\end{align*}
+Applying linearity of Expectation operator:
+\begin{align*}
+V_{xx}(t_2,t_1) = e^{\alpha (t_2-t_1)}\mathbb{E}([x(t_1) - \bar{x}(t_1)][x(t_1)-\bar{x}(t_1)]) +  \mathbb{E}[(x(t_1)-\bar{x}(t_1)\int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} [\tilde{\nu}(\tau) - \bar{\nu}] d\tau)]
+\end{align*}
+Take a moment to look at this left expectation term. This is equivalent to $Cov(x(t_1),x(t_1))=P_{xx}$.
+\begin{align*}
+V_{xx}(t_2,t_1) = e^{\alpha (t_2-t_1)} P_{xx}(t_1) +  \mathbb{E}[(x(t_1)-\bar{x}(t_1)\int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} [\tilde{\nu}(\tau) - \bar{\nu}] d\tau)]
+\end{align*}
+Note that for the right expectation term, $x(t_1)-\bar{x}(t_1)$ is constant with respect to $\tau$. And hence it can be distributed into the integral.
+\begin{align*}
+V_{xx}(t_2,t_1) = e^{\alpha (t_2-t_1)} P_{xx}(t_1) +  \mathbb{E}[\int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} [x(t_1)-\bar{x}(t_1)][\tilde{\nu}(\tau) - \bar{\nu}] d\tau)]
+\end{align*}
+Applying the linearity of the Expectation operator to move it into the integral:
+\begin{align*}
+V_{xx}(t_2,t_1) = e^{\alpha (t_2-t_1)} P_{xx}(t_1) +  \int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} \mathbb{E}([x(t_1)-\bar{x}(t_1)][\tilde{\nu}(\tau) - \bar{\nu}]) d\tau
+\end{align*}
+Note that this right term can now be expressed in terms of the Covariance $Cov(x(t_1),\tilde{\nu}(\tau))$ 
+\begin{align*}
+V_{xx}(t_2,t_1) = e^{\alpha (t_2-t_1)} P_{xx}(t_1) +  \int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} Cov(x(t_1),\tilde{\nu}(\tau)) d\tau
+\end{align*}
+Since $Cov(x(t_1),\tilde{\nu}(\tau))=0$ this right integral term disappears entirely.
+\begin{align*}
+V_{xx}(t_2,t_1) = e^{\alpha (t_2-t_1)} P_{xx}(t_1)
+\end{align*}
+
+
+
+
+
+
+
+$P_{xx}(t)$ is said to evolve according to the Lyapunov Differential equation:
+\begin{align*}
+\dot{P}_{xx}(t) = A(t)P_{xx}(t) + P_{xx}A^{T}(t) + D(t)V(t)D'(t)
+\end{align*}
+The Lyapunov Equation has a known solution:
+\begin{align*}
+P_{xx}(t) = F(t,t_0)P_{xx}(t_0)F^{T}(t,t_0) + \int_{t_0}^{t} F(t,\tau) D(\tau) V(\tau) D^T(\tau) F^T(t,\tau) d\tau
+\end{align*}
+A lot of this is known to us already. $A(t)=\alpha$, $D(\tau)=1$, $V(t)=q$, and $F(a,b)=e^{\alpha (a-b)}$
+\begin{align*}
+P_{xx}(t) = e^{2 \alpha (t-t_0)} P_{xx}(t_0) + \int_{t_0}^{t} e^{2 \alpha (t-\tau)} q d\tau
+\end{align*}
+Evaluating the latter integral.
+\begin{align*}
+P_{xx}(t) = e^{2 \alpha (t-t_0)} P_{xx}(t_0) + \frac{q}{2\alpha} e^{-2\alpha t_0} (e^{2\alpha t} - e^{2\alpha t_0})
+\end{align*}
+With some rearrangement we end up with:
+\begin{align*}
+P_{xx}(t) = e^{-2\alpha t_0} \frac{e^{2\alpha t} (2\alpha P_{xx}(t_0) + q) - q e^{2\alpha t_0}}{2\alpha}
+\end{align*}
+
+
+
+Recall our autocovariance was:
+\begin{align*}
+V_{xx}(t_2,t_1) = e^{\alpha (t_2-t_1)} P_{xx}(t_1)
+\end{align*}
+Substituting in $P_{xx}(t_1)$
+\begin{align*}
+V_{xx}(t_2,t_1) =  e^{\alpha (t_2-t_1)} [e^{-2\alpha t_0} \frac{e^{2\alpha t_1} (2\alpha P_{xx}(t_0) + q) - q e^{2\alpha t_0}}{2\alpha}]
+\end{align*}
+
+
+Now with the autocovariance in hand, we can get the autocorrelation function:
+\begin{align*}
+\boxed{ R_{xx}(t_2,t_1) = e^{\alpha (t_2-t_1)} [e^{-2\alpha t_0} \frac{e^{2\alpha t_1} (2\alpha P_{xx}(t_0) + q) - q e^{2\alpha t_0}}{2\alpha}] + \bar{x}(t_1)\bar{x}(t_2) }
+\end{align*}
+Recall that our means are:
+\begin{align*}
+\bar{x}(t_1) = e^{\alpha (t_1-t_0)}\bar{x}(t_0) + \int_{t_0}^{t_1} e^{\alpha (t_1-\tau)} \bar{\nu} d\tau \\
+\bar{x}(t_2) = e^{\alpha (t_2-t_1)}\bar{x}(t_1) + \int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} \bar{\nu} d\tau
+\end{align*}
+As such the Autocorrelation is just a substitution away.
+\begin{align*}
+R_{xx}(t_2,t_1) = e^{\alpha (t_2-t_1)} [e^{-2\alpha t_0} \frac{e^{2\alpha t_1} (2\alpha P_{xx}(t_0) + q) - q e^{2\alpha t_0}}{2\alpha}] + \\ 
++ e^{\alpha (t_1-t_0)}\bar{x}(t_0) + \int_{t_0}^{t_1} e^{\alpha (t_1-\tau)} \bar{\nu} d\tau e^{\alpha (t_2-t_1)}\bar{x}(t_1) + \int_{t_1}^{t_2} e^{\alpha (t_2-\tau)} \bar{\nu} d\tau
+\end{align*}
+
+
+\end{document}

@@ -1,0 +1,251 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-514 Homework 5}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Problem 1}
+Let $X_1,...,X_n$ be a random sample from $\mathcal{N}(0,a\theta^2)$ where $a$ is a known constant and $\theta > 0$.
+\begin{enumerate}
+\item[a.] Express the pdf in the form of an exponential family.
+\item[b.] Show that $T=(\bar{X}, S^2)$ is a sufficient statistic for $\theta$, but the family of distributions is not complete.
+\end{enumerate}
+\subsection*{Part A}
+Our given pdf is:
+\begin{align*}
+X \sim \mathcal{N}(\theta, a \theta^2) = \frac{1}{a^2 \theta^4 \sqrt{2\pi}} e^{-\frac{(x-\theta)^2}{2 a^2 \theta^4}}
+\end{align*}
+To show this is an exponential family we must factor it in the following format:
+\begin{align*}
+f_X(x|\theta) = h(x) g(\theta) e^{\nu(\theta) T(x)}
+\end{align*}
+\begin{align*}
+f_X(x|\theta) = \frac{1}{a^2 \theta^4 \sqrt{2\pi}} e^{-\frac{1}{2 a^2 \theta^4}} e^{x^2+\theta x - \theta^2} = \frac{1}{a^2 \theta^4 \sqrt{2\pi}} e^{-\frac{1}{2 a^2 \theta^4}} e^{-x^2} e^{-\theta^2} e^{\theta x}
+\end{align*}
+Let $h(x)=e^{-x^2}$, $g(\theta)=\frac{1}{a^2 \theta^4 \sqrt{2\pi}}e^{-\frac{1}{2 a^2 \theta^4}} e^{-\theta^2}$, $\nu(\theta)=\theta$, $T(x)=x$. Then:
+\begin{align*}
+f_X(x|\theta) = h(x) g(\theta) e^{\nu(\theta) T(x)} && \boxed{f_X(x|\theta) \text{ Is a part of the exponential family.}}
+\end{align*}
+
+\subsection*{Part B}
+Show that $T=(\bar{X}, S^2)$ is a sufficient statistic for $\theta$, but the family of distributions is not complete.
+\begin{align*}
+T(x) = (\bar{X},S^2)
+\end{align*}
+Our joint pdf for the sample is:
+\begin{align*}
+f_X(x_i|\theta) = \prod_{1}^{i=n} \frac{1}{a^2 \theta^4 \sqrt{2\pi}} e^{-\frac{(x_i-\theta)^2}{2 a^2 \theta^4}} \mathbf{1}\{ \theta > 0 \} = \frac{1}{(a^2 \theta^4 \sqrt{2\pi})^2} e^{-\frac{1}{2 a^2 \theta^4}} e^{\sum_{1}^{i=n}(x_i-\theta)^2} \mathbf{1}\{ \theta > 0 \}
+\end{align*}
+Factoring further:
+\begin{align*}
+f_X(x_i|\theta)= \frac{1}{(a^2 \theta^4 \sqrt{2\pi})^2} e^{-\frac{1}{2 a^2 \theta^4}} e^{\theta^2} e^{-\sum_{1}^{i=n} 2\theta(x_i)} e^{\sum_{1}^{i=n}(x_i^2)} \mathbf{1}\{ \theta > 0 \}
+\end{align*}
+Fischer-Neyman Factorization Theorem states that a statistic $T(X)$ is a sufficient statistic if it can be factored in the following format:
+\begin{align*}
+f(x|\theta) = g(T(x)|\theta)h(x)
+\end{align*}
+Let $h(x)=1$, $T(x) = (\bar{X}, S^2)$ then by Fisher-Neyman factorication theorem
+\begin{align*}
+\boxed{ \text{ T is a sufficient statistic of } \mathcal{N}(0,a\theta^2) }
+\end{align*}
+
+\clearpage
+
+\section*{Problem 2}
+A famous example in genetic modeling (Tanner, 1996 or Dempster, Laird, and Rubin 1977) is a genetic linkage multinomial model, where we observe the multinomial vector
+$(x_1,x_2,x_3,x_4)$ with cell probabilities given by
+$\frac{1}{2} + \frac{\theta}{4}, \frac{1}{4}(1 - \theta),\frac{1}{4}(1 - \theta),\frac{\theta}{4}$
+
+\begin{enumerate}
+\item[a.] Find a sufficient statistic for $\theta$.
+\item[b.] Find a minimal sufficient statistic for $\theta$.
+\end{enumerate}
+
+\subsection*{Part A}
+The joint pdf of this is given by:
+\begin{align*}
+p(x_i|\theta) = \frac{n!}{x_1! x_2! x_3! x_4!} (\frac{1}{2}+\frac{\theta}{4})^{x_1} (\frac{1}{4}(1-\theta))^{x_2} (\frac{1}{4}(1-\theta))^{x_3} (\frac{\theta}{4})^{x_4}
+\end{align*}
+We can factor this:
+\begin{align*}
+p(x_i|\theta) = \frac{n!}{x_1! x_2! x_3! x_4!} e^{x_1 log(\frac{1}{2}+\frac{\theta}{4}) + x_2 log(\frac{1}{4}(1-\theta))+x_3 log(\frac{1}{4}(1-\theta)) + x_4 log(\frac{\theta}{4}) }
+\end{align*}
+Fischer-Neyman Factorization Theorem states that a statistic $T(X)$ is a sufficient statistic if it can be factored in the following format:
+\begin{align*}
+f(x|\theta) = g(T(x)|\theta)h(x)
+\end{align*}
+Let $h(x)=\frac{n!}{x_1! x_2! x_3! x_4!}$, $T(x)=(t_1=x_1,t_2=x_2,t_3=x_3,t_4=x_4,t_5=x_5,t_6=x_6)$, and $g(x)$ be the joint pdf. Thus, $T$ is a sufficient statistic.
+\begin{align*}
+\boxed{ \text{Thus, T is a sufficient statistic.} }
+\end{align*}
+\subsection*{Part B}
+We can demonstrate that $T$ is minimal by taking the ratio of their densities:
+\begin{align*}
+\frac{f(x|\theta)}{f(y|\theta)} = \frac{y_1! y_2! y_3! y_4!}{x_1! x_2! x_3! x_4!} \frac{e^{x_1 log(\frac{1}{2}+\frac{\theta}{4}) + x_2 log(\frac{1}{4}(1-\theta))+x_3 log(\frac{1}{4}(1-\theta)) + x_4 log(\frac{\theta}{4})}}{e^{y_1 log(\frac{1}{2}+\frac{\theta}{4}) + y_2 log(\frac{1}{4}(1-\theta))+y_3 log(\frac{1}{4}(1-\theta)) + y_4 log(\frac{\theta}{4})}}
+\end{align*}
+\begin{align*}
+\boxed{ \text{ If }x_i=y_n\text{, this expression is independant of }\theta\text{, therefore our statistic T is minimally sufficient.} }
+\end{align*}
+\clearpage
+
+\section*{Problem 3}
+Let $X_1,...,X_n$ denote a random sample from the pdf $f(x|\mu) = e^{-(x-\mu)}$, where $-\infty < \mu < x < \infty$. Show that $X_{(1}) = min(X_1,..., X_n)$ is complete sufficient for $\mu$.
+\subsection*{Part A}
+The first order statistic is given by:
+\begin{align*}
+X_{(1)} = n[1-F_x(x|\mu)]^{n-1}f_x(x|\mu) = n e^{-n(x-\mu)}
+\end{align*}
+To test for completeness we need to verify that its expectation is zero for an arbitrary function $g(x)$
+\begin{align*}
+\mathbb{E}(g(X_{(1)}) = 0
+\end{align*}
+This expectation becomes:
+\begin{align*}
+\mathbb{E}(g(X_{(1)}) = \int_{\mu}^{\infty} g(y) n e^{n(x-\mu)} dx
+\end{align*}
+Leibnitz Rule States:
+\begin{align*}
+\frac{\partial }{\partial \theta} \int_{b(\theta)}^{a(\theta)} f(b(\theta))b'(\theta) - f(a(\theta)) a'(\theta)
+\end{align*}
+Via Leibnitz rule.
+\begin{align*}
+0 = \frac{\partial}{\partial \mu} \int_{\mu}^{\infty} g(y) n e^{n(x-\mu)} dx
+\end{align*}
+Thus for all functions $g(y)$ this $\boxed{ X_{(1)}\text{ is complete.} } $
+
+
+
+\clearpage
+
+\section*{Problem 4}
+For each of the following models write down the likelihood function for the parameters involved, based on the random sample $X_1,...,X_n$.
+\subsection*{Part A}
+Our pmf is given by:
+\begin{align*}
+p(k) = \frac{\lambda^k e^{-\lambda}}{k!}
+\end{align*}
+Our joint pdf of the sample is given by the product of each sample:
+\begin{align*}
+\boxed{ P(\theta|k) = \prod_{1}^{i=n} \frac{\lambda^{k_i} e^{-\lambda}}{k_i!} \mathbf{1}\{\lambda > 0 \} = e^{-n \lambda}\prod_{1}^{i=n} \frac{\lambda^k_i}{k_i} \mathbf{1}\{\lambda > 0 \} }
+\end{align*}
+\subsection*{Part B}
+Our pdf is given by:
+\begin{align*}
+p(x) = \frac{1}{\sigma^2 \sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+\end{align*}
+Our joint pdf of the sample is given by the product of each sample:
+\begin{align*}
+P(\theta|x_i) = \prod_{1}^{i=n} \frac{1}{\sigma^2 \sqrt{2\pi}} e^{-\frac{(x_i-\mu)^2}{2\sigma^2}} \mathbf{1}\{\sigma > 0 \}  = \boxed{ \frac{1}{(\sigma^2 \sqrt{2\pi})^n} e^{-\frac{1}{2\sigma^2}\sum_{1}^{i=n} (x_i-\mu)^2} \mathbf{1}\{\sigma > 0 \}}
+\end{align*}
+\subsection*{Part C}
+Our pdf is given by:
+\begin{align*}
+p(x) = \frac{1}{\mu^2 \sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\mu^2}}
+\end{align*}
+Our joint pdf of the sample is given by the product of each sample:
+\begin{align*}
+P(\theta|x_i) = \prod_{1}^{i=n} \frac{1}{\sigma^2 \sqrt{2\pi}} e^{-\frac{(x_i-\mu)^2}{2\sigma^2}} \mathbf{1}\{\mu > 0 \}  = \boxed{ \frac{1}{(\mu^2 \sqrt{2\pi})^n} e^{-\frac{1}{2\mu^2}\sum_{1}^{i=n} (x_i-\mu)^2} \mathbf{1}\{\sigma > 0 \}}
+\end{align*}
+
+\subsection*{Part D}
+Our pdf is given by:
+\begin{align*}
+p(x) = \sim Uniform(0,2 \theta) = \frac{1}{2\theta}
+\end{align*}
+Our joint pdf of the sample is given by the product of each sample:
+\begin{align*}
+\boxed{ P(\theta|x_i) = \prod_{1}^{i=n} \frac{1}{2\theta} \mathbf{1}\{\mu > 0 \}  = \frac{1}{(2\theta)^n} \mathbf{1}\{\theta > 0 \} }
+\end{align*}
+
+\subsection*{Part E}
+Our pdf is given by:
+\begin{align*}
+p(x) = \frac{\theta}{(1+x)^{1+\theta}}
+\end{align*}
+Our joint pdf of the sample is given by the product of each sample:
+\begin{align*}
+\boxed{ P(\theta|x_i) = \prod_{1}^{i=n} \frac{\theta}{(1+x_i)^{1+\theta}} \mathbf{1}\{\theta > 0 \}  = \theta^n \prod_{1}^{i=n} \frac{1}{(1+x_i)^{1+\theta}} \mathbf{1}\{\theta > 0 \} }
+\end{align*}
+
+\clearpage
+
+\section*{Problem 5}
+Suppose that random variables $Y_1,...,Y_n$ satisfy:
+\begin{align*}
+Y_i = \beta x_i + \epsilon_i && i=1,...,n
+\end{align*}
+\begin{enumerate}
+\item[a.] Find a two dimensional sufficient statistic for $(\beta,\sigma^2)$. 
+\item[b.] Find the MLE of $\beta$. Let $\hat{\beta}$ denote the MLE of $\beta$. Show that $\mathbb{E}(\hat{\beta})=\beta$.
+\item[c.] Find the distribution of the MLE of $\hat{\beta}$.
+\item[d.] Assuming $\sigma^2$ is known, find the method of moments estimator of $\beta$. Let $\tilde{\beta}$ denote the method of moments estimator of $\beta$. Show that $\mathbb{E}(\tilde{\beta})$.
+\end{enumerate}
+\subsection*{Part A}
+\subsection*{Part B}
+The MLE estimator is given by
+\begin{align*}
+arg \underset{x}{max} (L(\theta|x))
+\end{align*}
+Where $L$ denotes the likleyhood function. The likleyhood function is given by:
+\begin{align*}
+L(\theta|x) = f(x|\theta) && L(\theta|x_i) = \prod_{i=1}^{n} f(x_i|\theta_i)
+\end{align*}
+So for our random sample we get:
+\begin{align*}
+\prod_{i=1}^{n} \beta x_i + \epsilon_i  = \prod_{i=1}^{n} (\beta x_i) + \prod_{i=1}^{n} \epsilon_i
+\end{align*}
+Simplifying:
+\begin{align*}
+L(\theta|x_i)  = \beta^n \prod_{i=1}^{n} x_i + \frac{1}{(\sigma \sqrt{2\pi})^n} e^{-\tfrac{\sum_{i=1}^{n} x_i^2}{n (2\sigma^2)}}
+\end{align*}
+
+\clearpage
+
+\section*{Problem 6}
+Suppose that $X_1,...,X_n$ constitutes a random sample from a uniform distribution with pdf:
+\begin{align*}
+f(x|\theta) = \begin{cases} 
+      \frac{1}{2\theta + 1} & 0\leq x \leq 2\theta+1 \\
+       0 & x < Otherwise
+   \end{cases}
+\end{align*}
+\begin{enumerate}
+\item[a.] Obtain the MLE of $\theta$.
+\item[b.] Obtain the MLE for the Variance of the underlying distribution.
+\end{enumerate}
+\subsection*{Part A}
+The MLE estimator is given by
+\begin{align*}
+arg \underset{x}{max} (L(\theta|x))
+\end{align*}
+Where $L$ denotes the likleyhood function. The likleyhood function is given by:
+\begin{align*}
+L(\theta|x) = f(x|\theta) && L(\theta|x) = \prod_{i=1}^{n} f(x_i|\theta_i) = \frac{1}{(2\theta + 1)^n}
+\end{align*}
+This likleyhood function is monotonically decreasing and as such, it is maximized at the highest possible value which in this case would be the highest order statistic $X_{(n)}$ As such $\hat{\theta}$
+\begin{align*}
+\boxed{ \hat{\theta} = X_{(n)} = n[\frac{x_n}{2\theta + 1}]^{n-1} \frac{1}{2\theta + 1} }
+\end{align*}
+\subsection*{Part B}
+The Invariance property of the MLE states that for any estimator $\hat{\theta}$, for any continuous function $g(x)$, the MLE of $g(\theta)$ is $g(\hat{\theta})$. . Let $Var(\theta) = Y$
+\begin{align*}
+\boxed{ Y = Var(\hat{\theta})}
+\end{align*}
+
+\clearpage
+
+
+
+\end{document}

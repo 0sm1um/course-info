@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{verbatim}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{EGRE-656 Homework 8}
+\author{John Hiles}
+\date\today
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+\section*{Problem 5-1}
+\textbf{Filter implementation and consistency checking.}
+Consider the system:
+\begin{align*}
+x(k+1) = f x(k) + u(k) + \nu(k)
+\end{align*}
+with $u(k)=1$, $\nu \sim \mathcal{n}(0,q)$ being white noise with measurement movie:
+\begin{align*}
+z(k) = h x(k) + w(k)
+\end{align*}
+Where $w(k) \sim \mathcal{N}(0,r)$ and white. The initial condition for the system is $x(0)$
+\begin{enumerate}
+\item[a.] Find the expression of the steady state variance
+\begin{align*}
+P_{\infty} = \lim_{k \rightarrow \infty} P(k|k)
+\end{align*}
+\item[b.] With the parameters of the problem $f=h=1$, $q=0.01$, $r=1$, simulate a trajectory using a random number generator starting from $x(0)=0$ for $k=1,...,50$
+\item[c.] Let the initial estimate of the state be $\hat{x}(0|0)=\frac{z(0)}{h}$. Determine the corresponding $P(0|0)$ as a function of the parameters of the problem $(h,r)$
+\item[d.] For the values given in 2, estimate the state up to k=50 starting as in 3. List the following:
+\item[e.] Compare the values of $P(k|k)$ for $k=0,...,50$ for the following values of the initial variance: $P(0|0) = 0,1,10$.
+\end{enumerate}
+
+\subsection*{Part A.}
+
+
+\end{document}

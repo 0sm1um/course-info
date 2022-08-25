@@ -1,0 +1,22 @@
+Research Ideas:
+
+Compare and contrast applications for "tracking by detection" and traditional tracking.
+	Traditional tracking:
+		Excels with high measurement frequency
+		Requires mathematical models.
+	Machine Learning:
+		No model needed.
+		Computationally expensive.
+		Good for detecting unexpected things.
+
+Difference Based Machine Learning predicted Linear Gaussian Transition Models
+
+Automated CS:GO image recognition based aiming.
+
+Machine Learning: Given a movie, predict biometric responses such as fear
+
+Machine Learning techniques for generating linear gaussian transition models
+
+Dissertation Ideas:
+Machine Learning based Extended Kalman Filtering
+	- Priority on robustness

@@ -1,0 +1,380 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm,xfrac}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-514 Midterm 2}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+
+\section*{Problem 1}
+We have a random sample from the following distribution:
+\begin{align*}
+\frac{x}{\theta^2} e^{-\frac{x^2}{2\theta^2}}
+\end{align*}
+\subsection*{Part A}
+\textbf{Find the method of moments estimator for $\theta$}
+The first order moment is given by:
+\begin{align*}
+\mathbb{E}(X) = \mathbb{E}(\frac{x}{\theta^2} e^{-\frac{x^2}{2\theta^2}}) = \frac{2}{\theta^2} e^{\frac{1}{2\theta^2}} \int_{0}^{\infty} x e^{-x^2})
+\end{align*}
+\begin{align*}
+\mathbb{E}(X) = \theta \sqrt{\frac{\pi}{2}}
+\end{align*}
+Since $x$ does not appear in this, we can actually solve for $\theta$ directly from this.
+\begin{align*}
+\bar{x} = \theta \sqrt{\frac{\pi}{2}} 
+\end{align*}
+Thus our method of moments estimator is given by:
+\begin{align*}
+\boxed{ \theta = \bar{x}\sqrt{\frac{2}{\pi}} }
+\end{align*}
+
+\subsection*{Part B}
+\textbf{Find the maximum likelihood estimator (MLE) of $\theta$.}
+The MLE is the maximizer of the likleyhood function. The likleyhood function for an iid random sample is given by:
+\begin{align*}
+L(\theta|x) = \prod_{i=1}^{n} f(x_i|\theta) = \prod_{i=1}^{n} \frac{x_i}{\theta^2} e^{\frac{x_i^2}{2\theta^2}}
+\end{align*}
+Simplifying:
+\begin{align*}
+L(\theta|x) = \frac{1}{\theta^{2n}} e^{\frac{1}{2n\theta^2}} e^{\sum_{i=1}^{n} {x_i^2}} \prod_{i=1}^{n} x_i
+\end{align*}
+Instead of solving for the estimator of $\theta$, it would be easier to solve for the estimator of $\theta^2$ as it appears naturally both in the pdf and the likleyhood function. To find the maximizer we can differentiate the likleyhood or log likleyhood function to find the critical points. In this case the log likeyhood is easier:
+\begin{align*}
+ln[L(\theta|x)] = ln[ \frac{1}{\theta^{2n}} e^{\frac{1}{2n\theta^2}} e^{\sum_{i=1}^{n} {x_i^2}} \prod_{i=1}^{n} x_i ]
+\end{align*}
+Applying properties of logarithms:
+\begin{align*}
+ln[L(\theta|x)] = ln[\theta^{2n}] + \frac{1}{2n\theta^2} + \sum_{i=1}^{n} {x_i^2} + \sum_{i=1}^{n} ln[x_i]
+\end{align*}
+Differentiating with respect to $x$
+\begin{align*}
+\frac{\partial}{\partial x} ln[L(\theta|x)] = \sum_{i=1}^{n} {x_i^2} + \sum_{i=1}^{n} ln[x_i] = 2\sum_{i=1}^{n} {x_i} + \sum_{i=1}^{n} \frac{1}{x_i}
+\end{align*}
+We can now express this in terms of the sample mean $\bar{x}$ and the reciprocal mean $\tilde{x}$:
+\begin{align*}
+\frac{\partial}{\partial x} ln[L(\theta|x)] = 2n \bar{x} + \frac{1}{n} \tilde{x}
+\end{align*}
+
+
+The maximizer of this is then:
+\begin{align*}
+\hat{\theta^2} = \frac{1}{2n} \sum_{i=1}^{n} x_i^2
+\end{align*}
+The invariant property of the MLE is such that If $\hat{\theta}$ is the MLE of $\theta$, then for any function $\tau(\theta)$,
+the MLE of $\tau(\theta)$ is $\tau(\hat{\theta})$. In this case, we have the estimator of $\theta^2$, so let $\tau=\sqrt{x}$, then our estimator is:
+\begin{align*}
+\boxed{ \hat{\theta} = \sqrt{\hat{\theta^2}} = \sqrt{ \frac{1}{2n} \sum_{i=1}^{n} x_i^2 } }
+\end{align*}
+
+
+\clearpage
+
+\section*{Problem 2}
+We have a random sample n>2 from the following distribution:
+\begin{align*}
+Exp(\theta) \sim \theta e^{-\theta x} && x>0 & \theta > 0
+\end{align*}
+Find an unbiased estimator which meets the Cramer-Rao Lower Bound.
+\subsection*{Part A}
+According to equation $7.3.11$ in the textbook, an estimator attains the the CRLB if and only if
+\begin{align*}
+a(\theta)[W(x) - \tau(\theta)] = \frac{\partial}{\partial \theta} ln[L(\theta|x)]
+\end{align*}
+In other words this will involve factorizing the derivative of the log likleyhood function. The likleyhood function of the exponential distribution is:
+\begin{align*}
+L(\theta|x_i) = \prod_{i=1}^{n} \theta e^{-\theta x_i} = \theta^n e^{-\theta \sum_{i=1}^{n} x_i} = \theta^n e^{-n \theta \bar{x}}
+\end{align*}
+Now we must compute the derivative of the log likleyhood:
+\begin{align*}
+\frac{\partial}{\partial \theta} ln[\theta^n e^{-n \theta \bar{x}}] \\
+\frac{\partial}{\partial \theta} ( ln[\theta^n] - n \theta \bar{x} ) \\
+\frac{\partial}{\partial \theta} ( n ln[\theta] - n \theta \bar{x} )
+\end{align*}
+Distributing this derivative:
+\begin{align*}
+\frac{n}{\theta} - n \bar{x}
+\end{align*}
+Now let $a(\theta)=-1$, $W(x)= n \bar{x}$, and $\tau(\theta)= \frac{n}{\theta}$. This means that W(x) attains the CRLB so long as it is an unbiased estimator of $\tau(\theta)$. Lets quickly verify this last part.
+\begin{align*}
+\mathbb{E}(n \bar{x}) = \frac{n}{\theta}
+\end{align*}
+\begin{align*}
+\boxed{ \text{ Hence we know W(X) attains the CRLB.} }
+\end{align*}
+
+
+\clearpage
+
+\section*{Problem 3}
+We have a random sample from the following distribution:
+\begin{align*}
+f(x|\theta) = \frac{1}{\sqrt{\pi \theta}} e^{-\frac{x-\mu}{\theta}} && \theta > 0 
+\end{align*}
+\begin{enumerate}
+\item[a.] Find a complete sufficient statistic for $\theta$.
+\item[b.] Find the method of moments estimator of $\theta$.
+\item[c.] Find the maximum likelihood estimator (MLE) of $\theta$.
+\item[d.] Show that $2(\frac{1}{n} \sum_{i=1}^{n} X^{2}_i - \mu^2)$ is a consistent estimator.
+\end{enumerate}
+\subsection*{Part A}
+Note that this distribution is normal according to the distribution:
+\begin{align*}
+f(x|\theta) \sim \mathcal{N}(\mu,\sqrt{\sfrac{\theta}{2}})
+\end{align*}
+As such we know its first and second order moments to be:
+
+
+
+\begin{align*}
+L(\theta|x_i) = \prod_{i=1}^{N} \frac{1}{\sqrt{\pi \theta}} e^{-\frac{x_i-\mu}{\theta}}
+\end{align*}
+
+Lets find the likleyhood function of this distribution:
+\begin{align*}
+L(\theta|x_i) = \frac{1}{(\pi \theta)^{\sfrac{n}{2}}} e^{\sfrac{\mu}{\theta}} e^{-\sum_{i=1}^{n} x_i}
+\end{align*}
+
+
+
+\subsection*{Part B}
+To find the method of moments estimator, lets find the first and second order moments. Note that this distribution is normal according to parameterization:
+\begin{align*}
+f(x|\theta) \sim \mathcal{N}(\mu,\sqrt{\sfrac{\theta}{2}})
+\end{align*}
+As such we know its first and second order moments to be:
+\begin{align*}
+\mathbb{E}(X) = \mu && Var(X) = \sqrt{\sfrac{\theta}{2}}+-
+\end{align*}
+Since x doesn't appear in these expressions, a system of equations is not neccisary and we can solve for $\theta$ directly via the Variance.
+\begin{align*}
+S_n = \sqrt{\sfrac{\theta}{2}} \\
+\theta = 2 (S_n)^2
+\end{align*}
+Thus our method of moments estimator is:
+\begin{align*}
+\boxed{ \tilde{\theta} = 2 (S_n)^2 }
+\end{align*}
+
+
+\subsection*{Part C}
+Before proceeding, lets consider the parameter $\theta$. We have previously stated that our distribution is Normal $\mathcal{N}(\mu,\sqrt{\sfrac{\theta}{2}})$. In other words, theta can be considered to be a function of the Variance. Consider:
+\begin{align*}
+\tau(y) =  2 y^2 && \tau(\sigma) = \theta
+\end{align*}
+The Invariant property of the MLE is such that if $\hat{ \theta }$ is the MLE of $\theta$, then for any function $\tau(x)$, the MLE of $\tau(\theta)$ is $\tau(\hat{\theta})$. The MLE of the Variance of the normal distribution is known to be:
+\begin{align*}
+\hat{\sigma}^2 = \frac{1}{n} \sum_{i=1}^{n} (x_i-\bar{x})^2
+\end{align*}
+By the invariant property of the MLE, we then know:
+\begin{align*}
+\tau(\hat{\sigma}^2) = 2[\frac{1}{n} \sum_{i=1}^{n} (x_i-\bar{x})^2]^2 \\
+\hat{\theta} = \frac{2}{n^2} \sum_{i=1}^{n} (x_i-\bar{x})^4
+\end{align*}
+Note that we can rewrite this expression in terms of the sample variance.
+\begin{align*}
+\boxed{ \hat{\theta} = 2 (S_n)^2 }
+\end{align*}
+It is interesting to note that the method of moments and MLE estimators are the same for this particular Normal distribution.
+
+\subsection*{Part D}
+The estimator in question is:
+\begin{align*}
+W_n = 2(\frac{1}{n} \sum_{i=1}^{n} X^{2}_i - \mu^2) = 2Var(X^2)
+\end{align*}
+Consistency for an estimator $W_n$ is defined as one which converges in probability to the quantity in which it estimates:
+\begin{align*}
+W_n \rightarrow^P \theta & \text{ as } n \rightarrow \infty
+\end{align*}
+
+
+Applying the definition of convergence in probability, the definition can be stated as:
+\begin{align*}
+P(|W_n-\theta| \leq \epsilon) \rightarrow 1 && P(|W_n-\theta| \geq \epsilon) \rightarrow 0
+\end{align*}
+Via Markov's inequality the left side becomes:
+\begin{align*}
+P((W_n-\theta)^2 \geq \epsilon^2) = \frac{\mathbb{E}(W_n-\theta)^2}{\epsilon^2}
+\end{align*}
+Lets now substitute in our estimator to this expression:
+\begin{align*}
+P((W_n-\theta)^2 \geq \epsilon^2) = \frac{\mathbb{E}(2(\frac{1}{n} \sum_{i=1}^{n} X^{2}_i - \mu^2)-\theta)^2}{\epsilon^2}
+\end{align*}
+With some rearrangement, this expression becomes:
+\begin{align*}
+P((W_n-\theta)^2 \geq \epsilon^2) = \frac{\mathbb{E}(2(\frac{1}{n} \sum_{i=1}^{n} X^{2}_i - \mu^2)-\theta)^2}{\epsilon^2}
+\end{align*}
+This can be factored such that:
+\begin{align*}
+P((W_n-\theta)^2 \geq \epsilon^2) = \frac{\mathbb{E}(2\sum_{i=1}^{n} (X^{2}_i - \mu^2)-n\theta)^2}{n^2 \epsilon^2}
+\end{align*}
+With this factor of $n^2$ in the denominator, this is sufficient to say that this markov inequality expression converges to zero as n approaches infinity. As no combination of $\mathbb{E}(X^2)$, $\mathbb{E}(X)$, or $\mathbb{\theta}$ will result in a factor of $n^2$ or greater in the numerator. As such, 
+
+\begin{align*}
+\boxed{ W_n \rightarrow^P \theta \text{ as } n \rightarrow \infty }
+\end{align*}
+
+
+\clearpage
+
+\section*{Problem 4}
+Suppose we have an iid sample from a Poisson population with parameter $\lambda$. Consider the following function of the parameter of interest.
+\begin{align*}
+g(\lambda) = P(X=1)
+\end{align*}
+\begin{enumerate}
+\item[a.] Calculate $g(\lambda)$. Also find the MLE of $g(\lambda)$ based on the sample.
+\item[b.] Is the MLE a consistent estimator of $g(\lambda)$?
+\item[c.] Calculate the CRLB for an unbiased estimator of $g(\lambda)$ based on the sample.
+\end{enumerate}
+\subsection*{Part A}
+\begin{align*}
+g(\lambda) = P(X=1) = \lambda e^{-\lambda}
+\end{align*}
+The function g is then:
+\begin{align*}
+g(x) = x e^{-x}
+\end{align*}
+As with number three, we can use the invariant property of the MLE to get the estimator of $P(X=1)$.
+The MLE of $\lambda$ is known to be:
+\begin{align*}
+\hat{\lambda} = \frac{1}{n} \sum_{i=1}^{n} k_i
+\end{align*}
+As such, 
+\begin{align*}
+\boxed{ g(\hat{\lambda}) = \frac{1}{n} \sum_{i=1}^{n} k_i e^{-\frac{1}{n} \sum_{i=1}^{n} k_i} }
+\end{align*}
+\subsection*{Part B}
+Consistency for an estimator $W_n$ is defined as one which converges in probability to the quantity in which it estimates:
+\begin{align*}
+W_n \rightarrow^P \theta & \text{ as } n \rightarrow \infty
+\end{align*}
+However, since the Poisson distribution is an exponential family, all regularity conditions are met and the MLE of $\boxed{ g(\lambda) \text{ is necessarily consistent(Week 11 Notes)} }$.
+\subsection*{Part C}
+The FIM of the poisson distribution is:
+\begin{align*}
+J = \frac{n}{\lambda}
+\end{align*}
+The CRLB is given by:
+\begin{align*}
+Var(W) \geq \frac{\frac{\partial}{[\partial g(\lambda)} \mathbb{E}(W)]^2 }{J}
+\end{align*}
+Note, as we discussed in class our statistic $W$ in the numerator would be one which directly estimates $g(\lambda)$, and hence it that numerator would be one. Turning our expression into.
+\begin{align*}
+Var(W) \geq \frac{1}{J} 
+\end{align*}
+Thus our CRLB is
+\begin{align*}
+\boxed{ Var(W) \geq \frac{\lambda}{n} }
+\end{align*}
+\clearpage
+
+\section*{Problem 5}
+Suppose we have a random sample of size $n$ from a normal population with parameters $\mu$ and $\sigma^2$. In the context of estimating the population variance $\sigma^2$, consider the estimator 
+\begin{align*}
+W = \rho \sum_{i=1}^{n} (X_i-\bar{X})^2
+\end{align*}
+\begin{enumerate}
+\item[a.] Show that W is a biased estimator $\sigma^2$. Calculate Bias(W).
+\item[b.] Calculate the MSE of W.
+\item[c.] For what value of $\rho$ does W have the minimum MSE?
+\end{enumerate}
+
+\subsection*{Part A}
+Bias is:
+\begin{align*}
+\mathbb{E}(W)-\theta
+\end{align*}
+This is then:
+\begin{align*}
+\mathbb{E}(\rho \sum_{i=1}^{n} (X_i-\bar{X})^2) = \rho \mathbb{E}(\sum_{i=1}^{n} (X_i-\bar{X})^2)\\
+\rho \mathbb{E}(\sum_{i=1}^{n} X_i^2 -\sum_{i=1}^{n}X_i\bar{X}+\sum_{i=1}^{n}\bar{X}^2\\
+\rho \mathbb{E}(\sum_{i=1}^{n} X_i^2 -n\bar{X}\sum_{i=1}^{n}X_i + n\bar{X}^2\\
+\rho \mathbb{E}(\sum_{i=1}^{n} X_i^2 -2n\bar{X}^2 + n\bar{X}^2) \\
+\rho \mathbb{E}(\sum_{i=1}^{n} X_i^2 - n\bar{X}^2) \\
+\rho (n-1)\sigma^2
+\end{align*}
+We now have $\mathbb{E}(W)$, so the bias is then:
+\begin{align*}
+\boxed{ Bias(W) = \rho (n-1)\sigma^2 - \sigma^2 }
+\end{align*}
+
+\subsection*{Part B}
+MSE is given by:
+\begin{align*}
+MSE(T) = Var(W) + [Bias(W)]^2
+\end{align*}
+As such, since we have the bias we now simply need the Variance of W:
+\begin{align*}
+Var(W) = Var[ \rho \sum_{i=1}^{n} (X_i-\bar{X})^2 ]
+\end{align*}
+Continuing from the corresponding spot in part A.
+\begin{align*}
+Var(W) = \rho^2 Var(\sum_{i=1}^{n} X_i^2 - n\bar{X}^2 )\\
+Var(W) = \rho^2 \sum_{i=1}^{n} Var(X_i^2) - Var(n\bar{X}^2) \\
+Var(W) = \rho^2 \sum_{i=1}^{n} Var(X_i^2) - n^2 Var(\bar{X}^2) \\
+\end{align*}
+NOTE: I have no clue what this left variance is so I am doing the rest of this problem symbolically. Let $\sum_{i=1}^{n} Var(X_i^2)=A$ and $\sum_{i=1}^{n}Var(\bar{X}^2)=B$
+\begin{align*}
+\boxed{ Var(W) = \rho^2 [A+ n^2 B] }
+\end{align*}
+
+%\begin{align*}
+%Var(W) = Var[ \rho \sum_{i=1}^{n} (X_i-\bar{X})^2 ] = \rho^2 Var[\sum_{i=1}^{n} (X_i-%\bar{X})^2]
+%\end{align*}
+%This comes out to:
+%\begin{align*}
+%Var(W) = \rho^2 \mathbb{E} [\sum_{i=1}^{n} (X_i-\bar{X})^4] - \rho^2 \mathbb{E}%%%[\sum_{i=1}^{n} (X_i-\bar{X})^2]^2
+%\end{align*}
+%Note that we already computed the right term:
+%\begin{align*}
+%Var(W) = \rho^2 \mathbb{E} [\sum_{i=1}^{n} (X_i-\bar{X})^4] - \rho^2 [(n-1)\sigma^2]^2\%\
+%Var(W) = \rho^2 \mathbb{E} [\sum_{i=1}^{n} (X_i-\bar{X})^4] - \rho^2 (n-1)^2\sigma^4
+%\end{align*}
+%Focusing in on this left term:
+%\begin{align*}
+%\mathbb{E} [\sum_{i=1}^{n} (X_i-\bar{X})^4] \\
+%\mathbb{E} \sum_{i=1}^{n} [X_i^4 - 4X_i^3 \bar{X} + 6X_i^2\bar{X} - 4X_i\bar{X}^3+%\bar{X}^4] \\%
+%\mathbb{E} \sum_{i=1}^{n} [X_i^4 - 4X_i^3 \bar{X} + 6X_i^2\bar{X}^2 - 4X_i\bar{X}^3+%\bar{X}^4]
+%\end{align*}
+%Distributing summation:
+%\begin{align*}
+%\mathbb{E} \sum_{i=1}^{n}X_i^4 - \sum_{i=1}^{n} 4X_i^3 \bar{X} + \sum_{i=1}^{n}%6X_i^2\bar{X}^2 - \sum_{i=1}^{n}4X_i\bar{X}^3+\sum_{i=1}^{n}\bar{X}^4
+%\end{align*}
+%Pulling out sample means (which are constant)
+%\begin{align*}
+%\mathbb{E} [\sum_{i=1}^{n}X_i^4 - 4n\bar{X} \sum_{i=1}^{n}X_i^3 + 6n^2\bar{X}%^2\sum_{i=1}^{n}X_i^2 - 4 n^3 \bar{X}^3\sum_{i=1}^{n}X_i+n^4\bar{X}^4]
+%\end{align*}
+%Distributing expectation operators:
+%\begin{align*}
+%\sum_{i=1}^{n}\mathbb{E}(X_i^4) - 4n\bar{X} \sum_{i=1}^{n}\mathbb{E}(X_i^3) + %6n^2\bar{X}^2\sum_{i=1}^{n}\mathbb{E} (X_i^2) - 4 n^3 \bar{X}^3\sum_{i=1}^{n}\mathbb{E} %(X_i)+n^4\bar{X}^4]
+%\end{align*}
+%This can now be solved via the kth order moments of the normal distribution. For part A %I neglected to write them out but here it feels necessary.
+%\begin{align*}
+%\mathbb{E}[X_i^4] = \mu^4+6\mu^2 \sigma^2 + 3\sigma^2 && \mathbb{E}[X_i^3] = \mu^3 + %3\mu \sigma^2 \\
+%\mathbb{E}[X_i^2] = \mu^2+\sigma^2 && \mathbb{E}[X_i] = \mu
+%\end{align*}
+%Substituting in:
+%\begin{align*}
+%(\mu^4+6\mu^2) - 4n\bar{X} (\mu^3 + 3\mu \sigma^2) + 6n^2\bar{X}^2(\mu^2+\sigma^2) - 4 %n^3 \bar{X}^3(\mu)+n^4\bar{X}^4]
+%\end{align*}
+
+\subsection*{Part C}
+To minimize the MSE, the way would be to use:
+\begin{align*}
+\boxed{ \rho = \frac{1}{n} }
+\end{align*}
+Note that the use of $\rho=\frac{1}{n-1}$ ensures the estimator is unbiased, however $\frac{1}{n}$ results in lower MSE.
+
+\end{document}

@@ -1,0 +1,167 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\graphicspath{ {figures/} }
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-636 HW 07}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+
+\section*{Problem 1}
+\textbf{Ch 7}
+Done!
+
+\section*{Problem 2}
+In this problem, you will perform k-means clustering manually, with K = 2, on a small example
+with n = 10 observations and p = 1 variables. The observations are as follows.
+  \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c}
+    \hline
+    \hline
+    Obs. & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10\\
+    \hline
+    x & 0 & 1 & 2 & 3 & 6 & 7 & 7 & 8 & 10 & 10\\
+    \hline
+    \hline
+  \end{tabular}
+\begin{enumerate}
+\item[a.] Assume that the initial center points are $x_1 = 5$ and $x_2 = 10$. Classify the 10 observations into 2 classes according to the Euclidean distance.
+\item[b.] Update the center points $x_1$ and $x_2$ and reclassify the observations
+\end{enumerate}
+\subsection*{Part A.}
+The K-Means algorithm can be outlined in psuedocode as:
+\begin{enumerate}
+\item[•] Select K points as initial centroids.
+\item[•] Loop:
+\item[•] Form K Clusters by assigning each point to the closest centroid.
+\item[•] Recompute the centroid of each cluster.
+\item[•] Break Loop when Centroids do not change.
+\end{enumerate}
+The problem gives us $K=2$ centroids, located at $x_1=5$ and $x_2=10$. Our two clusters are:
+\begin{align*}
+c_1 = \{0,1,2,3,6,7,7 \} && c_2 = \{ 8, 10, 10\}
+\end{align*}
+Next step is to update $x_1$ and $x_2$ to the new centers of each clusters. The new $x_1=3.71$ and the new centroid of $x_2=9.33$. The new clusters are:
+\begin{align*}
+\boxed{ c_1 = \{ 0,1,2,3,6 \} } && \boxed{ c_2 = \{ 7, 7, 8, 10, 10 \} }
+\end{align*}
+
+
+\clearpage
+
+\section*{Problem 3}
+Suppose that we have four observations, for which we compute a dissimilarity (distance) matrix, given by:
+\begin{align*}
+\begin{bmatrix}
+ 0   & 0.5 & 0.6  & 0.9  \\
+ 0.5 &  0  & 0.7  & 1.0  \\
+ 0.6 & 0.7 &  0   & 0.65 \\
+ 0.9 & 1.0 & 0.65 &  0   \\
+\end{bmatrix}
+\end{align*}
+For instance, the dissimilarity (distance) between the first and second observations is $0.5$, and the dissimilarity (distance) between the second and fourth observations is $1.0$.
+\begin{enumerate}
+\item[a.] Sketch the dendrogram that results from hierarchically clustering these four observations using complete (MAX) linkage.
+\item[b.] Repeat (a), this time using single (MIN) linkage clustering.
+\item[c.] Suppose that we cut the dendograms obtained in (a) and (b) to get two clusters. What
+clustering results will we get in these two cases?
+\end{enumerate}
+\subsection*{Part A.}
+The MAX linkage clustering algorithm is given by.
+\begin{enumerate}
+\item[1.] Compute, or just have a proximity matrix.
+\item[2.] Loop:
+\item[•] Merge 2 closest clusters.
+\item[•] Re link with other clusters via \textbf{furthest} distance between cluster members.
+\item[•] Update proximity matrix to reflect the proximity between the new closter and the original clusters.
+\item[3.] Break Loop when one cluster remains.
+\end{enumerate}
+To manually compute this algorithm, I felt it more intuitive to draw out the 4 measurements in "space". Note that each diagram is one "step" of the loop. So $I_1$ is iteration 1, $I_2$ is the second and so on. Note that I denote each measurement by $z_i$ where i is their respective subscript.
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{MeasInSpace.jpg}
+\caption{Measurements in Space}
+\end{figure}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{partADendogram.jpg}
+\caption{Dendogram for Part A.}
+\end{figure}
+\clearpage
+
+\subsection*{Part B.}
+The MIN linkage clustering algorithm is given by.
+\begin{enumerate}
+\item[1.] Compute, or just have a proximity matrix.
+\item[2.] Loop:
+\item[•] Merge 2 closest clusters.
+\item[•] Re link with other clusters via \textbf{closest} distance between cluster members.
+\item[•] Update proximity matrix to reflect the proximity between the new closter and the original clusters.
+\item[3.] Break Loop when one cluster remains.
+\end{enumerate}
+Here is the clustering of this part:
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{PartBClustering.jpg}
+\caption{The clustering procedure.}
+\end{figure}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{partBDendogram.jpg}
+\caption{Dendogram for Part B.}
+\end{figure}
+
+This scheme has resulted in an entirely different dendogram.
+
+\clearpage
+\subsection*{Part C.}
+The clusters would essentially be the top two clusters of each dendogram.
+So $\{z_1,z_2 \},\{ x_3,x_4 \}$ and $\{z_1,z_2,z_3 \},\{ z_4 \}$
+
+
+\section*{Problem 4}
+Import the criminal rests data of the 50 states using data(USArrests).
+\begin{enumerate}
+\item[a.] Draw a dendrogram using agnes with the default setting. (Do not need to scale the data.)
+\item[b.] Cut the dendrogram to get two clusters. Are Virginia and Maryland in the same group or not? (Hint: Virginia is the 46th observation and Maryland is the 20th.)
+\item[c.] Try the k-means clustering with k = 2. (Do not need to scale the data.) In this case, are Virginia and Maryland in the same group or not?
+\end{enumerate}
+
+\subsection*{Part A.}
+Here is the dendogram. It is not easy to make sense of:
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{unscaleddendogram.png}
+\caption{Cursed Unscaled Dendogram}
+\end{figure}
+\subsection*{Part B.}
+After cutting, Maryland and Virginia are in different groups.
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{partB.png}
+\caption{Source Code used for part B.}
+\end{figure}
+
+\subsection*{Part C.}
+After kmeans clustering, VA and Maryland are still not in the same group.
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{partc.png}
+\caption{Source Code used for part C.}
+\end{figure}
+
+\end{document}

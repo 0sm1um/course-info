@@ -1,0 +1,249 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{EGRE-656 Homework 6}
+\author{John Hiles}
+\date\today
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+\section*{Problem 3-7}
+\textbf{Noise correlated to prior error}
+Consider the random variable x with 
+\begin{align*}
+\mathbb{E}(x) = \bar{x} && Var(x) = \sigma^2_0
+\end{align*}
+The observation
+\begin{align*}
+z=x+w
+\end{align*}
+is made where $w$ is a random variable with 
+\begin{align*}
+\mathbb{E}(w) = 0 && Var(w) = \sigma^2_w && cov(x,w) = \rho\sigma_0\sigma_w
+\end{align*}
+\begin{enumerate}
+\item[a.] Find the LMMSE Estimate of x given z.
+\item[b.] Find the corresponding MMSE.
+\item[c.] Find the $\rho$ which minimizes the MMSE.
+\item[d.] For what value of $\rho$ does this problem have no solution?.
+\end{enumerate}
+
+\subsection*{Part A.}
+The LMMSE Estimator for Gaussian random variables is given by:
+\begin{align*}
+\hat{x} = \bar{x} + \beta (z-\bar{z})
+\end{align*}
+The key component here for our estimate is to calculate our measurement and cross covariance matrices. These matrices are defined respectively as:
+\begin{align*}
+\hat{x} = \bar{x} + \beta (z-\bar{z})
+\end{align*}
+And $\beta$ can be solved for via the orthoganality relation:
+\begin{align*}
+\mathbb{E}([x-\bar{x} - \beta (z-\bar{z})]z)=0
+\end{align*}
+Note that 
+\begin{align*}
+\mathbb{E}(x) = \bar{x} && \mathbb{E}(z) = \bar{x}
+\end{align*}
+Distributing out:
+\begin{align*}
+\mathbb{E}([xz-\bar{x}z - \beta (z-\bar{z})]z)=0
+\end{align*}
+\begin{align*}
+0=\mathbb{E}[xz-\bar{x}z] - \beta \mathbb{E}[z z-\bar{z}z]
+\end{align*}
+\begin{align*}
+0=\mathbb{E}[xz-\bar{x}z] - \beta \mathbb{E}[z^2]- \bar{z}\mathbb{E}(z)
+\end{align*}
+Substituting in $z=x+w$
+\begin{align*}
+0=\mathbb{E}[(x^2+xw)-\bar{x}(x^2+xw)] - \beta Var(z)]
+\end{align*}
+Note that
+\begin{align*}
+Var(z) = Var(x)+Var(w)+2Cov(x,w)=\sigma^2_0+ 2\rho+\sigma_0\sigma_w + \sigma^2_w
+\end{align*}
+Substituting in to our expression:
+\begin{align*}
+0=\mathbb{E}[(x^2+xw)-\bar{x}(x^2+xw)] - \beta (\sigma^2_0+ 2\rho+\sigma_0\sigma_w + \sigma^2_w)]
+\end{align*}
+\begin{align*}
+0=\mathbb{E}(x^2) + \mathbb{E}(xw)- \bar{x}\mathbb{E}(x^2) - \bar{x}\mathbb{E}(xw) - \beta (\sigma^2_0+ 2\rho+\sigma_0\sigma_w + \sigma^2_w)]
+\end{align*}
+Note that $\mathbb{E}(x^2) = Var(x)+\mathbb{E}(x)^2=\sigma_0^2+\bar{x}^2$
+\begin{align*}
+0=\sigma_0^2+\bar{x}^2 - \bar{x}(\sigma_0^2+\bar{x}^2) + \mathbb{E}(xw) - \bar{x}\mathbb{E}(xw) - \beta (\sigma^2_0+ 2\rho+\sigma_0\sigma_w + \sigma^2_w)]
+\end{align*}
+Also note $Cov(x,w)=\mathbb{E}(xw) - \mathbb{E}(x)\mathbb{E}(w) = \mathbb{E}(xw) = \rho\sigma_0^2\sigma_w$
+\begin{align*}
+0=\sigma_0^2+\bar{x}^2 - \bar{x}(\sigma_0^2+\bar{x}^2) + \rho\sigma_0^2\sigma_w - \bar{x}(\rho\sigma_0^2\sigma_w) - \beta (\sigma^2_0+ 2\rho\sigma_0\sigma_w + \sigma^2_w)]
+\end{align*}
+To solve for beta:
+\begin{align*}
+\beta (\sigma^2_0+ 2\rho\sigma_0\sigma_w + \sigma^2_w) =\sigma_0^2 + \rho\sigma_0^2\sigma_w
+\end{align*}
+Dividing both sides:
+\begin{align*}
+\beta = \frac{ \sigma_0^2 + \rho\sigma_0\sigma_w}{\sigma^2_0+ 2\rho\sigma_0\sigma_w + \sigma^2_w}
+\end{align*}
+Factoring:
+\begin{align*}
+\beta = \frac{ \sigma_0^2 + \rho\sigma_0\sigma_w}{\sigma^2_0+ 2\rho\sigma_0\sigma_w + \sigma^2_w}
+\end{align*}
+Substituting beta into the estimator:
+\begin{align*}
+\boxed{ \hat{x} = \bar{x} + \frac{ \sigma_0^2 + \rho\sigma_0\sigma_w}{\sigma^2_0+ 2\rho\sigma_0\sigma_w + \sigma^2_w} (z-\bar{z}) }
+\end{align*}
+\subsection*{Part B}
+The MMSE is given by $x-\hat{x}$
+\begin{align*}
+\boxed{ \tilde{x} = x - \bar{x} - \frac{ \sigma_0^2 + \rho\sigma_0\sigma_w}{\sigma^2_0+ 2\rho\sigma_0\sigma_w + \sigma^2_w} (z-\bar{z}) }
+\end{align*}
+
+\subsection*{Part C}
+Before differentiating with respect to $\rho$, lets look at our expression for beta. We have a term of $\rho\sigma_0 \sigma_w$ which appears in the numerator and denominator. However the denominator term is twice as large ensuring that as rho changes, the denominator will always be greater. The bigger rho is, the more those terms dominate the fraction.
+
+In this way, error will be minimized at the extrema which are
+\begin{align*}
+\rho = \pm 1
+\end{align*}
+
+
+\subsection*{Part D}
+To make a solution impossible, the value of $\rho$ would have to make the denominator undefined. This can be found by solving the equation:
+\begin{align*}
+0=\sigma^2_0+ 2\rho\sigma_0\sigma_w + \sigma^2_w
+\end{align*}
+Subtracting variances to the other side:
+\begin{align*}
+2\rho\sigma_0\sigma_w + \sigma^2_w = -\sigma^2_0 -\sigma^2_w
+\end{align*}
+Dividing other factors:
+\begin{align*}
+\boxed{ \rho = -\frac{\sigma^2_0+\sigma^2_w}{2\sigma_0\sigma_w} }
+\end{align*}
+\clearpage
+
+\section*{Problem 3-9}
+\textbf{LMMSE Estimation for vectors}
+Let 
+\begin{align*}
+y=A x_1 + B x_2 \\
+z = C y+ D w
+\end{align*}
+Be vectors of suitable dimensions, with the matricies $A, B, C, D$ known.
+\begin{align*}
+x_i \sim (\bar{x}_i,P_{i,i})
+\end{align*}
+(i.e. distributed with the indicated mean and covariance)
+\begin{align*}
+cov(x_i,x_j) = P_{i,j}
+\end{align*}
+and 
+\begin{align*}
+w \sim (\bar{w}, P_w) 
+\end{align*}
+orthogonal along $x_i$.
+\begin{enumerate}
+\item[a.] Find the LMMSE estimate of z in terms of 
+\item[b.] Find the corresponding MMSE.
+\end{enumerate}
+
+\subsection*{Part A.}
+The LMMSE Estimator for Gaussian random variables is given by:
+\begin{align*}
+\hat{x} = \bar{x} + P_{xz}P_{zz} (z-\bar{z}) && P_{xx|z} = P_{xx} - P_{xz} P_{zz}^{-1} P_{xz}^T
+\end{align*}
+The key component here for our estimate is to calculate our measurement and cross covariance matrices. Lets define $y=<Ax_1,Bx_2>$. These matrices are defined respectively as:
+\begin{align*}
+P_{yz} = \mathbb{E}[(y-\bar{y})(z-\bar{z})^T] && P_{zz} = \mathbb{E}[(z-\bar{z})(z-\bar{z})^T]
+\end{align*}
+First lets solve for the mean of $y$ and $z$
+\begin{align*}
+\bar{y}=\mathbb{E}(y) = A\bar{x}_1 + B\bar{x}_2 && \bar{z} = \mathbb{E}(z) = CA\bar{x}_1 + CB\bar{x}_2 + D\bar{w}
+\end{align*}
+Recall
+\begin{align*}
+y=A x_1 + B x_2 && z = C A x_1 + C B x_2+ D w
+\end{align*}
+Solving for the cross covariance:
+\begin{align*}
+P_{yz} = \mathbb{E}[(A x_1 + B x_2-[A\bar{x}_1 + B\bar{x}_2])(C A x_1 + C B x_2+ D w-[CA\bar{x}_1 + CB\bar{x}_2 + D\bar{w}])^T] \\
+P_{yz} = \mathbb{E}[(A x_1 + B x_2-A\bar{x}_1 - B\bar{x}_2)(C A x_1 + C B x_2+ D w-CA\bar{x}_1 - CB\bar{x}_2 - D\bar{w})^T]
+\end{align*}
+Combining like terms:
+\begin{align*}
+P_{yz} = \mathbb{E}[(A (x_1-\bar{x}_1) + B [x_2-\bar{x}_2]) (CA(x_1-\bar{x}_1) + CB(x_2-\bar{x}_2) + D[w-\bar{w}])^T]
+\end{align*}
+Distributing transpose operator:
+\begin{align*}
+P_{yz} = \mathbb{E}[(A (x_1-\bar{x}_1) + B [x_2-\bar{x}_2]) ((x_1-\bar{x}_1)^T A^T C^T + (x_2-\bar{x}_2)^T B^T C^T + [w-\bar{w}]^T D^T)]
+\end{align*}
+Now distributing out the left term to the three terms on the right:
+\begin{align*}
+P_{yz} = \mathbb{E}[ (A (x_1-\bar{x}_1) + B [x_2-\bar{x}_2])(x_1-\bar{x}_1)^T A^T C^T + (A (x_1-\bar{x}_1) +... \\B [x_2-\bar{x}_2])(x_2-\bar{x}_2)^T B^T C^T + (A (x_1-\bar{x}_1) + B [x_2-\bar{x}_2])[w-\bar{w}]^T D^T)]
+\end{align*}
+Distributing the transposed terms to the thing we just distributed:
+\begin{align*}
+P_{yz} = \mathbb{E}[A(x_1-\bar{x}_1)(x_1-\bar{x}_1)^TA^TC^T] + \mathbb{E}[A(x_1-\bar{x}_1)(x_2-\bar{x}_2)^T B^T C^T] +...\\
++ \mathbb{E}[A(x_1-\bar{x}_1)(w-\bar{w})^T D^T] + \mathbb{E}[B(x_2-\bar{x}_2)(x_1-\bar{x}_1)^T A^T C^T] + ...\\ 
++ \mathbb{E}[B(x_2-\bar{x}_2)(x_2-\bar{x}_2)^T B^T C^T] + \mathbb{E}[B(x_2-\bar{x}_2)(w-\bar{w})^T D^T]
+\end{align*}
+Note that these are all covariances:
+\begin{align*}
+P_{yz} = A Cov(x_1,x_1) A^TC^T + A Cov(x_1,x_2) B^T C^T +...\\
++ A Cov(x_1,w) D^T + B Cov(x_2,x_1) A^T C^T + ...\\ 
++ B Cov(x_2,x_2) B^T C^T + B Cov(x_2,w) D^T
+\end{align*}
+Recall that $Cov(x_i,w)=0$ and that the other covariances are defined in the problem intro.
+\begin{align*}
+P_{yz} = A P_{11} A^TC^T + A P_{12} B^T C^T + B P_{21} A^T C^T + B P_{22} B^T C^T
+\end{align*}
+The measurement covariance is then:
+\begin{align*}
+P_{zz} = \mathbb{E}[(C A x_1 + C B x_2+ D w-CA\bar{x}_1 - CB\bar{x}_2 - D\bar{w})(C A x_1 + C B x_2+ D w-CA\bar{x}_1 - CB\bar{x}_2 - D\bar{w})^T]
+\end{align*}
+Combining differences:
+\begin{align*}
+P_{zz} = \mathbb{E}[(C A[x_1 - \bar{x}_1] + C B [x_2-\bar{x}_2]+ D [w - \bar{w}])(C A[x_1 - \bar{x}_1] + C B [x_2-\bar{x}_2]+ D [w - \bar{w}])^T]
+\end{align*}
+It would be easy to work with this in terms of $y$ instead of $x$.
+\begin{align*}
+P_{zz} = \mathbb{E}[(C [y-\bar{y}]+ D [w - \bar{w}])(C (C [y-\bar{y}]+ D [w - \bar{w}])^T]
+\end{align*}
+This evaluates to:
+\begin{align*}
+P_{zz} = C Cov(y,y) C^T + C Cov(y,w) D^T + D Cov(w,y) C^T + D P_w D^T
+\end{align*}
+Note that the noise is uncorrelated with the measurements so this becomes:
+\begin{align*}
+P_{zz} = C Cov(y,y) C^T + D P_w D^T
+\end{align*}
+This covariance is then:
+\begin{align*}
+P_{yy} = \mathbb{E}[(A (x_1-\bar{x}_1) + B [x_2-\bar{x}_2]) (A (x_1-\bar{x}_1) + B [x_2-\bar{x}_2])^T] \\
+P_{yy} = A P_{1,1} A^T + A P_{1,2} B^T + BP_{2,1} A^T + BP_{2,2} B^T
+\end{align*}
+Substituting back into the measurement covariance:
+\begin{align*}
+P_{zz} = C A P_{1,1} A^T + C A P_{1,2} B^T + CBP_{2,1} A^T + C B P_{2,2} B^T C^T + D P_w D^T
+\end{align*}
+So our final expressions for the covariances are:
+\begin{align*}
+\boxed{ P_{yz} = A P_{11} A^TC^T + A P_{12} B^T C^T + B P_{21} A^T C^T + B P_{22} B^T C^T }
+\end{align*}
+\begin{align*}
+\boxed{ P_{zz} = C A P_{1,1} A^T + C A P_{1,2} B^T + CBP_{2,1} A^T + C B P_{2,2} B^T C^T + D P_w D^T }
+\end{align*}
+The Estimate and MMSE then are given by:
+\begin{align*}
+\hat{x} = \bar{x} + P_{xz}P_{zz} (z-\bar{z}) && P_{xx|z} = P_{xx} - P_{xz} P_{zz}^{-1} P_{xz}^T
+\end{align*}
+These are defined so long as the measurement covariance is invertible.
+
+\end{document}

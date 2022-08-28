@@ -4,6 +4,8 @@
 \usepackage{amssymb,amsmath,amsthm}
 \usepackage{verbatim}
 \usepackage{geometry}
+\usepackage{graphicx}
+\graphicspath{ {figures/} }
 \geometry{legalpaper, margin=1.5in}
 
 \title{EGRE-656 Homework 8}
@@ -19,23 +21,123 @@ Consider the system:
 \begin{align*}
 x(k+1) = f x(k) + u(k) + \nu(k)
 \end{align*}
-with $u(k)=1$, $\nu \sim \mathcal{n}(0,q)$ being white noise with measurement movie:
+with $u(k)=1$, $\nu \sim \mathcal{N}(0,q)$ being white noise with measurement movie:
 \begin{align*}
 z(k) = h x(k) + w(k)
 \end{align*}
 Where $w(k) \sim \mathcal{N}(0,r)$ and white. The initial condition for the system is $x(0)$
 \begin{enumerate}
-\item[a.] Find the expression of the steady state variance
+\item[1.] Find the expression of the steady state variance
 \begin{align*}
 P_{\infty} = \lim_{k \rightarrow \infty} P(k|k)
 \end{align*}
-\item[b.] With the parameters of the problem $f=h=1$, $q=0.01$, $r=1$, simulate a trajectory using a random number generator starting from $x(0)=0$ for $k=1,...,50$
-\item[c.] Let the initial estimate of the state be $\hat{x}(0|0)=\frac{z(0)}{h}$. Determine the corresponding $P(0|0)$ as a function of the parameters of the problem $(h,r)$
-\item[d.] For the values given in 2, estimate the state up to k=50 starting as in 3. List the following:
-\item[e.] Compare the values of $P(k|k)$ for $k=0,...,50$ for the following values of the initial variance: $P(0|0) = 0,1,10$.
+\item[2.] With the parameters of the problem $f=h=1$, $q=0.01$, $r=1$, simulate a trajectory using a random number generator starting from $x(0)=0$ for $k=1,...,50$
+\item[3.] Let the initial estimate of the state be $\hat{x}(0|0)=\frac{z(0)}{h}$. Determine the corresponding $P(0|0)$ as a function of the parameters of the problem $(h,r)$
+\item[4.] For the values given in 2, estimate the state up to k=50 starting as in 3. List the following:
+\item[5.] Compare the values of $P(k|k)$ for from the result in part 2 with the simulated result.
+\item[6.] Compare the values of $P(k|k)$ for $k=0,...,50$ for the following values of the initial variance: $P(0|0) = 0,1,10$.
 \end{enumerate}
 
-\subsection*{Part A.}
+\subsection*{Part 1.}
+The covariance can be found via the steady state riccati equation:
+\begin{align*}
+P(k+1|k) = F[P-PH^T (HPH^T+R)^{-1} HP]F^T + Q
+\end{align*}
+Recall that $F=H=1$
+\begin{align*}
+P(k+1|k) = [P-P(P+R)^{-1} P] + Q
+\end{align*}
+Note we are dealing with a scalar system:
+\begin{align*}
+P(k+1|k) = P-\frac{P^2}{(P+R)} + Q
+\end{align*}
+Subtracting from both sides
+\begin{align*}
+0= \frac{P^2}{(P+R)} + Q \\
+Q = \frac{P^2}{(P+R)} \\ 
+\frac{Q(P+R)}{P^2} = 1 \\ 
+0 = \frac{Q(P+R)}{P^2} - 1
+\end{align*}
+Expanding this via partial fraction decomposition yields:
+\begin{align*}
+0 = \frac{Q R}{P^2} + \frac{Q}{P} - 1
+\end{align*}
+Via quadratic formula the solutions then are:
+\begin{align*}
+P(k+1|k) = \frac{Q}{2} \pm \frac{\sqrt{Q} \sqrt{4R+Q}}{2}
+\end{align*}
+This represents the Covariance of the state prior to being updated by the latest measurement. So we can simply propagate this through the Kalman Updating scheme once to solve for the posterior covariance. Let $P=P(k+1|k)$
+\begin{align*}
+P(k+1|k+1) = P - W(k+1)S(k+1)W^T(k+1)
+\end{align*}
+In this case the innovation is:
+\begin{align*}
+S(k+1) = R+H P H^T = R+ H^2 P
+\end{align*}
+The Kalman Gain is:
+\begin{align*}
+W(k+1) = P H^T S^{-1} = \frac{H P}{R+H^2P} = W^T(k+1)
+\end{align*}
+The posterior covariance is then:
+\begin{align*}
+\boxed{ P(k+1|k+1) = P - \frac{H^2 P^2 (R+ H^2 P)}{(R+H^2P)^2} }
+\end{align*}
+
+\clearpage
+
+\subsection*{Part 2.}
+This problem must be completed in MATLAB. Enclosed in this folder will be the MATLAB source code used to simulate this.
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{trajectory.png}
+\caption{Trajectory}
+\end{figure}
+
+\clearpage
+\subsection*{Part 3.}
+$\hat{x}(0|0) = \frac{z_0}{h}$. Recall also $h=1$ so $\hat{x}(0|0) = z_0$. Note that this estimate takes the form of a Gaussian distribution. As such:
+\begin{align*}
+\mathbb{E}[\hat{x}(0|0)] = \mathbb{E}[\frac{z_0}{h}] && P(0|0) = Cov(\frac{z_0}{h})
+\end{align*}
+Note that $z_0= x + r$
+\begin{align*}
+\boxed{ \mathbb{E}[\frac{x+r}{h}] \frac{x}{h} } && \boxed{ Cov(\frac{x+r}{h}) = \frac{r}{h^2} }
+\end{align*}
+
+\clearpage
+\subsection*{Part 4.}
+To demonstrate that I have implemented the filter, here is a plot of the ground truth, measurements, and the Kalman Filter.
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{trajMeasEsti.png}
+\caption{Figure of tracking.}
+\end{figure}
+
+Note, the rest of the information is enclosed in a spreadsheet which is included in this homework submission.
+
+\clearpage
+\subsection*{Part 5.}
+The final value of $P(50|50)=0.095135851179683$. Our solutions calculated in part 2 were.
+\begin{align*}
+P(k+1|k+1) = P - \frac{H^2 P^2 (R+ H^2 P)}{(R+H^2P)^2} = 0.95124921973 \text{ or } -0.105124921973
+\end{align*}
+Our absolute error of the value our solution seems to converge to is then:
+\begin{align*}
+\boxed{ \tilde{P} = |0.095124921973-0.095135851179683| = 1.0929 \times 10^{-05 } }
+\end{align*}
+
+\clearpage
+\subsection*{Part 6.}
+Here are our plots of the Covariances. Note that all three converge incredibly quickly to the same value.
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{Cov.png}
+\caption{Figure of Covariances initialized with different values.}
+\end{figure}
+
 
 
 \end{document}

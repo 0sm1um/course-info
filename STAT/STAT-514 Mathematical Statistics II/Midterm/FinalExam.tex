@@ -1,0 +1,440 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm,xfrac}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+\usepackage{graphicx}
+\graphicspath{ {figures/} }
+
+\title{STAT-514 Final Exam}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+
+\section*{Problem 1}
+Suppose that the random variables $Y_1, Y_2, . . . , Y_n$ satisfy
+\begin{align*}
+Y_i = \beta x_i + \epsilon , && i = 1,2,...,n
+\end{align*}
+Where $\epsilon \sim \mathcal{N}(0,\sigma^2)$
+\subsection*{Part A}
+\textbf{Find a two dimensional sufficient statistic for $(\beta,\sigma^2)$}
+
+An interesting fact, is this is known as the "measurement equation" in engineering, where sensor noise is assumed to be gaussian and distributed around the mean true quantity being measured. In this case, beta is a linear map from the state space to measurement space. This question is asking how the state relates to the measurement. Another thing to note is $x_i$ aren't all the same but they don't need to be, since we are concerned with the mapping from $x_i$ to $y_i$ An important thing to note is that $Y_i$ are all gaussian as well.
+\begin{align*}
+\mathbb{E}(Y_i) = \beta\mathbb{E}(X_i) && Var(Y_i) = Var(\epsilon_i)
+\end{align*}
+As such:
+\begin{align*}
+Y_i \sim \mathcal{N}(\beta x_i, \sigma^2)
+\end{align*}
+Our joint pdf/likleyhood function then is the product of these gaussian pdfs:
+\begin{align*}
+f(y_i|\beta) = \prod_{i=1}^{i} \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(y_i - \beta x_i)^2}{2\sigma^2}}
+\end{align*}
+
+\begin{align*}
+f(y_i|\beta) = \frac{1}{\sigma^n (2 \pi)^{\frac{n}{2}}} e^{-\frac{1}{2\sigma^2}} e^{\sum_{i=1}^{n}(y_i - \beta x_i)^2}
+\end{align*}
+Expanding the squared exponent:
+\begin{align*}
+f(y_i|\beta) = \frac{1}{\sigma^n (2 \pi)^{\frac{n}{2}}} e^{-\frac{1}{2\sigma^2}} e^{\sum_{i=1}^{n}y_i^2 - 2 \beta \sum_{i=1}^{n} y_i x_i + \beta^2 \sum_{i=1}^{n} x_i^2)}
+\end{align*}
+Fischer-Neyman Factorization Theorem states that a statistic $T(X)$ is a sufficient statistic if it can be factored in the following format:
+\begin{align*}
+f(x|\beta) = g(T(x)|\beta)h(x)
+\end{align*}
+Where $f(x|\theta)$ is the joint pdf of the sample, and $g(T|\beta)$,$h(x)$ is any arbitrary function. Given that our sample is iid, its joint distribution is the product of each of the members of the sample together.
+In this case, let $T=(t_1,t_2)=(\sum_{i=1}^{n}y_i, \sum_{i=1}^{n}x_i y_i)$, $h(x)=\frac{1}{(2\pi)^{\frac{n}{2}}} $, $g(T|\beta,\sigma^2) = \frac{1}{\sigma^n} e^{-\frac{1}{2 \sigma^2}} e^{t_1} e^{-\beta t_2} e^{\beta^2 \sum_{i=1}^{n} x_i^2}$
+\begin{align*}
+f(x|\beta) = g(T(x)|\beta)h(x)
+\end{align*}
+Thus by Fischer-Neymann theorem $(t_1, t_2)$ is a sufficient statistic of $(\beta,\sigma^2)$.
+
+
+\subsection*{Part B}
+\textbf{Show that the maximum likelihood estimator of $\beta$ is given by}
+\begin{align*}
+\hat{\beta} = \frac{\sum_{i=1}^{n} x_i Y_i}{\sum_{i=1}^{n} x_i^2}
+\end{align*}
+Recall that:
+\begin{align*}
+Y_i \overset{i.i.d.}{\sim} \mathcal{N}(\beta x_i, \sigma^2)
+\end{align*}
+And the likleyhood function is:
+\begin{align*}
+f(y_i|\beta) = \frac{1}{\sigma^n (2 \pi)^{\frac{n}{2}}} e^{-\frac{1}{2\sigma^2}} e^{\sum_{i=1}^{n}y_i^2 - 2 \beta \sum_{i=1}^{n} y_i x_i + \beta^2 \sum_{i=1}^{n} x_i^2)}
+\end{align*}
+The log likleyhood is then:
+\begin{align*}
+ln[f(y_i|\beta)] = ln[ \frac{1}{\sigma^n (2 \pi)^{\frac{n}{2}}} e^{-\frac{1}{2\sigma^2}} e^{\sum_{i=1}^{n}y_i^2 - 2 \beta \sum_{i=1}^{n} y_i x_i + \beta^2 \sum_{i=1}^{n} x_i^2)} ]
+\end{align*}
+
+\begin{align*}
+ln[f(y_i|\beta)] = - \frac{n}{2} ln(\sigma^2) - \frac{n}{2} ln(2 \pi) - \frac{1}{2\sigma^2} - (\sum_{i=1}^{n} y_i - 2\beta \sum_{i=1}^{n} y_i x_i + \beta^2 \sum_{i=1}^{n} x_i^2)
+\end{align*}
+Now when we differentiate with respect to $\beta$, everything except the terms with beta in them disappear:
+\begin{align*}
+\frac{\partial}{\partial \beta} ln[f(y_i|\beta)] = \frac{\partial}{\partial \beta}[ 2\beta \sum_{i=1}^{n} y_i x_i - \beta^2 \sum_{i=1}^{n} x_i^2 ]
+\end{align*}
+To make this easier to understand lets write this in terms of t:
+\begin{align*}
+\frac{\partial}{\partial \beta} ln[f(y_i|\beta)] = \frac{\partial}{\partial \beta}[ 2\beta t_1 - \beta^2 t_1 ] = 2 t_1 - 2 \beta t_1
+\end{align*}
+Setting equal to zero:
+\begin{align*}
+0 = 2 t_1 - 2 \beta t_1
+\end{align*}
+\begin{align*}
+\beta = \frac{t_2}{\beta t_1}
+\end{align*}
+Thus our MLE is:
+\begin{align*}
+\hat{\beta} = \frac{\sum_{i=1}^{n} x_i Y_i}{\sum_{i=1}^{n} x_i^2}
+\end{align*}
+
+To check it is unbiased we simply take the expectation.
+\begin{align*}
+\mathbb{E}(\hat{\beta}) = \mathbb{E}(\frac{\sum_{i=1}^{n} x_i Y_i}{\sum_{i=1}^{n} x_i^2})
+\end{align*}
+\begin{align*}
+\mathbb{E}(\hat{\beta}) = \mathbb{E}(\frac{\sum_{i=1}^{n} Y_i}{\sum_{i=1}^{n} x_i})
+\end{align*}
+\begin{align*}
+\mathbb{E}(\hat{\beta}) = \mathbb{E}(\frac{n \beta x_i}{n x_i}) = \beta
+\end{align*}
+Thus since the expectation of our estimator is $\beta$, our estimator is unbiased.
+\subsection*{Part C.}
+This problem is very simple. $x_i$ is assumed to be a nonrandom but unknown constant. The only random variable in $\hat{\beta}$ is $Y$ and Y is Gaussian. Using properties of Gaussians we know that
+\begin{align*}
+Y_i \sim \mathcal{N}(\beta x_i, \sigma^2)
+\end{align*}
+As such, the MLE is just a linear combination of a Gaussian.
+\begin{align*}
+\frac{1}{x_i} Y_i \sim \mathcal{N}(\beta, \frac{\sigma^2}{x_i^2})
+\end{align*}
+\clearpage
+
+\section*{Problem 2}
+
+\subsection*{Part A}
+The method of moments estimator can be found for solving for $\theta$ in the expectation:
+\begin{align*}
+\mathbb{E}(X) = \theta + \gamma
+\end{align*}
+Equate the sample mean to $\mathbb{E}(X)$ and solve for $\theta$.
+\begin{align*}
+\bar{x} = \theta + \gamma
+\end{align*}
+Our method of moments estimator is:
+\begin{align*}
+\hat{\theta} = \bar{x} - \gamma
+\end{align*}
+To check consistency, we check that it converges in probability to the actual value we are estimating. The definition of convergence in probability is given by:
+\begin{align*}
+P(| \hat{\theta} - \theta| \geq \epsilon) \leq 0
+\end{align*}
+First off, we can square this and apply markov's inequality:
+\begin{align*}
+P(( \hat{\theta} - \theta)^2 \geq \epsilon^2) \leq 0
+\end{align*}
+\begin{align*}
+P(( \hat{\theta} - \theta)^2 \geq \epsilon^2) \leq \frac{\mathbb{E}(\hat{\theta} - \theta)^2}{\epsilon^2}
+\end{align*}
+\begin{align*}
+P(( \hat{\theta} - \theta)^2 \geq \epsilon^2) \leq \frac{\mathbb{E}(\bar{X}-(\gamma+ \theta)^2)}{\epsilon^2}
+\end{align*}
+Recall here that $E(\hat{X})=\gamma+ \theta$, as such:
+\begin{align*}
+P(( \hat{\theta} - \theta)^2 \geq \epsilon^2) \leq \frac{Var(\bar{X})}{\epsilon^2}
+\end{align*}
+Note that applying Chebychev's inequality earlier also produces this result. The Variance of $\bar{X}=\frac{\sigma^2}{n}$. As such, 
+\begin{align*}
+P(( \hat{\theta} - \theta)^2 \geq \epsilon^2) \leq \frac{\sigma^2}{n \epsilon^2}
+\end{align*}
+The actual value of sigma doesn't matter, as the important thing is with n in the denominator. This expression becomes zero as n becomes large. As such:
+\begin{align*}
+\frac{\sigma^2}{n \epsilon^2} \rightarrow 0 \\
+\therefore \lim_{i \rightarrow \infty} P(( \hat{\theta} - \theta)^2 \geq \epsilon^2) \rightarrow 0
+\end{align*}
+Thus, consistency is proven.
+\subsection*{Part B.}
+Lets transform this density. Note $Y=e^{-x}$, as such $x = -ln [y]$. The jacobian is $|\frac{\partial y}{\partial x}|=\frac{1}{y}$. As such the transformed joint distribution is:
+\begin{align*}
+f(y|\theta) = e^{-\theta} e^{-y e^{-\theta}}
+\end{align*}
+An exponential family can be factorized in the format:
+\begin{align*}
+f(y|\theta) = h(y)c(\theta) e^{w(\theta) t(y)}
+\end{align*}
+And if it is an exponential family, than $T=\frac{1}{n} \sum_{i=1}^{n} t(X_i) $ is the UMVUE for $\theta$ and it attains the CRLB. Let $h(y)=1, c(\theta) = e^{-\theta}, w(\theta)= -e^{-\theta}, t(y) = y$. As such our statistic is:
+\begin{align*}
+T = \frac{1}{n} \sum_{i=1}^{n} y_i
+\end{align*}
+This statistic attains the CRLB since it is the UMVUE.
+\subsection*{Part C.}
+Lets continue working with our transformed variable. The likleyhood function is given by:
+\begin{align*}
+f(y_i|\theta) = \prod_{i=1}^{n} e^{-\theta} e^{-y_i e^{-\theta}}
+\end{align*}
+\begin{align*}
+f(y_i|\theta) = \prod_{i=1}^{n} e^{-\theta} e^{ - e^{-\theta} y_i e^{-\theta}}
+\end{align*}
+Applying exponent rules:
+\begin{align*}
+f(y_i|\theta) = e^{-n \theta} e^{ - e^{-\theta} \sum_{i=1}^{n} y_i e^{-\theta}}
+\end{align*}
+For ease of looking at, let $\sum_{i=1}^{n} y_i = w$
+\begin{align*}
+f(y_i|\theta) = e^{-n\theta} e^{ - w e^{-\theta}}
+\end{align*}
+As is typical, it would be easier to take the log likleyhood and maximize that versus working with the regular likleyhood function:
+\begin{align*}
+ln[ f(y_i|\theta)] = -n\theta - w e^{-\theta}
+\end{align*}
+Now to differentiate with respect to $\theta$:
+\begin{align*}
+\frac{\partial}{\partial \theta } ln[ f(y_i|\theta)] = w e^{-x} - n
+\end{align*}
+Thus our maximizer is:
+\begin{align*}
+\hat{\theta}^{MLE} = ln[\frac{w}{n}]
+\end{align*}
+Note that $\frac{w}{n}=\bar{y}$
+\begin{align*}
+\hat{\theta}^{MLE} = ln[\bar{y}]
+\end{align*}
+Our estimator can be rewritten
+\begin{align*}
+\hat{\theta}^{MLE} = ln[\frac{1}{n} \sum_{i=1}^{n} Y_i]
+\end{align*}
+Recall that $Y_i = e^{-X_i}$
+\begin{align*}
+\hat{\theta}^{MLE} = \frac{1}{n} \sum_{i=1}^{n} \bar{Y}
+\end{align*}
+Note that this is the same estimator which we found in Part B. Recall that $Y=e^{-x}$ hence we can rewrite this as:
+\begin{align*}
+\tau(\theta)^{MLE} = \frac{1}{n} \sum_{i=1}^{n} e^{-X_i}
+\end{align*}
+\subsection*{Part D.}
+To prove consistency, we can take the same approach as in part A.
+
+\begin{align*}
+P(| \hat{\tau} - e^{-\theta}| \geq \epsilon) \leq 0
+\end{align*}
+First off, we can square this and apply chebychev's inequality:
+\begin{align*}
+P(( \hat{\tau} - e^{-\theta})^2 \geq \epsilon^2) \leq 0
+\end{align*}
+\begin{align*}
+P(( \hat{\tau} - e^{-\theta})^2 \geq \epsilon^2) \leq \frac{\mathbb{E}(\hat{\tau} - e^{-\theta})^2}{\epsilon^2}
+\end{align*}
+\begin{align*}
+P(( \hat{\theta} - \theta)^2 \geq \epsilon^2) \leq \frac{Var(\hat{\tau})}{\epsilon^2}
+\end{align*}
+Note that $\hat{\tau}=\bar{Y}$ As such, 
+\begin{align*}
+P(( \hat{\tau} - e^{-\theta})^2 \geq \epsilon^2) \leq \frac{Var(\bar{Y})}{\epsilon^2}
+\end{align*}
+As with before, we end up with n in the denominator. And the variance of $Y_i$ again isn't really important.
+\begin{align*}
+\frac{\sigma_y^2}{n \epsilon^2} \rightarrow 0 \\
+\therefore \lim_{i \rightarrow \infty} P(( \hat{\theta} - \theta)^2 \geq \epsilon^2) \rightarrow 0
+\end{align*}
+Thus, consistency is proven.
+\subsection*{Part E.}
+We showed in part B that it is the UMVUE by merit of being an exponential distribution.
+
+\clearpage
+
+\section*{Problem 3}
+
+\subsection*{Part A}
+The joint pdf of the sample is given by:
+\begin{align*}
+f(x|\theta) = \frac{1}{Beta(\theta,1)}  x^{\theta-1}
+\end{align*}
+A type 1 error occurs when one rejects the null hypothesis when it is actually true. We are looking for the probability that it is
+\begin{align*}
+P(X \in W|H_0)
+\end{align*}
+The critical region W is given in the problem:
+\begin{align*}
+W:\{ \frac{1}{2} < x \leq 1 \} && W^c:\{ 0 \leq x \leq \frac{1}{2} \}
+\end{align*}
+Fun fact, under the null hypothesis $\beta(1,1) \sim Uniform(0,1)$ 
+\begin{align*}
+P(X \in W|H_0) = \int_{\frac{1}{2}}^{1} 1 dx = \frac{1}{2}
+\end{align*}
+Thus the probability of a type I error is $\frac{1}{2}$.
+
+The power function is
+\begin{align*}
+B(\theta) = P(T \in W|H_1) = 1-P(T \in W^C|H_1)
+\end{align*}
+Substituting in pdf:
+\begin{align*}
+B(\theta) =  1 - \int_{0}^{\frac{1}{2}} \frac{1}{Beta(\theta,1)} x^{\theta-1} dx = 1-\frac{1}{2^\theta}
+\end{align*}
+Here is a plot of the power function:
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{powerFunction.png}
+\end{figure}
+\clearpage
+
+\subsection*{Part B}
+Via Pearson Neymann Lemma, Let $f_{\theta}$ denote the joint density of $X = (X_1, . . . , X_n)$ for the parameter $\theta$. Then for any given $\alpha$, the test that maximizes power at $\theta_1$ is given by
+\begin{align*}
+\phi(X)  =
+\begin{cases} 
+      1 & \text{ if } \frac{f_{\theta_0}(x)}{f_{\theta_1}(x)} \leq k \\
+      0 & \text{ otherwise  }
+   \end{cases}
+\end{align*}
+Where k is such that the test has level $\alpha$. Such a test is the MPT for testing $H_0$ vs $H_1$. For our particular pdf:
+
+\begin{align*}
+\frac{\frac{1}{Beta(\theta_0,1)} x^{\theta_0-1}}{\frac{1}{Beta(\theta_1,1)} x^{\theta_1-1}}
+\end{align*}
+Simplifying:
+\begin{align*}
+\lambda = \frac{Beta(\theta_1,1)}{Beta(\theta_0,1)} x^{\theta_0-\theta_1}
+\end{align*}
+Let $\theta_1>\theta_0$. The function decreases in value and thus $\lambda$ is a decreasing function. As such:
+\begin{align*}
+\alpha = P(X > c|H_0)
+\end{align*}
+Recall that under the null hypothesis $X \sim Uniform(0,1)$. Our region is then in terms of the uniform distribution $Uniform(0,1)_{1-\alpha}$:
+\begin{align*}
+P(X \geq 1-\alpha) = \int_{0}^{1-0.05} 1 dx = 0.95
+\end{align*}
+Thus $c=0.95$
+Our test is then to reject $H_0$ if $P(x>0.95|H_0)$. Since this is Pearson Neymann lemma, it is the most powerful test.
+\subsection*{Part C}
+This test is independent of the choice of alternative hypothesis. As such, by it is UMP for testing.
+
+\clearpage
+
+\section*{Problem 4}
+\subsection*{Part A}
+Let $Y_i=ln(X_i)$. The transformation of random variables is given by:
+\begin{align*}
+f(y_i|\theta) = \frac{1}{\theta} e^{-y} e^{-y(1-\frac{1}{\theta})} |\frac{dx}{dy}e^y|
+\end{align*}
+\begin{align*}
+f(y|\theta) = - \frac{1}{\theta} e^{-\frac{y}{\theta}}
+\end{align*}
+This takes the form of a Gamma distribution (after factoring out negative 1)
+\begin{align*}
+-(Y) \sim Gamma(1,\theta)
+\end{align*}
+Our statistic T is:
+\begin{align*}
+\boxed{ T = - \sum_{i=1}^{n} Y_i \sim Gamma(n,\theta) }
+\end{align*}
+
+\subsection*{Part B}
+Any exponential family has a MLR if $w(\theta)$ is non decreasing in the following factorized format:
+\begin{align*}
+f(y|\theta) = h(y)c(\theta) e^{w(\theta) y}
+\end{align*}
+For this, let $h(y)=y^{n-1}$, $c(\theta) = \frac{1}{\Gamma(n) \theta^n}$, $w(\theta)= -\frac{1}{\theta}$. Since $W(\theta)$ is nondecreasing, this has a monotone likleyhood ratio.
+
+\subsection*{Part C}
+Karlin Rubin theorem states for testing $H_0$ : $\theta \leq \theta_0$ versus $H_1 : \theta > \theta_0$. Suppose that T is a sufficient statistic for $\theta$ and the family of pdfs or pmfs $\{g(t|\theta) : \theta \in \Theta \}$ of T has an MLR. Then for any c, the test that rejects $H_0$ if and only if $T > c$ is a UMP level $\alpha$ test, where c is such that $P_{\theta_0} (T > c) = \alpha$.
+
+In other words all we need to do to apply this to our problem is show that our statistic T is sufficient.
+
+\begin{align*}
+\frac{T_1}{T_2} = \frac{ - Gamma(n,\theta_1) }{- Gamma(n,\theta_2)}
+\end{align*}
+
+\begin{align*}
+\frac{T_1}{T_2} = \frac{ \frac{\theta_1^{-n} x^{n-1} e^{\frac{x}{\theta_1}}}{\Gamma(n)} }{\frac{\theta_2^{-n} x^{n-1} e^{\frac{x}{\theta_2}}}{\Gamma(n)}}
+\end{align*}
+
+\begin{align*}
+\frac{T_1}{T_2} = \frac{ {\theta_1^{-n} x^{n-1} e^{\frac{x}{\theta_1}}}}{{\theta_2^{-n} x^{n-1} e^{\frac{x}{\theta_2}}}}
+\end{align*}
+It is clear to see here that if $\theta_1=\theta_2$, all $\theta$ dependance is gone. Hence T is a sufficient statistic. Since we proved T has MLR, the MPT is given by:
+\begin{align*}
+\text{Reject } H_0 \text{ if and only if } T>C 
+\end{align*}
+Where c is defined: $\alpha=P(T>c)$
+\subsection*{Part D.}
+To transform this gamma distribution into a Chi Squared, we can do the transformation.
+\begin{align*}
+\frac{2}{\theta} T \sim \mathcal{X}_{2n}^{2}
+\end{align*}
+Recall for this problem, $n=25, \alpha = 0.5$, $T\sim Gamma(n,\theta)$.
+\begin{align*}
+\alpha=P(T>c)
+\end{align*}
+Substituting in what we know:
+\begin{align*}
+0.5=P(\frac{2}{\theta} T > \frac{2}{\theta} c)
+\end{align*}
+Solving for c:
+\begin{align*}
+c = \frac{\theta}{2} \mathcal{X}_{\alpha;50}^{2}
+\end{align*}
+According to the Chi Squared calculator I used, I got $\mathcal{X}_{\alpha;50}^{2} = 49.33$.
+\begin{align*}
+c = \frac{\theta}{2} 49.334 = 24.166 \theta
+\end{align*}
+\clearpage
+
+\section*{Problem 5}
+\subsection*{Part A}
+Note that this density is a Rayleigh density with $\sigma=\theta$. By Neymann-Pearson lemma, the critical region for a most powerful test for testing $H_0$ vs $H_1$ is given by:
+\begin{align*}
+\{ x: \frac{f_{\theta_0}(x)}{f_{\theta_1}(x)} < k\}
+\end{align*}
+Where k is such that the test has level $\alpha$. Substituting in the pdf:
+\begin{align*}
+\{ x: \frac{\frac{ \prod_{i=1}^{n} x_i}{\theta_0^n} e^{-\frac{1}{2^n\theta_0^n}\sum_{i=1}^{n} x^2_i }}{\frac{ \prod_{i=1}^{n} x_i}{\theta_1^n} e^{-\frac{1}{2^n\theta_1^n}\sum_{i=1}^{n} x^2_i }} < k\}
+\end{align*}
+This reduces:
+\begin{align*}
+\{ x: (\frac{\theta_1}{\theta_0})^n e^{(\sum_{i=1}^{n} x_i)^2(\frac{1}{2\theta_1} - \frac{1}{2\theta_0})} < k\}
+\end{align*}
+
+I do not know how to proceed in this problem. However I do know, that the Central Limit Theorem states that for any sum of independant random variables, as the number of terms approaches infinity, the resulting distribution approaches normality.
+\begin{align*}
+\lim_{n \rightarrow \infty} \frac{\sqrt{n} \bar{X} - \mu}{\sigma} \rightarrow^d \mathcal{N}(0,1)
+\end{align*}
+Note this is true despite the fact that $X_i$ are not normal themselves.
+
+\clearpage
+\section*{Problem 6}
+
+\subsection*{Part A}
+Note that $\bar{X}$ is the UMVUE of $\mathbb{E}(X)=\lambda=Var(X)$. As such, this can be treated as a normal approximation with estimated variance(Week5 Notes page 5).
+\begin{align*}
+\frac{\sqrt{n} (\bar{X} - \lambda)}{\bar{X}} \rightarrow^d \mathcal{N}(0,1)
+\end{align*}
+Our null and alternate hypothesis is
+\begin{align*}
+H_0: \theta = 1 && H_1 : \theta > 1
+\end{align*}
+
+\subsection*{Part B}
+\textbf{ FALSE. }
+
+\subsection*{Part C}
+\textbf{D.} II and IV only
+
+\subsection*{Part D}
+\textbf{FALSE.}
+
+
+\end{document}

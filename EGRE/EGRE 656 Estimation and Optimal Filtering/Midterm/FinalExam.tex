@@ -1,0 +1,217 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{EGRE-656 Final Exam}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+\section*{Foreword}
+For speed I am not transcribing the problem.
+
+\section*{Problem 1}
+\subsection*{Part A.}
+The MAP Estimator is given by:
+\begin{align*}
+\hat{x}^{MAP} = \text{arg} \underset{x}{\text{max}}\Lambda(x)_Z = \text{arg} \underset{x}{\text{max}}p(x|z)
+\end{align*}
+Note that this involves maximizing the posterior pdf. The posterior pdf is given by:
+\begin{align*}
+p(x|z) = \frac{p(z|x)p(x)}{p(z)}
+\end{align*}
+However the $p(z)$ actually has no bearing on the maximization, since its essentially a normalization factor. So we are really concerned with:
+\begin{align*}
+p(x|z) = p(z|x)p(x)
+\end{align*}
+And our MAP estimate is:
+\begin{align*}
+\hat{x}^{MAP} = \text{arg} \underset{x}{\text{max}} p(z|x)p(x)
+\end{align*}
+$p(x)$ is an exponential distribution:
+\begin{align*}
+p(x) = \frac{1}{a} e^{-\frac{x}{a}}
+\end{align*}
+$p(z|x)$ for independant random variables is given by:
+\begin{align*}
+p(z|x) = p_w(z-x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}\frac{(z-x)^2}{\sigma^2}}
+\end{align*}
+As such our likleyhood function is:
+\begin{align*}
+p(z|x) p(x) = \frac{1}{\sigma a \sqrt{2\pi}} e^{-\frac{1}{2}\frac{(z-x)^2}{\sigma^2}} e^{-\frac{x}{a}}
+\end{align*}
+Combining exponential terms:
+\begin{align*}
+\boxed{p(z|x) p(x) = \frac{1}{\sigma a \sqrt{2\pi}} e^{-\frac{x^2}{2\sigma^2} + x(\frac{z}{\sigma^2} - \frac{1}{a}) - \frac{z^2}{2\sigma^2}} }
+\end{align*}
+
+\subsection*{Part B.}
+Now we simply need to find the value of x which maximizes this.
+\begin{align*}
+\hat{x}^{MAP} = \text{arg} \underset{x}{\text{max}} p(z|x)p(x)
+\end{align*}
+In this case it would be easier working with the log likleyhood function instead of the likleyhood function:
+\begin{align*}
+ln(p(z|x) p(x)) = ln(\frac{1}{\sigma a \sqrt{2\pi}}) -\frac{x^2}{2\sigma^2} + x(\frac{z}{\sigma^2} - \frac{1}{a}) - \frac{z^2}{2\sigma^2}
+\end{align*}
+Now we differentiate this entire thing with respect to x. Note that all terms without x dependence dissapear:
+\begin{align*}
+\frac{\partial}{\partial x} ln(p(z|x) p(x)) =  -\frac{x}{\sigma^2} + \frac{z}{\sigma^2} - \frac{1}{a}
+\end{align*}
+To find our maximizer, we set equal to zero and solve for x:
+\begin{align*}
+x = \frac{a z - \sigma^2}{a} \text{ or } \frac{1}{a \sigma^2}
+\end{align*}
+The argmax function does not guarantee a unique maximizer, so these both are our MAP estimates:
+\begin{align*}
+\boxed{ \hat{x}^{MAP} = \frac{a z - \sigma^2}{a} \text{ or } \frac{1}{a \sigma^2} }
+\end{align*}
+
+
+\clearpage
+\section*{Problem 2.}
+\subsection*{Part A.}
+The Riccatti Equation for a steady state covariance as time $k\rightarrow \infty$ is given by:
+\begin{align*}
+P = F[P-P H^T (HPH^T + R)^{-1} HP] F^T + Q
+\end{align*}
+In our Homework, we found the general solution to this for the scalar case in which transposition is commutative:
+\begin{align*}
+P_{\infty} = \frac{-(R-RF^2+Q H^2) + \sqrt{(R-RF^2 + QH^2)^2+4RQH^2F^2}}{2H^2 F^2}
+\end{align*}
+Plugging in our particular values $\nu_k = Q = 1$, $w_k = R = 1$, $H=1$ $F=1$ we get:
+\begin{align*}
+P_{\infty} = \frac{-(R-RF^2+Q H^2) + \sqrt{(R-RF^2 + QH^2)^2+4RQH^2F^2}}{2H^2 F^2}
+\end{align*}
+Note that this system is identical to our homework question. Our solution to yielded prior covariance:
+\begin{align*}
+\boxed{ P(k+1|k) = \frac{Q}{2} + \frac{\sqrt{Q} \sqrt{4R+Q}}{2} = 0.1051 }
+\end{align*}
+This represents the Covariance of the state prior to being updated by the latest measurement. So we can simply propagate this through the Kalman Updating scheme once to solve for the posterior covariance. Let $P=P(k+1|k)$
+\begin{align*}
+P(k+1|k+1) = P - W(k+1)S(k+1)W^T(k+1)
+\end{align*}
+In this case the innovation is:
+\begin{align*}
+S(k+1) = R+H P H^T = R+ H^2 P
+\end{align*}
+The Kalman Gain is:
+\begin{align*}
+\boxed{ W(k+1) = P H^T S^{-1} = \frac{H P}{R+H^2P} = 0.09513}
+\end{align*}
+The posterior covariance is then:
+\begin{align*}
+\boxed{ P(k+1|k+1) = P - \frac{H^2 P^2 (R+ H^2 P)}{(R+H^2P)^2} = 0.09513}
+\end{align*}
+
+\subsection*{Part B.}
+$\sigma^2_w$ happens to be a very convenient number. In the first part we solved for the numerator $\lim_{k \rightarrow \infty} P_{k|k}$. Since $\sigma^2_w=1$, our limit is:
+\begin{align*}
+\frac{\lim_{k \rightarrow \infty} P_{k|k}}{1} = \lim_{k \rightarrow \infty} P_{k|k} = 0.1051
+\end{align*}
+
+
+\subsection*{Part C.}
+
+\clearpage
+\section*{Problem 3.}
+
+\subsection*{Part A.}
+For a steady state to exist, the following conditions must hold:
+\begin{enumerate}
+\item[•] The pair of $\{F, H\}$ must be completely observable.
+\item[•] The pair of $\{F, C\}$ must be completely controllable.
+\end{enumerate}
+Where $Q\overset{\Delta}{=}CC^T = \sqrt{q} \Gamma$ and C is a matrix square root of Q.
+
+The observably matrix of F H is given by:
+\begin{align*}
+Q_c = \begin{bmatrix} H \\ HF \end{bmatrix} = \begin{bmatrix}
+1 & 0 \\
+1 & t
+\end{bmatrix}
+\end{align*}
+This matrix has full rank and thus is observable.
+The controllability matrix of F C is given by:
+\begin{align*}
+Q_c = [\Gamma F \Gamma] = \begin{bmatrix}
+\sqrt{q} \frac{T^2}{2} & \sqrt{q} \frac{3T^2}{2} \\
+\sqrt{q} T & \sqrt{q} T
+\end{bmatrix}
+\end{align*}
+Thus matrix has nonzero determinate $-q T^3$ which implies that it is full rank as well.
+As such our system is fully controllable and fully observable. A steady state variance is assured.
+
+\subsection*{Part B.}
+
+Positive semi definiteness of a matrix $Q$ is guaranteed if there exists a matrix such that $AA^T = Q$. Q is defined as the product of $\Gamma \Gamma^T$. As such by the definition of our system the process noise covariance $Q$ is guaranteed to be positive semi definite.
+
+
+\clearpage
+\section*{Problem 4.}
+\subsection*{Part A.}
+
+Unlike innovations, state estimation errors are not white and are correlated in time. This is covered in section 5.2.6 in the textbook where it is proven that the innovations(the measurement prediction minus the measurement) are a zero mean white sequence. However the same is not true for the state estimation errors. And the state estimation errors ARE correlated in time.
+
+\subsection*{Part B.}
+The estimation error matrix is given by:
+\begin{align*}
+\mathbb{E}([x_{k+1}-\hat{x}_{k+1|k+1}] \times [x_k-\hat{x}_{k|k}]^T)
+\end{align*}
+To find this we need to express the $k+1$ term in terms of $k$.
+
+The updated state estimate is given by:
+\begin{align*}
+\hat{x}_{(k+1)|(k+1)} = \hat{x}_{(k)|(k+1)} + W_{k+1} \nu_{k+1}
+\end{align*}
+Note that the prediction is simply the posterior estimate of the previous time, times the transition matrix.
+\begin{align*}
+\hat{x}_{(k+1)|(k+1)} = F_k \hat{x}_{k|k} + W_{k+1} \nu_{k+1}
+\end{align*}
+The next term can be expanded as:
+\begin{align*}
+\hat{x}_{(k+1)|(k+1)} = F_k \hat{x}_{k|k} + P(k+1|k)H^T(k+1)S^{-1}(k+1) \nu_{k+1}
+\end{align*}
+Note that $P(k+1|k) = F(k)P(k|k)F^T(k) + Q$
+\begin{align*}
+\hat{x}_{(k+1)|(k+1)} = F_k \hat{x}_{k|k} + (F(k)P(k|k)F^T(k) + Q)H^T(k+1)S^{-1}(k+1) \nu_{k+1}
+\end{align*}
+Note that $S(k) = R(k+1)+H(k+1) (F(k)P(k|k)F^T(k) + Q) H^T(k+1)$
+\begin{align*}
+\hat{x}_{(k+1)|(k+1)} = F_k \hat{x}_{k|k} + (F(k)P(k|k)F^T(k) + Q) \times \\ 
+H^T(k+1)[R(k+1)+H(k+1) (F(k)P(k|k)F^T(k) + Q) H^T(k+1)]^{-1}(k+1) \nu_{k+1}
+\end{align*}
+
+NOTE: This is not a useful expression to find how the error is autocorrelated in time. Here are other approaches I thought of.
+
+The innovation is given by:
+\begin{align*}
+\nu(k) = z(k+1) - \hat{z}(k+1|k)
+\end{align*}
+The innovation is in fact an orthogonal sequence which is strictly white through time. Note that the mapping from the innovation to the state error is this:
+\begin{align*}
+H(k) \tilde(x)(k+1) = H x(k+1) + H \hat{x}(k+1) = z(k+1) - w_k(k+1) - \hat{z}(k+1|k)
+\end{align*}
+Since the innovation is not autocorrelated, this to me implies that the autocorrelation in the state estimate error then has some dependance on the measurement noise.
+
+Another thing I know about the Kalman Filter is that it is the LMMSE for Linear Gaussian estimation of dynamic systems. As such the orthoganility properties of the LMMSE Estimator hold for the Kalman Filter as well. 
+\begin{align*}
+\tilde{x}(i|k) \perp z(k) \\ 
+\tilde{x}(i|k) \perp \hat{x}(k) \\ 
+\mathbb{E}(\tilde{x} z) = 0
+\end{align*}
+
+
+\clearpage
+
+
+\end{document}

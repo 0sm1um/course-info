@@ -1,0 +1,171 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\graphicspath{ {figures/} }
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{STAT-636 Midterm 02}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+\section*{Problem 7}
+\subsection*{Part A}
+The lagrangian function is given by
+\begin{align*}
+\boxed{ \mathcal{L}(x_1,x_2,\lambda_1,\lambda_2,\lambda_3) = (x_1-3)^2 + (2x_1-x_2)^2 + \lambda_1 (x_1+2x_2-5) - \lambda_2 (x_2) + \lambda_3(x_1+x_2-2) }
+\end{align*}
+\subsection*{Part B}
+This can be found by calculating the partial derivatives. First with respect to $x_1$
+\begin{align*}
+\frac{\partial}{\partial x_1}\mathcal{L}(x_1,x_2,\lambda_1,\lambda_2,\lambda_3) =\frac{\partial}{\partial x_1} [ (x_1-3)^2 + (2x_1-x_2)^2 + \lambda_1 (x_1+2x_2-5) - \lambda_2 (x_2) + \lambda_3(x_1+x_2-2) ]
+\end{align*}
+This evaluates to:
+\begin{align*}
+\frac{\partial}{\partial x_1}\mathcal{L}(x_1,x_2,\lambda_1,\lambda_2,\lambda_3) = 10x_1-4x_2 + \lambda_1+\lambda_3 - 6
+\end{align*}
+Now with respect to $x_2$
+\begin{align*}
+\frac{\partial}{\partial x_2}\mathcal{L}(x_1,x_2,\lambda_1,\lambda_2,\lambda_3) = 2x_2-4x_1+2\lambda_1 -\lambda_2 + \lambda_3
+\end{align*}
+We then set these equations equal to zero and can solve for our maximizers via a system of equations:
+\begin{align*}
+\boxed{ x_2^* = \frac{ 4x_1^*-2\lambda_1^* +\lambda_2^* - \lambda_3^*}{2} } \\
+\boxed{ x_1^* = \frac{4x_2^* - \lambda_1^* - \lambda_3^* + 6}{10} }
+\end{align*}
+
+\subsection*{Part C}
+The Complementary Slackness conditions are:
+\begin{align*}
+\boxed{ \lambda^*_1(x_1+2x_2-5) = 0 } && \boxed{ \lambda^*_2 x_2 = 0 } && \boxed{ \lambda^*_3(x_1+x_2-2) = 0 }
+\end{align*}
+
+\subsection*{Part D}
+The nonnegativity conditions are:
+\begin{align*}
+\boxed{ \lambda_1 \geq 0 } &&\boxed{ \lambda_2 \geq 0 }&& \boxed{ \lambda_3 \geq 0 }
+\end{align*}
+\clearpage
+
+\section*{Problem 8}
+\subsection*{Part A}
+
+This is not universally a good idea. Without knowing the particulars of the problem its hard to gauge whether this is correct or not.
+
+However the purpose of a restricting function would be to safeguard against overfitting. Whether or not it is a good idea depends on the problem, and there is some subjectivity as to what is considered overfitting or not.
+\subsection*{Part B}
+
+It can improve the predictive capabilities of the predictor on future data. Or it might not.
+
+It depends primarily on the dataset. If the future data is quite different from the training data, then overfitting will be a concern. Increasing restrction on g(x) could improve performance.
+
+\subsection*{Part C}
+
+It is not always a good idea to reduce the size of $\mathcal{F}$. If the training dataset is too small, the regression function or neural network may not have enough data to characterize the phenomenon it intends to predict.
+
+\clearpage
+
+\section*{Problem 9}
+
+\subsection*{Part A}
+Akaike Information Criterion is written in terms of RSS as:
+\begin{align*}
+AIC = 2k + n ln(RSS)
+\end{align*}
+Where k is the number of predictors, and n is the number of samples. In this case $k=10, n=50$
+\begin{align*}
+AIC = 2(10) + 50 ln(50) = 215.6012
+\end{align*}
+\subsection*{Part B.}
+The Effective degrees of freedom are given by:
+\begin{align*}
+\frac{p}{1+\lambda}
+\end{align*}
+In this case $\lambda=4$, $p=10$
+\begin{align*}
+\frac{p}{1+\lambda} = \frac{10}{5} = 2
+\end{align*}
+\begin{align*}
+AIC = 2(2) + 50 ln(50) = 205.4492
+\end{align*}
+\subsection*{Part C.}
+In this case, the AIC of ridge regression is lower than ordinary regression and as such, it should be used in this case.
+
+\clearpage
+
+\section*{Problem 10}
+\begin{align*}
+\begin{bmatrix}
+0   & 0.1 & 0.6 & 0.4 \\
+0.1 &  0  & 0.2 & 0.5 \\
+0.6 & 0.2 &  0  & 0.3 \\
+0.4 & 0.5 & 0.3 &   0 \\
+\end{bmatrix}
+\end{align*}
+
+\subsection*{Part A}
+This dissimilarity matrix shows that datapoint 1 is close in proximity to datapoint 2. As index $1,2 = 0.1 = 2,1$.
+
+\subsection*{Part B}
+In this scenario, datapoint 1 and datapoint 2 are clustered. And under MAX linkage, the largest distance from either particle to any other particle is used to relink.
+\begin{align*}
+\begin{bmatrix}
+0   & 0.6 & 0.5 \\
+0.6 &  0  & 0.3 \\
+0.5 & 0.3 &  0 
+\end{bmatrix}
+\end{align*}
+The next move is to merge datapoint 4 and datapoint 3, since they are seperated by a distance of "0.3".
+\subsection*{Part B}
+In this scenario, datapoint 1 and datapoint 2 are clustered just as before. And under MIN linkage, the smallest distance from either particle to any other particle is used to relink.
+\begin{align*}
+\begin{bmatrix}
+0   & 0.2 & 0.4 \\
+0.2 &  0  & 0.3 \\
+0.4 & 0.3 &  0 
+\end{bmatrix}
+\end{align*}
+The next move is to merge datapoint 3 with the cluster of datapoint 1 and 2, since they are seperated by a distance of "0.2".
+
+\clearpage
+
+\section*{Problem 11}
+\subsection*{Part A}
+This appears to be a Convoloutional Neural Network with 5 dimensional input layer, a 2 dimensional hidden layer, and a 1 dimensional output.
+
+By my count, there are 5 input parameters, 10 weights linking input to hidden layer.
+
+Then there are 2 hidden state parameters, with 2 weights linking hidden state to output. Plus 2 bias for the two neurons in the hidden layer.
+
+This means in total there are $\boxed{ 5+10+2+2+2=21}$ parameters
+
+\subsection*{Part B}
+If I am interpreting this correctly, this basically means that each node in the hidden layer will connect to only 3 of the input nodes.
+
+This will mean $h_1$ connects to $x_1,x_2,x_3$ and $h_2$ connects to $x_3,x_4,x_5$.
+
+This will reduce our parameters somewhat. By my count there are 5 input parameters, 6 weights linking input to hidden layer. And all other linkages remain the same.
+
+This means in total there are $\boxed{ 5+6+2+2+2=17}$ parameters
+
+
+\subsection*{Part C}
+
+If I am understanding this right, weight sharing would essentially make the weight between $x_3$ and $h_1$ be the same as the weight between $x_3$ and $h_2$. The biases of the two nodes will also be shared.
+
+By sharing the weights, the number of independant parameters decreases, but only by one since only one set of weights is shared. However bias sharing reduces the number of independent biases from 2 to 1.
+
+
+This means in total there are $\boxed{ 5+5+2+2+1=15}$ parameters.
+
+\clearpage
+
+\end{document}

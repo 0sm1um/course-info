@@ -6,6 +6,8 @@
 \usepackage{amssymb,amsmath,amsthm}
 \usepackage{geometry}
 \geometry{legalpaper, margin=1.5in}
+\usepackage{graphicx}
+\graphicspath{ {figures/} }
 
 \title{STAT-514 Homework 8}
 \author{John Hiles}
@@ -25,12 +27,85 @@ critical (rejection) region $|y - 18| \geq 4$, what is
 \item[c.] Suppose the critical region is now changed to $|y-18| \geq 2$. Find the new probability of making a Type I error.
 \end{enumerate}
 \subsection*{Part A}
+Note that repeated coin tossing can be modeled as a single Binomial random variable. So 36 coin tosses could be represented by:
+\begin{align*}
+Y \sim Bin(n=36,p)
+\end{align*}
+Our value of p is then:
+\begin{align*}
+p = \
+\begin{cases} 
+\frac{1}{2} & \text{ under } H_0 \\
+       \text{anything else} & \text{ under } H_1
+   \end{cases}
+\end{align*}
+A type I error is when the Null Hypothesis is rejected, when it is actually true. This is represented by the critical region/significance level as. Lets suppose the null hypothesis is true. Then that means we expect to get between 14 and 22 heads:
+\begin{align*}
+H_0: W_0 \in [0,15) \cup (21,36]
+\end{align*}
+This means the compliment is:
+\begin{align*}
+H_0: W_1 \in [15,21]
+\end{align*}
+In other words, if the actual outcome lies in $W_0$, then we should reject the null. So we must find the probability that the outcome lies in $W_0$ when $p \neq 0.5$.
+\begin{align*}
+P(X \in W|H_0) = 2 p^n \sum_{i=1}^{14} \binom{n}{i}
+\end{align*}
+Recall that p=0.5 under the null hypothesis, and n=36.
+\begin{align*}
+\boxed{ P(X \in W|H_0) = 2 (\frac{1}{2})^{36} \sum_{i=1}^{14} \binom{36}{i} = 0.2430 }
+\end{align*}
+
+
+\subsection*{Part B}
+A type II error is to accept $H_0$ when $H_0$ is actually false and $H_1$ is true. For this we are dealing with the opposite region $W_1=W^c$. So our probability expression is:
+\begin{align*}
+\boxed{ P(X \in W_1 |H_1) =  \sum_{i=15}^{21} (0.7)^{i} (1-0.7)^{36-i} \binom{36}{i} = 0.0916 }
+\end{align*}
+
+\subsection*{Part C}
+This new restriction creates a much smaller interval. Our new regions are:
+\begin{align*}
+H_0: W_0 \in [0,17) \cup (19,36]
+\end{align*}
+This means the compliment is:
+\begin{align*}
+H_0: W_1 \in [17,19]
+\end{align*}
+Thus we simply need to redo our calculation in part A with revised endpoints:
+\begin{align*}
+\boxed{ P(X \in W|H_0) = 2 (\frac{1}{2})^{36} \sum_{i=1}^{16} \binom{36}{i} = .6177 }
+\end{align*}
+
+
 \clearpage
 
 \section*{Problem 2}
 Aptitude tests should produce scores with a large amount of variation so that an administrator can distinguish between persons with low aptitude and persons with high aptitude. The standard test used by a certain industry has been producing scores with a standard deviation of 10 points. A new test is given to 20 prospective employees and produces a sample standard deviation of 12 points. Are scores from the new test significantly more variable than scores from the standard? Use $\alpha = 0.01$.
 \subsection*{Part A}
+To start, lets give out hypothesis statements:
+\begin{align*}
+H_0: \sigma = 10 && H_\alpha: \sigma > 10
+\end{align*}
+It is more natural to work in units of variance so this can be restated as:
+\begin{align*}
+H_0: \sigma = 100 && H_\alpha: \sigma > 100
+\end{align*}
+Our test statistic will be a Chi-Squared distribution.
+\begin{align*}
+\mathcal{X}^2 \sim \frac{(n-1)s^2}{\sigma^2_0}
+\end{align*}
+In this case, $n=20$, $s=12$, $\sigma^2_0=10$
+\begin{align*}
+\mathcal{X}^2 \sim \frac{(n-1)s^2}{\sigma^2_0} = 27.36
+\end{align*}
+The significance value we are given is $\alpha=0.01$. The significance region is then given from a chi squared table:
+\begin{align*}
+\mathcal{X}^2_{\alpha} = 38.582
+\end{align*}
+So in order to be a significant result, our test statistic must exceed 38.582. And it does not.
 
+Therefore we fail to reject the null hypothesis/accept that the standardized test people are probably telling the truth.
 \clearpage
 
 \section*{Problem 3}
@@ -42,8 +117,55 @@ constants.
 \item[c.] Suppose we collect a sample of size 10 and observe $t = 0.1$; what is the p-value of the test?
 \end{enumerate}
 \subsection*{Part A}
-\clearpage
+The density of the first order statistic is:
+\begin{align*}
+f_{X_{(1)}}(x|\theta) = n[1-F(t)]f(t) = \frac{n (1-t)^{n-1}}{(1-\theta)^n}
+\end{align*}
+To test for MLR, we can take the ratio:
+\begin{align*}
+\frac{f_{X_{(1)}}(x|\theta_2)}{f_{X_{(1)}}(x|\theta_1)} = \frac{\frac{n (1-x)^{n-1}}{(1-\theta_2)^n}}{\frac{n (1-x)^{n-1}}{(1-\theta_1)^n}}
+\end{align*}
+Simplifying:
+\begin{align*}
+\frac{f_{X_{(1)}}(x|\theta_2)}{f_{X_{(1)}}(x|\theta_1)} = \frac{(\theta_1-1)^2}{(\theta_2-1)^2}
+\end{align*}
+Suppose that $\theta_2>\theta_1$. Then this must mean that $1-\theta_2<1-\theta_1$. Thus, $\frac{f_{X_{(1)}}(x|\theta_2)}{f_{X_{(1)}}(x|\theta_1)}$ is a monotone increasing function of T.
+\begin{align*}
+\boxed{ \frac{f_{X_{(1)}}(x|\theta_2)}{f_{X_{(1)}}(x|\theta_1)} \text{ is a monotone increasing function of T. Which implies the MLR property.} }
+\end{align*}
+\subsection*{Part B}
+Karlin-Rubin Theorem specifies the critical region of the UMP test as:
+\begin{align*}
+R = \{ \mathcal{X} : T = X_{(1)} < c \}
+\end{align*}
+$c$ is the value dependant on the chosen significance level.
+\begin{align*}
+\alpha = P_{\theta_0}(T>c)
+\end{align*}
+To solve for c we can integrate the pdf:
+\begin{align*}
+P_{\theta_0}(T>c) = \int_{c+1}^{n} \frac{n (1-t)^{n-1}}{(1-\theta)^n} dt = \frac{(1-t)^n}{(1-\theta_1)}|^{n}_{c+1}
+\end{align*}
+We are left with:
+\begin{align*}
+\boxed{ \alpha \geq (n-1)^n - (-c)^n }
+\end{align*}
+\subsection*{Part C}
+We can use the integration from the last part.
+\begin{align*}
+P_{\theta_0}(T>t) = \int_{0.1}^{1} \frac{n (1-t)^{n-1}}{(1-\theta)^n} dt = \frac{(1-t)^n}{(1-\theta_1)}|^{1}_{0.1}
+\end{align*}
+For this, $n=10,x=0.1$
+\begin{align*}
+\frac{(1-t)^{10}}{(1-\theta_1)}|^{1}_{0.1} = 0.3487
+\end{align*}
+Recall under $H_1$, $\theta_1=0$. As such:
+\begin{align*}
+\boxed{ \alpha \geq 0.3487 }
+\end{align*}
 
+
+\clearpage
 \section*{Problem 4}
 Let $Y$ be a random sample of size 1 from a population with density function
 \begin{align*}
@@ -55,10 +177,67 @@ f(y|\theta) =
 \end{align*}
 Where $\theta > 0$
 \begin{enumerate}
-\item[a.] Sketch the power function of the test with rejection region: Y>0.5
+\item[a.] Sketch the power function of the test with rejection region: $Y>0.5$
 \item[b.] Based on the single observation Y, find a uniformly most powerful test of size $\alpha$ for testing $H_0:\theta = 1$ against $H_1: \theta > 1$.
 \end{enumerate}
 \subsection*{Part A}
+\begin{align*}
+B(\theta) = P(T \in W) = \int_{0.5}^{1} f(y|\theta) dy
+\end{align*}
+This integration:
+\begin{align*}
+\boxed{ B(\theta) = \theta \int_{0.5}^{1} y^{\theta - 1} dy = 1-(\frac{1}{2})^\theta dy }
+\end{align*}
+
+A plot of the resulting power function is given here:
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=0.7\linewidth]{powerFunction.png}
+\end{figure}
+\clearpage
+
+\subsection*{Part B}
+Lets state out two Hypothesis statements:
+\begin{align*}
+H_0: \theta = 1 && H_1 : \theta > 1
+\end{align*}
+By consequence, in order to be significant $\theta_0 < \theta_\alpha$
+To be the UMP test, it must not depend on the value of $\theta_0$. We can find this by taking the ratio of joint distribution.
+\begin{align*}
+\frac{f(y|\theta_0)}{f(y|\theta_\alpha)} = \frac{\theta_0 y^{\theta_0-1}}{\theta_\alpha y^{\theta_\alpha-1}}
+\end{align*}
+Under null hypothesis, $\theta_0=1$
+\begin{align*}
+\frac{f(y|\theta_0)}{f(y|\theta_\alpha)} = \frac{y^{1-1}}{\theta_\alpha y^{\theta_\alpha-1}} = \frac{1}{\theta_\alpha y^{\theta_\alpha-1}}
+\end{align*}
+Note that $\theta_1>\theta_0$. We can manipulate this test:
+\begin{align*}
+\frac{1}{\theta_\alpha y^{\theta_\alpha-1}} < k \\
+\theta_\alpha y^{\theta_\alpha-1} > k^{-1}
+\end{align*}
+Solving for y:
+\begin{align*}
+y^{\theta_\alpha - 1}= \frac{1}{\theta_\alpha k} \\
+y > (\frac{1}{\theta_\alpha k})^{\frac{1}{\theta_\alpha - 1}}
+\end{align*}
+Let $(\frac{1}{\theta_\alpha k})^{\frac{1}{\theta_\alpha - 1}}=c$, then:
+\begin{align*}
+P(y>c|\theta_0 = 1) = \alpha
+\end{align*}
+Y can be expressed as a beta distribution:
+\begin{align*}
+Y \sim (\theta,1)
+\end{align*}
+Thus, our region can be found via:
+\begin{align*}
+P(y>c|\theta = 1) = \int_{c+1}^{n} dy = n-c-1
+\end{align*}
+The test
+\begin{align*}
+\text{Reject } H_0 \text{ if and only if } y>B_\alpha
+\end{align*}
+is the UMP since it is independent of $\theta_1$.
 \clearpage
 
 \section*{Problem 5}
@@ -75,6 +254,51 @@ f(y|\theta) =
 \item[b.]  Is the test given in part (a) uniformly most powerful for the alternative $\theta_1 > \theta_0$
 \end{enumerate}
 \subsection*{Part A}
+Note that:
+\begin{align*}
+Y \sim  Gamma(3,\theta)
+\end{align*}
+$Y=ln(X) \rightarrow $
+The power function can be given by:
+\begin{align*}
+x: \frac{f_{\theta_0}(y)}{f_{\theta_1}(y)} < k
+\end{align*}
+The joint pdf of our gamma sample is then:
+\begin{align*}
+f(y_i|\theta) = \frac{1}{2^n\theta^{3n}} y^{2n} e^{-\frac{\sum_{i=1}^{n} y_i}{\theta_0}}
+\end{align*}
+Substituting in our joint pdfs:
+\begin{align*}
+\lambda(y) = \frac{\frac{1}{2^n\theta_0^{3n}} y^{2n} e^{-\frac{\sum_{i=1}^{n} y_i}{\theta_0}}}{\frac{1}{2^n\theta_1^3} y^{2n} e^{-\frac{\sum_{i=1}^{n}y}{\theta_1}}}
+\end{align*}
+Canceling common factors:
+\begin{align*}
+\lambda(y) = \frac{\frac{1}{\theta_0^{3}} e^{-\frac{\sum_{i=1}^{n} y_i}{\theta_0}}}{\frac{1}{\theta_1^3} e^{-\frac{\sum_{i=1}^{n}y}{\theta_1}}}
+\end{align*}
+\begin{align*}
+\lambda(y) = (\frac{\theta_1}{\theta_0})^{3n} e^{-(\frac{1}{\theta_0}-\frac{1}{\theta_1})\sum_{i=1}^{n} y_i }
+\end{align*}
+This function is a monotonically decreasing function of $\sum_{i=1}^{n} y_i$, which implies:
+\begin{align*}
+\lambda(y) < k \leftrightarrow \sum_{i=1}^{n} y_i > c
+\end{align*}
+Where c is such:
+\begin{align*}
+P(\sum_{i=1}^{n} y_i > c | H_0) = \alpha
+\end{align*}
+Recall that $Y_i \overset{i.i.d.}{\sim}  Gamma(3,\theta)$. This can be transformed to a chi squared framework via the transformation:
+\begin{align*}
+X_i = \frac{2}{\theta} Y_i \overset{i.i.d.}{\sim} \mathcal{X}_{6n}^{2}
+\end{align*}
+Under $H_0$
+\begin{align*}
+\alpha = P(\frac{2}{\theta} Y_i < \frac{2}{\theta_0} c|H_0)
+\end{align*}
+Our test is then:
+\begin{align*}
+\text{Reject } H_0 \text{ if and only if } \sum_{i=1}^{n} y_i > \frac{\theta_0}{2}\mathcal{X}_{\alpha,6n}^{2}
+\end{align*}
+This test is independent of the choice of alternative hypothesis. As such, by it is UMP for testing.
 \clearpage
 
 \section*{Problem 6}
@@ -86,9 +310,42 @@ f(x|\theta) = \frac{1}{\theta} x^{-(1+\frac{1}{\theta})}, && x>1, \theta>1
 \item[a.] Show that $T=\sum_{i=1}^{n} ln(X_i) \sim Gamma(n,\theta)$
 \item[b.]  Find the level $\alpha$ UMP test for testing $H_0:\theta \geq \theta_0$ versus $H_1: \theta < \theta_0$, and express the constant in terms of a chi-squared percentile.
 \end{enumerate}
-
 \subsection*{Part A}
-\clearpage
-
+Let $Y_i=ln(X_i)$. The transformation of random variables is given by:
+\begin{align*}
+f(y|\theta) = \frac{1}{\theta} e^{-y} e^{-y(1+\frac{1}{\theta})} |\frac{dx}{dy}e^y|
+\end{align*}
+\begin{align*}
+f(y|\theta) = \frac{1}{\theta} e^{-\frac{y}{\theta}}
+\end{align*}
+This takes the form of a Gamma distribution
+\begin{align*}
+Y \sim Gamma(1,\theta)
+\end{align*}
+Our statistic T is:
+\begin{align*}
+\boxed{ T = \sum_{i=1}^{n} Y_i \sim Gamma(n,\theta) }
+\end{align*}
+\subsection*{Part B}
+The null hypothesis is $H_0: \theta > \theta_0$, and the alternative hypothesis is $H_1:\theta < \theta_0$. Note that:
+\begin{align*}
+Gamma(1,\theta) = Exp(\theta) \sim \frac{1}{\theta} e^{-\frac{y}{\theta}}
+\end{align*}
+Under the null hypothesis $H_0$
+\begin{align*}
+\frac{2}{\theta} Y_i \sim \mathcal{X}_{2}^{2}
+\end{align*}
+Then:
+\begin{align*}
+1-\alpha = P_{H_{0}}(T = \sum_{i=1}^{n} Y_i > c)
+\end{align*}
+Writing in terms of Chi-Squared:
+\begin{align*}
+1-\alpha = P_{H_{0}}(\frac{2}{\theta_0} \sum_{i=1}^{n} Y_i > \frac{2}{\theta_0} c)
+\end{align*}
+\begin{align*}
+\frac{2}{\theta_0} c = \mathcal{X}_{1-\theta;2n}^{2}
+\end{align*}
+This test is independent of the choice of alternative hypothesis. As such, by it is UMP for testing.
 
 \end{document}

@@ -1,0 +1,149 @@
+\documentclass[12pt]{article}
+\textwidth=6.75in
+\textheight=9in
+\topmargin=-.5in
+\headheight=0in
+\headsep=.5in
+\hoffset  -.75in
+
+\usepackage{amsmath}
+\usepackage{verbatim}
+\pagestyle{empty}
+
+
+\begin{document}
+
+Consider the set of $4$ breed classes represented by
+\begin{align*}
+C = \text{ \{Trash, Elites, Berzerkers, Super Armor\} }
+\end{align*}
+Let us define a vector:
+\begin{align*}
+{\beta} = \begin{bmatrix} \beta_1, \beta_2, \beta_3, \beta_4 \end{bmatrix}^T
+\end{align*}
+Which corresponds to user supplied non normalized weights which are meant to denote a relative preference for one class of enemy over another.
+In this instance $\frac{\beta_1}{\sum_{i=1}^{4} \beta_i}$ represents the expected ratio of trash to other enemies. While $\frac{\beta_4}{\sum_{i=1}^{4} \beta_i}$ represents the expected ratio of super armor to other enemies.
+In this way, the normalized version of this vector is:
+\begin{align*}
+w = \frac{1}{\sum_{i=1}^{4} \beta_i} \begin{bmatrix} \beta_1, \beta_2, \beta_3, \beta_4 \end{bmatrix}^T
+\end{align*}
+
+Next, lets introduce the set of all breed packs which may spawn in our breedpacks.
+\begin{align*}
+S = \text{ \{Breed Pack 1, Breed Pack 2,..., Breed Pack M\} }
+\end{align*}
+
+Each of these breed packs spawns a certain number of breeds which each belong to one one of the classes of $C$. For example suppose breed pack 1 contains a lone skaven clan rat. Breed pack 1 then could be described by:
+\begin{align*}
+\text{ \{Breed Pack 1 \}} \\
+q_1 = \begin{bmatrix}
+1 & 0 & 0 & 0
+\end{bmatrix}
+\end{align*}
+
+Another breedpack might contain a storm vermin.
+
+\begin{align*}
+\text{ \{Breed Pack 2 \}} \\ 
+q_2 = \begin{bmatrix}
+0 & 1 & 0 & 0
+\end{bmatrix}
+\end{align*}
+
+Another breedpack might contain a 2 chaos raiders, 3 fanatics, and 3 marauders.
+
+\begin{align*}
+\text{ \{Breed Pack 25 \}} \\ 
+q_2 = \begin{bmatrix}
+6 & 2 & 0 & 0
+\end{bmatrix}
+\end{align*}
+
+
+The likleyhood any given breed pack spawns is defined by a spawn weight in the code, and we would like to solve for the spawn weight which produces the ratios of enemies which most resembles our input weights $\beta$. As such we can solve for these desired values by taking the dot product of our input weights and the sum of all of the enemy classes composed in the breed packs:
+
+Now, these $q_i$ vectors are cool and all, but they're technically integers and what we are interested in solving for are normalized probability weights. So instead lets transform these vectors into ratios of the number of enemies. This can be done by dividing each element with the total number of that class in the breed packs. This reduces to an inner product between the weight vector and a particular breedpack.
+\begin{align*}
+r = \sum_{i=1}^{M} q_i = \begin{bmatrix}
+r_1 & r_2 & r_3 & r_4
+\end{bmatrix}
+\end{align*}
+Let $r^{-1}=\begin{bmatrix}
+r_1^{-1} & r_2^{-1} & r_3^{-1} & r_4^{-1}
+\end{bmatrix}$
+Thus we can redefine represent our breed packs in terms of probability weights via the inner product
+\begin{align*}
+u_i = \langle r^{-1} q_i \rangle
+\end{align*}
+In terms of $u$, we can then define our constraints. We want to ensure that members of a breed class cannot exceed or be less than a certain value.
+Thus our constraints then are:
+\begin{align*}
+y=\langle w r \rangle
+\end{align*}
+\begin{align*}
+y=\langle w r \rangle
+\end{align*}
+
+sum of all Breed packs times x equal w
+
+\begin{align*}
+w=r x
+\end{align*}
+
+\begin{align*}
+\min_{x} f(x) = |wx-cx|_1
+\end{align*}
+
+Where 
+
+THE EQUATION
+\begin{align*}
+w = Ax
+\end{align*}
+\begin{align*}
+A = \begin{bmatrix}
+u_1 & u_2 & ... & u_4
+\end{bmatrix}
+\end{align*}
+
+\begin{align*}
+\frac{1}{\sum_{i=1}^{M} \beta_i} \begin{bmatrix} \beta_1 \\ \beta_2 \\ \beta_3 \\ \beta_4 \end{bmatrix} = \begin{bmatrix}
+u_1 & u_2 & ... & u_M
+\end{bmatrix} \begin{bmatrix}
+x_1 \\ x_2 \\ ... \\ x_M
+\end{bmatrix}
+\end{align*}
+
+
+
+
+\begin{align*}
+u = w_1 q_1 + ... + w_m q_m 
+\end{align*}
+\begin{align*}
+u = \sum_{i=1}^{M} w_i q_i
+\end{align*}
+Note that this is an inner product and can be expressed as:
+\begin{align*}
+u = \langle w_i q_i \rangle
+\end{align*}
+In this case, $u$ is an M dimensional vector which denotes the relative preference of one according to the weights. The $L_1$ norm of this vector is then 
+
+
+
+\begin{align*}
+y_i = w \cdot \sum_{i=1}^{M} q_i
+\end{align*}
+
+Our Objective function which we intend to optimize then is the $L_1$ norm of our spawn weights $x$ subject to conforming to our desired weighting:
+\begin{align*}
+\min_{x} f(x) = |x|_1
+\end{align*}
+
+subject to:
+\begin{align*}
+x_i \geq 0 && \text{ and } && y = Ax
+\end{align*}
+Where A is a $4 \times M$ matrix composed by the respective $q_i$ row vectors specified by each of $M$ breed packs.
+
+\end{document}

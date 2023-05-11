@@ -1,0 +1,241 @@
+\documentclass{article}
+% Choose a conveniently small page size
+\usepackage[paperheight=16cm,paperwidth=14cm,textwidth=12cm]{geometry}
+\usepackage[skip=10pt plus1pt, indent=40pt]{parskip}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\usepackage{verbatim}
+\geometry{legalpaper, margin=1.5in}
+
+\title{A Study of Time to Kill in Vermintide 2: A Probabilistic Approach}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+\section{Introduction}
+%Section and subsection automatically number unless you put the asterisk next to them.
+
+\par
+
+	Typically in most video games(especially with loot systems downstream of Diablo), discussion around optimizing characters or classes tends to revolve around \textbf{Damage Per Second} or \textbf{DPS}. However, Vermintide 2 differs from the vast majority of games in a number of key ways. The most important is that players in Vermintide are confronted with many enemies, far more than is normal in games with comparable class customization systems. In most games in which optimal play is often well represented by maximizing DPS, enemies are strong and take time measured in seconds or minutes to die. In Vermintide, players are often expected to kill multiple enemies every second. This difference is subtle but important.
+
+Suppose we gave Bardin Goreksson a magical Axe. Imagine this axe could swing once every 30 minutes, but everything it touches receives $1,000,000$ points of damage. Without even considering multi target damage, this axe would still have the highest damage per second of any weapon in the game(555.5 damage per second to be precise) despite the fact it could only be used once per run. While it might be fun to instantly delete a single enemy once per run, I have a hard time imagining that weapon ever becoming the meta pick; except maybe to win a particularly nasty event or difficulty spike. The point here, is to demonstrate in an exaggerated manner why \textbf{DPS} fails to describe what is and what is not a good weapon in Vermintide.
+
+In truth, the quantity that we should more interested in optimizing is \textbf{Time to Kill} or \textbf{TTK}. That being said performing mathematical analysis on time to kill is easier said than done. Part of the reason DPS is an attractive metric is that its quite easy to calculate. However TTK is harder to work with, since TTK varies depending on the animation speed of the weapon, attack speed modifiers on a particular career, and whether or not an attack was a critical hit or not, and whether or not that attack was a headshot. The statistics minded among you will probably have noticed that two of those quantities are not totally deterministic. \textbf{HS\%} (Headshot percentage) can either be treated as random or a stochastic process which can be modeled as random, and \textbf{C\%} (Crit Chance) is a truly random quantity.
+
+As such, it is my objective in this article to demonstrate how basic probability can be applied to help you become a better rat slayer.
+
+\subsection*{Probability for the Uninitiated}
+\par
+
+In this article we will be using basic rules and principles in probability. So before we begin this discussion in earnest, it is necessary to lay some groundwork.
+
+To people who don't study math, the point of mathematical notation is not to make things confusing(though many find it confusing); but to convey lots of information without needing to write out whole paragraphs about it. Mathematics at its core is a language, but to understand it you need to know the words. For this article, take this as something of a glossary for the equations and language which I will use in this.
+
+\subsubsection{\textbf{Event}}
+
+An Event is anything that happens in the real world that can be measured. Did the coin flip result in heads of tails? It is common in probability to define events in terms of capital letters. Event $H$ means a coin was flipped and landed on Heads. Event $T$ means a coin was flipped and landed on tails. In this article, instead of using letters of the alphabet, it is easier to use subscripts to denote different events. So you will often see events labelled $A_1,A_2,A_i$. This is no different than calling them $A$, $B$, or $C$. A more formal definition is that an Event is the outcome of a random experiment.
+
+\subsubsection{Probability Functions \textbf{P()}}
+
+P(•) is what is known as a probability function. The input of this function is an event, and the output of this function is the probability of that event occurring. Back to our coinflip example, $P(H)$ represents the probability that a coinflip results in heads. Or $P(A_1)$ is the probability that event $A_1$ occurs.
+
+\subsubsection{Statistical Independence}
+
+Statistical Independence is an incredibly important concept in probability. The layman's explanation which is sufficient for this discussion is that if we have two random processes, if one does not affect the other in any way they are considered statistically independent. For example, my headshot rate does not affect how often my attacks are critical hits and vise versa. Independence is required to make any of the math done in this article work.
+
+\subsubsection{AND Rule}
+
+The AND rule for probability states that for two (or more) statistically independent events A and B. The probability of BOTH occuring is the product of their individual probabilities.
+\begin{align*}
+P(A \text{ and } B) = P(A)P(B)
+\end{align*}
+If A and B are too abstract for you, lets consider two coin flips. What is the probability that we flip a heads AND a tails in two flips?
+\begin{align*}
+P(H \text{ and } T) = P(H)P(T) = (\tfrac{1}{2})(\tfrac{1}{2}) = \frac{1}{4}
+\end{align*}
+The probability is you have a 1 in 4 chance of that happening.
+
+\subsubsection{OR Rule}
+
+The OR rule of probability states that for two (or more) statistically independent events A and B; The probability of either A or B occurring is the sum of their individual probabilities.
+\begin{align*}
+P(A \text{ or } B) = P(A)+P(B)
+\end{align*}
+Once again we consider the coin flip. What is the probability that we will flip a coin and observe either a Heads or a Tails? According to the OR rule:
+\begin{align*}
+P(H \text{ or } T) = P(H)+P(T) = \tfrac{1}{2}+\tfrac{1}{2} = 1
+\end{align*}
+That example is a bit simplistic, so consider a 6 sided fair die. What is the probability that we roll an even number? What we are doing is trying to determine the probability we roll a 2, a 4, or a 6. Each one of those has an individual probability of $\dfrac{1}{6}$ of being individually rolled. So by the OR rule we end up with:
+\begin{align*}
+P(\text{Even Number}) = \tfrac{1}{6}+\tfrac{1}{6}+\tfrac{1}{6} = \tfrac{3}{6} = \tfrac{1}{2}
+\end{align*}
+
+\subsubsection{Law of Total Probability}
+
+This may sound complicated but its fairly simple really. For any random experiment where you can specify all possible outcomes as events; the sum of the probabilities of these events occurring must sum to 1.
+
+\begin{align*}
+1 = P(A_1) + P(A_2) + ... + P(A_n)
+\end{align*}
+
+So to demonstrate this, we can examine our Dice Example. Let $A_1$ be the event which represents rolling an even number, and $A_2$ be the event where you role an odd number.
+
+\begin{align*}
+1 = P(A_1) + P(A_2) = \tfrac{1}{2} + \tfrac{1}{2}
+\end{align*}
+
+\subsubsection{Expectation}
+Expectation is a mathematical generalization of the weighted average or the arithmetic mean. The expectation of a random variable is essentially the expected value which that random variable takes. This is an incredibly deep and mathematically complex topic, so for the purposes of this discussion the expectation just refers to finding the expected value of something. If a random experiment occurs, what do I expect the result to be most of the time?
+\begin{align*}
+\mathbb{E}(X) = \sum_{i=1}^{\infty} P(A_i) x_i
+\end{align*}
+
+
+\begin{comment}
+\subsubsection{Variable}
+Here is a list of variable names.
+\begin{enumerate}
+\item $\tau$ = Time to Kill
+\item $\rho$ = Crit Chance
+\item $\phi$ = Headshot Percentage
+\item $\alpha$ = Attack Speed
+\end{enumerate}
+
+\begin{align*}
+P(A_1) = \rho + \phi = 0.55 && P(A_2) = 1 - P(A_1) = 0.45
+\end{align*}
+\begin{align*}
+\mathbb{E}(\tau) = \alpha (P(A_1) (t_1) + P(A_2) t_2)
+\end{align*}
+
+\begin{align*}
+P(A_1) = \mathbf{HS\%} + \mathbf{C\%} = 0.55 && P(A_2) = 1 - P(A_1) = 0.45
+\end{align*}
+\begin{align*}
+\mathbb{E}(\mathbf{TTK}) = \mathbf{AS} (P(A_1) (t_1) + P(A_2) t_2)
+\end{align*}
+\end{comment}
+
+\section{An Introductory Example}
+
+\par
+
+Before delving deep into math I want to introduce you to the example which gave me the idea to write this document. This situation is something of a mathematical special case where all the logic and the calculations are quite simple and intuitive.
+
+Consider Bardin's Cog Hammer. The Cog Hammer is a very high damage but slow attack speed weapon which is known for its high armor damage. In case you are unaware, the Cog Hammer has an attainable \textbf{1HHS} (one hit head shot) breakpoint on stormvermin while playing as Slayer. Hence one of Slayer's primary roles on a team is to use the Cog Hammer on waves of Stormvermin since he can kill them in either one head shot or two body shots. In fact it is quite common for Slayer to chain heavy attacks while a large quantity of Stormvermin charge them. For the sake of this example, lets suppose 10 stormvermin attack a lone slayer. So if we consider that most players won't have 100\% headshot rate, some of these stormvermin will die in 1 hit, and some will die in 2 hits. The ratio of 1 hit to 2 hit kills then IS the headshot rate of this engagement. A headshot rate of 40\% means 4 out of those 10 stormvermin died in one hit. So without considering crit chance, we can say that we \emph{expect} 4 stormvermin to die in one hit, and 6 stormvermin to die in 2 hits.
+
+However another important thing to consider is that Slayer wielding Cog Hammer also has a \textbf{1HBS} (one hit body shot) critical hit breakpoint on Stormvermin. Meaning that in addition to the ones which die in one hit to a headshot, sometimes they will die in one hit to a crit bodyshot. However, if a player happens to get a critical hit AND a headshot, that crit will have no effect in how quickly the player kills the wave of Stormvermin; since that Stormvermin would have died in the same amount of time from the headshot. So how many Stormvermin do we expect to die in 1 hit versus 2? To answer that question factoring in \textbf{HS\%} headshot percentage and \textbf{C\%} crit chance we now need to consider basic rules of probability or random variables.
+
+Consider these possible cases that can occur when fighting a single Stormvermin
+\begin{enumerate}
+\item[A.] Headshot AND no Crit (1 Hit Kill)
+\item[B.] Crit AND Body Shot(1 Hit Kill)
+\item[C.] Crit AND Headshot (1 Hit Kill)
+\item[D.] Bodyshot AND Bodyshot (2 Hit Kill)
+\item[E.] Bodyshot AND Headshot (2 Hit Kill)
+\item[F.] Bodyshot AND Crit Headshot (2 Hit Kill)
+\end{enumerate}
+
+Assuming that the slayer is only using Cog Hammer heavy attacks, there are no other possible ways for stormvermin to be damaged twice without dying. However, for the sake of this introductory example, we can simplify these by simply talking about the cases in which the stormvermin dies in a single hit or in two hits. This here is how we will define our \emph{events} $A_1$ and $A_2$.
+
+\begin{enumerate}
+\item[$A_1$.] Headshot OR Crit (1 Hit Kill)
+\item[$A_2$.] All Else (2 Hit Kill)
+\end{enumerate}
+
+Note here that the subscripts of these events correspond to the number of hits it takes for the enemy to die. Since we know that \textbf{HS\%} and \textbf{C\%} are statistically independent random variables we can apply the OR rule and the law of total probability to determine the probability of each of these events. Let $\mathbf{HS\%}= 0.4$, and $\mathbf{C\%} = 0.15$. Then:
+
+\begin{align*}
+P(A_1) = \mathbf{HS\%} + \mathbf{C\%} = 0.55
+\end{align*}
+
+Since we know that the total probability of both of these events must sum to 1(because there are no other possibilities). We then know that the probability of $B.$ is:
+
+\begin{align*}
+P(A_2) = 1-P(A_1) = 0.45
+\end{align*}
+
+With this in hand, we now know the relative percentage of the time for a given headshot rate that  slayer kills in one hit versus two hits.
+
+The reason this formula form is useful, is we can now substitute any given crit chance or headshot rate. On the Tourney Balance mod, there exists a talent called Hack and Slash which gives Slayer an additional 10\% crit chance. Long story short, this means that 25\% crit chance is attainable for slayer. So substituting in this new value yields:
+
+\begin{align*}
+P(A_1) = 0.4 + 0.25 = 0.65
+\end{align*}
+
+This result is staggering to me since it means 65\% of the time you will kill a Stormvermin in one hit with only a modest headshot rate and an attainable crit chance.
+
+Note, that so far none of the calculations we have done are necessarily specific to the Cog Hammer or any particular weapon or career. These probabilities are not career or talent specific, instead they only depend on the breakpoints of a particular weapon/build combination. The only thing that is required for this formula to apply is that the weapon kills an enemy on a crit body shot, and kills an enemy on a non critical headshot.
+
+In fact, Slayer's Dual Axes have this exact set of breakpoints on slave rats. Meaning that the probability of killing a slave rat in one hit is \emph{also} the sum of crit chance and headshot percentage. So 65\% of the time a slayer can kill a slave rat in a single hit with a light attack.
+
+The astute among you will have noticed that right now I am talking in terms of probabilities, when the title of this article specifically states that we are trying to study "Time to Kill". What we have done so far is calculate the probabilities (or weights) that one outcome versus another occurs. As such, to find the actual TTK, we need to compute a weighted average of the time it takes to kill in 1 hit and the time it takes to kill in 2 hits.
+
+
+This is the step where our calculations become much less general, and we start using numbers which are very specific to particular classes and builds. To relate our calculated probabilities to time in the real world, we need to find out how many attacks per unit time our weapon. In this discussion, I am going to call this \emph{Attack Rate} so as not to confuse this with \emph{Attack Speed} (\text{AS}) which is a multiplicative percentage based modifier of \emph{Attack Rate}.
+
+Our generalized formula for the expected TTK to kill a singular enemy is this:
+\begin{align*}
+\mathbb{E}(\mathbf{TTK}) = \mathbf{AS} \sum_{i=1}^{n} P(A_i) t_i
+\end{align*}
+
+In english, the expected time to kill is a weighted average between the time to kill in $1$ hit, in $2$ hits, or $n$ hits; weighted according to the probabilities of each happening. $t$ is the time it takes for particular combo to happen. $P(A_i)$ is the probability that the Event $A_i$ will come to pass; in this context, we've defined $A_1$ as the event in which the enemy dies in 1 hit, so $i$ corresponds to the number of hits to kill. Then, we multiply that weighted average by the total attack speed modifier of our career/weapon properties/charm properties. For this formula to work, you must include every combo which you personally will plan to use/analyze. $n$ is the maximum number of hits it takes to kill a particular enemy. For Stormvermin in our coghammer example, $n=2$. So if you are scared of the sigma notation, here is a version you might be more familiar with:
+
+\begin{align*}
+\mathbb{E}(\mathbf{TTK}) = \mathbf{AS} (P(A_1) t_1 + P(A_2) t_2)
+\end{align*}
+
+Recall that we explicitly solved for $P(A_1)$ and $P(A_2)$ earlier(for the slayer breakpoints). So we can substitute them into our expression here:
+
+\begin{align*}
+\mathbb{E}(\mathbf{TTK}) = \mathbf{AS} ([\mathbf{HS\%} + \mathbf{C\%}] t_1 + [1-\mathbf{HS\%}+ \mathbf{C\%}] t_2)
+\end{align*}
+
+Lets plug in some real numbers! I run this \href{https://www.ranalds.gift/build/IKtCgpNH7INsPonDHAHZ/view}{this} particular slayer build. It has a cumulative 25\% crit chance $\mathbf{C\%} = 0.25$. A conservative headshot ratio for chain Cog Hammer heavies is 40\%. So using our numbers. We calculated $P(A_1)$ and $P(A_2)$ earlier:
+\begin{align*}
+P(A_1) = 0.65 && P(A_2) = 0.35
+\end{align*}
+Substituting these into our expression:
+\begin{align*}
+\mathbb{E}(\mathbf{TTK}) = \mathbf{AS} (0.65 (t_1) + (0.35) t_2)
+\end{align*}
+
+According to VernonKun's DPS spreadsheet which gives time for various combos(Sourced from Melee Armory Mod), it states the H1+H2 combo has a total time of $2.4121 s$. So if we are analyzing chain heavies, then $t_1=\tfrac{2.4121 s}{2}=1.2061 s$ and $t_2 = 2.4121 s$. $t_1$ represents the time it takes for event $A_1$ (killing in one hit) to occur. And time $t_2$ represents the time it takes for event $A_2$ (killing in two hits) to occur. Substituting in yields:
+
+\begin{align*}
+\mathbb{E}(\mathbf{TTK}) = \mathbf{AS} \sum_{i=1}^{2} P(A_i) t_i = \mathbf{AS} (0.65 (1.2061 s) + (0.35) 2.4121 s)
+\end{align*}
+
+Finally during Slayer's career skill, he has 40\% attack speed, plus 20\% with swift slaying, plus 5\% on charm, plus a passive 7.5\% for a total \textbf{AS} modifier of $\mathbf{AS}=72.5\%$. Note that increasing the speed of an animation by 72.5\% is equivalent to multiplying the animation duration by the following amount:
+\begin{align*}
+\mathbf{AS} = \frac{1}{1+0.725}
+\end{align*}
+As such, our equation becomes:
+\begin{align*}
+\mathbb{E}(\mathbf{TTK}) = \tfrac{1}{1+0.725} (0.65 (1.2061 s) + (0.35) 2.4121 s)
+\end{align*}
+So our final result is:
+\begin{align*}
+\mathbb{E}(\mathbf{TTK}) = 0.9439 s
+\end{align*}
+
+In real world terms, this means while spamming chain heavies, and attempting to hit the head of stormvermin. A player with 40\% HS\% expects to kill a stormvermin in 0.9439 seconds as long as their have their maximum attack speed up (which is a reasonable assumption in Onslaught modes of Vermintide). Some portion of the time they will kill them faster, and some portion of the time they will kill them slower. But as the number of stormvermin approaches a high number, they will die at a rate close to that. This is, assuming the player is able to constantly attack and never block. To account for real world variables, it is sufficient to model this discrepency between real world and theoretical results via an efficiency coefficient which I will call $\rho$. So our general expression looks more like:
+
+\begin{align*}
+\rho \mathbb{E}(\mathbf{TTK}) = \mathbf{TTK}_{measured} && \rho \in [0,1]
+\end{align*}
+
+If someone wanted to solve for $\rho$ it would require them to spawn waves of enemies in conditions they deem realistic and measure the discrepancies in TTK. That would be a realistic way of quantifying melee uptime but that is outside the scope of this discussion currently.
+
+\section*{General Results}
+
+\section*{}
+
+\end{document}

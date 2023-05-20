@@ -64,10 +64,10 @@ The probability is you have a 1 in 4 chance of that happening.
 
 \subsubsection{OR Rule}
 
-The OR rule of probability states that for two (or more) statistically independent events A and B; The probability of either A or B occurring is the sum of their individual probabilities.
-\begin{align*}
+The OR rule of probability states that for two (or more) statistically independent and mutually exclusive events A and B; The probability of either A or B occurring is the sum of their individual probabilities.
+\begin{equation}
 P(A \text{ or } B) = P(A)+P(B)
-\end{align*}
+\end{equation}
 Once again we consider the coin flip. What is the probability that we will flip a coin and observe either a Heads or a Tails? According to the OR rule:
 \begin{align*}
 P(H \text{ or } T) = P(H)+P(T) = \tfrac{1}{2}+\tfrac{1}{2} = 1
@@ -76,14 +76,22 @@ That example is a bit simplistic, so consider a 6 sided fair die. What is the pr
 \begin{align*}
 P(\text{Even Number}) = \tfrac{1}{6}+\tfrac{1}{6}+\tfrac{1}{6} = \tfrac{3}{6} = \tfrac{1}{2}
 \end{align*}
+Note that there is another variant for the OR rule which works for non mutually exclusive events, which is more applicable for this.
+\begin{equation}
+P(A \text{ or } B) = P(A)+P(B) - P(A and B)
+\end{equation}
+If $A$ and $B$ are independant, then this reduces to:
+\begin{equation}
+P(A \text{ or } B) = P(A)+P(B) - P(A)P(B)
+\end{equation}
 
 \subsubsection{Law of Total Probability}
 
 This may sound complicated but its fairly simple really. For any random experiment where you can specify all possible outcomes as events; the sum of the probabilities of these events occurring must sum to 1.
 
-\begin{align*}
+\begin{equation}
 1 = P(A_1) + P(A_2) + ... + P(A_n)
-\end{align*}
+\end{equation}
 
 So to demonstrate this, we can examine our Dice Example. Let $A_1$ be the event which represents rolling an even number, and $A_2$ be the event where you role an odd number.
 
@@ -146,84 +154,84 @@ Consider these possible cases that can occur when fighting a single Stormvermin
 Assuming that the slayer is only using Cog Hammer heavy attacks, there are no other possible ways for stormvermin to be damaged twice without dying. However, for the sake of this introductory example, we can simplify these by simply talking about the cases in which the stormvermin dies in a single hit or in two hits. This here is how we will define our \emph{events} $A_1$ and $A_2$.
 
 \begin{enumerate}
-\item[$A_1$.] Headshot OR Crit (1 Hit Kill)
-\item[$A_2$.] All Else (2 Hit Kill)
+\item[$A_1$.] Headshot OR Critical Bodyshot (1 Hit Kill)
+\item[$A_2$.] Body shot (1 Hit Kill)
 \end{enumerate}
 
-Note here that the subscripts of these events correspond to the number of hits it takes for the enemy to die. Since we know that \textbf{HS\%} and \textbf{C\%} are statistically independent random variables we can apply the OR rule and the law of total probability to determine the probability of each of these events. Let $\mathbf{HS\%}= 0.4$, and $\mathbf{C\%} = 0.15$. Then:
+The probability of critting or headshotting are independent but not mutually exclusive. We can apply the non mutually exclusive OR rule to calculate this:
 
+\begin{enumerate}
+\item $\tau$ = Time to Kill
+\item $\rho$ = Crit Chance
+\item $\phi$ = Headshot Percentage
+\item $\alpha$ = Attack Speed
+\end{enumerate}
 \begin{align*}
-P(A_1) = \mathbf{HS\%} + \mathbf{C\%} = 0.55
+P(A_1) = P(\rho) + P(\phi) - P(\rho)P(\phi) \\
+P(A_1) = 0.25 + 0.4 - (0.25)(0.4) = 0.55
 \end{align*}
 
-Since we know that the total probability of both of these events must sum to 1(because there are no other possibilities). We then know that the probability of $B.$ is:
+Since we know that the total probability of both of these events must sum to 1(because there are no other possibilities). We then know that the probability of $A_2$ is:
 
 \begin{align*}
 P(A_2) = 1-P(A_1) = 0.45
 \end{align*}
 
-With this in hand, we now know the relative percentage of the time for a given headshot rate that  slayer kills in one hit versus two hits.
+With this in mind, we now know the relative percentage of the time for a given headshot rate that  slayer kills in one hit versus two hits. It means 5.5 SV on average will die in one hit when factoring in crit chance.
 
-The reason this formula form is useful, is we can now substitute any given crit chance or headshot rate. On the Tourney Balance mod, there exists a talent called Hack and Slash which gives Slayer an additional 10\% crit chance. Long story short, this means that 25\% crit chance is attainable for slayer. So substituting in this new value yields:
-
-\begin{align*}
-P(A_1) = 0.4 + 0.25 = 0.65
-\end{align*}
-
-This result is staggering to me since it means 65\% of the time you will kill a Stormvermin in one hit with only a modest headshot rate and an attainable crit chance.
+This result is staggering to me since it means 55\% of the time you will kill a Stormvermin in one hit with only a modest headshot rate and an attainable crit chance.
 
 Note, that so far none of the calculations we have done are necessarily specific to the Cog Hammer or any particular weapon or career. These probabilities are not career or talent specific, instead they only depend on the breakpoints of a particular weapon/build combination. The only thing that is required for this formula to apply is that the weapon kills an enemy on a crit body shot, and kills an enemy on a non critical headshot.
 
-In fact, Slayer's Dual Axes have this exact set of breakpoints on slave rats. Meaning that the probability of killing a slave rat in one hit is \emph{also} the sum of crit chance and headshot percentage. So 65\% of the time a slayer can kill a slave rat in a single hit with a light attack.
+In fact, Slayer's Dual Axes have this exact set of breakpoints on slave rats. Meaning that the probability of killing a slave rat in one hit is \emph{also} (assuming same crit chance and headshot rate) is also 55\%.
 
 The astute among you will have noticed that right now I am talking in terms of probabilities, when the title of this article specifically states that we are trying to study "Time to Kill". What we have done so far is calculate the probabilities (or weights) that one outcome versus another occurs. As such, to find the actual TTK, we need to compute a weighted average of the time it takes to kill in 1 hit and the time it takes to kill in 2 hits.
-
 
 This is the step where our calculations become much less general, and we start using numbers which are very specific to particular classes and builds. To relate our calculated probabilities to time in the real world, we need to find out how many attacks per unit time our weapon. In this discussion, I am going to call this \emph{Attack Rate} so as not to confuse this with \emph{Attack Speed} (\text{AS}) which is a multiplicative percentage based modifier of \emph{Attack Rate}.
 
 Our generalized formula for the expected TTK to kill a singular enemy is this:
-\begin{align*}
-\mathbb{E}(\mathbf{TTK}) = \mathbf{AS} \sum_{i=1}^{n} P(A_i) t_i
-\end{align*}
+\begin{equation}
+\mathbb{E}(\mathbf{TTK}) = \alpha \sum_{i=1}^{n} P(A_i) t_i
+\end{equation}
 
 In english, the expected time to kill is a weighted average between the time to kill in $1$ hit, in $2$ hits, or $n$ hits; weighted according to the probabilities of each happening. $t$ is the time it takes for particular combo to happen. $P(A_i)$ is the probability that the Event $A_i$ will come to pass; in this context, we've defined $A_1$ as the event in which the enemy dies in 1 hit, so $i$ corresponds to the number of hits to kill. Then, we multiply that weighted average by the total attack speed modifier of our career/weapon properties/charm properties. For this formula to work, you must include every combo which you personally will plan to use/analyze. $n$ is the maximum number of hits it takes to kill a particular enemy. For Stormvermin in our coghammer example, $n=2$. So if you are scared of the sigma notation, here is a version you might be more familiar with:
 
 \begin{align*}
-\mathbb{E}(\mathbf{TTK}) = \mathbf{AS} (P(A_1) t_1 + P(A_2) t_2)
+\mathbb{E}(\mathbf{TTK}) = \alpha (P(A_1) t_1 + P(A_2) t_2)
 \end{align*}
 
 Recall that we explicitly solved for $P(A_1)$ and $P(A_2)$ earlier(for the slayer breakpoints). So we can substitute them into our expression here:
 
 \begin{align*}
-\mathbb{E}(\mathbf{TTK}) = \mathbf{AS} ([\mathbf{HS\%} + \mathbf{C\%}] t_1 + [1-\mathbf{HS\%}+ \mathbf{C\%}] t_2)
+\mathbb{E}(\mathbf{TTK}) = \alpha ([\phi + \rho] t_1 + [1-\phi+ \rho] t_2)
 \end{align*}
 
 Lets plug in some real numbers! I run this \href{https://www.ranalds.gift/build/IKtCgpNH7INsPonDHAHZ/view}{this} particular slayer build. It has a cumulative 25\% crit chance $\mathbf{C\%} = 0.25$. A conservative headshot ratio for chain Cog Hammer heavies is 40\%. So using our numbers. We calculated $P(A_1)$ and $P(A_2)$ earlier:
 \begin{align*}
-P(A_1) = 0.65 && P(A_2) = 0.35
+P(A_1) = 0.55 && P(A_2) = 0.45
 \end{align*}
 Substituting these into our expression:
 \begin{align*}
-\mathbb{E}(\mathbf{TTK}) = \mathbf{AS} (0.65 (t_1) + (0.35) t_2)
+\mathbb{E}(\mathbf{TTK}) = \alpha (0.55 (t_1) + (0.45) t_2)
 \end{align*}
 
 According to VernonKun's DPS spreadsheet which gives time for various combos(Sourced from Melee Armory Mod), it states the H1+H2 combo has a total time of $2.4121 s$. So if we are analyzing chain heavies, then $t_1=\tfrac{2.4121 s}{2}=1.2061 s$ and $t_2 = 2.4121 s$. $t_1$ represents the time it takes for event $A_1$ (killing in one hit) to occur. And time $t_2$ represents the time it takes for event $A_2$ (killing in two hits) to occur. Substituting in yields:
 
 \begin{align*}
-\mathbb{E}(\mathbf{TTK}) = \mathbf{AS} \sum_{i=1}^{2} P(A_i) t_i = \mathbf{AS} (0.65 (1.2061 s) + (0.35) 2.4121 s)
+\mathbb{E}(\mathbf{TTK}) = \alpha \sum_{i=1}^{2} P(A_i) t_i = \alpha (0.55 (1.2061 s) + (0.45) 2.4121 s)
 \end{align*}
 
-Finally during Slayer's career skill, he has 40\% attack speed, plus 20\% with swift slaying, plus 5\% on charm, plus a passive 7.5\% for a total \textbf{AS} modifier of $\mathbf{AS}=72.5\%$. Note that increasing the speed of an animation by 72.5\% is equivalent to multiplying the animation duration by the following amount:
+Finally during Slayer's career skill, he has 40\% attack speed, plus 20\% with swift slaying, plus 5\% on charm, plus a passive 7.5\% for a total $\alpha$ modifier of $\alpha=72.5\%$. Note that increasing the speed of an animation by 72.5\% is equivalent to multiplying the animation duration by the following amount:
 \begin{align*}
-\mathbf{AS} = \frac{1}{1+0.725}
+\alpha = \frac{1}{1+0.725}
 \end{align*}
 As such, our equation becomes:
 \begin{align*}
-\mathbb{E}(\mathbf{TTK}) = \tfrac{1}{1+0.725} (0.65 (1.2061 s) + (0.35) 2.4121 s)
+\mathbb{E}(\mathbf{TTK}) = \tfrac{1}{1+0.725} (0.55 (1.2061 s) + (0.45) 2.4121 s)
 \end{align*}
 So our final result is:
 \begin{align*}
-\mathbb{E}(\mathbf{TTK}) = 0.9439 s
+\mathbb{E}(\mathbf{TTK}) = 1.046 s
 \end{align*}
 
 In real world terms, this means while spamming chain heavies, and attempting to hit the head of stormvermin. A player with 40\% HS\% expects to kill a stormvermin in 0.9439 seconds as long as their have their maximum attack speed up (which is a reasonable assumption in Onslaught modes of Vermintide). Some portion of the time they will kill them faster, and some portion of the time they will kill them slower. But as the number of stormvermin approaches a high number, they will die at a rate close to that. This is, assuming the player is able to constantly attack and never block. To account for real world variables, it is sufficient to model this discrepency between real world and theoretical results via an efficiency coefficient which I will call $\rho$. So our general expression looks more like:
@@ -234,7 +242,21 @@ In real world terms, this means while spamming chain heavies, and attempting to 
 
 If someone wanted to solve for $\rho$ it would require them to spawn waves of enemies in conditions they deem realistic and measure the discrepancies in TTK. That would be a realistic way of quantifying melee uptime but that is outside the scope of this discussion currently.
 
-\section*{General Results}
+\section*{Extension: Arbitrary Breakpoints}
+
+This math is cool and all, but something that would be useful to know is a robust way to derive TTK for an arbitrary number of hits. To do this we will need to solve for an expression for $P(A_i)$ which is valid for arbitrary breakpoints.
+
+\begin{align*}
+\mathbb{E}(\mathbf{TTK}) = \alpha \sum_{i=1}^{n} P(A_i) t_i
+\end{align*}
+
+Note that before we calculated the probability that an attack is a crit, or headshot. This is a general result which can be generally applied.
+\begin{align*}
+P(\rho \text{ OR } \phi) = P(\rho) + P(\phi) - P(\rho)P(\phi)
+\end{align*}
+Another useful identity will be an application of the AND rule:
+
+Now we need to extend this to an arbitrary number of hits. Let $m$ denote the minimum number of hits to kill and $n$ denote the maximum number of hits to kill.
 
 \section*{}
 

@@ -8,7 +8,7 @@
 \usepackage{amssymb,amsmath,amsthm}
 \usepackage{geometry}
 \usepackage{verbatim}
-\geometry{legalpaper, margin=1.5in}
+\geometry{legalpaper, margin=1 in}
 
 \title{A Study of Time to Kill in Vermintide 2: A Probabilistic Approach}
 \author{John Hiles}
@@ -244,20 +244,264 @@ If someone wanted to solve for $\rho$ it would require them to spawn waves of en
 
 \section*{Extension: Arbitrary Breakpoints}
 
-This math is cool and all, but something that would be useful to know is a robust way to derive TTK for an arbitrary number of hits. To do this we will need to solve for an expression for $P(A_i)$ which is valid for arbitrary breakpoints.
+This math is cool and all, but something that would be useful to know is a robust way to derive TTK for an arbitrary number of hits. Now as much as I criticized DPS as a tool for understanding how weapons behave, in this section DPS will be absolutely critical for deriving our generalized expression for TTK. Lets start with an outline of the basic approach we are going to take:
+
+\begin{enumerate}
+\item[1.] Calculate the Average DPS of a particular weapon combo
+\item[2.] Divide HP of a particular enemy by average DPS, round UP to nearest integer
+\item[3.] Multiply that number by the time to do those attacks, factoring in attack speed buffs
+\end{enumerate}
+
+If we can do that, we now have the expected time to kill of virtually any weapon. Steps 2-3 are fairly straight forward but the first step will take some work.
+
+\subsection{Average DPS}
+Average DPS without factoring in crits or headshots is given by:
 
 \begin{align*}
-\mathbb{E}(\mathbf{TTK}) = \alpha \sum_{i=1}^{n} P(A_i) t_i
+\text{DPS} = \frac{\text{base damage}}{\text{time of swing}}
 \end{align*}
-
-Note that before we calculated the probability that an attack is a crit, or headshot. This is a general result which can be generally applied.
+Headshot DPS is then given by
 \begin{align*}
-P(\rho \text{ OR } \phi) = P(\rho) + P(\phi) - P(\rho)P(\phi)
+\text{hDPS} = \frac{\text{headshot damage}}{\text{time of swing}}
 \end{align*}
-Another useful identity will be an application of the AND rule:
+Critical DPS
+\begin{align*}
+\text{cDPS} = \frac{\text{crit damage}}{\text{time of swing}}
+\end{align*}
+Critical Headshot DPS
+\begin{align*}
+\text{chDPS} = \frac{\text{crit headshot damage}}{\text{time of swing}}
+\end{align*}
 
-Now we need to extend this to an arbitrary number of hits. Let $m$ denote the minimum number of hits to kill and $n$ denote the maximum number of hits to kill.
+We can actually simplify these expressions somewhat. Most weapons damage templates have headshot and crit damage which can be expressed as in terms of base bodyshot damage and a multiplier called "finesse". Lets denote finesse by $f$, and base damage by $D$ our equations then become:
+Headshot DPS is then given by
+\begin{align*}
+\text{bDPS} = \frac{D}{t}
+\end{align*}
+\begin{align*}
+\text{hDPS} = \frac{f D+D}{t}
+\end{align*}
+Critical DPS
+\begin{align*}
+\text{cDPS} = \frac{f D+D}{t}
+\end{align*}
+Critical Headshot DPS
+\begin{align*}
+\text{hcDPS} = \frac{2f D+D}{t}
+\end{align*}
+Note that some weapon damage templates do not scale this way, but this scaling behavior is the norm for the majority of the weapons.
 
-\section*{}
+Before continuing, there are two last factors which significantly impact damage dealt which we need to account for before continuing. The first is a niche property of weapons known as the "Armor Modifier". Each weapon has a base damage, and a finesse modifier, but one other property is the armor modifier which acts as a coefficient which scales damage versus certain types of enemies. For example, one weapon which performs well against infantry might not pierce armor well. Or another weapon which can pierce armor might not pierce Super Armor very well. Or by contrast, one weapon might pierce armor well, but perhaps it doesn't perform much better versus Infantry than any other weapon. This info is encoded into the "armor modifier". There is also an "armor modifier" which works separately on critical hits which also must be factored in. Let $m_b$ denote the armor modifier versus the enemy breed in question for non critical hits, and $m_c$ denote the armor modifier for critical hits.
+
+To account for this, we can modify our DPS terms like so:
+\begin{align*}
+\text{bDPS} = m_b \frac{D}{t}
+\end{align*}
+\begin{align*}
+\text{hDPS} = m_b \frac{fD+D}{t}
+\end{align*}
+Critical DPS
+\begin{align*}
+\text{cDPS} = m_c \frac{fD+D}{t}
+\end{align*}
+Critical Headshot DPS
+\begin{align*}
+\text{hcDPS} = m_c \frac{ 2fD + D}{t}
+\end{align*}
+
+The one final term are level 15 row "stagger" talents. For the purposes of this calculator, we are only going to analyze Smiter and Assassin.
+
+Smiter offers a flat 20\% increase in weapon damage across the board on the first target hit (the only target we are analyzing in this document) while Assassin offers a 40\% increase in damage to headshot damage. In other words, Smiter offers a modest boosts the damage of the lowest damage attacks and high damage attacks, while Assassin massively boosts the damage of the highest damage attacks. With these in mind, we should augment our equations for the Smiter and Assassin case. For Smiter we get:
+
+Base DPS Smiter vs Assassin
+\begin{align*}
+\text{bDPS} = 1.2 (m_b \frac{D}{t}) && \text{bDPS} = m_b \frac{D}{t} 
+\end{align*}
+Headshot DPS Smiter vs Assassin
+\begin{align*}
+\text{hDPS} = 1.2(m_b \frac{fD + D}{t} ) && \text{hDPS} = 1.4(m_b \frac{fD + D}{t} )
+\end{align*}
+Critical DPS Smiter vs Assassin
+\begin{align*}
+\text{cDPS} = 1.2( m_c \frac{fD + D}{t} ) && \text{cDPS} = m_c \frac{ fD + D}{t}
+\end{align*}
+Critical Headshot DPS Smiter vs Assassin
+\begin{align*}
+\text{hcDPS} = 1.2( m_c \frac{ 2fD + D}{t} ) && \text{hcDPS} = 1.4( m_c \frac{ 2fD + D }{t} )
+\end{align*}
+However, just for simplifying the notation, lets just denote this modifier as $S$ for now. Just know later on when you see that term it expands in the manner I've described here.
+
+So with these 4 DPS values in mind, to get the average expected DPS $\mathbb{E}(DPS)$, we need to determine the relative frequencies which these 4 events occur:
+\begin{enumerate}
+\item[1.] NOT Crit AND NOT Headshot
+\item[2.] NOT Crit AND Headshot
+\item[3.] Crit AND NOT Headshot
+\item[4.] Crit AND Headshot
+\end{enumerate}
+By applying the AND rule we conclude:
+
+\begin{enumerate}
+\item[$w_1 = $] $(1-\rho) (1-\phi)$
+\item[$w_2 = $] $(1-\rho) \phi$
+\item[$w_3 = $] $\rho (1-\phi)$
+\item[$w_4 = $] $\rho \phi$
+\end{enumerate}
+
+Thus, our expected DPS is a weighted average of these probability weights and our DPS values:
+
+\begin{align*}
+\mathbb{E}(DPS) = w_1 bDPS + w_2 hDPS + w_3 cDPS + w_4 hcDPS
+\end{align*}
+Expanding yields:
+\begin{align*}
+\mathbb{E}(DPS) = s (1-\rho) (1-\phi) \frac{m_b D}{t} + s\phi(1-\rho)\frac{m_b f D}{t} + s\rho(1-\phi) \frac{m_c f D}{t} + s (\rho \phi)\frac{m_c (f D)^2}{t}
+\end{align*}
+
+
+To make this more explicit, lets substitute in our stagger modifiers according to Smiter and Assassin:
+
+
+\begin{align*}
+\textbf{The Smiter Equation:}
+\end{align*}
+\begin{align*}
+\boxed{ \mathbb{E}(DPS)_{Smiter} = 1.2 [(1-\rho) (1-\phi) m_b \frac{D}{t} + \phi(1-\rho) m_b \frac{ fD + D}{t} + \rho(1-\phi) m_c \frac{ fD + D}{t} + (\rho \phi) m_c \frac{2fD + D}{t} ] }
+\end{align*}
+\begin{align*}
+\textbf{The Assassin Equation:}
+\end{align*}
+\begin{align*}
+\boxed { \mathbb{E}(DPS)_{Assassin} = (1-\rho) (1-\phi) m_b \frac{D}{t} + \rho(1-\phi) m_c \frac{ fD + D}{t} + 1.4[ \phi(1-\rho) m_b \frac{ fD + D}{t} + (\rho \phi) m_c \frac{ 2fD + D}{t} ] }
+\end{align*}
+
+\pagebreak
+\subsection{Breed HP and Expected Number of Hits}
+Now that we have our average DPS complete, all we need to do is pick our breeds which we intend to run TTK testing on.
+
+For the purposes of this document I am going to present some illustrative examples.
+
+First lets talk about the nuances of pure infantry breakpoints, and to do this, we are going to focus on the fanatic, clan rat, marauder, and mauler.
+
+\begin{enumerate}
+\item[•] Fanatic 48hp
+\item[•] Clan Rat 60hp
+\item[•] Marauder 120hp
+\item[•] Mauler 222hp
+\end{enumerate}
+
+The astute among you will have already noted that maulers count as infantry when hit in the body but super armor when hit to the head. We'll swing back to that later.
+
+I chose infantry in particular because there are many enemies in that category, and hence it is tricky to design a weapon which performs well versus maulers but poorly versus fanatics or clan rats. ESPECIALLY if one doesn't take into account critical hit and headshot damage.
+
+So in a normal non statistical approach, breakpoints are calculated via:
+\begin{align*}
+n = \lceil \tfrac{Breed HP}{DPS} \rceil
+\end{align*}
+If you are unfamilliar with the notation $\lceil • \rceil$ (because I sure was unfamilliar with it before typing this), these are the agreed upon symbols to denote that this value is always rounded up to the nearest integer. See \href{https://en.wikipedia.org/wiki/Floor_and_ceiling_functions}{here} if you're curious. But in our example, suppose $\tfrac{Breed HP}{DPS} = 4.75$, then we round that to $5$. If $\tfrac{Breed HP}{DPS} = 4.25$, then again we round that to $5$. This is of course because hits which do not deal lethal damage don't kill. There isn't a functional difference between alive and alive with 1hp, however there is a huge difference between 1hp and 0.
+
+So as with before we intend to give this the statistical treatment factoring in randomness. However luckily, the heavy lifting has been done already for that. So expected time to kill is simply taking running the same operation on our expected DPS:
+
+\begin{align*}
+\mathbb{E}(n) = \lceil \frac{HP_{Breed}}{\mathbb{E}(DPS)} \rceil
+\end{align*}
+
+So as a quick example, suppose we have a weapon such as the Cog Hammer as we discussed in the first part. Well according to VernonKun's spreadsheet Kruber's 1 handed sword deals 64.354 DPS with Assassin, and a 50\% headshot rate as well as no power or attack speed buffs. So under these parameters:
+
+\begin{align*}
+\mathbb{E}(n)_{fanatic} = \lceil \frac{48HP}{64.354\tfrac{HP}{s}} \rceil = 1
+\end{align*}
+\begin{align*}
+\mathbb{E}(n)_{Clan Rat} = \lceil \frac{60HP}{64.354\tfrac{HP}{s}} \rceil = 1
+\end{align*}
+\begin{align*}
+\mathbb{E}(n)_{Marauder} = \lceil \frac{120HP}{64.354\tfrac{HP}{s}} \rceil = 2
+\end{align*}
+\begin{align*}
+\mathbb{E}(n)_{Mauler} = \lceil \frac{222HP}{64.354\tfrac{HP}{s}} \rceil = \textbf{4}
+\end{align*}
+If you play Vermintide a lot, this result for the Mauler should stick out like a sore thumb to you. This expression predicts a mauler is expected to die in 4 hits, meaning it can sometime die in less hits than that and sometimes more. I can tell you for free that this is very much NOT correct. But remember that in this example, I outlined a 50\% headshot ratio. Well as many of you reading this probably are aware, mauler heads are super armored and as such our DPS equation is overestimating DPS versus maulers by a wide margin. To eliminate this bias, we must pretend that the headshot ratio is zero. Doing this yields a new DPS of $36.899$
+\begin{align*}
+\mathbb{E}(n)_{Marauder} = \lceil \frac{222HP}{36.899\tfrac{HP}{s}} \rceil = 7
+\end{align*}
+7 hits to kill a mauler is a much more realistic figure, however even this figure is imperfect as the possibility of accidentally hitting the head always exists. I wanted to highlight this example to demonstrate the limitations of this approach, and warn you that you must be careful not to violate the assumptions of this calculation.
+
+\pagebreak
+
+\subsection{Expected Time to Kill}
+
+The final step is to take the expected number of hits and multiply it by the time it takes for a weapon to swing.
+
+For certain weapons and certain combos, this is straightforward. For example, on the 1 handed axe for Bardin and Saltzpyre, most players tend to use chain light attacks (light 1, light 2, light 3) over and over. These attacks have a predictable duration with each attack. However, upon closer inspection not all of these attacks have the same duration. The attack duration with no attack speed buffs are listed as follows:
+
+\begin{enumerate}
+\item[Light 1] 0.5314s
+\item[Light 2] 0.4831s
+\item[Light 3] 0.5769s
+\end{enumerate}
+
+This difference in attack speed is minor for this particular weapon, but for other weapons or other attacks, this difference can be start. For example, Billhook's Heavy 2 + Light 1 combo has a much more significant difference between the timing of H2 and L1, and hence starting with heavy, or light can make a noticeable difference in TTK starting from one or the other. So in order to account for this, we will take the average of these $k$, where $k$ denotes the number of attacks in the combo:
+
+\begin{align*}
+t_{base} = \frac{1}{k} \sum_{i=1}^{k} t_i
+\end{align*}
+
+One thing to note is that this value is unscaled by any attack speed modifiers. Attack speed stacks are additive, and they have an inverse relation with animation time. As such, an attack speed modifier is given by
+\begin{align*}
+a_s = \frac{1}{1+100\times\sum_{i=1}^{j} u_i}
+\end{align*}
+Where the term $\sum_{i=1}^{j} u_i$ simply denotes every cumulative source of attack speed(in percent form).
+
+So scaled by attack speed, $t$ then is given by:
+\begin{align*}
+t = a_s t_{base}
+\end{align*}
+
+So to tie everything into a neat bow, our most generalized equation is:
+
+\begin{equation}
+\boxed{ \mathbb{E}(TTK) = a_s t_{base} \lceil \frac{{HP}_{breed}}{\mathbb{E}(DPS)} \rceil }
+\end{equation}
+
+And the uglier but more useful forms written in terms of Assassin and Smiter are given by:
+
+\begin{align*}
+ \mathbb{E}(TTK)_{Smiter} = a_s t_{base} \lceil \frac{a_s t_{base}  {HP}_{breed} }{1.2 [(1-\rho) (1-\phi) m_b D + \phi(1-\rho) m_b (fD + D) + \rho(1-\phi) m_c (fD + D) + (\rho \phi) m_c (2fD + D) ]} \rceil
+\end{align*}
+
+
+\begin{align*}
+\mathbb{E}(TTK)_{Assasin} = a_s t_{base} \lceil \frac{a_s t_{base}  {HP}_{breed} }{(1-\rho) (1-\phi) m_b D + \rho(1-\phi) m_c (fD + D) + 1.4[ \phi(1-\rho) m_b (fD + D) + (\rho \phi) m_c ( 2fD + D) ]} \rceil
+\end{align*}
+\pagebreak
+
+\begin{comment}
+\subsubsection{A Quick Side Note}
+Before continuing I want to highlight something really cool about this equation. 
+
+\begin{align*}
+ \mathbb{E}(TTK)_{smiter} =  a_s t_{base} \lceil \frac{ 1.2\times D[(1-\rho) (1-\phi) m_b + \phi(1-\rho)m_b f + \rho(1-\phi) m_c f + (\rho \phi) m_c f^2 ] }{a_s t_{base} HP_{Breed}} \rceil
+\end{align*}
+
+If you are like me, you saw this factor of $a_s t_{base}$ in the denominator of the fraction and thought to yourself ``Oh wow! Look it cancels out!". But this is NOT so, as the rounding function prevents us from legally being able to do that. But what if we pretended for a moment that we could do that? Well if we could cancel out it out we would be left with:
+
+
+\begin{align*}
+ \mathbb{E}(TTK)_{smiter} =  \lceil \frac{ 1.2\times D[(1-\rho) (1-\phi) m_b + \phi(1-\rho)m_b f + \rho(1-\phi) m_c f + (\rho \phi) m_c f^2 ] }{ HP_{Breed}} \rceil
+\end{align*}
+
+Which is essentially
+
+\begin{align*}
+TTK = \frac{ \text{Damage Done In Set Amount of Time}}{\text{Health of Enemy}}
+\end{align*}
+
+In other words, this is the erroneous intuitive conclusion which I opened this article with: that DPS = Kill Rate. I find this fascinating, because it gives intuition into what the function of the rounding function $f(x) = \lceil x \rceil$ is doing: the rounding function is correcting for the error which is made by assuming DPS is equivalent to the kill rate.
+\end{comment}
+
+\pagebreak
+
+\subsection{Examples!}
+
+With our equations in hand, lets run some TTK tests on some example numbers.
 
 \end{document}

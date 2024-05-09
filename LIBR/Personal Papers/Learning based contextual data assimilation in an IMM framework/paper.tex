@@ -1,0 +1,296 @@
+% IEEEAerospace2012.cls requires the following packages: times, rawfonts, oldfont, geometry
+\documentclass[twocolumn,letterpaper]{IEEEAerospaceCLS}  % only supports two-column, letterpaper format
+
+% The next line gives some packages you may find useful for your paper--these are not required though.
+%\usepackage[]{graphicx,float,latexsym,amssymb,amsfonts,amsmath,amstext,times,psfig}
+% NOTE: The .cls file is now compatible with amsmath!!!
+
+\usepackage[]{graphicx}    % We use this package in this document
+\newcommand{\ignore}[1]{}  % {} empty inside = %% comment
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+
+\begin{document}
+\title{An Example of the 2024 IEEE Aerospace Conference Paper Format Using a \LaTeX~Environment}
+
+
+\author{
+{John Hiles}\\
+Virginia Commonwealth Univ.\\
+Richmond, VA,  USA  \\
+hilesj@vcu.edu
+\and
+Liang Xu
+WORKPLACE\\
+ADDRESS  \\
+EMAIL
+\and
+Ruixin Niu
+Virginia Commonwealth Univ.\\
+Richmond, VA, USA  \\
+rniu@vcu.edu
+\and
+{Erik P. Blasch}
+AF Office of Scientific Research\\
+	Arlington, VA, USA  \\
+	erik.blasch.1@us.af.mil
+}
+
+
+
+
+%%%% IMPORTANT: Use the correct copyright information--IEEE, Crown, or U.S. government. %%%%%
+\thanks{\footnotesize 979-8-3503-0462-6/24/$\$31.00$ \copyright2024 IEEE}              % This creates the copyright info that is the correct 2024 data.
+%\thanks{{U.S. Government work not protected by U.S. copyright}}         % Use this copyright notice only if you are employed by the U.S. Government.
+%\thanks{{979-8-3503-0462-6/24/$\$31.00$ \copyright2024 Crown}}          % Use this copyright notice only if you are employed by a crown government (e.g., Canada, UK, Australia).
+%\thanks{{979-8-3503-0462-6/24/$\$31.00$ \copyright2024 European Union}}    % Use this copyright notice is you are employed by the European Union.
+
+
+\maketitle
+
+\thispagestyle{plain}
+\pagestyle{plain}
+
+
+
+\maketitle
+
+\thispagestyle{plain}
+\pagestyle{plain}
+
+\begin{abstract}
+This paper serves as an example for the use of the \LaTeX~class file for the 2024 Aerospace Conference. The \LaTeX~class file for the 2024 conference has been modified from that of prior year conferences in order to fix minor bugs and to conform to new formatting requirements. Within the class file there are some customized commands that are illustrated in this paper. They are: tableofcontents, acknowledgments, thebiography. There are also comments sprinkled throughout the~.tex file to illustrate the usage of the class file. If you have difficulties or errors using this class file, please contact me at the e-mail address in the author's information slot. Some of the content below is filler designed to show you how a properly formatted paper should look. Read the official ``Author's Instructions for the 2024 IEEE Aerospace Conference'' to find the full description of the paper formatting requirements
+\end{abstract} 
+
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+The maneuvering target problem is an area of great interest for modern target tracking. It is characterized by estimating the motion of an object in which its dynamics are unknown to the observer, but the set of possible ways the target can move are known or partially known. This differs from a standard dynamic estimation problem in that the former tends to be characterized by a single mode described by a single model. The maneuvering target problem involves a target which can move in one of a finite set of known "maneuvers" which can be individually described by a model. This framework has proven highly versatile and is widely used to model the trajectories of aircraft and vehicles in which the control dynamics are unknown to the observer. SURVEY OF MTT
+
+\begin{equation}
+x_{k+1} = F_k x_k + w_k
+\end{equation}
+
+\begin{equation}
+\dot{z}_{k} = H_k x_k + w_k
+\end{equation}
+
+
+
+
+Mode switches are *assumed* to have a finite probability of occuring at any timestep.
+
+\begin{equation}
+P\{m^{(j)}_{k+1} | m^{i}_{k} \} = \pi_{ij}
+\end{equation}
+
+
+\subsection{Multiple Model Filters}
+The standard approach to estimating the trajectories of maneuvering targets is the multiple model (MM) approach. In a MM algorithm the target is assumed to move according to one of $M$ motion models at any given time step $k$. A MM algorithm runs some number of filters in parallel, while a non-MM based approach tends to make a decision to run one of many potential filters. The current state of the art MM algorithm is generally considered to be the IMM or Interacting Multiple Model Filter(IMM). The IMM runs $M$ filters in parallel, and after the posterior state of each of the M filters is calculated, the $M$ posterior states are blended together according to $EQUATION$. The key feature here is the Transition Probability Matrix which encodes all the information about the system's probabilities to switch or not switch from one model to another. The IMM in particular is renown for its balance of computational complexity and accuracy.
+
+Machine Learning represents a promising new avenue for improvement in these methods and much attention has been given to finding novel ways to incorporate machine learning$FUSION 7920$. Neural Networks have been employed to train on simulated datasets to allow networks to learn state dynamics$Paper num 2205$ as well as noise statistics$EKF Net$. But one important property of neural networks which hasn't been leveraged in current tracking research is the input agnostic nature of neural networks.
+
+The Kalman Filters are standard for tracking non manuvering targets, the Kalman Filter diverges rapidly if the motion model doesn't match the dynamics of the target. Numerous algorithms and approaches have been proposed to handle this shortcoming. These algorithms can either involve using decision theory to modify a single filter, or in some way involve running multipule filters in parallel. In time the latter approach has become the standard approach as it has proven highly resilient.
+
+One of the core difficulties with maneuvering target tracking is its difficulty in detecting model changes. All maneuvering target algorithms see a high spike in estimation error during a model switch. This spike is more or less an inherent property of these algorithms as uncertainty must increase in order for the blended state to shift. After error spikes, these algorithms tend to plateau off to a new equilibrium of error until the next model transition happens again, causing another spike in the error.
+
+The standard algorithm for the maneuvering target problem is the Interacting Multiple Model Filter or IMM. The IMM is an evolution of previous methods which involved switching motion models via some form of hard decision based on the likleyhood of the target moving via a particular model. The multiple model approach differs by generating a set of three predictions and three state updates, and representing state as a Gaussian mixture of these three states weighted according to the likleyhood of each state.
+The multiple model approach has proven highly effective, and the equations lend themselves to nonlinear filtering as the prediction and update step can be handled via Kalman Filter derived
+
+
+
+\subsection{LSTM Neural Networks}
+The network architecture chosen for this simulation is the Long Short Term Memory or LSTM. LSTM neural networks are a type of Recurrent Neural Network (RNN) characterized by the ability to keep and "discard" internal information pertaining to the system state while assimilating new data. In contrast to feedforward neural networks, RNN's have cyclical paths(hence the "Recurrent" in the name) which results in older information being fed back through the system which gives it "memory". RNNs are very well suited to dealing with time series data due to its ability to make associations with older data which would normally be discarded by a comparably sized feedforward network. Just like feedforward networks, these networks suffer from the "vanishing gradient problem", in which one node going to zero or infinity has a cascading effect in a network which is difficult to correct.
+	The Long Short Term Memory architecture is a class of RNN which is structured to address this vanishing gradient problem. LSTM networks are composed of cells, which themselves contain "gated recurrent units". These GRUs act as input gates, output gates, and forget gates. These cells are interconnected in the same cyclical manner as the RNN except the LSTM has the ability to discard information and not pass it further along in to the network. These forget gates mitigate the risk of exploding or vanishing gradients cascading through the network, as well as ensure that longer term trends which the network deems are "important" can be retained and not drowned out by less important data.
+	The equations for an LSTM cell
+\begin{equation}
+i_t = \sigma (W_{ix} x_t + W_{im} m_{t-1} + W_{ic} c_{t-1} + b_i)
+\end{equation}
+
+\begin{equation}
+f_t = \sigma (W_{ix} x_t + W_{im} m_{t-1} + W_{ic} c_{t-1} + b_i)
+\end{equation}
+
+\begin{equation}
+c_t = f_t \odot c_{t-1} + i_t \odot g (W_cx) x_t + W_cm m_{t-1} +b_c
+\end{equation}
+
+\begin{equation}
+o_t = \sigma (W_{ox} x_t + W_{om} m_{t-1} + W_{oc} c_t + b_0)
+\end{equation}
+
+\begin{equation}
+m_t = o_t \odot h (c_t)
+\end{equation}
+
+\begin{equation}
+y_t = W_{ym} m_t +b_y
+\end{equation}
+
+	RNNs have been demonstrated to perform exceptionally well for time series data and have already shown to be highly effective at trajectory prediction. However most current research focuses on simply learning the state dynamics by analysis of purely the kinematic trajectory data itself. However in the real world, systems may have access to more information than this. The traditional statistical methods are limited by the ability to encode information into a model, which itself can be a problem on its own. The data driven approach constructs a predictive model based on inputs, and hence it can be said to be input agnostic. In this paper we evaluate the efficacy of LSTM predictors in simulated trajectories in which datasets are encoded with contextual or "qualitative" information compared to existing methods which only consider the system state itself.
+	
+
+
+
+\section{Problem Formulation}
+To evaluate these methods, we propose a simulation of a maneuvering target in which the target moves via one of the following motion models.
+\begin{enumerate}
+\item[1] $F_{cv} = \begin{bmatrix}
+1 & \Delta t \\
+0 & 1
+\end{bmatrix}$
+\item[2] $F_{L} = \begin{bmatrix}
+1 & \tfrac{sin(\omega) dt}{\omega} & 0 & -\dfrac{1-cos(\omega)dt}{\omega} \\ \\
+0 & cos(\omega) dt & 0 & -sin(\omega)dt \\ \\
+0 & \dfrac{1-cos(\omega) dt}{\omega}& 1 & \dfrac{ sin(\omega)dt}{\omega} \\ \\
+0 & sin(\omega)dt & 0 & cos(\omega)
+\end{bmatrix}$ 
+\end{enumerate}
+
+These models are simple Linear Gaussian motion models, and hence we can use the Kalman Filter for the IMM, which is the optimal estimator for Linear stochastic dynamic systems. It has been shown that machine learning based prediction can attain the Cramer-Rao lower bound for Linear Gaussian stochastic systems so the main factor which should differentiate the IMM filter and the LSTM based predictor will be their ability to pick up on changes in motion model.
+
+
+\subsubsection{Dataset Generation}
+Testing and training datasets were generated in fairly different manners with different objectives in mind.
+
+The goal of the training set is to present situations in which the Neural Network can learn to associate certain features with turning. As such the training dataset is composed of short trajectories in which the manuvering target adheres to the "traffic laws" we have specified. The initial state vectors are initialized to uniformly random values within the intervals of $100 \cup-100$. Furthermore ground truth trajectories for training were generated using four different values for the process noise $q = 0.25,0.5,2,4$ to mitigate overfitting to one particular noise statistic.
+
+The goal of the testing set however is to provide a realistic or semi realistic representation of a street or road system. As such trajectories are generated via a pathfinding algorithm A* (pronounced A star) to generate a path inside a road system of sort. An example of one such path exists here. Intersection labels are applied to datapoints which reside within the bounds of the designated zones in or adjacent to intersections. One way roads have been designated and encoded as separate features, in other words a road which only permits travel "North" is encoded as a boolian 1 or 0. Crucially this allows intersections which reside in one way roads to have both an intersection and a one way label. It also allows one way roads to intersect which is a special case in which the target is guaranteed to travel in a particular direction.
+
+
+\subsubsection{Training Set}
+To train the neural network, the key to training is to generate short trajectories with random initial conditions and propagate them forward in time via our motion models. In a problem without contextual labels the training process would be much simpler. LSTMs and most neural networks assume "balanced" datasets, in that the training data must have each possible situation represented at roughly equal frequencies regardless of their actual frequency. As such, in a normal kinematic problem balancing the dataset is simply a matter of ensuring that data from each model used is fed in an equal number of time.
+
+However in the problem with labeled data, is the complexity increases somewhat.
+
+\begin{enumerate}
+\item Turning models will always be associated with intersection labels
+\item Not all intersections will involve a turning model
+\item The absence of an intersection label will always mean a constant velocity model
+\end{enumerate}
+
+As such we need training data of the following classes:
+
+\begin{enumerate}
+\item Left Turn in intersection
+\item Right turn in intersection
+\item Constant Velocity in intersection
+\item Constant velocity outside of intersection
+\item Left turn in to one way lane
+\item Right turn in to one way lane
+\item constant velocity perpendicular through one way lane and intersection
+\item constant velocity in direction of one way lane
+\end{enumerate}
+
+In the rules we have laid out for how cars travel in this system, these are all the possible situations which obey the laws of traffic.
+
+To combat over fitting to one particular set of noise statistic, training data will also involve multiple batches of the same trajectories but with varying noise statistics. Following the procedure of <this paper> we used $q=0.001, 0.01, 0.1$.
+
+For the purposes of evaluating this network, we will be using using a commonly used set of motion models. Our target at any given time follows the dynamics of one of the three following models
+\begin{enumerate}
+\item[1] $F_{cv} = \begin{bmatrix}
+1 & \Delta t \\
+0 & 1
+\end{bmatrix}$
+\item[2] $F_{L} = \begin{bmatrix}
+1 & \tfrac{sin(\omega) dt}{\omega} & 0 & -\dfrac{1-cos(\omega)dt}{\omega} \\ \\
+0 & cos(\omega) dt & 0 & -sin(\omega)dt \\ \\
+0 & \dfrac{1-cos(\omega) dt}{\omega}& 1 & \dfrac{ sin(\omega)dt}{\omega} \\ \\
+0 & sin(\omega)dt & 0 & cos(\omega)
+\end{bmatrix}$ 
+\end{enumerate}
+Where to left and right turns have turn rates $\omega = \pm \frac{\pi}{4}$ respectively.
+\begin{equation}
+F_{cv} = ooga
+\end{equation}
+
+
+
+\subsection{Dataset Generation}
+The testing and training datasets were generated in entirely different ways. Simulation in this instance is preferred because training the neural network to assimilate qualitative data requires accurate labeling on the training dataset. The two features which we have included are the direction of traffic, or some streets are designated as only being able to move in one direction. The other feature which we label is proximity to an intersection. It should be intuitive to a human that a car is extremely unlikely to turn if there were no road to turn in to. As such turning can only occur in certain designated places.
+
+The objective of the training set is twofold. First is the network must learn the state dynamics of each motion model which the target can possibly be in. Second, the network must learn to associate proximity to an intersection with the possibility of turning, and the absence of an intersection label makes turning impossible. And it must learn that a unidirectional street means it is a certainty that the target cannot be turning in to the wrong direction of the road. In practice this eliminates one of the three possible motion models.
+
+Associating intersections with turning and learning the direction of traffic should result in lower estimation error during model switches in the presence of these labels.
+
+
+\subsubsection{Testing Set}
+The simulation presented here has been designed to mimic real world traffic systems. Position is mapped in cartesian coordinates and numerous assumptions are made such as uniform size of roads, intersections, and city blocks. However it should be noted that the problem could also be formalized as a vector map which could possibly interface with existing GPS systems and utilities such as Google Maps.
+
+Unlike the testing set, initial positions are NOT randomized and instead they occupy a set order within a constructed road system represented by a grid. Then a pathfinding algorithm known as A* is used to find the shortest path between a given start and endpoint while filtering out trajectories which violate established traffic laws such as traveling against the direction of a designated lane. In particular this format was chosen to demonstrate the network's ability to learn the state dynamics themselves, as like in the real world, these trajectories constitute a highly imbalanced dataset. To be precise, on average across all possible trajectories constant velocity models constitute 97\% of the total points in the dataset.
+
+Trajectories generated in this fashion represent a realistic representation of a maneuvering target in which the target moves from one position to the next in the shortest possible path.
+
+Since trajectories generated in this manner, to better visualize the performance of the filters we can choose a single trajectory, a single noise statistic, and run many monte carlo simulations in which the psuedorandom number generation seed is varied.
+
+\section{Results}
+
+For comparison we are evaluating three trackers on the trajectory and measurement data. The first is an IMM with the following Transition Probability Matrix composed of Kalman Filter predictors and updaters. The second is an LSTM tracker which does not assimilate contextual data and the third is one which does assimilate qualitative data.
+
+\subsection{RMSE for a single trajectory}
+For comparison two versions of the IMM have been included in the testing. One has a transition probability matrix which is less than optimal while the second IMM has a well tuned transition probability matrix which is close to optimal for the particular testing set.
+
+Due to the highly variable nature of these trajectories the repeated instances of the tracker are derived from the same ground truth data but with different psuedorandom number generation seed. This ensures that the performance of the algorithms at the turns can be analyzed since the turns occur at the same times in each monte carlo iteration.
+
+Here is a plot of an example trajectory generated from the A* algorithm. Here you can see the target travels at a constant velocity and turns twice. Noisy measurements are distributed around the central ground truth. Thus all iterations of the algorithm have turns which occur at the same regions on the error plot.
+
+Here 100 Monte Carlo runs of the IMM, context unaware LSTM, and the context aware LSTM yield the following root mean square plots.
+
+PLOT
+
+
+\subsection{Impact of contextual information}
+In particular its worthwhile to note that the context unaware LSTM performs almost as well as the context aware version. This is likely due to the fact only one of the intersections in the path was a one way intersection and hence the context only helped in the one localized area. On the error plot it is apparent that during the first model switch-which occurred in the presence of a one way intersection-- did have a markedly lower spike in error, though for the second turn the difference is much less.
+
+The contextual information resulted in faster and less error prone results
+
+
+\section*{Acknowledgment}
+
+
+\section*{References}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\acknowledgments
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{IEEEtran}
+%\bibliography{IEEEabr,MyBibFile}
+\begin{thebibliography}{1}
+
+\bibitem{ITAR}
+U.S. Munitions List, Sections 38 and 47(7) of the Arms Export Control Act (22 U.S.C 2778 and 2794(7).
+
+\bibitem{AeroConf}
+
+\end{thebibliography}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\thebiography
+%% This biostyle allows you to insert your photo size 1in X 1.25in
+\begin{biographywithpic}
+{Erica Deionno}{Deionno.eps}
+received her B.S. and Ph.D degrees in chemistry from UCLA. She is currently an Assistant Principal Director in the Defense Systems Group at the Aerospace Corporation. During her 15 years at Aerospace, she has held numerous roles, including several lead positions in Aerospace's Innovation office. She also spent over 10 years conducting research in the Laboratories at Aerospace, where her work included radiation testing and modeling of emerging resistive RAM technologies and modeling space solar cell degradation.
+\end{biographywithpic} 
+
+\begin{biographywithpic}
+{Jane Smith}{blankpic.eps}
+received her B.S. degree in Electrical Engineering in 1985 and a Ph.D. in Aerospacel Engineering from the Massachusettes Institute of Technology in 1990. She is currently a professor of Aerospace Engineering at the University of Nowhere. Her research includes secure communications, space cyber security, and autonomous operations.
+
+\end{biographywithpic}
+
+
+
+
+\end{document}

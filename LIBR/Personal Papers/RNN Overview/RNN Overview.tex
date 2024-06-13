@@ -1,0 +1,136 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{RNN Example}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+
+
+\section{Introduction}
+
+Here I want to introduce the mathematical intuition behind RNNs. But first I must introduce the reader to other network structures.
+
+Most supervised learning problems are derived from linear classifiers.
+
+\subsection*{Single Layer Perception}
+
+The objective of a linear classifier is to input a feature vector and decide if it belongs to one class or another.
+
+For this example we will refer to binary classification.
+
+Fundamentally speaking, how a linear classifier operates is a very simple decision rule. Does the input lie above or below the best fit line?
+
+In two dimensions the linear classifier can be easily understood as whether or not an input $x$ lies above or below the best fit line.
+
+\begin{align*}
+f(x) = 
+ \begin{cases} 
+      1 & x > mx \\
+      0 & x \leq mx \\
+   \end{cases}
+\end{align*}
+
+However a more rigorous definition of linear classifiers is necessary for our purposes. The broadest definition would be:
+
+\begin{align*}
+y = f(\sum_{i=1}^{n} w_i x_i)
+\end{align*}
+
+In this formalism, y is the output of the classifier, and this can be either a continuous real output, or restricted according to the function $f$. $f$ is called the activation function, and it is meant to encode the decision making process of the classifier. The activation function operates on a linear combination of variables. For the rest of this, we will discuss the case where
+\begin{align*}
+f(x) = sign(x) =
+ \begin{cases} 
+      1 & x > 0 \\
+      0 & x \leq 0 \\
+   \end{cases}
+\end{align*}
+
+Another more compact way of writing this using the dot product would be:
+\begin{align*}
+\hat{x}_i = sign(\mathbf{w} \cdot \mathbf{x}_i)
+\end{align*}
+This particular type of linear classifier is known as a "Linear Perceptron".
+
+Also note that the key ingredient which makes this a classifier is the activation function $f(x)=sign(x)$. If instead we wish to set $f(x)=1$, then we have an ordinary least squares estimator.
+
+
+Now this only tells us about the desired format for the classifier itself, but it doesn't tell us how to arrive at the optimal $\mathbf{w}$ vector suitable for our problem.
+
+Arriving at this $\mathbf{w}$ vector is the core pursuit of machine learning. For the purposes of this tutorial we will exclusively deal with optimization with respect to the Mean Square Error objective function, but other loss functions exist with other quirks and advantages. Mean Square Error is given by
+
+\begin{align*}
+f_{MSE}(x_i) = \tfrac{1}{n} \sum_{i=1}^{n} (\hat{x}_i - y_i)^2
+\end{align*}
+Where $y_i$ represents the "correct" label for a given data point.
+
+Substituting in our predictor directly:
+
+Note here that $\hat{x}$ refers to predictions made by the predictor, and the subscript $i$ refers to individual points on the dataset which is being considered. This error function essentially operates on the dataset being considered. Most machine learning guides gloss over what is going on with the optimization at this step, but for this I won't. Lets look at our A matrix, in the case of a  dimensional input $\mathbf{z}$.
+\begin{align*}
+\mathbf{w} = <w_1 & w_2> \\ 	\mathbf{y} = <z_1 & z_2>
+\end{align*}
+
+Our classifier output becomes:
+\begin{align*}
+\hat{x} = sign( <w_1 & w_2> \cdot \begin{bmatrix} z_1 \\ z_2 \end{bmatrix})
+\end{align*}
+\begin{align*}
+\hat{x} = sign( w_1z_1 + w_2 z_2 )
+\end{align*}
+
+And then our MSE criterion becomes:
+
+\begin{align*}
+(sign(w_1z_1 + w_2 z_2) - y_i)^2
+\end{align*}
+
+To optimize this with respect to mean square error, we would perform gradient descent on this matrix and we would need to know the partial derivatives of each of these elements with respect to the error function.
+
+Note that $y_i$ represents the "correct" label, which in this case is either $1$ or $0$.
+
+To optimize this error function, we must figure out the partial derivatives of $w_1$ and $w_2$ with respect to this error function.
+
+\begin{align*}
+\nabla f_{MSE}(x_i) = \frac{\partial f_{MSE}(x_{i(1)})}{\partial w_1} + \frac{\partial f_{MSE}(x_{i(2)})}{\partial w_2}
+\end{align*}
+
+These partial derivatives are analytically solvable for for a single layer perception.
+\begin{align*}
+\nabla f_{MSE}(x_i) = -2\mathbf{x}_i^T \mathbf{y}_i + 2\mathbf{x}_i^T \mathbf{x} \mathbf{w}
+\end{align*}
+
+However in more advanced networks, they are not. However this kind of classifier is more or less the basis of modern neural networks and it is important to understand the through line between it and more advanced structures.
+
+The Linear Perceptrons break down under certain problems, such as the XOR classification problem and they cannot predict or classify on systems which are separated nonlinearly.
+
+
+
+\section{Multi Layer Perceptron}
+
+
+\section{Convolutional Neural Network}
+\subsection{Residual Network (ResNet)}
+
+\section{Recurrent Neural Network}
+
+\subsection*{Long Short Term Memory}
+
+\section{Multi Head Attention}
+
+\subsection{Transformer}
+
+
+
+\end{document}

@@ -119,11 +119,116 @@ The Linear Perceptrons break down under certain problems, such as the XOR classi
 
 \section{Multi Layer Perceptron}
 
+The generalized equation for 2 layer MLP. Note here that H denotes the output of a "hidden layer". And O represents the output of the final layer.
+
+\begin{align*}
+H = \sigma(XW^{1}) 
+\end{align*}
+
+\begin{align*}
+O = \sigma(HW^{2}) 
+\end{align*}
+
+To increase the number of layers, all we need to do is create more weight vectors and do another set of inner products.
+
+\begin{align*}
+H^{(1)} = \sigma(XW^{(1)}) 
+\end{align*}
+
+\begin{align*}
+H^{(2)} = \sigma(H^{(1)}W^{(2)})
+\end{align*}
+
+\begin{align*}
+O = \sigma(H^{(2)}W^{2}) 
+\end{align*}
+
 
 \section{Convolutional Neural Network}
+
 \subsection{Residual Network (ResNet)}
 
 \section{Recurrent Neural Network}
+\subsection{Natural Language Processing}
+A sequence can be defined as a series of input vectors.
+
+\begin{align*}
+\mathbf{x_1}, \mathbf{x_2}, ... , \mathbf{x_t}
+\end{align*}
+
+The motivation for this was from natural language processing. Language can be modeled as a semi nth order markov process. Words are encoded into these vectors via a process called tokenization. For the purposes of this discussion, it is only necessary to understand that tokenization involves turning text into sequences of numbers.
+
+But by modeling text in this manner, it allows us to conceptualize the process of translation or predicting the next word in a sentence as a prediction problem.
+
+Given some text, what is the most likley next word in the sentence?
+
+A simple example would be the simple sentence "Do you ever wonder why we are here?"
+
+This sentence would be broken up as a sequence of words, and those words would be tokenized according to some scheme.
+
+\begin{enumerate}
+\item[$x_1$] = Do
+\item[$x_2$] = you
+\item[$x_3$] = ever
+\item[$x_4$] = wonder
+\item[$x_5$] = why
+\item[$x_6$] = we
+\item[$x_7$] = are
+\item[$x_8$] = here?
+\end{enumerate}
+
+Given our own intuition about language, we know that depending on where they are in a sentence, some words are more likely to appear than others. For example, the word "wonder" would likley be a lot less likley to be the start of the sentance. And since "Do" is capitalized, it is a near certainty to be at the start of a sentence, and "here?" has a question mark, meaning its likely the end.
+
+Modeling language as a sequence turns this into a prediction problem. This here is the first order factorization.
+
+\begin{align*}
+P(\mathbf{x_1},...,\mathbf{x_t}) = P(\mathbf{x_1}) \prod_{i=1}^{T} P(\mathbf{x_T}|x_{t-1})
+\end{align*}
+
+The likleyhood of our previoous sentence would then be represented:
+\begin{align*}
+P(\text{Do you ever wonder why we are here?}) = \\ P(Do) P(you|Do) P(ever|Do,you) P(wonder|Do,you,ever) \\ P(why|Do,you,ever,wonder) P(we|Do,you,ever,wonder,why) \\ P(we|are,you,ever,wonder,why,we) \\ P(here?|are,you,ever,wonder,why,we,are)
+\end{align*}
+
+Note that modeling text in this manner relies on many many assumptions. This is a first order markov model which may or may not be desirable. However raising the order comes with significant increases in computational complexity, and diminishing returns. The other main assumption is modelling it in this manner relies primarily on the frequency of words to calculate these relative likelihoods. However introducing natural language processing I feel is important to demonstrate why time series/temporal correlation is so important and why RNNs were developed to deal with this particular problem.
+
+The intuition behind RNNs is that a network structure was desired which could accurately model systems in which the next step or steps in the sequence were highly correlated with what comes before.
+
+Note here that the input and output of an RNN is somewhat different from the CNN.
+
+The CNN accepts one feature vector $\mathbf{x}$, RNNs accept sequences of vectors $\mathbf{x_1},...,\mathbf{x_t}$ and output sequences of vectors $\mathbf{\hat{x}_1},...,\mathbf{\hat{x}_t}$. On one hand, you might think this distinction is irrelevant, as its simply a matter of interpreting or transforming data. However this is not necessarily the case. The model itself is autoregressive and depends on itself.
+
+So what makes a sequence model a sequence model is that its output sequence depends on itself while in a CNN or MLP, it does not.
+
+\subsection{RNN}
+
+At this point it is important to make a distinction between the MLP and the RNN. In the MLP, information only flows forward which makes it not useful for autoregressive type modeling. The special sauce for an RNN is its ability to transmit information backwards in the neural network.
+
+Recall the MLP is given by:
+\begin{align*}
+H^{(1)} = \sigma(XW^{(1)}) 
+\end{align*}
+
+\begin{align*}
+H^{(2)} = \sigma(H^{(1)}W^{(2)})
+\end{align*}
+
+\begin{align*}
+O = \sigma(H^{(2)}W^{2}) 
+\end{align*}
+
+At each layer of the RNN, information is fed forward, but its also sent to a "Hidden State". The hidden state is somewhat nebulously defined as some function of the output of a hidden layer and the current time step.
+
+\begin{align*}
+h_{t} = f(x_t, h_{t-1})
+\end{align*}
+
+\begin{align*}
+H_{t} = \sigma( X_t W_{xh} + H_{t-1} W_{hh} )
+\end{align*}
+
+Note this $W_hh$ is the new thing. This didn't exist before and it had no analogue. But it is a new weight to optimize with respect to.
+
 
 \subsection*{Long Short Term Memory}
 

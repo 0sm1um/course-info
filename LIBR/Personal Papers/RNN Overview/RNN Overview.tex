@@ -140,12 +140,39 @@ H^{(2)} = \sigma(H^{(1)}W^{(2)})
 \end{align*}
 
 \begin{align*}
-O = \sigma(H^{(2)}W^{2}) 
+O = \sigma(H^{(2)}W^{(3)}) 
 \end{align*}
+
+\subsubsection{Activation Function}
+Note that earlier the purpose of the "Activation Function" was strictly to map the output of the inner product to the classes of a classifier. However in the multi layer perceptron the activation function takes on a more fundamental or important role.
+
+If an MLP uses a linear activation function $\sigma$ on all neurons, then any number of layers can be reduced to a two layer input output layer perceptron. As a short excercise lets examine out previous MLP:
+
+\begin{align*}
+H^{(1)} = \sigma(XW^{(1)})  && H^{(2)} = \sigma(H^{(1)}W^{(2)}) && O = \sigma(H^{(2)}W^{(3)}) 
+\end{align*}
+
+Lets see what happens if we set our activation $\sigma$ equal to 1.
+
+\begin{align*}
+H^{(1)} = XW^{(1)}  && H^{(2)} = H^{(1)}W^{(2)} && O = H^{(2)}W^{(3)} 
+\end{align*}
+\begin{align*}
+O = (H^{(1)}W^{(2)}) W^{(3)}
+\end{align*}
+\begin{align*}
+O = (XW^{(1)} W^{(2)}) W^{(3)}
+\end{align*}
+Since these here are 3 linear operations, all of these multiplications of $W$ matricies can be factorized or compressed into a single weight matrix
+\begin{align*}
+O = X W
+\end{align*}
+And here we have more or less arrived again at a single layer perceptron. This one technically isn't, but again you could factorize that $W$ matrix to turn it into a dot product between a vector and the input vector.
+
+This here is the purpose of the activation function. By intentionally causing this nonlinearity, we intentionally stifle the simplification of the model. A key feature of the multi layer perceptron is that by doing this, the MLP can classify and do prediction on problems which the Single Layer Perceptron cannot. However, the problem with this, is the difficulty of differentiating and solving for the $W$ weights, however as long as the choice of $sigma$ is differentable, then it is feasible with modern automatic differentiation.
 
 
 \section{Convolutional Neural Network}
-
 \subsection{Residual Network (ResNet)}
 
 \section{Recurrent Neural Network}
@@ -204,31 +231,43 @@ So what makes a sequence model a sequence model is that its output sequence depe
 
 At this point it is important to make a distinction between the MLP and the RNN. In the MLP, information only flows forward which makes it not useful for autoregressive type modeling. The special sauce for an RNN is its ability to transmit information backwards in the neural network.
 
+
 Recall the MLP is given by:
+
+Input Layer:
 \begin{align*}
 H^{(1)} = \sigma(XW^{(1)}) 
 \end{align*}
 
+Hidden Layer:
 \begin{align*}
 H^{(2)} = \sigma(H^{(1)}W^{(2)})
 \end{align*}
 
+Output Layer:
 \begin{align*}
-O = \sigma(H^{(2)}W^{2}) 
+O = \sigma(H^{(2)}W^{(3)}) 
 \end{align*}
 
-At each layer of the RNN, information is fed forward, but its also sent to a "Hidden State". The hidden state is somewhat nebulously defined as some function of the output of a hidden layer and the current time step.
 
+Here I will present a simple RNN based on the same network, but with a Recurrent "Hidden State". At each layer of the RNN, information is fed forward, but its also sent to a "Hidden State". The hidden state is somewhat nebulously defined as some function of the output of a hidden layer and the current time step.
+
+Basic Definition of any "Hidden state". It is a function of the current state vector and the previous hidden state.
 \begin{align*}
 h_{t} = f(x_t, h_{t-1})
 \end{align*}
 
+In the context of a feedforward network, a basic definition for the hidden state of a typical RNN is given by:
 \begin{align*}
-H_{t} = \sigma( X_t W_{xh} + H_{t-1} W_{hh} )
+H_{t} = \sigma( X_t W^{(1)} + H_{t-1} W_{h} )
 \end{align*}
 
-Note this $W_hh$ is the new thing. This didn't exist before and it had no analogue. But it is a new weight to optimize with respect to.
+An output for a neural net with a hidden state such as this would be given by:
+\begin{align*}
+O = \sigma( H_t W^{(2)} ) = \sigma(\sigma( X_t W^{((1))} + H_{t-1} W_{h} )W^{(2)} )
+\end{align*}
 
+Note this $W_{h}$ is the new thing. This didn't exist before and it had no analogue. But it is a new weight to optimize with respect to.
 
 \subsection*{Long Short Term Memory}
 

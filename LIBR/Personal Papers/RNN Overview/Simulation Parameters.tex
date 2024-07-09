@@ -1,0 +1,134 @@
+%This is my super simple Real Analysis Homework template
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1.5in}
+
+\title{RNN Example}
+\author{John Hiles}
+\date\today
+%This information doesn't actually show up on your document unless you use the maketitle command below
+
+\begin{document}
+\maketitle %This command prints the title based on information entered above
+
+%Section and subsection automatically number unless you put the asterisk next to them.
+
+
+\section{Introduction}
+
+Time Invariant Dynamic System
+
+\begin{align*}
+x_{t} = f(x_{t-1}) + \nu && \nu \sim \mathcal{N}(\mathbf{0},\mathbf{Q})
+\end{align*}
+
+\begin{align*}
+x_{t} = \begin{bmatrix} x \\
+\dot{x} \\
+y \\
+\dot{y} \end{bmatrix}
+\end{align*}
+
+\begin{align*}
+z_t = h(x_t) + \xi && \xi \sim \mathcal{N}(\mathbf{0}, \mathbf{R})
+\end{align*}
+
+The specific model:
+
+Constant Velocity
+
+
+
+\section{Simulation Scenario One}
+
+Target moving in(near) constant velocity 
+
+\subsection{Motion Model}
+The motion model is
+\begin{align*}
+F = \begin{bmatrix} 1 & \Delta T & 0 & 0 \\
+				    0 & 1 & 0 & 0 \\
+				    0 & 0 & 1 & \Delta T \\
+				    0 & 0 & 0 & 1
+	\end{bmatrix}
+\end{align*}
+
+The motion of the system is corrupted by additive noise defined by covariance matrix:
+\begin{align*}
+ \nu \sim \mathcal{N}(\mathbf{0},\mathbf{Q})
+\end{align*}
+\begin{align*}
+ \mathbf{Q} = \begin{bmatrix} q_x \tfrac{\Delta T^3}{3} & q_x \tfrac{\Delta T^2}{2}  & 0 & 0 \\
+				    q_x\tfrac{\Delta T^2}{2} & q_x & 0 & 0 \\
+				    0 & 0 & q_y \tfrac{\Delta T^3}{3} & q_y \tfrac{\Delta T^2}{2} \\
+				    0 & 0 & q_y \tfrac{\Delta T^2}{2} & q_y
+	\end{bmatrix}
+\end{align*}
+
+Thus our dynamic system is given by:
+
+\begin{align*}
+x_{t} = F x_{t-1} + \nu = \begin{bmatrix} 1 & \Delta T & 0 & 0 \\
+				    0 & 1 & 0 & 0 \\
+				    0 & 0 & 1 & \Delta T \\
+				    0 & 0 & 0 & 1
+	\end{bmatrix} x_{t-1} + \nu
+\end{align*}
+\subsection{Measurement Model}
+
+The measurement model is given by
+
+Our measurement vector is bearing range in:
+
+\begin{align*}
+\begin{bmatrix}
+\theta \\ 
+r
+\end{bmatrix} = 
+\begin{bmatrix}
+arctan2(\frac{y-y_p}{x-x_p}) \\
+\sqrt{(x-x_p)^2 + (y-y_p)^2}
+\end{bmatrix}
+\end{align*}
+
+Where $x_p$ and $y_p$ refers a position offset of the sensor.
+
+Our measurement model is given by:
+
+\begin{align*}
+h(x,\xi) = \begin{bmatrix}
+arctan2(\frac{y-y_p}{x-x_p}) \\
+\sqrt{(x-x_p)^2 + (y-y_p)^2}
+\end{bmatrix} + \xi
+\end{align*}
+
+\subsection*{Specifics}
+
+In this scenario our noise coefficients are given by:
+\begin{enumerate}
+\item $q_x = 0.05$
+\item $q_y = 0.05$
+\item $\sigma_r = 1$
+\item $\sigma_\theta = 0.02$
+\end{enumerate}
+Thus our models:
+
+The sensor offset for the measurement model is 
+\begin{enumerate}
+\item $x_p = 25$
+\item $y_p = 0$
+\end{enumerate}
+
+\begin{align*}
+h(x,\xi) = \begin{bmatrix}
+arctan2(\frac{y}{x-25}) \\
+\sqrt{(x-25)^2 + (y)^2}
+\end{bmatrix} + \xi
+\end{align*}
+
+
+\end{document}
